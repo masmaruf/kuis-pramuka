@@ -1,0 +1,707 @@
+---
+/**
+ * QuizEngine.astro - Mesin Kuis Reusable
+ * Komponen utama untuk semua modul kuis
+ * 
+ * TypeScript enabled with strict type checking
+ */
+
+import type { QuizModule, MultiLevelQuiz, Question, GameModeType, Badge } from '../types/quiz';
+
+interface Props {
+  quizId: string;
+  level?: string;
+  totalQuestions?: number;
+  mode?: GameModeType;
+}
+
+const { quizId, level, totalQuestions = 10, mode = 'standard' } = Astro.props;
+
+// Default game modes configuration
+const GAME_MODES: Record<GameModeType, { xpMultiplier: number; timeLimit?: number; lives?: number }> = {
+  standard: { xpMultiplier: 1.0 },
+  time_attack: { xpMultiplier: 1.5, timeLimit: 300 },
+  no_mistake: { xpMultiplier: 2.0, lives: 1 },
+  daily: { xpMultiplier: 1.2 },
+  duel: { xpMultiplier: 1.5 },
+  survival: { xpMultiplier: 1.0 }
+} as const;
+
+const currentMode = GAME_MODES[mode];
+
+// Difficulty colors mapping
+const DIFFICULTY_COLORS: Record<string, string> = {
+  easy: 'green',
+  medium: 'red',
+  hard: 'yellow',
+  mix: 'purple'
+} as const;
+
+// Difficulty labels
+const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: 'Mudah',
+  medium: 'Sedang',
+  hard: 'Sulit',
+  mix: 'Campuran'
+} as const;
+
+// Badge definitions for SKU module
+const SKU_BADGES: Record<string, Badge> = {
+  sku_siaga: { 
+    id: 'sku_siaga', 
+    name: 'Pandu Mula', 
+    description: 'Selesaikan kuis SKU Siaga', 
+    icon: '🟢', 
+    category: 'SKU', 
+    rarity: 'common' 
+  },
+  sku_penggalang: { 
+    id: 'sku_penggalang', 
+    name: 'Pandu Ramu', 
+    description: 'Selesaikan kuis SKU Penggalang', 
+    icon: '🔴', 
+    category: 'SKU', 
+    rarity: 'common' 
+  },
+  sku_penegak: { 
+    id: 'sku_penegak', 
+    name: 'Pandu Bantara', 
+    description: 'Selesaikan kuis SKU Penegak', 
+    icon: '🟡', 
+    category: 'SKU', 
+    rarity: 'common' 
+  }
+} as const;
+
+// State for quiz data
+let quizData: QuizModule | MultiLevelQuiz | null = null;
+let questions: Question[] = [];
+let quizMetadata: Partial<QuizModule> = {};
+let helpContent: { title: string; content: string } | null = null;
+
+// Load quiz data dynamically
+try {
+  // Try to load multi-level quiz (like SKU)
+  const multiLevelQuiz: MultiLevelQuiz = await import(`../data/quizzes/${quizId}/index.json`).then(m => m.default);
+  quizData = multiLevelQuiz;
+  quizMetadata = { ...quizMetadata, ...multiLevelQuiz };
+  
+  if (level && quizData.hasLevels) {
+    const levelData: QuizModule = await import(`../data/quizzes/${quizId}/${level}.json`).then(m => m.default);
+    questions = levelData.questions || [];
+    helpContent = levelData.helpContent || null;
+    quizMetadata = { ...quizMetadata, ...levelData };
+  }
+} catch (e: unknown) {
+  // Try to load single-level quiz
+  try {
+    const singleQuiz: QuizModule = await import(`../data/quizzes/${quizId}.json`).then(m => m.default);
+    quizData = singleQuiz;
+    questions = singleQuiz.questions || [];
+    quizMetadata = { ...quizMetadata, ...singleQuiz };
+    helpContent = singleQuiz.helpContent || null;
+  } catch (e2: unknown) {
+    console.error('Failed to load quiz data:', quizId, e2);
+    // Fallback empty data
+    questions = [];
+    quizMetadata = {
+      id: quizId,
+      title: quizId.toUpperCase(),
+      description: '',
+      category: 'Pengetahuan Umum',
+      difficulty: 'mix',
+      xpPerQuestion: 10,
+      totalQuestions: 10,
+      color: 'purple',
+      icon: '📚'
+    };
+  }
+}
+
+// Shuffle questions and limit to totalQuestions
+function getShuffledQuestions(questionsPool: Question[], count: number): Question[] {
+  const shuffled = [...questionsPool].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
+
+const selectedQuestions: Question[] = getShuffledQuestions(questions, totalQuestions);
+const xpPerQuestion: number = quizMetadata.xpPerQuestion || 10;
+const difficulty: string = quizMetadata.difficulty || 'mix';
+const quizColor: string = quizMetadata.color || 'purple';
+const quizIcon: string = quizMetadata.icon || '📚';
+const quizCategory: string = quizMetadata.category || 'Pengetahuan Umum';
+
+// Calculate XP multiplier based on mode
+const xpMultiplier: number = currentMode.xpMultiplier;
+
+// Helper function to build class names - safe for Astro
+function buildClass(baseClass: string, modifier: string): string {
+  return baseClass + ' ' + modifier;
+}
+---
+
+<div class="quiz-container" data-quiz-id={quizId} data-level={level} data-mode={mode}>
+  <header class="quiz-header glass-card">
+    <a href="/" class="btn-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Kembali ke Dasbor
+    </a>
+    <div class="quiz-title-area">
+      <h2>{quizMetadata.title || quizId.toUpperCase()}</h2>
+      {level && (
+        <span class={buildClass('quiz-difficulty', DIFFICULTY_COLORS[difficulty] || 'mix')}>
+          {level.charAt(0).toUpperCase() + level.slice(1)}
+        </span>
+      )}
+      {!level && (
+        <span class={buildClass('quiz-difficulty', DIFFICULTY_COLORS[difficulty] || 'mix')}>
+          {DIFFICULTY_LABELS[difficulty] || 'Campuran'}
+        </span>
+      )}
+    </div>
+  </header>
+
+  {quizData && quizData.hasLevels && !level && (
+    <div class="level-selection-screen glass-card" id="selection-card">
+      <div class="selection-intro">
+        <h3>Pilih Golongan Pramuka</h3>
+        <p>Soal disesuaikan dengan kurikulum Syarat Kecakapan Umum (SKU) masing-masing tingkat kepanduan.</p>
+      </div>
+      
+      <div class="level-options">
+        {quizData.levels?.map((lvl: { id: string; title: string; color: string; icon: string; ageRange?: string; difficulty: string }) => {
+          const btnClass: string = buildClass('level-select-btn', lvl.color + '-border');
+          const iconClass: string = buildClass('lvl-icon', lvl.color + '-bg');
+          const badgeClass: string = buildClass('lvl-difficulty-badge', lvl.difficulty);
+          return (
+          <button 
+            class={btnClass} 
+            data-level={lvl.id}
+            onclick={"selectLevel('" + lvl.id + "')"}
+          >
+            <div class={iconClass}>{lvl.icon}</div>
+            <div class="lvl-details">
+              <h4>{lvl.title}</h4>
+              <p>{lvl.ageRange || 'Semua usia'}</p>
+            </div>
+            <span class={badgeClass}>
+              {DIFFICULTY_LABELS[lvl.difficulty]}
+            </span>
+          </button>
+        )})}
+      </div>
+    </div>
+  )}
+
+  <div class="quiz-layout" id="quiz-layout-area" style={quizData && quizData.hasLevels && !level ? 'display: none;' : ''}>
+    <div class="quiz-main-card glass-card">
+      <div class="progress-tracker">
+        <span id="question-number">Soal 1 dari {totalQuestions}</span>
+        <div class="progress-bar-outer">
+          <div id="quiz-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+        </div>
+      </div>
+
+      {mode === 'time_attack' && (
+        <div class="mode-display timer-display">
+          <span class="mode-icon">⏱️</span>
+          <span id="timer">{currentMode.timeLimit || 300}</span> detik
+        </div>
+      )}
+      
+      {mode === 'no_mistake' && (
+        <div class="mode-display lives-display">
+          <span class="mode-icon">❤️</span>
+          <span id="lives">{currentMode.lives || 1}</span>
+        </div>
+      )}
+
+      <div class="question-text-area">
+        <h3 id="question-prompt">{selectedQuestions[0]?.question || 'Memuat soal...'}</h3>
+      </div>
+
+      <div class="flex flex-col gap-2" id="options-container"></div>
+
+      <div class="education-card" id="education-card" style="display: none;">
+        <div class="edu-header">
+          <span class="edu-icon">📖</span>
+          <span class="edu-label">Kartu Edukasi</span>
+        </div>
+        <p id="education-text"></p>
+      </div>
+
+      <div class="action-footer">
+        <span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+        <button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+      </div>
+    </div>
+
+    {helpContent && (
+      <div class="quiz-help-card glass-card" id="help-sidebar">
+        <h3 id="help-sidebar-title">{helpContent.title}</h3>
+        <div class="help-content-area" id="help-sidebar-content" set:html={helpContent.content}></div>
+      </div>
+    )}
+  </div>
+
+  <div class="result-overlay" id="result-overlay" style="display: none;">
+    <div class="result-card glass-card">
+      <div class="result-emoji" id="result-emoji">🏆</div>
+      <h2>Kuis Selesai!</h2>
+      <p class="result-summary" id="result-text"></p>
+      
+      <div class="result-stats-details">
+        <div class="detail-item">
+          <span class="label">XP Diperoleh</span>
+          <span class="value score-xp" id="result-xp">+0 XP</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Skor Akhir</span>
+          <span class="value" id="result-score">0/100</span>
+        </div>
+        {mode === 'time_attack' && (
+          <div class="detail-item">
+            <span class="label">Waktu</span>
+            <span class="value" id="result-time">0 detik</span>
+          </div>
+        )}
+      </div>
+
+      <div class="unlocked-badges-container" id="unlocked-badges" style="display: none;">
+        <h3>🎖️ Lencana Baru Terbuka!</h3>
+        <div class="unlocked-badges-list" id="badges-list-el"></div>
+      </div>
+
+      <div class="result-actions">
+        <button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+        <a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .quiz-container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 2rem; }
+  .quiz-header { padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; width: max-content; transition: color var(--transition-fast); }
+  .btn-back:hover { color: var(--color-gold); }
+  .btn-back svg { width: 16px; height: 16px; }
+  .quiz-title-area { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .quiz-title-area h2 { font-size: 1.5rem; font-weight: 800; color: var(--color-text); margin: 0; }
+  .quiz-difficulty { font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 4px; text-transform: uppercase; }
+  .quiz-difficulty.easy { background: rgba(43, 112, 76, 0.12); color: #62c370; border: 1px solid rgba(43, 112, 76, 0.25); }
+  .quiz-difficulty.medium { background: rgba(212, 163, 43, 0.1); color: var(--color-gold); border: 1px solid rgba(212, 163, 43, 0.25); }
+  .quiz-difficulty.hard { background: rgba(185, 59, 34, 0.1); color: #e56b55; border: 1px solid rgba(185, 59, 34, 0.25); }
+  .quiz-difficulty.mix, .quiz-difficulty.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.25); }
+  .level-selection-screen { padding: 3rem; display: flex; flex-direction: column; gap: 2rem; }
+  .selection-intro h3 { font-size: 1.5rem; font-weight: 800; color: var(--color-text); margin-bottom: 0.5rem; }
+  .selection-intro p { font-size: 0.95rem; color: var(--color-text-muted); line-height: 1.5; }
+  .level-options { display: flex; flex-direction: column; gap: 1rem; }
+  .level-select-btn { display: flex; align-items: center; gap: 1.5rem; padding: 1.5rem; border-radius: 12px; background: var(--color-bg); border: 2px solid var(--color-border); text-align: left; cursor: pointer; transition: all var(--transition-normal); position: relative; width: 100%; }
+  .level-select-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1); }
+  .level-select-btn:active { transform: translateY(0); }
+  .green-border { border-color: var(--color-success) !important; }
+  .red-border { border-color: var(--color-danger) !important; }
+  .yellow-border { border-color: var(--color-gold) !important; }
+  .lvl-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; flex-shrink: 0; }
+  .green-bg { background: rgba(43, 112, 76, 0.12); }
+  .red-bg { background: rgba(185, 59, 34, 0.1); }
+  .yellow-bg { background: rgba(212, 163, 43, 0.1); }
+  .lvl-details { flex: 1; min-width: 0; }
+  .lvl-details h4 { font-size: 1.1rem; font-weight: 700; color: var(--color-text); margin: 0 0 0.25rem 0; }
+  .lvl-details p { font-size: 0.875rem; color: var(--color-text-muted); margin: 0; line-height: 1.4; }
+  .lvl-difficulty-badge { font-size: 0.7rem; font-weight: 700; padding: 0.35rem 0.7rem; border-radius: 6px; text-transform: uppercase; background: var(--color-bg); }
+  .lvl-difficulty-badge.easy { color: #62c370; border: 1px solid rgba(43, 112, 76, 0.25); }
+  .lvl-difficulty-badge.medium { color: var(--color-gold); border: 1px solid rgba(212, 163, 43, 0.25); }
+  .lvl-difficulty-badge.hard { color: #e56b55; border: 1px solid rgba(185, 59, 34, 0.25); }
+  .quiz-layout { display: grid; grid-template-columns: 1fr 280px; gap: 2rem; }
+  @media (max-width: 900px) { .quiz-layout { grid-template-columns: 1fr; } }
+  .quiz-main-card { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+  .progress-bar-outer { height: 6px; background: var(--color-border); border-radius: 3px; overflow: hidden; }
+  .progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light)); border-radius: 3px; transition: width 0.3s ease; }
+  .mode-display { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--color-bg); border-radius: 8px; font-size: 0.9rem; font-weight: 600; width: max-content; }
+  .question-text-area h3 { font-size: 1.25rem; font-weight: 700; color: var(--color-text); line-height: 1.4; margin: 0; }
+  .opt-btn { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border: 2px solid var(--color-border); border-radius: 10px; background: var(--color-bg); cursor: pointer; transition: all var(--transition-normal); text-align: left; position: relative; overflow: hidden; }
+  .opt-btn:hover:not(.is-answered) { border-color: var(--color-gold); box-shadow: 0 4px 12px rgba(178, 131, 27, 0.2); }
+  .opt-btn.is-selected { border-color: var(--color-gold); background: rgba(178, 131, 27, 0.08); }
+  .opt-btn.is-correct { border-color: var(--color-success); background: rgba(43, 112, 76, 0.1); }
+  .opt-btn.is-incorrect { border-color: var(--color-danger); background: rgba(185, 59, 34, 0.1); }
+  .opt-btn.is-dimmed { opacity: 0.5; }
+  .opt-btn.is-answered { cursor: not-allowed; }
+  .opt-letter { font-size: 1.1rem; font-weight: 700; color: var(--color-text-muted); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-border); flex-shrink: 0; }
+  .opt-btn.is-selected .opt-letter, .opt-btn.is-correct .opt-letter, .opt-btn.is-incorrect .opt-letter { color: white; }
+  .opt-btn.is-selected .opt-letter { background: var(--color-gold); }
+  .opt-btn.is-correct .opt-letter { background: var(--color-success); }
+  .opt-btn.is-incorrect .opt-letter { background: var(--color-danger); }
+  .opt-text { flex: 1; font-size: 0.95rem; color: var(--color-text); line-height: 1.4; }
+  .opt-indicator { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--color-bg); position: relative; }
+  .opt-radio { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--color-border); }
+  .opt-btn.is-selected .opt-radio { border-color: var(--color-gold); background: var(--color-gold); }
+  .opt-icon { width: 16px; height: 16px; position: absolute; display: none; }
+  .opt-btn.is-correct .icon-check { display: block; }
+  .opt-btn.is-incorrect .icon-cross { display: block; }
+  .education-card { padding: 1.25rem 1.5rem; background: rgba(178, 131, 27, 0.05); border-radius: 10px; border: 1px solid rgba(178, 131, 27, 0.15); animation: slide-down 0.25s ease; }
+  .edu-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .edu-icon { font-size: 1.25rem; }
+  .edu-label { font-size: 0.85rem; font-weight: 600; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.05em; }
+  .education-card p { font-size: 0.9rem; color: var(--color-text); line-height: 1.5; margin: 0; }
+  .action-footer { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 0.5rem; }
+  .answer-hint { font-size: 0.85rem; color: var(--color-text-muted); }
+  .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all var(--transition-normal); border: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--color-primary); color: white; }
+  .btn-primary:hover:not(:disabled) { background: var(--color-primary-light); }
+  .btn-gold { background: var(--color-gold); color: white; }
+  .btn-gold:hover:not(:disabled) { background: var(--color-gold-light); }
+  .quiz-help-card { padding: 1.5rem; background: var(--color-bg); border-radius: 12px; }
+  .quiz-help-card h3 { font-size: 1rem; font-weight: 700; color: var(--color-text); margin: 0 0 1rem 0; }
+  .help-content-area { font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; }
+  .help-content-area h4 { color: var(--color-text); margin: 0 0 0.5rem 0; }
+  .help-content-area p { margin: 0 0 0.75rem 0; }
+  .help-content-area strong { color: var(--color-text); }
+  .result-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; animation: fade-in 0.25s ease; }
+  .result-card { max-width: 500px; width: 100%; padding: 3rem; text-align: center; animation: slide-up 0.3s ease; }
+  .result-emoji { font-size: 4rem; margin-bottom: 1rem; }
+  .result-card h2 { font-size: 1.75rem; font-weight: 800; color: var(--color-text); margin: 0 0 1rem 0; }
+  .result-summary { font-size: 1rem; color: var(--color-text-muted); line-height: 1.5; margin: 0 0 2rem 0; }
+  .result-stats-details { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; padding: 1.5rem; background: var(--color-bg); border-radius: 10px; }
+  .detail-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; }
+  .detail-item .label { color: var(--color-text-muted); }
+  .detail-item .value { font-weight: 700; color: var(--color-text); }
+  .score-xp { color: var(--color-gold) !important; font-size: 1.1rem !important; }
+  .unlocked-badges-container { padding: 1.5rem; background: rgba(178, 131, 27, 0.1); border-radius: 10px; border: 1px solid rgba(178, 131, 27, 0.2); margin-bottom: 1.5rem; }
+  .unlocked-badges-container h3 { font-size: 1.1rem; font-weight: 700; color: var(--color-gold); margin: 0 0 1rem 0; }
+  .unlocked-badges-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .unlocked-badge-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: var(--color-bg); border-radius: 8px; font-size: 0.9rem; }
+  .unlocked-badge-item .u-icon { font-size: 1.25rem; }
+  .unlocked-badge-item strong { color: var(--color-text); }
+  .unlocked-badge-item span:last-child { color: var(--color-text-muted); font-size: 0.85rem; }
+  .result-actions { display: flex; gap: 1rem; justify-content: center; }
+  .result-actions .btn { flex: 1; max-width: 200px; }
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slide-down { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  .glass-card { background: var(--color-glass); backdrop-filter: blur(10px); border: 1px solid var(--color-border); border-radius: 16px; }
+</style>
+
+<script>
+  // Type annotations for state
+  let selectedLevel: string | null = null;
+  let currentQuestions: Question[] = selectedQuestions;
+  let currentQuestionIndex: number = 0;
+  let selectedOptionIndex: number | null = null;
+  let correctAnswersCount: number = 0;
+  let timeLeft: number = currentMode.timeLimit || 0;
+  let lives: number = currentMode.lives || Infinity;
+  let startTime: number = 0;
+  let timer: ReturnType<typeof setInterval> | null = null;
+
+  // DOM Elements with type annotations
+  const selectionCard: HTMLElement | null = document.getElementById('selection-card');
+  const quizLayoutArea: HTMLElement | null = document.getElementById('quiz-layout-area');
+  const questionPrompt: HTMLElement | null = document.getElementById('question-prompt');
+  const optionsContainer: HTMLElement | null = document.getElementById('options-container');
+  const questionNumber: HTMLElement | null = document.getElementById('question-number');
+  const progressBar: HTMLElement | null = document.getElementById('quiz-progress-bar');
+  const submitBtn: HTMLButtonElement | null = document.getElementById('btn-submit-answer') as HTMLButtonElement | null;
+  const eduCard: HTMLElement | null = document.getElementById('education-card');
+  const eduText: HTMLElement | null = document.getElementById('education-text');
+  const answerHint: HTMLElement | null = document.getElementById('answer-hint');
+  const resultOverlay: HTMLElement | null = document.getElementById('result-overlay');
+  const resultText: HTMLElement | null = document.getElementById('result-text');
+  const resultXp: HTMLElement | null = document.getElementById('result-xp');
+  const resultScore: HTMLElement | null = document.getElementById('result-score');
+  const resultEmoji: HTMLElement | null = document.getElementById('result-emoji');
+  const resultTimer: HTMLElement | null = document.getElementById('timer');
+  const resultLives: HTMLElement | null = document.getElementById('lives');
+  const resultTime: HTMLElement | null = document.getElementById('result-time');
+  const unlockedBadges: HTMLElement | null = document.getElementById('unlocked-badges');
+  const badgesListEl: HTMLElement | null = document.getElementById('badges-list-el');
+
+  // Level selection function
+  function selectLevel(lvl: string): void {
+    selectedLevel = lvl;
+    const url: URL = new URL(window.location.href);
+    url.searchParams.set('level', lvl);
+    window.location.href = url.toString();
+  }
+
+  // Render question
+  function renderQuestion(): void {
+    const question: Question | undefined = currentQuestions[currentQuestionIndex];
+    if (!question) return;
+
+    if (questionPrompt) questionPrompt.textContent = question.question;
+    if (questionNumber) questionNumber.textContent = `Soal ${currentQuestionIndex + 1} dari ${currentQuestions.length}`;
+    if (progressBar) progressBar.style.width = `${((currentQuestionIndex + 1) / currentQuestions.length) * 100}%`;
+
+    if (optionsContainer) {
+      optionsContainer.innerHTML = '';
+      question.options.forEach((option: string, index: number) => {
+        const optionBtn: HTMLButtonElement = document.createElement('button');
+        optionBtn.className = 'opt-btn';
+        optionBtn.style.animationDelay = `${index * 0.06}s`;
+        optionBtn.innerHTML = `
+          <span class="opt-letter">${String.fromCharCode(65 + index)}</span>
+          <span class="opt-text">${option}</span>
+          <span class="opt-indicator">
+            <span class="opt-radio"></span>
+            <svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </span>
+        `;
+        optionBtn.addEventListener('click', () => selectOption(index));
+        optionsContainer.appendChild(optionBtn);
+      });
+    }
+
+    if (eduCard) eduCard.style.display = 'none';
+    selectedOptionIndex = null;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Konfirmasi Jawaban';
+    }
+    if (answerHint) answerHint.textContent = 'Pilih salah satu jawaban di atas';
+  }
+
+  // Select option
+  function selectOption(index: number): void {
+    if (!submitBtn) return;
+    if (submitBtn.textContent === 'Soal Berikutnya' || submitBtn.textContent === 'Lihat Hasil') return;
+    selectedOptionIndex = index;
+    document.querySelectorAll('.opt-btn').forEach((btn: Element, idx: number) => {
+      btn.classList.toggle('is-selected', idx === index);
+    });
+    submitBtn.disabled = false;
+  }
+
+  // Submit answer
+  function submitAnswer(): void {
+    const question: Question | undefined = currentQuestions[currentQuestionIndex];
+    if (!question || !submitBtn) return;
+
+    if (submitBtn.textContent === 'Soal Berikutnya' || submitBtn.textContent === 'Lihat Hasil') {
+      nextQuestion();
+      return;
+    }
+
+    const isCorrect: boolean = selectedOptionIndex !== null && question.options[selectedOptionIndex] === question.correctAnswer;
+
+    document.querySelectorAll('.opt-btn').forEach((btn: Element, idx: number) => {
+      btn.classList.add('is-answered');
+      btn.classList.remove('is-selected');
+      if (question.options[idx] === question.correctAnswer) {
+        btn.classList.add('is-correct');
+      } else if (idx === selectedOptionIndex) {
+        btn.classList.add('is-incorrect');
+      } else {
+        btn.classList.add('is-dimmed');
+      }
+    });
+
+    if (isCorrect) correctAnswersCount++;
+
+    if (!isCorrect && mode === 'no_mistake') {
+      lives--;
+      if (resultLives) resultLives.textContent = lives.toString();
+      if (lives <= 0) {
+        endGame();
+        return;
+      }
+    }
+
+    if (eduCard && eduText && question.explanation) {
+      eduText.textContent = question.explanation;
+      eduCard.style.display = 'block';
+      eduCard.style.animation = 'slide-down 0.25s ease';
+    }
+
+    if (currentQuestionIndex === currentQuestions.length - 1) {
+      if (submitBtn) submitBtn.textContent = 'Lihat Hasil';
+    } else {
+      if (submitBtn) submitBtn.textContent = 'Soal Berikutnya';
+    }
+  }
+
+  // Next question or show results
+  function nextQuestion(): void {
+    if (currentQuestionIndex < currentQuestions.length - 1) {
+      currentQuestionIndex++;
+      renderQuestion();
+    } else {
+      showQuizResults();
+    }
+  }
+
+  // Timer functions
+  function startTimer(): void {
+    if (!currentMode.timeLimit || !resultTimer) return;
+    timeLeft = currentMode.timeLimit;
+    startTime = Date.now();
+    timer = setInterval(() => {
+      timeLeft--;
+      if (resultTimer) resultTimer.textContent = timeLeft.toString();
+      if (timeLeft <= 0) endGame();
+    }, 1000);
+  }
+
+  function stopTimer(): void {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  // End game
+  function endGame(): void {
+    stopTimer();
+    showQuizResults();
+  }
+
+  // Show results
+  function showQuizResults(): void {
+    const score: number = correctAnswersCount;
+    const total: number = currentQuestions.length;
+    const xpGained: number = Math.round(score * xpPerQuestion * xpMultiplier);
+    const scorePercent: number = Math.round((score / total) * 100);
+    const timeTaken: number = currentMode.timeLimit ? (currentMode.timeLimit - timeLeft) : Math.floor((Date.now() - startTime) / 1000);
+
+    if (resultText) {
+      if (level) {
+        resultText.textContent = `Anda berhasil menjawab ${score} dari ${total} soal dengan benar pada SKU ${level.toUpperCase()}.`;
+      } else {
+        resultText.textContent = `Anda berhasil menjawab ${score} dari ${total} soal dengan benar.`;
+      }
+    }
+    if (resultXp) resultXp.textContent = `+${xpGained} XP`;
+    if (resultScore) resultScore.textContent = `${scorePercent}/100`;
+    if (resultEmoji) {
+      if (scorePercent === 100) resultEmoji.textContent = '👑';
+      else if (scorePercent >= 70) resultEmoji.textContent = '🏆';
+      else resultEmoji.textContent = '🧭';
+    }
+    if (resultTime && mode === 'time_attack') resultTime.textContent = `${timeTaken} detik`;
+
+    // Check for badges
+    let newlyUnlocked: Badge[] = [];
+    if (scorePercent >= 70 && level) {
+      const badge: Badge | undefined = SKU_BADGES[`sku_${level}` as keyof typeof SKU_BADGES];
+      if (badge) {
+        const userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+        if (!userBadges.includes(badge.id)) newlyUnlocked.push(badge);
+      }
+    }
+
+    // Display badges
+    if (badgesListEl && unlockedBadges) {
+      if (newlyUnlocked.length > 0) {
+        badgesListEl.innerHTML = '';
+        newlyUnlocked.forEach((b: Badge) => {
+          const item: HTMLDivElement = document.createElement('div');
+          item.className = 'unlocked-badge-item';
+          item.innerHTML = `<span class="u-icon">${b.icon}</span> <strong>${b.name}</strong> - ${b.description}`;
+          badgesListEl.appendChild(item);
+        });
+        unlockedBadges.style.display = 'block';
+      } else {
+        unlockedBadges.style.display = 'none';
+      }
+    }
+
+    updateUserStats(score, xpGained, newlyUnlocked, level);
+    if (resultOverlay) resultOverlay.style.display = 'flex';
+  }
+
+  // Update user stats
+  function updateUserStats(score: number, xpGained: number, badges: Badge[], level?: string): void {
+    const total: number = currentQuestions.length;
+    const scorePercent: number = Math.round((score / total) * 100);
+    let oldXp: number = parseInt(localStorage.getItem('scout_xp') || '0');
+    let newXp: number = oldXp + xpGained;
+    localStorage.setItem('scout_xp', newXp.toString());
+    let userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+    badges.forEach((b: Badge) => {
+      if (!userBadges.includes(b.id)) userBadges.push(b.id);
+    });
+    localStorage.setItem('scout_badges', JSON.stringify(userBadges));
+    let streak: number = parseInt(localStorage.getItem('scout_streak') || '0');
+    if (scorePercent >= 70) streak++;
+    else streak = 0;
+    localStorage.setItem('scout_streak', streak.toString());
+    localStorage.setItem('scout_last_visit', new Date().toISOString());
+    window.dispatchEvent(new Event('statsUpdated'));
+  }
+
+  // Initialize quiz
+  function initQuiz(): void {
+    const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
+    const urlLevel: string | null = urlParams.get('level');
+    if (urlLevel && quizData?.hasLevels) {
+      if (selectionCard) selectionCard.style.display = 'none';
+      if (quizLayoutArea) quizLayoutArea.style.display = 'grid';
+      import(`../data/quizzes/${quizId}/${urlLevel}.json`).then((mod: { default: QuizModule }) => {
+        const levelData: QuizModule = mod.default;
+        currentQuestions = getShuffledQuestions(levelData.questions || [], totalQuestions);
+        helpContent = levelData.helpContent || null;
+        const helpSidebarTitle: HTMLElement | null = document.getElementById('help-sidebar-title');
+        const helpSidebarContent: HTMLElement | null = document.getElementById('help-sidebar-content');
+        if (helpSidebarTitle) helpSidebarTitle.textContent = `Panduan ${urlLevel.charAt(0).toUpperCase() + urlLevel.slice(1)}`;
+        if (helpSidebarContent && helpContent) helpSidebarContent.innerHTML = helpContent.content;
+        selectedLevel = urlLevel;
+        currentQuestionIndex = 0;
+        correctAnswersCount = 0;
+        if (mode === 'time_attack') startTimer();
+        renderQuestion();
+      });
+      return;
+    }
+    if (!quizData?.hasLevels) {
+      if (selectionCard) selectionCard.style.display = 'none';
+      if (quizLayoutArea) quizLayoutArea.style.display = 'grid';
+      if (mode === 'time_attack') startTimer();
+      renderQuestion();
+    }
+  }
+
+  // Event listeners
+  if (submitBtn) {
+    submitBtn.addEventListener('click', () => {
+      if (submitBtn.textContent === 'Soal Berikutnya' || submitBtn.textContent === 'Lihat Hasil') {
+        nextQuestion();
+      } else {
+        submitAnswer();
+      }
+    });
+  }
+  const restartBtn: HTMLButtonElement | null = document.getElementById('btn-restart') as HTMLButtonElement | null;
+  if (restartBtn) {
+    restartBtn.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      correctAnswersCount = 0;
+      selectedOptionIndex = null;
+      if (mode === 'time_attack') {
+        timeLeft = currentMode.timeLimit || 0;
+        if (resultTimer) resultTimer.textContent = timeLeft.toString();
+        startTimer();
+      }
+      if (mode === 'no_mistake') {
+        lives = currentMode.lives || Infinity;
+        if (resultLives) resultLives.textContent = lives.toString();
+      }
+      if (resultOverlay) resultOverlay.style.display = 'none';
+      renderQuestion();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initQuiz);
+  window.addEventListener('beforeunload', () => stopTimer());
+</script>

@@ -1,0 +1,317 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Baris-Berbaris PBB Pramuka" description="Latihan Peraturan Baris-Berbaris (PBB) pramuka: jenis aba-aba, formasi bershaf & berbanjar, langkah baris, gerakan hadap, dan penghormatan.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Baris-Berbaris (PBB)</h2>
+				<span class="quiz-difficulty medium">Peraturan Baris-Berbaris</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<div class="quiz-main-card glass-card">
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width:10%"></div>
+					</div>
+				</div>
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">🪖 Baris-Berbaris</span>
+				</div>
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+				<div class="education-card" id="education-card" style="display:none;">
+					<div class="edu-header">
+						<span class="edu-icon">🪖</span>
+						<span class="edu-label">Penjelasan PBB</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<div class="quiz-help-card glass-card">
+				<h3>Referensi Cepat PBB</h3>
+				<p class="help-subtitle">Aba-aba &amp; ketentuan dasar Peraturan Baris-Berbaris</p>
+
+				<div class="pbb-section">
+					<div class="pbb-title">Jenis Aba-aba</div>
+					<div class="pbb-item"><span class="pbb-key">Aba-aba petunjuk</span><span class="pbb-val">memberi tahu jenis gerakan</span></div>
+					<div class="pbb-item"><span class="pbb-key">Aba-aba peringatan</span><span class="pbb-val">menyiapkan pasukan</span></div>
+					<div class="pbb-item"><span class="pbb-key">Aba-aba pelaksanaan</span><span class="pbb-val">perintah untuk bertindak</span></div>
+				</div>
+
+				<div class="pbb-section">
+					<div class="pbb-title">Formasi Barisan</div>
+					<div class="pbb-item"><span class="pbb-key">Bershaf</span><span class="pbb-val">berjajar ke samping (1 baris)</span></div>
+					<div class="pbb-item"><span class="pbb-key">Berbanjar</span><span class="pbb-val">berderet ke belakang (1 kolom)</span></div>
+					<div class="pbb-item"><span class="pbb-key">Angkare</span><span class="pbb-val">barisan bentuk U / segi empat</span></div>
+				</div>
+
+				<div class="pbb-section">
+					<div class="pbb-title">Langkah Baris</div>
+					<div class="pbb-item"><span class="pbb-key">Langkah biasa</span><span class="pbb-val">65 cm / 96–120 lkh/mnt</span></div>
+					<div class="pbb-item"><span class="pbb-key">Langkah tegap</span><span class="pbb-val">65 cm / 96–120 lkh/mnt</span></div>
+					<div class="pbb-item"><span class="pbb-key">Langkah perlahan</span><span class="pbb-val">40 cm / 60 lkh/mnt</span></div>
+					<div class="pbb-item"><span class="pbb-key">Langkah ke samping</span><span class="pbb-val">40 cm / maks 8 langkah</span></div>
+				</div>
+
+				<div class="pbb-section">
+					<div class="pbb-title">Perputaran Hadap</div>
+					<div class="pbb-item"><span class="pbb-key">Hadap kanan/kiri</span><span class="pbb-val">putar 90° di tempat</span></div>
+					<div class="pbb-item"><span class="pbb-key">Serong kanan/kiri</span><span class="pbb-val">putar 45° di tempat</span></div>
+					<div class="pbb-item"><span class="pbb-key">Balik kanan</span><span class="pbb-val">putar 180° ke kanan</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="result-overlay" id="result-overlay" style="display:none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text"></p>
+				<div class="result-stats-details">
+					<div class="detail-item"><span class="label">XP Diperoleh</span><span class="value score-xp" id="result-xp">+100 XP</span></div>
+					<div class="detail-item"><span class="label">Skor Akhir</span><span class="value" id="result-score">100/100</span></div>
+					<div class="detail-item"><span class="label">Jawaban Benar</span><span class="value" id="result-correct">10/10</span></div>
+				</div>
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display:none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	interface Question { kategori:string; q:string; options:string[]; correct:string; edu:string; }
+
+	const QUESTIONS_POOL: Question[] = [
+		// ── Pengertian & Jenis Aba-aba ──────────────────────────────────────────
+		{ kategori:"Pengertian PBB", q:"PBB dalam kepramukaan singkatan dari...", options:["Perkumpulan Barisan Berbaris","Peraturan Baris-Berbaris","Pedoman Baris Barisan","Panduan Berbaris Bersama"], correct:"Peraturan Baris-Berbaris", edu:"PBB adalah singkatan dari Peraturan Baris-Berbaris, yaitu tata cara gerakan barisan yang dilakukan sesuai aturan baku. Dalam Gerakan Pramuka, PBB berpedoman pada Peraturan Baris-Berbaris (PBB) TNI yang digunakan sebagai standar nasional. Tujuan PBB: melatih kedisiplinan, kekompakan, kerapian, dan kemampuan bertindak serentak atas perintah pemimpin." },
+		{ kategori:"Aba-aba", q:"Aba-aba dalam PBB terbagi menjadi tiga jenis, yaitu...", options:["Aba-aba keras, sedang, dan lembut","Aba-aba tulisan, lisan, dan isyarat","Aba-aba petunjuk, peringatan, dan pelaksanaan","Aba-aba awal, tengah, dan akhir"], correct:"Aba-aba petunjuk, peringatan, dan pelaksanaan", edu:"Tiga jenis aba-aba PBB: (1) Aba-aba petunjuk: memberi petunjuk tentang jenis gerakan yang akan dilakukan, diucapkan jelas di awal (contoh: 'Hadap kanan...'). (2) Aba-aba peringatan: menyiapkan pasukan agar siap melaksanakan gerakan. (3) Aba-aba pelaksanaan: perintah untuk segera bertindak (contoh: '...GERAK!'). Ketiga jenis ini selalu berurutan dalam setiap komando." },
+		{ kategori:"Aba-aba", q:"Dalam komando 'Hadap Kanan — GERAK!', kata 'GERAK' termasuk aba-aba jenis...", options:["Aba-aba petunjuk","Aba-aba peringatan","Aba-aba pelaksanaan","Aba-aba penghenti"], correct:"Aba-aba pelaksanaan", edu:"'GERAK' adalah aba-aba pelaksanaan — perintah untuk langsung bertindak. Dalam struktur komando PBB: 'Hadap kanan' = aba-aba petunjuk (memberitahu gerakan yang akan dilakukan), kemudian setelah jeda, 'GERAK!' = aba-aba pelaksanaan (laksanakan sekarang). Aba-aba pelaksanaan diucapkan dengan tegas, lebih keras, dan tanpa jeda." },
+		{ kategori:"Aba-aba", q:"Kata pelaksanaan aba-aba yang menggunakan hitungan adalah...", options:["GERAK","MAJU","JALAN","BERHENTI"], correct:"JALAN", edu:"Aba-aba pelaksanaan ada dua jenis: (1) 'GERAK' — untuk gerakan di tempat (hadap kanan, balik kanan, lencang kanan, dll). (2) 'JALAN' — untuk gerakan yang menggunakan hitungan atau gerakan berpindah tempat (maju jalan, langkah tegap maju jalan, haluan kanan jalan, dll). Perbedaan ini penting karena menentukan kapan gerakan dimulai." },
+		// ── Sikap & Posisi ──────────────────────────────────────────────────────
+		{ kategori:"Sikap Baris", q:"Sikap sempurna (siap) dalam PBB ditandai dengan...", options:["Kaki rapat, badan tegak, kepala lurus ke depan, tangan di samping badan","Kaki terbuka selebar bahu, tangan di belakang punggung","Kaki silang, pandangan ke bawah, tangan di depan","Kaki rapat, tangan di belakang, kepala menunduk"], correct:"Kaki rapat, badan tegak, kepala lurus ke depan, tangan di samping badan", edu:"Sikap sempurna (siap): (1) Kaki rapat, tumit rapat, ujung kaki membentuk sudut ±45°. (2) Badan tegak, dada dibusungkan sedikit. (3) Kepala tegak lurus, pandangan jauh ke depan. (4) Tangan rapat di samping badan, jari-jari menggenggam (tangan kanan di samping celana dengan ibu jari menghadap ke depan). (5) Berat badan merata di kedua kaki." },
+		{ kategori:"Sikap Baris", q:"Sikap 'Istirahat di tempat' dalam PBB dilaksanakan dengan cara...", options:["Duduk di tanah dan menunggu aba-aba berikutnya","Kaki kiri dibuka selebar bahu, tangan kiri dipindah ke belakang punggung, tangan kanan tetap di samping","Boleh bergerak bebas ke mana saja asal masih di area barisan","Melepaskan atribut seragam untuk kenyamanan"], correct:"Kaki kiri dibuka selebar bahu, tangan kiri dipindah ke belakang punggung, tangan kanan tetap di samping", edu:"Istirahat di tempat: (1) Aba-aba: 'Istirahat di tempat — GERAK!' (2) Kaki kiri dibuka ke kiri selebar bahu. (3) Kedua tangan diletakkan di belakang punggung, tangan kiri memegang pergelangan tangan kanan (atau sebaliknya). (4) Badan tetap tegak, tidak boleh bergerak meninggalkan tempat. Berbeda dengan 'Bubar' yang memperbolehkan anggota meninggalkan barisan." },
+		{ kategori:"Sikap Baris", q:"Aba-aba 'Lencang kanan — GERAK!' bertujuan untuk...", options:["Memutar badan 90° ke kanan","Meluruskan barisan dengan patokan orang paling kanan","Berjalan ke arah kanan","Menutup jarak antar anggota barisan ke kanan"], correct:"Meluruskan barisan dengan patokan orang paling kanan", edu:"'Lencang kanan' digunakan untuk meluruskan barisan (bershaf). Caranya: anggota paling kanan tetap lurus ke depan, anggota lainnya meluruskan lengan kanan ke bahu orang di sebelah kanannya sambil sedikit menoleh kanan. Pemimpin barisan mengecek kelurusan dari depan. Setelah lurus, aba-aba 'Tegak — GERAK!' untuk kembali ke sikap sempurna." },
+		// ── Gerakan Hadap ───────────────────────────────────────────────────────
+		{ kategori:"Gerakan Hadap", q:"Gerakan 'Hadap kanan' memutar badan sebesar...", options:["45°","90°","135°","180°"], correct:"90°", edu:"Hadap kanan memutar badan 90° ke kanan dari posisi semula. Tekniknya: tumit kaki kanan tetap di tempat sebagai poros, ujung kaki kanan diputar ke kanan, kemudian kaki kiri mengikuti sehingga kaki kembali rapat dalam posisi baru menghadap kanan. Gerakan ini dilakukan dalam satu hitungan saat mendengar 'GERAK!'." },
+		{ kategori:"Gerakan Hadap", q:"Gerakan 'Serong kanan' memutar badan sebesar...", options:["30°","45°","60°","90°"], correct:"45°", edu:"Serong kanan/kiri memutar badan sebesar 45°. Ini digunakan untuk mengubah arah barisan secara diagonal. Berbeda dengan hadap kanan (90°), serong kanan hanya setengahnya. Gerakan serong sering dipakai saat memasuki area upacara atau mengubah arah tanpa harus berbelok penuh." },
+		{ kategori:"Gerakan Hadap", q:"'Balik kanan' dalam PBB memutar badan sebesar...", options:["90° ke kanan","90° ke kiri","180° ke kanan","180° ke kiri"], correct:"180° ke kanan", edu:"Balik kanan memutar badan 180° ke kanan (searah jarum jam). Tekniknya: tumit kaki kanan di tempat sebagai poros, putar badan ke kanan 180° sehingga menghadap ke arah berlawanan dari semula, lalu kaki kiri mengikuti dan kembali rapat. Balik kiri (tidak umum) adalah kebalikannya: 180° ke kiri." },
+		// ── Langkah ─────────────────────────────────────────────────────────────
+		{ kategori:"Langkah Baris", q:"Panjang langkah biasa dalam PBB adalah...", options:["45 cm","55 cm","65 cm","75 cm"], correct:"65 cm", edu:"Langkah biasa (double time march): panjang langkah 65 cm dengan irama 96–120 langkah per menit. Langkah biasa dilakukan dengan cara biasa (tidak menghentak-hentakkan kaki). Tangan diayunkan bebas 45° ke depan dan 30° ke belakang, jari tangan menggenggam ringan. Berbeda dengan langkah tegap yang tangan lurus kaku di samping badan." },
+		{ kategori:"Langkah Baris", q:"Perbedaan utama antara 'langkah biasa' dan 'langkah tegap' adalah...", options:["Panjang langkah berbeda: biasa 65 cm, tegap 80 cm","Pada langkah tegap, lutut kaki diangkat tinggi dan tangan kaku di samping badan","Langkah biasa dipakai di luar upacara, langkah tegap khusus untuk upacara saja","Langkah tegap lebih lambat dari langkah biasa"], correct:"Pada langkah tegap, lutut kaki diangkat tinggi dan tangan kaku di samping badan", edu:"Perbedaan langkah biasa vs langkah tegap: Langkah biasa: ayunan tangan bebas (45° depan, 30° belakang), lutut tidak perlu diangkat tinggi, lebih santai. Langkah tegap: tangan lurus kaku di samping badan (tidak diayun), lutut diangkat setinggi 45° dari tanah, kaki dihentakkan ke tanah dengan telapak kaki mendatar. Keduanya memiliki panjang langkah 65 cm dan irama 96–120 lkh/mnt." },
+		{ kategori:"Langkah Baris", q:"Langkah perlahan digunakan dalam konteks...", options:["Berjalan di medan yang licin","Mengantar jenazah dalam upacara pemakaman kenegaraan","Latihan dasar PBB untuk pemula","Memasuki ruangan yang sempit"], correct:"Mengantar jenazah dalam upacara pemakaman kenegaraan", edu:"Langkah perlahan (40 cm, 60 langkah/menit) adalah langkah khusus yang digunakan dalam upacara pemakaman kenegaraan atau militer yang bersifat sangat resmi dan khidmat. Langkah ini mencerminkan penghormatan dan kesedihan yang mendalam. Dalam kepramukaan, langkah perlahan jarang digunakan kecuali dalam simulasi upacara protokol tinggi." },
+		{ kategori:"Langkah Baris", q:"'Langkah ke samping' dalam PBB memiliki ketentuan maksimal...", options:["4 langkah","6 langkah","8 langkah","10 langkah"], correct:"8 langkah", edu:"Langkah ke samping (side step): panjang langkah 40 cm ke arah samping kanan atau kiri, maksimal 8 langkah. Digunakan untuk merapatkan atau merapikan jarak barisan tanpa harus berputar. Gerakan: kaki yang ke arah tujuan melangkah terlebih dahulu, kemudian kaki satunya mengikuti dan merapat." },
+		// ── Formasi ─────────────────────────────────────────────────────────────
+		{ kategori:"Formasi Barisan", q:"Formasi 'bershaf' dalam PBB adalah...", options:["Anggota berbaris berjajar ke samping membentuk satu baris atau lebih","Anggota berbaris berderet ke belakang membentuk satu kolom","Anggota membentuk formasi segitiga","Anggota berkelompok bebas di satu area"], correct:"Anggota berbaris berjajar ke samping membentuk satu baris atau lebih", edu:"Bershaf: anggota berbaris berjajar ke samping (horizontal). Dapat terdiri dari 1 shaf (baris), 2 shaf, 3 shaf, dst. Dipakai untuk pemeriksaan, penghormatan, atau upacara. Lawan dari bershaf adalah berbanjar (berbaris berderet ke belakang/vertikal). Dalam formasi bershaf, yang nomor urut 1 adalah paling kanan." },
+		{ kategori:"Formasi Barisan", q:"Formasi 'berbanjar' digunakan terutama untuk...", options:["Pemeriksaan kelengkapan seragam","Berjalan melalui jalan sempit atau lorong","Upacara pengibaran bendera","Berfoto bersama"], correct:"Berjalan melalui jalan sempit atau lorong", edu:"Berbanjar: anggota berbaris berderet ke belakang (vertikal/kolom). Digunakan untuk berjalan melalui jalan yang sempit, memasuki ruangan, atau perjalanan di lapangan. Dalam berbanjar, nomor urut 1 adalah paling depan. Jarak antar orang dalam berbanjar adalah satu lengan ke depan (± 60–80 cm)." },
+		{ kategori:"Formasi Barisan", q:"Formasi 'angkare' dalam PBB adalah barisan yang berbentuk...", options:["Lingkaran","Segitiga","U atau segi empat terbuka di satu sisi","Bintang"], correct:"U atau segi empat terbuka di satu sisi", edu:"Angkare adalah formasi barisan yang membentuk huruf U (segi empat terbuka di satu sisi). Digunakan untuk upacara pelantikan, peringatan, atau situasi di mana pemimpin/pembina berada di tengah menghadap seluruh anggota. Formasi ini memudahkan seluruh anggota melihat ke satu titik pusat." },
+		// ── Perhormatan & Penghormatan ──────────────────────────────────────────
+		{ kategori:"Penghormatan", q:"Penghormatan dalam PBB dilakukan dengan...", options:["Menganggukkan kepala tiga kali","Mengangkat tangan kanan ke pelipis dengan jari-jari rapat dan lurus","Meletakkan tangan di dada sebelah kiri","Membungkukkan badan 90° ke depan"], correct:"Mengangkat tangan kanan ke pelipis dengan jari-jari rapat dan lurus", edu:"Penghormatan militer/PBB: tangan kanan diangkat ke pelipis kanan, ujung jari-jari sejajar dengan alis/pelipis, jari-jari rapat dan lurus, telapak tangan menghadap ke bawah, siku membentuk sudut 45° dari badan. Penghormatan dilakukan kepada bendera, pejabat, makam, atau simbol kehormatan lainnya. Dalam pramuka, salam pramuka menggunakan semua jari tangan kanan dirapatkan dan diangkat." },
+		{ kategori:"Penghormatan", q:"Aba-aba untuk memberikan penghormatan saat pemimpin upacara memberi komando adalah...", options:["Kepada Pemimpin Upacara — HORMAT SENJATA!","Kepada Inspektur Upacara — HORMAT!","Penghormatan — GERAK!","Hormat kepada Bendera — SIAP!"	], correct:"Kepada Inspektur Upacara — HORMAT!", edu:"Aba-aba penghormatan dalam upacara: 'Kepada Inspektur Upacara — HORMAT!' Seluruh peserta memberikan penghormatan serentak. Aba-aba serupa: 'Kepada Bendera Pusaka — HORMAT!' untuk penghormatan kepada bendera. Setelah penghormatan, pemimpin upacara memberi aba-aba 'TEGAK!' untuk kembali ke sikap sempurna." },
+		// ── Baris dalam Pramuka ─────────────────────────────────────────────────
+		{ kategori:"PBB Pramuka", q:"Dalam upacara pramuka, pemimpin barisan (biasanya Pemimpin Regu atau Pratama) berada di posisi...", options:["Paling belakang barisan","Paling kanan barisan (depan) saat bershaf","Tengah-tengah barisan","Di luar barisan menghadap anggota"], correct:"Paling kanan barisan (depan) saat bershaf", edu:"Pemimpin barisan/regu berada di posisi paling kanan (saat bershaf) atau paling depan (saat berbanjar). Dalam formasi angkare, pemimpin berada di ujung sayap kanan. Saat aba-aba 'Lencang kanan', semua anggota meluruskan barisan dengan patokan pemimpin di kanan yang tetap lurus." },
+		{ kategori:"PBB Pramuka", q:"Aba-aba 'Bubar — JALAN!' berarti...", options:["Anggota berlari secepatnya meninggalkan lapangan","Anggota membubarkan diri secara tertib dari barisan","Anggota berjalan mundur dari barisan","Anggota duduk di tempat masing-masing"], correct:"Anggota membubarkan diri secara tertib dari barisan", edu:"'Bubar JALAN!' adalah aba-aba untuk mengakhiri barisan. Anggota membubarkan diri secara tertib, biasanya dimulai dengan penghormatan ('Siap — GERAK!' kemudian 'Kepada Pemimpin — HORMAT!' lalu 'TEGAK!'), baru kemudian 'Bubar — JALAN!'. Dalam pramuka, pembubaran barisan selalu diawali dan diakhiri dengan penghormatan sebagai wujud kedisiplinan." },
+		{ kategori:"PBB Pramuka", q:"'Jalan di tempat' dalam PBB dilakukan dengan cara...", options:["Berjalan di tempat dengan mengangkat lutut setinggi 45° tanpa berpindah","Berlari di tempat sekencang mungkin","Berdiri diam sambil menggerakkan tangan ke atas dan ke bawah","Hentakkan kaki bergantian ke tanah tanpa mengangkat lutut"], correct:"Berjalan di tempat dengan mengangkat lutut setinggi 45° tanpa berpindah", edu:"Jalan di tempat: kaki diangkat bergantian (lutut setinggi 45° atau setinggi garis pinggang bawah) tanpa berpindah posisi, seolah-olah berjalan tapi tetap di tempat. Digunakan sebagai peralihan antara berhenti dan maju, atau untuk menunggu aba-aba berikutnya tanpa kehilangan irama. Tangan diayunkan seperti langkah biasa." },
+		{ kategori:"PBB Pramuka", q:"Dalam baris berbaris, istilah 'interval' merujuk pada...", options:["Waktu jeda antara dua komando","Jarak antara satu orang dengan orang lain dalam barisan ke samping","Kecepatan langkah baris","Jarak antara satu baris dengan baris di belakangnya"], correct:"Jarak antara satu orang dengan orang lain dalam barisan ke samping", edu:"Dalam PBB, 'interval' adalah jarak antara anggota barisan satu dengan yang lain secara horizontal (ke samping), umumnya satu lengan atau 60–80 cm. Sedangkan 'jarak' (distance) adalah jarak vertikal antar baris ke depan/belakang, umumnya satu lengan ke depan. Keduanya harus seragam untuk menciptakan barisan yang rapi dan simetris." },
+		{ kategori:"PBB Pramuka", q:"Aba-aba 'Henti — GERAK!' diberikan saat barisan sedang...", options:["Beristirahat di tempat","Bergerak maju atau berjalan","Melakukan penghormatan","Membentuk formasi baru"], correct:"Bergerak maju atau berjalan", edu:"'Henti GERAK!' adalah perintah untuk menghentikan gerakan berjalan. Teknis pelaksanaan: saat mendengar 'GERAK!', kaki yang sedang melangkah diselesaikan satu langkah terakhir, kemudian kaki ditarik rapat ke posisi sikap sempurna. Aba-aba 'Henti' biasanya diakhiri hitungan agar berhenti kompak: misalnya 'Henti 1-2 GERAK!' (berhenti pada hitungan 2)." },
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id:'pbb_novice', name:'Pandu Berbaris', icon:'🪖' },
+		{ id:'pbb_master', name:'Komandan Barisan', icon:'🎖️' },
+	];
+
+	let questions:Question[]=[], currentIndex=0, selectedAnswer='', score=0, totalXpEarned=0;
+
+	function shuffle<T>(arr:T[]):T[]{return [...arr].sort(()=>Math.random()-.5);}
+	function getEl<T extends HTMLElement>(id:string){return document.getElementById(id) as T|null;}
+
+	function startQuiz(){questions=shuffle(QUESTIONS_POOL).slice(0,QUESTIONS_PER_SESSION);currentIndex=0;score=0;totalXpEarned=0;selectedAnswer='';renderQuestion();}
+
+	function renderQuestion(){
+		const q=questions[currentIndex],num=currentIndex+1,pct=(num/QUESTIONS_PER_SESSION)*100;
+		getEl('question-number')!.textContent=`Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent=`${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width=`${pct}%`;
+		const catEl=getEl('question-category');if(catEl)catEl.innerHTML=`<span class="cat-pill">🪖 ${q.kategori}</span>`;
+		getEl('question-prompt')!.textContent=q.q;
+		const eduCard=getEl<HTMLDivElement>('education-card');if(eduCard)eduCard.style.display='none';
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Konfirmasi Jawaban';submitBtn.onclick=submitAnswer;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent='Pilih salah satu jawaban di atas';hint.className='answer-hint';}
+		selectedAnswer='';renderOptions(q);
+	}
+
+	function renderOptions(q:Question){
+		const container=getEl<HTMLDivElement>('options-container');if(!container)return;
+		container.innerHTML=shuffle(q.options).map((opt,i)=>{
+			const letter=String.fromCharCode(65+i);
+			return `<button class="opt-btn" data-answer="${opt.replace(/"/g,'&quot;')}" style="animation-delay:${i*.07}s">
+				<span class="opt-letter">${letter}</span><span class="opt-text">${opt}</span>
+				<span class="opt-indicator"><span class="opt-radio"></span>
+				<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span></button>`;
+		}).join('');
+		container.querySelectorAll('.opt-btn').forEach((btn,i)=>{
+			btn.addEventListener('click',()=>{
+				container.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');selectedAnswer=(btn as HTMLElement).dataset.answer||'';
+				const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.disabled=false;
+				const h=getEl('answer-hint');if(h){h.textContent=`Jawaban ${String.fromCharCode(65+i)} dipilih — klik Konfirmasi untuk lanjut`;h.className='answer-hint chosen';}
+			});
+		});
+	}
+
+	function submitAnswer(){
+		const q=questions[currentIndex],isCorrect=selectedAnswer===q.correct;
+		if(isCorrect){score++;totalXpEarned+=XP_PER_CORRECT;}
+		const container=getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn=>{
+			const el=btn as HTMLElement,ans=el.dataset.answer||'';
+			el.classList.add('is-answered');el.classList.remove('is-selected');
+			if(ans===q.correct)el.classList.add('is-correct');
+			else if(ans===selectedAnswer&&!isCorrect)el.classList.add('is-incorrect');
+			else el.classList.add('is-dimmed');
+		});
+		const eduCard=getEl<HTMLDivElement>('education-card'),eduText=getEl('education-text');
+		if(eduCard&&eduText){eduText.textContent=q.edu;eduCard.style.display='flex';eduCard.className=`education-card ${isCorrect?'correct':'incorrect'}`;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent=isCorrect?'✓ Jawaban benar!':'✗ Jawaban salah — lihat penjelasan di bawah.';hint.className=`answer-hint ${isCorrect?'correct-hint':'wrong-hint'}`;}
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.textContent=currentIndex<QUESTIONS_PER_SESSION-1?'Soal Berikutnya →':'Lihat Hasil';submitBtn.disabled=false;submitBtn.onclick=nextQuestion;}
+	}
+
+	function nextQuestion(){
+		currentIndex++;
+		if(currentIndex<QUESTIONS_PER_SESSION){renderQuestion();const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.onclick=submitAnswer;}
+		else showResult();
+	}
+
+	function showResult(){
+		const pct=Math.round((score/QUESTIONS_PER_SESSION)*100);
+		const currentXp=parseInt(localStorage.getItem('scout_xp')||'0');
+		localStorage.setItem('scout_xp',(currentXp+totalXpEarned).toString());
+		const earnedBadges:string[]=JSON.parse(localStorage.getItem('scout_badges')||'[]');
+		const newlyUnlocked:typeof BADGES_FOR_THIS_QUIZ=[];
+		if(!earnedBadges.includes('pbb_novice')){earnedBadges.push('pbb_novice');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);}
+		if(pct===100&&!earnedBadges.includes('pbb_master')){earnedBadges.push('pbb_master');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);}
+		if(parseInt(localStorage.getItem('scout_xp')||'0')>=500&&!earnedBadges.includes('scout_master'))earnedBadges.push('scout_master');
+		localStorage.setItem('scout_badges',JSON.stringify(earnedBadges));
+		getEl('result-emoji')!.textContent=pct===100?'🏆':pct>=80?'⭐':pct>=60?'👍':'📚';
+		const t=getEl('result-title');if(t)t.textContent=pct===100?'Sempurna! Komandan Barisan!':pct>=80?'Bagus Sekali!':pct>=60?'Cukup Baik!':'Terus Belajar!';
+		getEl('result-text')!.textContent=`Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct>=80?'Kamu menguasai teknik baris-berbaris dengan baik!':'Pelajari kembali aba-aba dan gerakan dasar PBB.'}`;
+		getEl('result-xp')!.textContent=`+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent=`${pct}/100`;
+		getEl('result-correct')!.textContent=`${score}/${QUESTIONS_PER_SESSION}`;
+		if(newlyUnlocked.length>0){
+			const bc=getEl<HTMLDivElement>('unlocked-badges'),bl=getEl('badges-list-el');
+			if(bc&&bl){bl.innerHTML=newlyUnlocked.map(b=>`<div class="new-badge-item"><span class="new-badge-icon">${b.icon}</span><span class="new-badge-name">${b.name}</span></div>`).join('');bc.style.display='block';}
+		}
+		const overlay=getEl<HTMLDivElement>('result-overlay');if(overlay)overlay.style.display='flex';
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click',submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click',()=>{const o=getEl<HTMLDivElement>('result-overlay');if(o)o.style.display='none';startQuiz();});
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container{display:flex;flex-direction:column;gap:1.5rem}
+	.quiz-header{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 1.75rem;flex-wrap:wrap}
+	.btn-back{display:flex;align-items:center;gap:.45rem;color:var(--color-text-muted);text-decoration:none;font-size:.88rem;font-weight:500;white-space:nowrap;transition:color var(--transition-fast)}
+	.btn-back:hover{color:var(--color-gold)}.btn-back svg{width:15px;height:15px}
+	.quiz-title-area{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;flex:1}
+	.quiz-title-area h2{font-size:1.4rem;font-weight:800;color:var(--color-text)}
+	.quiz-difficulty{font-size:.72rem;font-weight:700;padding:.28rem .75rem;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+	.quiz-difficulty.medium{background:rgba(27,77,50,.1);color:var(--color-primary-light);border:1px solid rgba(27,77,50,.2)}
+	.quiz-layout{display:grid;grid-template-columns:1.9fr 1fr;gap:1.5rem;align-items:start}
+	.quiz-main-card{padding:2rem;display:flex;flex-direction:column;gap:1.75rem}
+	.progress-tracker{display:flex;flex-direction:column;gap:.5rem}
+	.progress-label{display:flex;justify-content:space-between;align-items:center}
+	.progress-label span{font-size:.82rem;font-weight:600;color:var(--color-text-muted)}
+	.pct-label{color:var(--color-primary-light)!important}
+	.progress-bar-outer{height:6px;background:rgba(27,77,50,.1);border-radius:var(--radius-full);overflow:hidden}
+	.progress-bar-inner{height:100%;background:linear-gradient(90deg,#4a5568,#718096);border-radius:var(--radius-full);transition:width var(--transition-normal)}
+	.cat-pill{display:inline-flex;align-items:center;gap:.35rem;background:rgba(74,85,104,.07);color:#4a5568;border:1px solid rgba(74,85,104,.18);padding:.28rem .75rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:600}
+	.question-text-area h3{font-size:1.1rem;font-weight:700;color:var(--color-text);line-height:1.55}
+	.education-card{border-radius:var(--radius-md);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;animation:slide-in .2s ease}
+	.education-card.correct{background:rgba(35,108,50,.07);border:1px solid rgba(35,108,50,.2)}
+	.education-card.incorrect{background:rgba(165,48,26,.06);border:1px solid rgba(165,48,26,.18)}
+	@keyframes slide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+	.edu-header{display:flex;align-items:center;gap:.45rem}
+	.edu-icon{font-size:1rem}
+	.edu-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#4a5568}
+	.education-card.incorrect .edu-label{color:var(--color-danger)}
+	#education-text{font-size:.85rem;color:var(--color-text);line-height:1.55}
+	.action-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:.5rem;border-top:1px solid var(--color-border)}
+	.answer-hint{font-size:.8rem;color:var(--color-text-faint);font-style:italic}
+	.answer-hint.chosen{color:var(--color-primary-light);font-style:normal;font-weight:600}
+	.answer-hint.correct-hint{color:var(--color-success);font-style:normal;font-weight:600}
+	.answer-hint.wrong-hint{color:var(--color-danger,#c0392b);font-style:normal;font-weight:600}
+	#btn-submit-answer{padding:.8rem 2rem;border-radius:var(--radius-sm);font-size:.95rem;transition:all var(--transition-fast)}
+	#btn-submit-answer:not(:disabled){box-shadow:0 4px 14px rgba(178,131,27,.3)}
+	#btn-submit-answer:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(178,131,27,.4)}
+
+	.quiz-help-card{padding:1.5rem;display:flex;flex-direction:column;gap:.85rem}
+	.quiz-help-card h3{font-size:1.05rem;font-weight:700;color:var(--color-text)}
+	.help-subtitle{font-size:.78rem;color:var(--color-text-muted);line-height:1.4;margin-top:-.5rem}
+	.pbb-section{display:flex;flex-direction:column;gap:.25rem}
+	.pbb-title{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#4a5568;padding:.2rem 0;border-bottom:1px solid var(--color-border);margin-bottom:.1rem}
+	.pbb-item{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;padding:.2rem .5rem;border-radius:4px;background:var(--color-bg);border:1px solid var(--color-border)}
+	.pbb-key{font-size:.72rem;font-weight:700;color:var(--color-text);flex-shrink:0}
+	.pbb-val{font-size:.68rem;color:var(--color-text-muted);text-align:right}
+
+	.result-overlay{position:fixed;inset:0;background:rgba(10,25,16,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1.5rem}
+	.result-card{width:100%;max-width:520px;padding:2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.25rem;animation:pop-in .3s cubic-bezier(.34,1.56,.64,1)}
+	@keyframes pop-in{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+	.result-emoji{font-size:3.5rem;line-height:1}
+	.result-card h2{font-size:1.75rem;font-weight:800;color:#f0f5f2}
+	.result-summary{font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.55}
+	.result-stats-details{display:flex;width:100%;gap:.85rem}
+	.detail-item{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:1rem;border-radius:var(--radius-md);display:flex;flex-direction:column;gap:.25rem}
+	.detail-item .label{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:600;letter-spacing:.5px}
+	.detail-item .value{font-size:1.4rem;font-weight:800;color:#f0f5f2}
+	.detail-item .value.score-xp{color:var(--color-gold-light)}
+	.unlocked-badges-container{width:100%;background:rgba(212,163,43,.06);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-md);padding:1rem;text-align:left}
+	.unlocked-badges-container h3{font-size:.9rem;font-weight:700;color:var(--color-gold-light);margin-bottom:.65rem}
+	.unlocked-badges-list{display:flex;gap:.75rem;flex-wrap:wrap}
+	.new-badge-item{display:flex;align-items:center;gap:.5rem;background:rgba(212,163,43,.1);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-sm);padding:.4rem .75rem}
+	.new-badge-icon{font-size:1.1rem}
+	.new-badge-name{font-size:.82rem;font-weight:700;color:var(--color-gold-light)}
+	.result-actions{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:center;width:100%}
+	.result-actions .btn{flex:1;min-width:140px}
+
+	@media(max-width:900px){.quiz-layout{grid-template-columns:1fr}.quiz-help-card{order:-1}.pbb-section{display:grid;grid-template-columns:repeat(2,1fr)}.pbb-title{grid-column:1/-1}}
+	@media(max-width:600px){.quiz-main-card{padding:1.25rem}.quiz-header{padding:1rem}.pbb-section{grid-template-columns:1fr}.result-stats-details{flex-wrap:wrap}.detail-item{flex-basis:calc(50% - .4rem)}}
+</style>

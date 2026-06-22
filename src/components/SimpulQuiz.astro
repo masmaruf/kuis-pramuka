@@ -1,0 +1,632 @@
+---
+/**
+ * SimpulQuiz.astro - Specialized Knots & Lashings Quiz Component
+ * Komponen kuis khusus untuk Simpul & Ikatan Pramuka
+ * 
+ * TypeScript enabled with strict type checking
+ */
+
+import type { QuizModule, Question, GameModeType, Badge } from '../types/quiz';
+
+interface Props {
+  quizId: string;
+  level?: string;
+  totalQuestions?: number;
+  mode?: GameModeType;
+}
+
+const { quizId, level, totalQuestions = 10, mode = 'standard' } = Astro.props;
+
+// Game modes configuration
+const GAME_MODES: Record<GameModeType, { xpMultiplier: number; timeLimit?: number; lives?: number }> = {
+  standard: { xpMultiplier: 1.0 },
+  time_attack: { xpMultiplier: 1.5, timeLimit: 300 },
+  no_mistake: { xpMultiplier: 2.0, lives: 1 },
+  daily: { xpMultiplier: 1.2 },
+  duel: { xpMultiplier: 1.5 },
+  survival: { xpMultiplier: 1.0 }
+} as const;
+
+const currentMode = GAME_MODES[mode];
+
+// Difficulty colors and labels
+const DIFFICULTY_COLORS: Record<string, string> = {
+  easy: '#236c32',
+  medium: '#1b6b8a',
+  hard: '#a5301a',
+  mix: '#8b5cf6'
+} as const;
+
+const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: 'Mudah',
+  medium: 'Sedang',
+  hard: 'Sulit',
+  mix: 'Campuran'
+} as const;
+
+// Badge definitions for Simpul module
+const SIMPUL_BADGES: Record<string, Badge> = {
+  simpul_novice: {
+    id: 'simpul_novice',
+    name: 'Pendatang Baru',
+    description: 'Selesaikan 1 kuis Simpul & Ikatan',
+    icon: '🪢',
+    category: 'Tali Temali',
+    rarity: 'common'
+  },
+  simpul_master: {
+    id: 'simpul_master',
+    name: 'Ahli Tali Temali',
+    description: 'Selesaikan kuis Simpul dengan skor 100%',
+    icon: '🏆',
+    category: 'Tali Temali',
+    rarity: 'rare'
+  }
+} as const;
+
+// State for quiz data
+let quizData: QuizModule | null = null;
+let questions: Question[] = [];
+let quizMetadata: Partial<QuizModule> = {};
+let helpContent: { title: string; content: string } | null = null;
+
+// Load Simpul quiz data
+try {
+  const simpulQuiz: QuizModule = await import(`../data/quizzes/${quizId}.json`).then(m => m.default);
+  quizData = simpulQuiz;
+  questions = simpulQuiz.questions || [];
+  quizMetadata = { ...quizMetadata, ...simpulQuiz };
+  helpContent = simpulQuiz.helpContent || null;
+} catch (e: unknown) {
+  console.error('Failed to load Simpul quiz data:', quizId, e);
+  // Fallback empty data
+  questions = [];
+  quizMetadata = {
+    id: quizId,
+    title: 'Kuis Simpul & Ikatan',
+    description: 'Latihan tali-temali pramuka',
+    category: 'Keterampilan',
+    difficulty: 'medium',
+    xpPerQuestion: 14,
+    totalQuestions: 10,
+    color: 'green',
+    icon: '🪢'
+  };
+}
+
+// Shuffle function
+function shuffle<T>(arr: T[]): T[] {
+  return [...arr].sort(() => Math.random() - 0.5);
+}
+
+const shuffledQuestions = shuffle(questions).slice(0, totalQuestions);
+---
+
+<Layout title={quizMetadata.title || 'Kuis Simpul & Ikatan Pramuka'} description={quizMetadata.description || 'Latihan tali-temali pramuka'}>
+  <div class="quiz-container">
+    <!-- Quiz Header -->
+    <header class="quiz-header glass-card">
+      <a href="/" class="btn-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="19" y1="12" x2="5" y2="12"/>
+          <polyline points="12 19 5 12 12 5"/>
+        </svg>
+        Kembali ke Dasbor
+      </a>
+      <div class="quiz-title-area">
+        <h2>{quizMetadata.title || 'Kuis Simpul & Ikatan'}</h2>
+        <span class="quiz-difficulty medium" style={`background: rgba(${(DIFFICULTY_COLORS[quizMetadata.difficulty || 'medium'] || '#236c32').replace('#', '')}, 0.1); color: ${DIFFICULTY_COLORS[quizMetadata.difficulty || 'medium'] || '#236c32'}; border: 1px solid rgba(${(DIFFICULTY_COLORS[quizMetadata.difficulty || 'medium'] || '#236c32').replace('#', '')}, 0.2)`}>
+          {DIFFICULTY_LABELS[quizMetadata.difficulty || 'medium'] || 'Keterampilan Tali Temali'}
+        </span>
+      </div>
+    </header>
+
+    <div class="quiz-layout">
+      <!-- Main Quiz Card -->
+      <div class="quiz-main-card glass-card">
+        <div class="progress-tracker">
+          <div class="progress-label">
+            <span id="question-number">Soal 1 dari {totalQuestions}</span>
+            <span id="progress-pct" class="pct-label">10%</span>
+          </div>
+          <div class="progress-bar-outer">
+            <div id="quiz-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+          </div>
+        </div>
+
+        <div class="question-category" id="question-category">
+          <span class="cat-pill">🪢 Tali Temali Pramuka</span>
+        </div>
+
+        <!-- Question Image Area (optional) -->
+        <div class="question-image-area" id="question-image-area" style="display: none;">
+          <img id="question-image" src="" alt="Gambar simpul/ikatan" loading="lazy" />
+          <p class="image-caption" id="image-caption"></p>
+        </div>
+
+        <div class="question-text-area">
+          <h3 id="question-prompt">Soal akan dimuat...</h3>
+        </div>
+
+        <div class="flex flex-col gap-2.5" id="options-container"></div>
+
+        <div class="education-card" id="education-card" style="display: none;">
+          <div class="edu-header">
+            <span class="edu-icon">📖</span>
+            <span class="edu-label">Penjelasan</span>
+          </div>
+          <p id="education-text"></p>
+        </div>
+
+        <div class="action-footer">
+          <span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+          <button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+        </div>
+      </div>
+
+      <!-- Reference Sidebar -->
+      <div class="quiz-help-card glass-card">
+        <h3>{helpContent?.title || 'Simpul & Ikatan Dasar'}</h3>
+        <p class="help-subtitle">Tali temali wajib dalam Gerakan Pramuka Indonesia</p>
+
+        <div class="knot-list">
+          <div class="knot-section-title">Simpul (Knots)</div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Mati</span>
+            <span class="knot-use">Menyambung 2 tali sama besar</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Hidup</span>
+            <span class="knot-use">Mudah dibuka, bersifat sementara</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Tiang</span>
+            <span class="knot-use">Lingkaran tetap, tidak mencekik</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Pangkal</span>
+            <span class="knot-use">Memulai / mengakhiri ikatan</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Anyam</span>
+            <span class="knot-use">Menyambung 2 tali beda ukuran</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Anyam Berganda</span>
+            <span class="knot-use">Tali sangat berbeda ukuran</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Delapan</span>
+            <span class="knot-use">Stopper, mencegah tali lepas</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Simpul Kembar</span>
+            <span class="knot-use">Menyambung tali licin / nilon</span>
+          </div>
+
+          <div class="knot-section-title" style="margin-top: 0.75rem;">Ikatan (Lashings)</div>
+          <div class="knot-item">
+            <span class="knot-name">Ikatan Segi Empat</span>
+            <span class="knot-use">Membuat sudut 90° antar tongkat</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Ikatan Silang</span>
+            <span class="knot-use">Memperkuat ikatan bersilang</span>
+          </div>
+          <div class="knot-item">
+            <span class="knot-name">Ikatan Kaki Tiga</span>
+            <span class="knot-use">Membuat tripod / kaki tiga</span>
+          </div>
+        </div>
+
+        <div class="knot-fact-box">
+          <div class="fact-row">
+            <span class="fact-key">Nama internasional</span>
+            <span class="fact-val">Knot, Hitch, Lashing</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-key">Pangkal = Clove hitch</span>
+            <span class="fact-val">Memulai ikatan</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-key">Lilitan pengikat</span>
+            <span class="fact-val">Frapping turns</span>
+          </div>
+          <div class="fact-row">
+            <span class="fact-key">Ujung aktif</span>
+            <span class="fact-val">Working end</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Result Overlay -->
+    <div class="result-overlay" id="result-overlay" style="display: none;">
+      <div class="result-card glass-card">
+        <div class="result-emoji" id="result-emoji">🏆</div>
+        <h2 id="result-title">Kuis Selesai!</h2>
+        <p class="result-summary" id="result-text"></p>
+        <div class="result-stats-details">
+          <div class="detail-item">
+            <span class="label">XP Diperoleh</span>
+            <span class="value score-xp" id="result-xp">+100 XP</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Skor Akhir</span>
+            <span class="value" id="result-score">100/100</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Jawaban Benar</span>
+            <span class="value" id="result-correct">10/10</span>
+          </div>
+        </div>
+        <div class="unlocked-badges-container" id="unlocked-badges" style="display: none;">
+          <h3>🎖️ Lencana Baru Terbuka!</h3>
+          <div class="unlocked-badges-list" id="badges-list-el"></div>
+        </div>
+        <div class="result-actions">
+          <button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+          <a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<script>
+  // Type definitions
+  interface QuizQuestion extends Question {
+    image?: string;
+    imageCaption?: string;
+  }
+
+  // State
+  let currentIndex: number = 0;
+  let selectedAnswer: string = '';
+  let score: number = 0;
+  let totalXpEarned: number = 0;
+  let questions: QuizQuestion[] = shuffledQuestions;
+  let startTime: number = Date.now();
+
+  // XP per correct answer
+  const XP_PER_CORRECT: number = quizMetadata.xpPerQuestion || 14;
+  const BADGES_FOR_THIS_QUIZ: Badge[] = [SIMPUL_BADGES.simpul_novice, SIMPUL_BADGES.simpul_master];
+
+  // Helper functions
+  function getEl<T extends HTMLElement>(id: string): T | null {
+    return document.getElementById(id) as T | null;
+  }
+
+  // Get category color based on difficulty
+  function getCategoryColor(difficulty: string = 'medium'): string {
+    const colors: Record<string, string> = {
+      easy: '#236c32',
+      medium: '#1b6b8a',
+      hard: '#a5301a'
+    };
+    return colors[difficulty] || colors.medium;
+  }
+
+  // Render question
+  function renderQuestion(): void {
+    const q = questions[currentIndex];
+    const num = currentIndex + 1;
+    const pct = (num / totalQuestions) * 100;
+
+    getEl('question-number')!.textContent = `Soal ${num} dari ${totalQuestions}`;
+    (getEl('progress-pct') as HTMLElement).textContent = `${Math.round(pct)}%`;
+    getEl<HTMLDivElement>('quiz-progress-bar')!.style.width = `${pct}%`;
+
+    const catEl = getEl('question-category');
+    if (catEl) {
+      const color = getCategoryColor(q.difficulty || 'medium');
+      catEl.innerHTML = `<span class="cat-pill" style="background: rgba(${color.replace('#', '')}, 0.07); color: ${color}; border: 1px solid rgba(${color.replace('#', '')}, 0.18)">🪢 ${q.tags ? q.tags[0] : 'Simpul & Ikatan'}</span>`;
+    }
+
+    // Handle image if available
+    const imgArea = getEl<HTMLDivElement>('question-image-area');
+    const imgEl = getEl<HTMLImageElement>('question-image');
+    const imgCap = getEl('image-caption');
+    
+    if (q.image && imgArea && imgEl && imgCap) {
+      imgEl.src = q.image;
+      imgCap.textContent = q.imageCaption || '';
+      imgArea.style.display = 'block';
+    } else if (imgArea) {
+      imgArea.style.display = 'none';
+    }
+
+    getEl('question-prompt')!.textContent = q.question;
+
+    const eduCard = getEl<HTMLDivElement>('education-card');
+    if (eduCard) {
+      eduCard.style.display = 'none';
+    }
+
+    const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Konfirmasi Jawaban';
+      submitBtn.onclick = submitAnswer;
+    }
+
+    const hint = getEl('answer-hint');
+    if (hint) {
+      hint.textContent = 'Pilih salah satu jawaban di atas';
+      hint.className = 'answer-hint';
+    }
+
+    selectedAnswer = '';
+    renderOptions(q);
+  }
+
+  // Render options
+  function renderOptions(q: QuizQuestion): void {
+    const container = getEl<HTMLDivElement>('options-container');
+    if (!container) return;
+
+    container.innerHTML = shuffle(q.options).map((opt, i) => {
+      const letter = String.fromCharCode(65 + i);
+      return `<button class="opt-btn" data-answer="${opt.replace(/"/g, '&quot;')}" style="animation-delay: ${i * 0.07}s">
+        <span class="opt-letter">${letter}</span>
+        <span class="opt-text">${opt}</span>
+        <span class="opt-indicator">
+          <span class="opt-radio"></span>
+          <svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          <svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </span>
+      </button>`;
+    }).join('');
+
+    container.querySelectorAll('.opt-btn').forEach((btn, i) => {
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('is-selected'));
+        btn.classList.add('is-selected');
+        selectedAnswer = (btn as HTMLElement).dataset.answer || '';
+        const s = getEl<HTMLButtonElement>('btn-submit-answer');
+        if (s) s.disabled = false;
+        const h = getEl('answer-hint');
+        if (h) {
+          h.textContent = `Jawaban ${String.fromCharCode(65 + i)} dipilih — klik Konfirmasi untuk lanjut`;
+          h.className = 'answer-hint chosen';
+        }
+      });
+    });
+  }
+
+  // Submit answer
+  function submitAnswer(): void {
+    const q = questions[currentIndex];
+    const isCorrect = selectedAnswer === q.correctAnswer;
+
+    if (isCorrect) {
+      score++;
+      totalXpEarned += XP_PER_CORRECT * (currentMode?.xpMultiplier || 1);
+    }
+
+    const container = getEl<HTMLDivElement>('options-container');
+    container?.querySelectorAll('.opt-btn').forEach(btn => {
+      const el = btn as HTMLElement;
+      const ans = el.dataset.answer || '';
+      el.classList.add('is-answered');
+      el.classList.remove('is-selected');
+      if (ans === q.correctAnswer) {
+        el.classList.add('is-correct');
+      } else if (ans === selectedAnswer && !isCorrect) {
+        el.classList.add('is-incorrect');
+      } else {
+        el.classList.add('is-dimmed');
+      }
+    });
+
+    const eduCard = getEl<HTMLDivElement>('education-card');
+    const eduText = getEl('education-text');
+    if (eduCard && eduText) {
+      eduText.textContent = q.explanation;
+      eduCard.style.display = 'flex';
+      eduCard.className = `education-card ${isCorrect ? 'correct' : 'incorrect'}`;
+    }
+
+    const hint = getEl('answer-hint');
+    if (hint) {
+      hint.textContent = isCorrect ? '✓ Jawaban benar!' : '✗ Jawaban salah — lihat penjelasan di bawah.';
+      hint.className = `answer-hint ${isCorrect ? 'correct-hint' : 'wrong-hint'}`;
+    }
+
+    const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+    if (submitBtn) {
+      submitBtn.textContent = currentIndex < totalQuestions - 1 ? 'Soal Berikutnya →' : 'Lihat Hasil';
+      submitBtn.disabled = false;
+      submitBtn.onclick = nextQuestion;
+    }
+  }
+
+  // Next question
+  function nextQuestion(): void {
+    currentIndex++;
+    if (currentIndex < totalQuestions) {
+      renderQuestion();
+      const s = getEl<HTMLButtonElement>('btn-submit-answer');
+      if (s) s.onclick = submitAnswer;
+    } else {
+      showResult();
+    }
+  }
+
+  // Show result
+  function showResult(): void {
+    const timeTaken = Date.now() - startTime;
+    const pct = Math.round((score / totalQuestions) * 100);
+
+    // Save XP
+    const currentXp = parseInt(localStorage.getItem('scout_xp') || '0');
+    localStorage.setItem('scout_xp', (currentXp + totalXpEarned).toString());
+
+    // Check badges
+    const earnedBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+    const newlyUnlocked: Badge[] = [];
+
+    if (!earnedBadges.includes('simpul_novice')) {
+      earnedBadges.push('simpul_novice');
+      newlyUnlocked.push(SIMPUL_BADGES.simpul_novice);
+    }
+    if (pct === 100 && !earnedBadges.includes('simpul_master')) {
+      earnedBadges.push('simpul_master');
+      newlyUnlocked.push(SIMPUL_BADGES.simpul_master);
+    }
+
+    localStorage.setItem('scout_badges', JSON.stringify(earnedBadges));
+
+    // Update UI
+    getEl('result-emoji')!.textContent = pct === 100 ? '🏆' : pct >= 80 ? '⭐' : pct >= 60 ? '👍' : '📚';
+
+    const titleEl = getEl('result-title');
+    if (titleEl) {
+      titleEl.textContent = pct === 100 ? 'Sempurna! Ahli Tali Temali!' :
+        pct >= 80 ? 'Bagus Sekali!' :
+          pct >= 60 ? 'Cukup Baik!' : 'Terus Belajar!';
+    }
+
+    getEl('result-text')!.textContent = `Kamu menjawab ${score} dari ${totalQuestions} soal dengan benar (${pct}%). ${pct >= 80 ? 'Kamu mahir dalam tali-temali pramuka!' : 'Pelajari kembali berbagai simpul dan ikatan.'}`;
+    getEl('result-xp')!.textContent = `+${totalXpEarned} XP`;
+    getEl('result-score')!.textContent = `${pct}/100`;
+    getEl('result-correct')!.textContent = `${score}/${totalQuestions}`;
+
+    // Show badges
+    if (newlyUnlocked.length > 0) {
+      const bc = getEl<HTMLDivElement>('unlocked-badges');
+      const bl = getEl('badges-list-el');
+      if (bc && bl) {
+        bl.innerHTML = newlyUnlocked.map(b => `
+          <div class="new-badge-item">
+            <span class="new-badge-icon">${b.icon}</span>
+            <span class="new-badge-name">${b.name}</span>
+          </div>
+        `).join('');
+        bc.style.display = 'block';
+      }
+    }
+
+    const overlay = getEl<HTMLDivElement>('result-overlay');
+    if (overlay) overlay.style.display = 'flex';
+
+    window.dispatchEvent(new Event('statsUpdated'));
+  }
+
+  // Event listeners
+  getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click', submitAnswer);
+  getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click', () => {
+    const o = getEl<HTMLDivElement>('result-overlay');
+    if (o) o.style.display = 'none';
+    currentIndex = 0;
+    score = 0;
+    totalXpEarned = 0;
+    questions = shuffle(shuffledQuestions);
+    startTime = Date.now();
+    renderQuestion();
+  });
+
+  // Initialize
+  renderQuestion();
+</script>
+
+<style>
+  .quiz-container { display: flex; flex-direction: column; gap: 1.5rem; }
+  .quiz-header { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem 1.75rem; flex-wrap: wrap; }
+  .btn-back { display: flex; align-items: center; gap: 0.45rem; color: var(--color-text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; white-space: nowrap; transition: color var(--transition-fast); }
+  .btn-back:hover { color: var(--color-gold); }
+  .btn-back svg { width: 15px; height: 15px; }
+  .quiz-title-area { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; flex: 1; }
+  .quiz-title-area h2 { font-size: 1.4rem; font-weight: 800; color: var(--color-text); }
+  .quiz-difficulty { font-size: 0.72rem; font-weight: 700; padding: 0.28rem 0.75rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+  .quiz-layout { display: grid; grid-template-columns: 1.9fr 1fr; gap: 1.5rem; align-items: start; }
+  .quiz-main-card { padding: 2rem; display: flex; flex-direction: column; gap: 1.75rem; }
+
+  .progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+  .progress-label { display: flex; justify-content: space-between; align-items: center; }
+  .progress-label span { font-size: 0.82rem; font-weight: 600; color: var(--color-text-muted); }
+  .pct-label { color: var(--color-primary-light)!important; }
+  .progress-bar-outer { height: 6px; background: rgba(35, 108, 50, 0.1); border-radius: var(--radius-full); overflow: hidden; }
+  .progress-bar-inner { height: 100%; background: linear-gradient(90deg, #236c32, #2eb8c8); border-radius: var(--radius-full); transition: width var(--transition-normal); }
+
+  .cat-pill { display: inline-flex; align-items: center; gap: 0.35rem; background: rgba(35, 108, 50, 0.07); color: #236c32; border: 1px solid rgba(35, 108, 50, 0.18); padding: 0.28rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600; }
+  
+  .question-image-area { display: none; margin-bottom: 1rem; }
+  .question-image-area img { width: 100%; max-width: 300px; height: auto; border-radius: var(--radius-md); border: 2px solid var(--color-border); }
+  .image-caption { font-size: 0.78rem; color: var(--color-text-muted); margin-top: 0.5rem; font-style: italic; text-align: center; }
+  
+  .question-text-area h3 { font-size: 1.1rem; font-weight: 700; color: var(--color-text); line-height: 1.55; }
+
+  .education-card { border-radius: var(--radius-md); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; animation: slide-in 0.2s ease; }
+  .education-card.correct { background: rgba(35, 108, 50, 0.07); border: 1px solid rgba(35, 108, 50, 0.2); }
+  .education-card.incorrect { background: rgba(165, 48, 26, 0.06); border: 1px solid rgba(165, 48, 26, 0.18); }
+  @keyframes slide-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .edu-header { display: flex; align-items: center; gap: 0.45rem; }
+  .edu-icon { font-size: 1rem; }
+  .edu-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: #236c32; }
+  .education-card.incorrect .edu-label { color: var(--color-danger); }
+  #education-text { font-size: 0.85rem; color: var(--color-text); line-height: 1.55; }
+
+  .action-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 0.5rem; border-top: 1px solid var(--color-border); }
+  .answer-hint { font-size: 0.8rem; color: var(--color-text-faint); font-style: italic; }
+  .answer-hint.chosen { color: var(--color-primary-light); font-style: normal; font-weight: 600; }
+  .answer-hint.correct-hint { color: var(--color-success); font-style: normal; font-weight: 600; }
+  .answer-hint.wrong-hint { color: var(--color-danger, #c0392b); font-style: normal; font-weight: 600; }
+  #btn-submit-answer { padding: 0.8rem 2rem; border-radius: var(--radius-sm); font-size: 0.95rem; transition: all var(--transition-fast); }
+  #btn-submit-answer:not(:disabled) { box-shadow: 0 4px 14px rgba(178, 131, 27, 0.3); }
+  #btn-submit-answer:not(:disabled):hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(178, 131, 27, 0.4); }
+
+  /* Sidebar */
+  .quiz-help-card { padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem; }
+  .quiz-help-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--color-text); }
+  .help-subtitle { font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.4; margin-top: -0.5rem; }
+  .knot-list { display: flex; flex-direction: column; gap: 0.4rem; }
+  .knot-section-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: #236c32; margin-bottom: 0.25rem; }
+  .knot-item { display: flex; justify-content: space-between; align-items: center; padding: 0.35rem 0.5rem; background: var(--color-bg); border-radius: var(--radius-sm); }
+  .knot-name { font-size: 0.78rem; font-weight: 600; color: var(--color-text); }
+  .knot-use { font-size: 0.72rem; color: var(--color-text-muted); }
+
+  .knot-fact-box { background: rgba(35, 108, 50, 0.05); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.85rem; display: flex; flex-direction: column; gap: 0.5rem; }
+  .fact-row { display: flex; flex-direction: column; gap: 0.15rem; padding: 0.35rem 0; border-bottom: 1px solid var(--color-border); }
+  .fact-row:last-child { border-bottom: none; }
+  .fact-key { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.6px; color: #236c32; }
+  .fact-val { font-size: 0.72rem; color: var(--color-text-muted); line-height: 1.4; }
+
+  /* Result */
+  .result-overlay { position: fixed; inset: 0; background: rgba(10, 25, 16, 0.88); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1.5rem; }
+  .result-card { width: 100%; max-width: 520px; padding: 2.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  @keyframes pop-in { from { transform: scale(0.88); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+  .result-emoji { font-size: 3.5rem; line-height: 1; }
+  .result-card h2 { font-size: 1.75rem; font-weight: 800; color: #f0f5f2; }
+  .result-summary { font-size: 0.95rem; color: rgba(255, 255, 255, 0.65); line-height: 1.55; }
+  .result-stats-details { display: flex; width: 100%; gap: 0.85rem; }
+  .detail-item { flex: 1; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); padding: 1rem; border-radius: var(--radius-md); display: flex; flex-direction: column; gap: 0.25rem; }
+  .detail-item .label { font-size: 0.72rem; color: rgba(255, 255, 255, 0.5); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+  .detail-item .value { font-size: 1.4rem; font-weight: 800; color: #f0f5f2; }
+  .detail-item .value.score-xp { color: var(--color-gold-light); }
+  .unlocked-badges-container { width: 100%; background: rgba(212, 163, 43, 0.06); border: 1px solid rgba(212, 163, 43, 0.25); border-radius: var(--radius-md); padding: 1rem; text-align: left; }
+  .unlocked-badges-container h3 { font-size: 0.9rem; font-weight: 700; color: var(--color-gold-light); margin-bottom: 0.65rem; }
+  .unlocked-badges-list { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .new-badge-item { display: flex; align-items: center; gap: 0.5rem; background: rgba(212, 163, 43, 0.1); border: 1px solid rgba(212, 163, 43, 0.25); border-radius: var(--radius-sm); padding: 0.4rem 0.75rem; }
+  .new-badge-icon { font-size: 1.1rem; }
+  .new-badge-name { font-size: 0.82rem; font-weight: 700; color: var(--color-gold-light); }
+  .result-actions { display: flex; gap: 0.85rem; flex-wrap: wrap; justify-content: center; width: 100%; }
+  .result-actions .btn { flex: 1; min-width: 140px; }
+
+  @media (max-width: 900px) {
+    .quiz-layout { grid-template-columns: 1fr; }
+    .quiz-help-card { order: -1; }
+  }
+  @media (max-width: 600px) {
+    .quiz-main-card { padding: 1.25rem; }
+    .quiz-header { padding: 1rem; }
+    .result-stats-details { flex-wrap: wrap; }
+    .detail-item { flex-basis: calc(50% - 0.4rem); }
+  }
+</style>

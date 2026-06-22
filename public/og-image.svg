@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f2e1e"/>
+      <stop offset="55%" style="stop-color:#1b4d32"/>
+      <stop offset="100%" style="stop-color:#0f2e1e"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#d4a32b"/>
+      <stop offset="100%" style="stop-color:#e8c050"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+
+  <!-- Subtle radial overlays -->
+  <ellipse cx="200" cy="150" rx="320" ry="220" fill="rgba(76,175,119,0.07)"/>
+  <ellipse cx="1050" cy="500" rx="280" ry="200" fill="rgba(212,163,43,0.06)"/>
+
+  <!-- Compass rose decoration -->
+  <g transform="translate(960,315)" opacity="0.18">
+    <circle r="160" fill="none" stroke="#d4a32b" stroke-width="1.5" stroke-dasharray="5 5"/>
+    <circle r="130" fill="none" stroke="#4caf77" stroke-width="1" opacity="0.5"/>
+    <line x1="0" y1="-155" x2="0" y2="155" stroke="#4caf77" stroke-width="0.8"/>
+    <line x1="-155" y1="0" x2="155" y2="0" stroke="#4caf77" stroke-width="0.8"/>
+    <path d="M0 -155 L14 0 L0 155 L-14 0 Z" fill="#d4a32b"/>
+    <path d="M-155 0 L0 14 L155 0 L0 -14 Z" fill="#4caf77" opacity="0.8"/>
+    <circle r="12" fill="#0f2e1e" stroke="#d4a32b" stroke-width="3"/>
+  </g>
+
+  <!-- Scout logo / triangle mark -->
+  <g transform="translate(100,315)" filter="url(#glow)">
+    <path d="M0 -55 L-48 38 L48 38 Z" stroke="#d4a32b" stroke-width="3" fill="none" stroke-linejoin="round"/>
+    <circle cx="0" cy="14" r="14" stroke="#d4a32b" stroke-width="2.5" fill="none"/>
+    <line x1="0" y1="-20" x2="0" y2="-4" stroke="#d4a32b" stroke-width="2.5" stroke-linecap="round"/>
+  </g>
+
+  <!-- App name -->
+  <text x="165" y="290" font-family="'Outfit',Arial,sans-serif" font-size="52" font-weight="800" letter-spacing="3" fill="white">KUIS<tspan fill="url(#gold)">PRAMUKA</tspan></text>
+
+  <!-- Tagline -->
+  <text x="165" y="345" font-family="'Outfit',Arial,sans-serif" font-size="24" font-weight="400" fill="rgba(255,255,255,0.65)">Platform Latihan Kepramukaan Interaktif</text>
+
+  <!-- Feature pills -->
+  <g transform="translate(165, 390)">
+    <!-- Pill 1 -->
+    <rect x="0" y="0" width="168" height="38" rx="19" fill="rgba(76,175,119,0.18)" stroke="rgba(76,175,119,0.35)" stroke-width="1"/>
+    <text x="84" y="24" font-family="'Outfit',Arial,sans-serif" font-size="16" font-weight="600" fill="#4caf77" text-anchor="middle">⚡ Kode Morse</text>
+
+    <!-- Pill 2 -->
+    <rect x="185" y="0" width="180" height="38" rx="19" fill="rgba(212,163,43,0.15)" stroke="rgba(212,163,43,0.3)" stroke-width="1"/>
+    <text x="275" y="24" font-family="'Outfit',Arial,sans-serif" font-size="16" font-weight="600" fill="#d4a32b" text-anchor="middle">🚩 Semaphore</text>
+
+    <!-- Pill 3 -->
+    <rect x="382" y="0" width="148" height="38" rx="19" fill="rgba(165,48,26,0.18)" stroke="rgba(165,48,26,0.35)" stroke-width="1"/>
+    <text x="456" y="24" font-family="'Outfit',Arial,sans-serif" font-size="16" font-weight="600" fill="#e07060" text-anchor="middle">🔑 Sandi</text>
+  </g>
+
+  <!-- Second row of pills -->
+  <g transform="translate(165, 445)">
+    <rect x="0" y="0" width="148" height="38" rx="19" fill="rgba(27,107,138,0.18)" stroke="rgba(27,107,138,0.35)" stroke-width="1"/>
+    <text x="74" y="24" font-family="'Outfit',Arial,sans-serif" font-size="16" font-weight="600" fill="#4ab0d0" text-anchor="middle">🧭 Kompas</text>
+
+    <rect x="165" y="0" width="148" height="38" rx="19" fill="rgba(120,80,20,0.18)" stroke="rgba(120,80,20,0.35)" stroke-width="1"/>
+    <text x="239" y="24" font-family="'Outfit',Arial,sans-serif" font-size="16" font-weight="600" fill="#c8901a" text-anchor="middle">🪢 Simpul</text>
+
+    <rect x="330" y="0" width="198" height="38" rx="19" fill="rgba(60,80,160,0.15)" stroke="rgba(60,80,160,0.3)" stroke-width="1"/>
+    <text x="429" y="24" font-family="'Outfit',Arial,sans-serif" font-size="16" font-weight="600" fill="#8090e0" text-anchor="middle">📖 + 11 Modul</text>
+  </g>
+
+  <!-- Bottom bar -->
+  <rect x="0" y="565" width="1200" height="65" fill="rgba(0,0,0,0.25)"/>
+  <text x="165" y="607" font-family="'Outfit',Arial,sans-serif" font-size="18" font-weight="500" fill="rgba(255,255,255,0.5)">16 Modul · XP &amp; Lencana · Offline PWA · Gratis</text>
+
+  <!-- Decorative dots top-right -->
+  <g opacity="0.25">
+    <circle cx="1130" cy="55" r="4" fill="#d4a32b"/>
+    <circle cx="1150" cy="75" r="3" fill="#4caf77"/>
+    <circle cx="1115" cy="78" r="2.5" fill="#d4a32b"/>
+    <circle cx="1160" cy="48" r="2" fill="#4caf77"/>
+  </g>
+</svg>

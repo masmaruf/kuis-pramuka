@@ -1,0 +1,60 @@
+{
+  "id": "sku",
+  "title": "SKU & Pengetahuan Umum",
+  "description": "Latihan Syarat Kecakapan Umum (SKU) pramuka: Siaga, Penggalang, dan Penegak. Meliputi tali-temali, P3K, kompas, dan sejarah Gerakan Pramuka.",
+  "category": "Pengetahuan Umum",
+  "group": "SKU & Pengetahuan",
+  "difficulty": "mix",
+  "icon": "📚",
+  "color": "purple",
+  "hasLevels": true,
+  "levels": [
+    {
+      "id": "siaga",
+      "title": "SKU Siaga",
+      "file": "siaga.json",
+      "difficulty": "easy",
+      "color": "green",
+      "icon": "🟢",
+      "ageRange": "7-10 tahun"
+    },
+    {
+      "id": "penggalang",
+      "title": "SKU Penggalang",
+      "file": "penggalang.json",
+      "difficulty": "medium",
+      "color": "red",
+      "icon": "🔴",
+      "ageRange": "11-15 tahun"
+    },
+    {
+      "id": "penegak",
+      "title": "SKU Penegak",
+      "file": "penegak.json",
+      "difficulty": "hard",
+      "color": "yellow",
+      "icon": "🟡",
+      "ageRange": "16-20 tahun"
+    }
+  ],
+  "badges": {
+    "sku_siaga": {
+      "name": "Pandu Mula",
+      "description": "Selesaikan kuis SKU Siaga dengan skor >= 70%",
+      "icon": "🟢",
+      "xpRequired": 70
+    },
+    "sku_penggalang": {
+      "name": "Pandu Ramu",
+      "description": "Selesaikan kuis SKU Penggalang dengan skor >= 70%",
+      "icon": "🔴",
+      "xpRequired": 105
+    },
+    "sku_penegak": {
+      "name": "Pandu Bantara",
+      "description": "Selesaikan kuis SKU Penegak dengan skor >= 70%",
+      "icon": "🟡",
+      "xpRequired": 140
+    }
+  }
+}

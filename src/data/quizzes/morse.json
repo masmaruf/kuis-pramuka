@@ -1,0 +1,155 @@
+{
+  "id": "morse",
+  "title": "Kode Morse",
+  "description": "Latihan kode Morse pramuka: terjemahkan titik dan garis menjadi huruf dan kata. Dilengkapi audio ketukan dan flash visual.",
+  "category": "Komunikasi & Isyarat",
+  "group": "Komunikasi & Isyarat",
+  "difficulty": "medium",
+  "xpPerQuestion": 12,
+  "totalQuestions": 12,
+  "color": "blue",
+  "icon": "📡",
+  "hasAudio": true,
+  "hasVisual": true,
+  "helpContent": {
+    "title": "Bantuan Sandi Morse",
+    "content": "<h4>📡 Cara Baca Morse</h4><p>Kode Morse menggunakan kombinasi titik (·) dan garis (–) untuk mewakili huruf dan angka.</p><ul><li><strong>Titik (·)</strong>: Nada/cahaya pendek (1 unit waktu)</li><li><strong>Garis (–)</strong>: Nada/cahaya panjang (3 unit waktu)</li><li><strong>Spasi antar simbol</strong>: 1 unit waktu</li><li><strong>Spasi antar huruf</strong>: 3 unit waktu</li><li><strong>Spasi antar kata</strong>: 7 unit waktu</li></ul><p><strong>Tips:</strong> Huruf E (·) dan T (–) adalah yang terpendek. SOS = ··· ––– ···</p>"
+  },
+  "morseMap": {
+    "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
+    "G": "--.", "H": "....", "I": "..", "J": ".---", "K": "-.-", "L": ".-..",
+    "M": "--", "N": "-.", "O": "---", "P": ".--.", "Q": "--.-", "R": ".-.",
+    "S": "...", "T": "-", "U": "..-", "V": "...-", "W": ".--", "X": "-..-",
+    "Y": "-.--", "Z": "--.."
+  },
+  "questions": [
+    {
+      "id": "morse_001",
+      "type": "morse_to_text",
+      "question": "Terjemahkan kode Morse di atas menjadi teks yang tepat:",
+      "code": "... .. .- --. .-",
+      "correctAnswer": "SIAGA",
+      "options": ["SIAGA", "SANGGA", "SIGAP", "SEHAT"],
+      "explanation": "Kode \"... .. .- --. .-\" terdiri dari 5 huruf: S(···), I(··), A(·–), G(––·), A(·–). Trik mudah: S adalah tiga titik (SOS = ··· – – – ···). Titik = nada/cahaya pendek, garis = nada/cahaya panjang. Tiap huruf dipisah spasi, tiap kata dipisah tiga spasi."
+    },
+    {
+      "id": "morse_002",
+      "type": "text_to_morse",
+      "question": "Pilih kode Morse yang tepat untuk kata \"KEMAH\":",
+      "code": "-.- . -- .- ....",
+      "correctAnswer": "-.- . -- .- ....",
+      "options": ["-.- . -- .- ....", "-.- . -... .- ....", "-.. . -- .- ....", "-.- .. -- .- ...."],
+      "explanation": "KEMAH = K(–·–) E(·) M(––) A(·–) H(····). Perhatikan: E hanya satu titik — kode terpendek dalam Morse. H adalah empat titik berturut-turut. M adalah dua garis. Cek pilihan salah: \"-.- . -... .- ....\" salah karena B(–···) bukan M(––)."
+    },
+    {
+      "id": "morse_003",
+      "type": "morse_to_text",
+      "question": "Terjemahkan kode Morse di atas menjadi teks yang tepat:",
+      "code": ".--. .-. .- -- ..- -.- .-",
+      "correctAnswer": "PRAMUKA",
+      "options": ["PRAMUKA", "PRAMUDI", "PRAKARYA", "PEMBINA"],
+      "explanation": "Kode \".--. .-. .- -- ..- -.- .-\" = P(·––·) R(·–·) A(·–) M(––) U(··–) K(–·–) A(·–) = PRAMUKA. Perhatikan pola unik: P dan K keduanya mengandung titik dan garis, tapi urutan berbeda. P = titik-garis-garis-titik; K = garis-titik-garis."
+    },
+    {
+      "id": "morse_004",
+      "type": "text_to_morse",
+      "question": "Pilih kode Morse yang tepat untuk kata \"SANDI\":",
+      "code": "... .- -. -.. ..",
+      "correctAnswer": "... .- -. -.. ..",
+      "options": ["... .- -. -.. ..", "... .- -- -.. ..", "... .- -. -... ..", "..- .- -. -.. .."],
+      "explanation": "SANDI = S(···) A(·–) N(–·) D(–··) I(··). Waspadai: pilihan salah \"... .- -- -.. ..\" mengganti N(–·) dengan M(––). Ingat: N = garis-titik, M = garis-garis. Cara beda N dan M: N punya 1 titik di akhir, M tidak punya titik sama sekali."
+    },
+    {
+      "id": "morse_005",
+      "type": "morse_to_text",
+      "question": "Terjemahkan kode Morse di atas menjadi teks yang tepat:",
+      "code": "- ..- -. .- ...",
+      "correctAnswer": "TUNAS",
+      "options": ["TUNAS", "TUGAS", "TUNASAN", "TUMBUH"],
+      "explanation": "Kode \"- ..- -. .- ...\" = T(–) U(··–) N(–·) A(·–) S(···) = TUNAS. T hanya satu garis — berpasangan dengan E yang hanya satu titik, keduanya adalah kode Morse terpendek. Tunas kelapa adalah lambang Gerakan Pramuka Indonesia."
+    },
+    {
+      "id": "morse_006",
+      "type": "text_to_morse",
+      "question": "Pilih kode Morse yang tepat untuk kata \"KELAPA\":",
+      "code": "-.- . .-.. .- .--. .-",
+      "correctAnswer": "-.- . .-.. .- .--. .-",
+      "options": ["-.- . .-.. .- .--. .-", "-.- . .-.. .- --. .-", "-.- . .-.. .- -.-- .-", "-.- .. .-.. .- .--. .-"],
+      "explanation": "KELAPA = K(–·–) E(·) L(·–··) A(·–) P(·––·) A(·–). Perhatikan L = titik-garis-titik-titik (mirip \"La\" dalam not musik). P = titik-garis-garis-titik. Pilihan salah kedua menggunakan G(––·) bukan P(·––·)."
+    },
+    {
+      "id": "morse_007",
+      "type": "morse_to_text",
+      "question": "Terjemahkan kode Morse di atas menjadi teks yang tepat:",
+      "code": "-... .- -. - .- .-. .-",
+      "correctAnswer": "BANTARA",
+      "options": ["BANTARA", "BANDARA", "BANTUAN", "BANTENG"],
+      "explanation": "Kode \"-... .- -. - .- .-. .-\" = B(–···) A(·–) N(–·) T(–) A(·–) R(·–·) A(·–) = BANTARA. Bantara adalah tingkat pertama SKU Penegak. B dimulai satu garis lalu tiga titik — kebalikan dari S(···) yang tiga titik. R = titik-garis-titik."
+    },
+    {
+      "id": "morse_008",
+      "type": "morse_to_text",
+      "question": "Terjemahkan kode Morse di atas menjadi teks yang tepat:",
+      "code": "--. ..- -.. .- .--.",
+      "correctAnswer": "GUDAP",
+      "options": ["GUDEP", "GUDAP", "GARDU", "GELANG"],
+      "explanation": "Kode \"--. ..- -.. .- .--.\" = G(––·) U(··–) D(–··) A(·–) P(·––·) = GUDAP. Gugus Depan (Gudep) sering disingkat. Bedakan G(––·) vs D(–··): G diawali dua garis, D diawali satu garis. U(··–) kebalikan dari G dalam hal posisi garis."
+    },
+    {
+      "id": "morse_009",
+      "type": "text_to_morse",
+      "question": "Pilih kode Morse yang tepat untuk kata \"MORSE\":",
+      "code": "-- --- .-. ... .",
+      "correctAnswer": "-- --- .-. ... .",
+      "options": ["-- --- .-. ... .", "-- --- .-. ... ..", "-- -- .-. ... .", "- --- .-. ... ."],
+      "explanation": "MORSE = M(––) O(–––) R(·–·) S(···) E(·). Nama penemu kode ini! O adalah tiga garis berturut — sering diingat dari SOS (··· ––– ···). Cek pilihan salah: \"-- -- ...\" mengganti O(–––) dengan dua M(––)."
+    },
+    {
+      "id": "morse_010",
+      "type": "morse_to_text",
+      "question": "Terjemahkan kode Morse di atas menjadi teks yang tepat:",
+      "code": ".--. .- - .-. .. --- -",
+      "correctAnswer": "PATRIOT",
+      "options": ["PATRIOT", "PANITIA", "PATROLI", "PRASETYA"],
+      "explanation": "Kode \".--. .- - .-. .. --- -\" = P(·––·) A(·–) T(–) R(·–·) I(··) O(–––) T(–) = PATRIOT. Perhatikan O(–––) tiga garis di tengah kata. Pilihan \"PATROLI\" hampir sama tapi berakhir L(·–··) bukan T(–). Patriot artinya orang yang cinta tanah air."
+    },
+    {
+      "id": "morse_011",
+      "type": "morse_to_text",
+      "question": "Terjemahkan kode Morse di atas menjadi teks yang tepat:",
+      "code": "... . -- .- .--. .... --- .-. .",
+      "correctAnswer": "SEMAPHORE",
+      "options": ["SEMAPHORE", "SEMENTARA", "SAMPAH", "SEPAKAT"],
+      "explanation": "Kode \"... . -- .- .--. .... --- .-. .\" = S(···) E(·) M(––) A(·–) P(·––·) H(····) O(–––) R(·–·) E(·) = SEMAPHORE. Kata ini 9 huruf — latihan bagus! H = empat titik, mudah diingat. Semaphore adalah sistem isyarat bendera yang juga digunakan pramuka."
+    },
+    {
+      "id": "morse_012",
+      "type": "text_to_morse",
+      "question": "Pilih kode Morse yang tepat untuk kata \"DASA\":",
+      "code": "-.. .- ... .-",
+      "correctAnswer": "-.. .- ... .-",
+      "options": ["-.. .- ... .-", "-.. .- ... -", "-... .- ... .-", "-.. .. ... .-"],
+      "explanation": "DASA = D(–··) A(·–) S(···) A(·–). \"Dasa\" berarti sepuluh — ingat Dasadarma Pramuka yang berisi 10 butir. Bedakan D(–··) dengan B(–···): D punya dua titik setelah garis, B punya tiga titik. Cek pilihan salah ketiga: \"-... .- ...\" mengganti D(–··) dengan B(–···)."
+    }
+  ],
+  "badges": {
+    "morse_novice": {
+      "id": "morse_novice",
+      "name": "Kadet Morse",
+      "description": "Selesaikan 1 kuis Morse",
+      "icon": "⚡",
+      "category": "Morse",
+      "rarity": "common",
+      "xpRequired": 10
+    },
+    "morse_master": {
+      "id": "morse_master",
+      "name": "Master Morse",
+      "description": "Selesaikan kuis Morse dengan skor 100%",
+      "icon": "🚀",
+      "category": "Morse",
+      "rarity": "rare",
+      "xpRequired": 120
+    }
+  }
+}

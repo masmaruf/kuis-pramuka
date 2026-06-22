@@ -1,0 +1,719 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Dasa Darma & Trisatya Pramuka" description="Latihan Dasa Darma, Trisatya, Dwisatya, dan Dwidarma pramuka. Hafal dan pahami 10 Dasa Darma serta nilai-nilai luhur Gerakan Pramuka.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Dasa Darma &amp; Tri Satya</h2>
+				<span class="quiz-difficulty medium">Nilai &amp; Janji Kepramukaan</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<!-- Main Quiz Card -->
+			<div class="quiz-main-card glass-card">
+				<!-- Progress Tracker -->
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+					</div>
+				</div>
+
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">🌟 Dasa Darma &amp; Tri Satya</span>
+				</div>
+
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+
+				<div class="education-card" id="education-card" style="display: none;">
+					<div class="edu-header">
+						<span class="edu-icon">💡</span>
+						<span class="edu-label">Penjelasan</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<!-- Reference Sidebar -->
+			<div class="quiz-help-card glass-card">
+				<h3>10 Dasa Darma</h3>
+				<p class="help-subtitle">Pedoman moral &amp; perilaku Pramuka</p>
+				<ol class="darma-list">
+					<li>Takwa kepada Tuhan Yang Maha Esa</li>
+					<li>Cinta alam dan kasih sayang sesama manusia</li>
+					<li>Patriot yang sopan dan kesatria</li>
+					<li>Patuh dan suka bermusyawarah</li>
+					<li>Rela menolong dan tabah</li>
+					<li>Rajin, terampil, dan gembira</li>
+					<li>Hemat, cermat, dan bersahaja</li>
+					<li>Disiplin, berani, dan setia</li>
+					<li>Bertanggung jawab dan dapat dipercaya</li>
+					<li>Suci dalam pikiran, perkataan, dan perbuatan</li>
+				</ol>
+
+				<div class="help-divider"></div>
+
+				<h3>Tri Satya</h3>
+				<p class="help-subtitle">Janji Penggalang · Penegak · Pandega</p>
+				<div class="trisatya-text">
+					<p><em>Demi kehormatanku aku berjanji akan bersungguh-sungguh:</em></p>
+					<ol>
+						<li>Menjalankan kewajibanku terhadap Tuhan YME, NKRI, dan mengamalkan Pancasila;</li>
+						<li>Menolong sesama hidup dan mempersiapkan diri membangun masyarakat;</li>
+						<li>Menepati Dasadarma.</li>
+					</ol>
+				</div>
+
+				<div class="help-divider"></div>
+
+				<h3>Dwi Satya &amp; Dwi Darma</h3>
+				<p class="help-subtitle">Khusus golongan Siaga (7–10 tahun)</p>
+				<div class="trisatya-text">
+					<p><strong>Dwisatya</strong> — 2 ikrar janji Siaga</p>
+					<p><strong>Dwidarma</strong> — 2 darma:</p>
+					<ol>
+						<li>Siaga berbakti kepada ayah dan bundanya</li>
+						<li>Siaga berani dan tidak putus asa</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+
+		<!-- Result Overlay -->
+		<div class="result-overlay" id="result-overlay" style="display: none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text">Anda menjawab soal dengan baik.</p>
+				<div class="result-stats-details">
+					<div class="detail-item">
+						<span class="label">XP Diperoleh</span>
+						<span class="value score-xp" id="result-xp">+0 XP</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Skor Akhir</span>
+						<span class="value" id="result-score">0/100</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Jawaban Benar</span>
+						<span class="value" id="result-correct">0/10</span>
+					</div>
+				</div>
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display: none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	interface Question {
+		cat: string;
+		q: string;
+		options: string[];
+		correct: string;
+		edu: string;
+	}
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id: 'dasa_novice', name: 'Pramuka Berakhlak', icon: '🌟', desc: 'Selesaikan 1 kuis Dasa Darma' },
+		{ id: 'dasa_master', name: 'Teladan Dharma',    icon: '🏅', desc: 'Skor 100% pada kuis Dasa Darma' },
+	];
+
+	const QUESTIONS_POOL: Question[] = [
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-1 Dasadarma Pramuka?',
+			options: ['Takwa kepada Tuhan Yang Maha Esa','Cinta alam dan kasih sayang sesama manusia','Patriot yang sopan dan kesatria','Patuh dan suka bermusyawarah'],
+			correct: 'Takwa kepada Tuhan Yang Maha Esa',
+			edu: 'Darma pertama Dasadarma adalah "Takwa kepada Tuhan Yang Maha Esa". Ini menjadi fondasi utama karakter pramuka — ketakwaan kepada Tuhan adalah landasan dari semua tindakan dan perilaku seorang pramuka, mencerminkan sila pertama Pancasila.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-2 Dasadarma Pramuka?',
+			options: ['Patriot yang sopan dan kesatria','Cinta alam dan kasih sayang sesama manusia','Rela menolong dan tabah','Disiplin, berani, dan setia'],
+			correct: 'Cinta alam dan kasih sayang sesama manusia',
+			edu: 'Darma kedua adalah "Cinta alam dan kasih sayang sesama manusia". Darma ini mengajarkan kepedulian terhadap lingkungan hidup (menjaga kelestarian alam) dan rasa kasih sayang terhadap sesama manusia sebagai bagian dari ciptaan Tuhan.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-3 Dasadarma Pramuka?',
+			options: ['Rela menolong dan tabah','Patuh dan suka bermusyawarah','Patriot yang sopan dan kesatria','Rajin, terampil, dan gembira'],
+			correct: 'Patriot yang sopan dan kesatria',
+			edu: 'Darma ketiga adalah "Patriot yang sopan dan kesatria". Patriot berarti mencintai tanah air; sopan berarti berperilaku baik dan menghormati orang lain; kesatria berarti jujur, berani mengakui kebenaran, dan bertindak dengan kehormatan.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-4 Dasadarma Pramuka?',
+			options: ['Patuh dan suka bermusyawarah','Rela menolong dan tabah','Hemat, cermat, dan bersahaja','Rajin, terampil, dan gembira'],
+			correct: 'Patuh dan suka bermusyawarah',
+			edu: 'Darma keempat adalah "Patuh dan suka bermusyawarah". Pramuka diharapkan taat pada aturan yang sah serta terbiasa menyelesaikan masalah secara musyawarah mufakat — mencerminkan nilai demokrasi Pancasila.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-5 Dasadarma Pramuka?',
+			options: ['Rajin, terampil, dan gembira','Rela menolong dan tabah','Disiplin, berani, dan setia','Hemat, cermat, dan bersahaja'],
+			correct: 'Rela menolong dan tabah',
+			edu: 'Darma kelima adalah "Rela menolong dan tabah". Pramuka harus siap menolong sesama tanpa mengharapkan imbalan, dan memiliki ketabahan (tekad kuat) dalam menghadapi segala kesulitan dan tantangan hidup.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-6 Dasadarma Pramuka?',
+			options: ['Hemat, cermat, dan bersahaja','Disiplin, berani, dan setia','Rajin, terampil, dan gembira','Bertanggung jawab dan dapat dipercaya'],
+			correct: 'Rajin, terampil, dan gembira',
+			edu: 'Darma keenam adalah "Rajin, terampil, dan gembira". Rajin berarti tekun tidak mudah menyerah; terampil berarti terus mengembangkan kecakapan; gembira berarti menjalani hidup dengan semangat dan syukur, tidak mudah mengeluh.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-7 Dasadarma Pramuka?',
+			options: ['Disiplin, berani, dan setia','Hemat, cermat, dan bersahaja','Bertanggung jawab dan dapat dipercaya','Rajin, terampil, dan gembira'],
+			correct: 'Hemat, cermat, dan bersahaja',
+			edu: 'Darma ketujuh adalah "Hemat, cermat, dan bersahaja". Hemat: tidak boros sumber daya; cermat: teliti dan hati-hati dalam bertindak; bersahaja: hidup sederhana sesuai kebutuhan, tidak bermewah-mewahan.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-8 Dasadarma Pramuka?',
+			options: ['Bertanggung jawab dan dapat dipercaya','Suci dalam pikiran, perkataan, dan perbuatan','Disiplin, berani, dan setia','Hemat, cermat, dan bersahaja'],
+			correct: 'Disiplin, berani, dan setia',
+			edu: 'Darma kedelapan adalah "Disiplin, berani, dan setia". Disiplin: pengendalian diri dan tertib aturan; berani: keberanian moral melakukan yang benar meski sulit; setia: kesetiaan kepada Tuhan, negara, dan nilai-nilai luhur.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-9 Dasadarma Pramuka?',
+			options: ['Suci dalam pikiran, perkataan, dan perbuatan','Disiplin, berani, dan setia','Patriot yang sopan dan kesatria','Bertanggung jawab dan dapat dipercaya'],
+			correct: 'Bertanggung jawab dan dapat dipercaya',
+			edu: 'Darma kesembilan adalah "Bertanggung jawab dan dapat dipercaya". Pramuka harus berani menanggung konsekuensi dari setiap tindakannya, menepati janji, dan menjaga amanah yang diberikan kepadanya.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Apa isi Darma ke-10 Dasadarma Pramuka?',
+			options: ['Patriot yang sopan dan kesatria','Bertanggung jawab dan dapat dipercaya','Suci dalam pikiran, perkataan, dan perbuatan','Cinta alam dan kasih sayang sesama manusia'],
+			correct: 'Suci dalam pikiran, perkataan, dan perbuatan',
+			edu: 'Darma kesepuluh adalah "Suci dalam pikiran, perkataan, dan perbuatan" — darma tertinggi. Pikiran (niat murni), perkataan (jujur tidak menyakiti), dan perbuatan (integritas nyata). Darma ini mengajak pramuka memiliki kemurnian karakter secara menyeluruh.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Berapa jumlah darma dalam Dasadarma Pramuka?',
+			options: ['5 darma','7 darma','10 darma','12 darma'],
+			correct: '10 darma',
+			edu: 'Dasadarma terdiri dari 10 (dasa = sepuluh) darma yang menjadi pedoman moral pramuka golongan Penggalang, Penegak, dan Pandega. Setiap darma memiliki makna mendalam dan saling melengkapi untuk membentuk karakter pramuka yang paripurna.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Kata "Dasa" dalam Dasadarma berasal dari bahasa Sansekerta yang berarti...',
+			options: ['Kewajiban','Sepuluh','Dasar','Kemuliaan'],
+			correct: 'Sepuluh',
+			edu: 'Kata "Dasa" dari bahasa Sansekerta berarti sepuluh. "Darma" juga dari Sansekerta yang berarti kewajiban/pengabdian/kebajikan. Jadi Dasadarma = Sepuluh Kewajiban/Kebajikan. Penggunaan kata Sansekerta mencerminkan kekayaan budaya Indonesia yang menyerap tradisi Hindu-Buddha Nusantara.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: '"Rela menolong dan tabah" adalah darma keberapa dalam Dasadarma?',
+			options: ['Darma ke-4','Darma ke-5','Darma ke-6','Darma ke-7'],
+			correct: 'Darma ke-5',
+			edu: 'Rela menolong dan tabah adalah Darma ke-5. Darma ini mengajarkan dua hal: kerelaan menolong sesama tanpa pamrih, dan ketabahan dalam menghadapi kesulitan. Keduanya mencerminkan karakter pramuka yang siap berkorban untuk kebaikan bersama.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: '"Hemat, cermat, dan bersahaja" adalah darma keberapa?',
+			options: ['Darma ke-5','Darma ke-6','Darma ke-7','Darma ke-8'],
+			correct: 'Darma ke-7',
+			edu: 'Hemat, cermat, dan bersahaja adalah Darma ke-7. Hemat: tidak boros; cermat: teliti dan hati-hati; bersahaja: hidup sederhana. Ketiga nilai ini mengajarkan pengelolaan sumber daya yang bijak dan hidup sesuai kebutuhan, bukan keinginan semata.',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Darma Dasadarma yang berkaitan langsung dengan pelestarian lingkungan hidup adalah...',
+			options: ['Darma ke-1 (Takwa kepada Tuhan)','Darma ke-2 (Cinta alam)','Darma ke-5 (Rela menolong)','Darma ke-9 (Bertanggung jawab)'],
+			correct: 'Darma ke-2 (Cinta alam)',
+			edu: 'Darma ke-2 "Cinta alam dan kasih sayang sesama manusia" berkaitan langsung dengan pelestarian lingkungan. Pramuka aktif menjaga kebersihan lingkungan, penanaman pohon, tidak merusak alam, dan peduli terhadap kelestarian flora dan fauna.',
+		},
+		{
+			cat: 'Trisatya',
+			q: 'Janji kepramukaan yang diucapkan oleh golongan Penggalang, Penegak, dan Pandega disebut...',
+			options: ['Dwidarma','Dwisatya','Trisatya','Pancadarma'],
+			correct: 'Trisatya',
+			edu: 'Trisatya adalah janji (satya) yang terdiri dari tiga (tri) ikrar, diucapkan oleh pramuka Penggalang (11-15 th), Penegak (16-20 th), dan Pandega (21-25 th). Isinya: kewajiban kepada Tuhan dan negara, menolong sesama, serta menepati Dasadarma.',
+		},
+		{
+			cat: 'Trisatya',
+			q: 'Trisatya Pramuka terdiri dari berapa ikrar?',
+			options: ['1 ikrar','2 ikrar','3 ikrar','4 ikrar'],
+			correct: '3 ikrar',
+			edu: 'Trisatya terdiri dari tiga (tri) ikrar: (1) menjalankan kewajiban terhadap Tuhan YME, NKRI, dan mengamalkan Pancasila; (2) menolong sesama hidup dan mempersiapkan diri membangun masyarakat; (3) menepati Dasadarma.',
+		},
+		{
+			cat: 'Trisatya',
+			q: '"Menepati Dasadarma" adalah ikrar keberapa dalam Trisatya?',
+			options: ['Pertama','Kedua','Ketiga','Keempat'],
+			correct: 'Ketiga',
+			edu: 'Menepati Dasadarma adalah ikrar ketiga (terakhir) Trisatya. Urutan: (1) kewajiban kepada Tuhan, NKRI, Pancasila; (2) menolong sesama dan membangun masyarakat; (3) menepati Dasadarma. Dengan Trisatya, pramuka berkomitmen menjalankan kehidupan sesuai Dasadarma.',
+		},
+		{
+			cat: 'Trisatya',
+			q: 'Ikrar pertama dalam Trisatya Pramuka adalah...',
+			options: [
+				'Menolong sesama hidup dan mempersiapkan diri membangun masyarakat',
+				'Menepati Dasadarma',
+				'Menjalankan kewajibanku terhadap Tuhan YME, NKRI, dan mengamalkan Pancasila',
+				'Menjaga persatuan dan kesatuan bangsa',
+			],
+			correct: 'Menjalankan kewajibanku terhadap Tuhan YME, NKRI, dan mengamalkan Pancasila',
+			edu: 'Ikrar pertama Trisatya adalah "Menjalankan kewajibanku terhadap Tuhan Yang Maha Esa, Negara Kesatuan Republik Indonesia, dan mengamalkan Pancasila". Ini menjadi ikrar pertama karena kewajiban kepada Tuhan dan negara merupakan fondasi utama pramuka.',
+		},
+		{
+			cat: 'Trisatya',
+			q: 'Ikrar kedua dalam Trisatya Pramuka adalah...',
+			options: [
+				'Menepati Dasadarma',
+				'Menjalankan kewajiban terhadap Tuhan dan negara',
+				'Menolong sesama hidup dan mempersiapkan diri membangun masyarakat',
+				'Menjaga persatuan NKRI',
+			],
+			correct: 'Menolong sesama hidup dan mempersiapkan diri membangun masyarakat',
+			edu: 'Ikrar kedua Trisatya adalah "Menolong sesama hidup dan mempersiapkan diri membangun masyarakat". Ini mencerminkan orientasi sosial pramuka — aktif menolong sesama dan mempersiapkan keterampilan agar bisa berkontribusi nyata bagi pembangunan masyarakat.',
+		},
+		{
+			cat: 'Dwisatya & Dwidarma',
+			q: 'Janji kepramukaan yang diucapkan oleh golongan Siaga disebut...',
+			options: ['Trisatya','Dwidarma','Dwisatya','Pancasatya'],
+			correct: 'Dwisatya',
+			edu: 'Dwisatya adalah janji khusus golongan Siaga (7-10 tahun), terdiri dari dua (dwi) ikrar: (1) menjalankan kewajiban terhadap Tuhan, NKRI, dan mengikuti tatakrama keluarga; (2) setiap hari berbuat kebaikan. Lebih sederhana dari Trisatya dan disesuaikan usia anak-anak.',
+		},
+		{
+			cat: 'Dwisatya & Dwidarma',
+			q: 'Kode darma untuk golongan Siaga disebut...',
+			options: ['Dasadarma','Trisatya','Dwidarma','Pancadarma'],
+			correct: 'Dwidarma',
+			edu: 'Dwidarma adalah kode darma khusus Siaga, terdiri dari dua darma: (1) "Siaga berbakti kepada ayah dan bundanya" — mengajarkan bakti kepada orang tua; (2) "Siaga berani dan tidak putus asa" — membangun keberanian dan ketangguhan. Disesuaikan dengan pemahaman anak usia 7-10 tahun.',
+		},
+		{
+			cat: 'Dwisatya & Dwidarma',
+			q: 'Dwidarma golongan Siaga terdiri dari berapa darma?',
+			options: ['1 darma','2 darma','3 darma','5 darma'],
+			correct: '2 darma',
+			edu: 'Dwidarma terdiri dari dua (dwi) darma: (1) "Siaga berbakti kepada ayah dan bundanya", dan (2) "Siaga berani dan tidak putus asa". Kedua darma ini mengutamakan bakti kepada orang tua dan pembangunan karakter pemberani yang pantang menyerah.',
+		},
+		{
+			cat: 'Dwisatya & Dwidarma',
+			q: 'Golongan pramuka yang TIDAK menggunakan Trisatya sebagai janjinya adalah...',
+			options: ['Penggalang (11-15 tahun)','Penegak (16-20 tahun)','Pandega (21-25 tahun)','Siaga (7-10 tahun)'],
+			correct: 'Siaga (7-10 tahun)',
+			edu: 'Siaga menggunakan Dwisatya, bukan Trisatya. Perbedaan ini mencerminkan pendekatan pendidikan kepramukaan yang bertahap sesuai usia. Penggalang, Penegak, dan Pandega semuanya menggunakan Trisatya yang memiliki tiga ikrar lebih lengkap.',
+		},
+		{
+			cat: 'Penerapan Nilai',
+			q: 'Semboyan Gerakan Pramuka Indonesia "Satyaku Kudarmakan, Darmaku Kubaktikan" mencerminkan...',
+			options: [
+				'Hanya Trisatya saja',
+				'Hanya Dasadarma saja',
+				'Kesatuan antara janji (Trisatya) dan pedoman hidup (Dasadarma)',
+				'Semboyan kebangsaan Indonesia',
+			],
+			correct: 'Kesatuan antara janji (Trisatya) dan pedoman hidup (Dasadarma)',
+			edu: 'Motto "Satyaku Kudarmakan, Darmaku Kubaktikan" mencerminkan hubungan erat antara satya (janji/Trisatya) dan darma (Dasadarma). Artinya: janji yang kuucapkan akan kuwujudkan melalui darma, dan darma itu kubaktikan dalam kehidupan nyata.',
+		},
+		{
+			cat: 'Penerapan Nilai',
+			q: 'Hubungan antara Trisatya dan Dasadarma dalam kepramukaan adalah...',
+			options: [
+				'Trisatya dan Dasadarma adalah hal yang sama',
+				'Trisatya adalah janji untuk menepati Dasadarma sebagai pedoman hidup',
+				'Dasadarma adalah janji dan Trisatya adalah pedoman hidup',
+				'Keduanya tidak saling berkaitan',
+			],
+			correct: 'Trisatya adalah janji untuk menepati Dasadarma sebagai pedoman hidup',
+			edu: 'Trisatya dan Dasadarma saling berkaitan erat. Dalam Trisatya, ikrar ketiga secara eksplisit menyebutkan "Menepati Dasadarma". Artinya, dengan mengucapkan Trisatya, pramuka berjanji menjalankan kehidupannya sesuai 10 nilai Dasadarma. Trisatya adalah komitmen; Dasadarma adalah isi komitmen itu.',
+		},
+		{
+			cat: 'Penerapan Nilai',
+			q: 'Penerapan Darma ke-2 "Cinta alam" dalam kehidupan sehari-hari seorang pramuka adalah...',
+			options: [
+				'Mengadakan semua kegiatan di dalam ruangan',
+				'Ikut serta dalam kegiatan bersih lingkungan dan tidak membuang sampah sembarangan',
+				'Hanya fokus pada kegiatan yang menguntungkan pribadi',
+				'Menghindari kontak dengan alam bebas',
+			],
+			correct: 'Ikut serta dalam kegiatan bersih lingkungan dan tidak membuang sampah sembarangan',
+			edu: 'Darma ke-2 diwujudkan melalui: menjaga kebersihan lingkungan, penanaman pohon, tidak membuang sampah sembarangan, menjaga kelestarian flora dan fauna, serta aktif dalam kegiatan pelestarian lingkungan seperti bakti alam.',
+		},
+		{
+			cat: 'Penerapan Nilai',
+			q: 'Makna "Suci dalam pikiran, perkataan, dan perbuatan" (darma ke-10) yang paling tepat adalah...',
+			options: [
+				'Selalu menggunakan pakaian bersih saat berkegiatan',
+				'Menjaga niat baik, berkata jujur, dan bertindak dengan integritas',
+				'Menghindari semua kegiatan yang kotor secara fisik',
+				'Mengutamakan kebersihan tempat tinggal',
+			],
+			correct: 'Menjaga niat baik, berkata jujur, dan bertindak dengan integritas',
+			edu: 'Darma ke-10 mencakup tiga dimensi: pikiran (niat yang murni dan positif), perkataan (jujur, tidak berbohong atau menyakiti), dan perbuatan (bertindak dengan integritas). Darma ini mengajak kemurnian karakter dari dalam hati hingga tindakan nyata.',
+		},
+		{
+			cat: 'Penerapan Nilai',
+			q: 'Seorang pramuka yang "bertanggung jawab dan dapat dipercaya" (darma ke-9) tercermin dalam...',
+			options: [
+				'Selalu menghindari tanggung jawab agar tidak salah',
+				'Menepati janji dan berani mengakui kesalahan',
+				'Melimpahkan tugas kepada orang lain',
+				'Memilih tugas yang mudah saja',
+			],
+			correct: 'Menepati janji dan berani mengakui kesalahan',
+			edu: 'Darma ke-9 tercermin dalam: menepati setiap janji, berani mengakui kesalahan dan menanggung konsekuensinya, tidak menyalahkan orang lain, dan menjaga amanah. Integritas ini membangun kepercayaan orang lain kepada seorang pramuka.',
+		},
+		{
+			cat: 'Penerapan Nilai',
+			q: 'Nilai "Rajin, terampil, dan gembira" (darma ke-6) mencerminkan pramuka yang...',
+			options: [
+				'Selalu bekerja keras tanpa istirahat',
+				'Tekun belajar dan bekerja, memiliki keterampilan, dan bersemangat menjalani hidup',
+				'Hanya gembira saja tanpa harus bekerja keras',
+				'Terampil hanya dalam kegiatan kepramukaan formal',
+			],
+			correct: 'Tekun belajar dan bekerja, memiliki keterampilan, dan bersemangat menjalani hidup',
+			edu: 'Darma ke-6 mengajarkan keseimbangan: Rajin (tekun tidak mudah menyerah dalam belajar/bekerja), Terampil (terus mengembangkan kecakapan diri), dan Gembira (menjalani hidup dengan semangat dan syukur, tidak mudah mengeluh).',
+		},
+		{
+			cat: 'Dasadarma',
+			q: 'Urutan yang benar dari Darma ke-6 hingga ke-8 Dasadarma adalah...',
+			options: [
+				'Rajin terampil gembira → Hemat cermat bersahaja → Disiplin berani setia',
+				'Hemat cermat bersahaja → Rajin terampil gembira → Disiplin berani setia',
+				'Disiplin berani setia → Hemat cermat bersahaja → Rajin terampil gembira',
+				'Rela menolong tabah → Rajin terampil gembira → Hemat cermat bersahaja',
+			],
+			correct: 'Rajin terampil gembira → Hemat cermat bersahaja → Disiplin berani setia',
+			edu: 'Urutan Darma ke-6, 7, dan 8 adalah: ke-6 "Rajin, terampil, dan gembira" → ke-7 "Hemat, cermat, dan bersahaja" → ke-8 "Disiplin, berani, dan setia". Ketiganya berkaitan dengan pengembangan diri dan karakter yang kuat dalam kehidupan sehari-hari.',
+		},
+		{
+			cat: 'Trisatya',
+			q: 'Kata "Satya" dalam Trisatya berasal dari bahasa Sansekerta yang berarti...',
+			options: ['Darma','Janji/kebenaran','Kewajiban','Keberanian'],
+			correct: 'Janji/kebenaran',
+			edu: 'Kata "Satya" dari bahasa Sansekerta berarti janji, kebenaran, atau kejujuran. Jadi Trisatya = Tiga Janji. Dalam kepramukaan, Trisatya adalah ikrar suci yang diucapkan pramuka sebagai komitmen menjalankan kehidupan sesuai nilai-nilai kepramukaan.',
+		},
+	];
+
+	// ─── Helpers ────────────────────────────────────────────────────────────────
+
+	function getEl<T extends HTMLElement>(id: string) {
+		return document.getElementById(id) as T | null;
+	}
+
+	function shuffle<T>(arr: T[]): T[] {
+		const a = [...arr];
+		for (let i = a.length - 1; i > 0; i--) {
+			const j = Math.floor(Math.random() * (i + 1));
+			[a[i], a[j]] = [a[j], a[i]];
+		}
+		return a;
+	}
+
+	// ─── State ──────────────────────────────────────────────────────────────────
+
+	let questions: Question[] = [];
+	let currentIndex = 0;
+	let selectedAnswer = '';
+	let score = 0;
+	let totalXpEarned = 0;
+
+	// ─── Init ───────────────────────────────────────────────────────────────────
+
+	function startQuiz() {
+		questions = shuffle(QUESTIONS_POOL).slice(0, QUESTIONS_PER_SESSION);
+		currentIndex = 0;
+		score = 0;
+		totalXpEarned = 0;
+		selectedAnswer = '';
+		renderQuestion();
+	}
+
+	// ─── Render Soal ────────────────────────────────────────────────────────────
+
+	function renderQuestion() {
+		const q = questions[currentIndex];
+		const num = currentIndex + 1;
+
+		getEl('question-number')!.textContent = `Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		const pct = Math.round((num / QUESTIONS_PER_SESSION) * 100);
+		getEl('progress-pct')!.textContent = `${pct}%`;
+		(getEl('quiz-progress-bar') as HTMLElement).style.width = `${pct}%`;
+		getEl('question-prompt')!.textContent = q.q;
+
+		const catPill = getEl('question-category')?.querySelector('.cat-pill');
+		if (catPill) catPill.textContent = `🌟 ${q.cat}`;
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		if (eduCard) eduCard.style.display = 'none';
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.disabled = true;
+			submitBtn.textContent = 'Konfirmasi Jawaban';
+			submitBtn.onclick = submitAnswer;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) { hint.textContent = 'Pilih salah satu jawaban di atas'; hint.className = 'answer-hint'; }
+
+		selectedAnswer = '';
+		renderOptions(q);
+	}
+
+	function renderOptions(q: Question) {
+		const container = getEl<HTMLDivElement>('options-container');
+		if (!container) return;
+		const shuffled = shuffle(q.options);
+		container.innerHTML = shuffled.map((opt, i) => `
+			<button class="opt-btn" data-answer="${opt.replace(/"/g, '&quot;')}" style="animation-delay:${i * 0.07}s">
+				<span class="opt-letter">${String.fromCharCode(65 + i)}</span>
+				<span class="opt-text">${opt}</span>
+			</button>`).join('');
+
+		container.querySelectorAll('.opt-btn').forEach((btn, i) => {
+			btn.addEventListener('click', () => {
+				container.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');
+				selectedAnswer = (btn as HTMLElement).dataset.answer || '';
+				const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+				if (submitBtn) submitBtn.disabled = false;
+				const hint = getEl('answer-hint');
+				if (hint) { hint.textContent = `Jawaban ${String.fromCharCode(65 + i)} dipilih — klik Konfirmasi untuk lanjut`; hint.className = 'answer-hint chosen'; }
+			});
+		});
+	}
+
+	// ─── Submit ─────────────────────────────────────────────────────────────────
+
+	function submitAnswer() {
+		const q = questions[currentIndex];
+		const isCorrect = selectedAnswer === q.correct;
+		if (isCorrect) { score++; totalXpEarned += XP_PER_CORRECT; }
+
+		const container = getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn => {
+			const el = btn as HTMLElement;
+			const ans = el.dataset.answer || '';
+			el.classList.add('is-answered');
+			el.classList.remove('is-selected');
+			if (ans === q.correct)                          el.classList.add('is-correct');
+			else if (ans === selectedAnswer && !isCorrect)  el.classList.add('is-incorrect');
+			else                                            el.classList.add('is-dimmed');
+		});
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		const eduText = getEl('education-text');
+		if (eduCard && eduText) {
+			eduText.textContent = q.edu;
+			eduCard.style.display = 'flex';
+			eduCard.className = `education-card ${isCorrect ? 'correct' : 'incorrect'}`;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) {
+			hint.textContent = isCorrect ? '✓ Jawaban benar!' : '✗ Jawaban salah — lihat penjelasan di bawah.';
+			hint.className = `answer-hint ${isCorrect ? 'correct-hint' : 'wrong-hint'}`;
+		}
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.textContent = currentIndex < QUESTIONS_PER_SESSION - 1 ? 'Soal Berikutnya →' : 'Lihat Hasil';
+			submitBtn.disabled = false;
+			submitBtn.onclick = nextQuestion;
+		}
+	}
+
+	function nextQuestion() {
+		currentIndex++;
+		if (currentIndex < QUESTIONS_PER_SESSION) {
+			renderQuestion();
+			const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+			if (submitBtn) submitBtn.onclick = submitAnswer;
+		} else {
+			showResult();
+		}
+	}
+
+	// ─── Hasil ──────────────────────────────────────────────────────────────────
+
+	function showResult() {
+		const pct = Math.round((score / QUESTIONS_PER_SESSION) * 100);
+
+		const currentXp = parseInt(localStorage.getItem('scout_xp') || '0');
+		localStorage.setItem('scout_xp', (currentXp + totalXpEarned).toString());
+
+		const earnedBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+		const newlyUnlocked: typeof BADGES_FOR_THIS_QUIZ = [];
+
+		if (!earnedBadges.includes('dasa_novice')) {
+			earnedBadges.push('dasa_novice');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);
+		}
+		if (pct === 100 && !earnedBadges.includes('dasa_master')) {
+			earnedBadges.push('dasa_master');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);
+		}
+		localStorage.setItem('scout_badges', JSON.stringify(earnedBadges));
+
+		getEl('result-emoji')!.textContent = pct === 100 ? '🏅' : pct >= 70 ? '🌟' : '📖';
+		getEl('result-title')!.textContent  = pct === 100 ? 'Sempurna! Kamu Teladan Dharma!' : pct >= 70 ? 'Bagus! Kamu Memahami Nilai Pramuka' : 'Terus Belajar!';
+		getEl('result-text')!.textContent   = `Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct >= 80 ? 'Kamu memahami Dasadarma dan Trisatya dengan baik!' : 'Pelajari kembali 10 Dasadarma dan isi Trisatya.'}`;
+		getEl('result-xp')!.textContent     = `+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent  = `${pct}/100`;
+		getEl('result-correct')!.textContent= `${score}/${QUESTIONS_PER_SESSION}`;
+
+		if (newlyUnlocked.length > 0) {
+			const badgesCtr = getEl('unlocked-badges');
+			const badgesList = getEl('badges-list-el');
+			if (badgesCtr && badgesList) {
+				badgesList.innerHTML = newlyUnlocked.map(b => `<div class="badge-item-result">${b.icon} <strong>${b.name}</strong></div>`).join('');
+				badgesCtr.style.display = 'block';
+			}
+		}
+
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'flex';
+
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click', submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click', () => {
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'none';
+		startQuiz();
+	});
+
+	startQuiz();
+</script>
+
+<style>
+	/* ── reuse quiz page styles identical to other quiz pages ── */
+	.quiz-container { max-width: 1100px; margin: 0 auto; padding: 1.5rem 1.25rem 3rem; }
+	.quiz-header { display: flex; align-items: center; gap: 1.5rem; padding: 1rem 1.25rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+	.btn-back { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted); text-decoration: none; font-size: 0.85rem; font-weight: 500; flex-shrink: 0; }
+	.btn-back svg { width: 16px; height: 16px; }
+	.btn-back:hover { color: var(--color-primary); }
+	.quiz-title-area h2 { font-size: 1.2rem; font-weight: 700; color: var(--color-primary-dark); }
+	.quiz-difficulty { font-size: 0.75rem; font-weight: 600; padding: 0.2rem 0.6rem; border-radius: var(--radius-full); background: rgba(178,131,27,0.12); color: var(--color-gold); }
+
+	.quiz-layout { display: grid; grid-template-columns: 1fr 300px; gap: 1.25rem; align-items: start; }
+	@media (max-width: 860px) { .quiz-layout { grid-template-columns: 1fr; } }
+
+	.quiz-main-card, .quiz-help-card { border-radius: var(--radius-lg); padding: 1.5rem; background: var(--color-surface); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); }
+	.glass-card { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+
+	.progress-tracker { margin-bottom: 1.25rem; }
+	.progress-label { display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.8rem; color: var(--color-text-muted); font-weight: 500; }
+	.pct-label { font-weight: 700; color: var(--color-primary); }
+	.progress-bar-outer { height: 6px; background: var(--color-border); border-radius: var(--radius-full); overflow: hidden; }
+	.progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--color-primary), var(--color-primary-light)); border-radius: var(--radius-full); transition: width 0.4s ease; }
+
+	.question-category { margin-bottom: 0.75rem; }
+	.cat-pill { display: inline-flex; align-items: center; gap: 0.35rem; font-size: 0.74rem; font-weight: 600; padding: 0.25rem 0.7rem; border-radius: var(--radius-full); background: rgba(27,77,50,0.08); color: var(--color-primary); border: 1px solid var(--color-border); }
+
+	.question-text-area { margin-bottom: 1.25rem; }
+	.question-text-area h3 { font-size: 1.1rem; font-weight: 600; color: var(--color-text); line-height: 1.55; }
+
+	.opt-btn {
+		display: flex; align-items: center; gap: 0.85rem;
+		width: 100%; text-align: left; padding: 0.8rem 1rem;
+		background: var(--color-surface-solid); border: 1.5px solid var(--color-border);
+		border-radius: var(--radius-md); cursor: pointer; font-family: var(--font-main);
+		font-size: 0.88rem; color: var(--color-text); transition: all var(--transition-fast);
+		animation: fadeUp 0.35s both;
+	}
+	.opt-btn:hover:not(.is-answered) { border-color: var(--color-primary); background: rgba(27,77,50,0.04); }
+	.opt-btn.is-selected { border-color: var(--color-primary); background: rgba(27,77,50,0.08); }
+	.opt-btn.is-correct   { border-color: var(--color-success); background: rgba(35,108,50,0.1); color: var(--color-success); }
+	.opt-btn.is-incorrect { border-color: var(--color-danger);  background: rgba(165,48,26,0.08); color: var(--color-danger); }
+	.opt-btn.is-dimmed    { opacity: 0.45; }
+	.opt-btn.is-answered  { cursor: default; pointer-events: none; }
+	.opt-letter { display: inline-flex; align-items: center; justify-content: center; width: 26px; height: 26px; border-radius: 50%; background: var(--color-border); font-size: 0.75rem; font-weight: 700; flex-shrink: 0; color: var(--color-text-muted); }
+	.opt-btn.is-selected .opt-letter  { background: var(--color-primary); color: #fff; }
+	.opt-btn.is-correct  .opt-letter  { background: var(--color-success); color: #fff; }
+	.opt-btn.is-incorrect .opt-letter { background: var(--color-danger); color: #fff; }
+
+	@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+	.education-card { display: flex; flex-direction: column; gap: 0.5rem; padding: 1rem; border-radius: var(--radius-md); margin-top: 1rem; border: 1px solid var(--color-border); background: var(--color-surface); }
+	.education-card.correct { border-color: rgba(35,108,50,0.3); background: rgba(35,108,50,0.05); }
+	.education-card.incorrect { border-color: rgba(165,48,26,0.25); background: rgba(165,48,26,0.04); }
+	.edu-header { display: flex; align-items: center; gap: 0.5rem; }
+	.edu-icon { font-size: 1rem; }
+	.edu-label { font-size: 0.75rem; font-weight: 700; color: var(--color-primary); text-transform: uppercase; letter-spacing: 0.5px; }
+	#education-text { font-size: 0.83rem; color: var(--color-text-muted); line-height: 1.6; }
+
+	.action-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1.25rem; flex-wrap: wrap; }
+	.answer-hint { font-size: 0.8rem; color: var(--color-text-faint); font-style: italic; }
+	.answer-hint.chosen       { color: var(--color-primary-light); font-style: normal; font-weight: 600; }
+	.answer-hint.correct-hint { color: var(--color-success); font-style: normal; font-weight: 600; }
+	.answer-hint.wrong-hint   { color: var(--color-danger);  font-style: normal; font-weight: 600; }
+
+	.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.7rem 1.5rem; border-radius: var(--radius-md); font-family: var(--font-main); font-size: 0.9rem; font-weight: 600; border: none; cursor: pointer; text-decoration: none; transition: all var(--transition-fast); }
+	.btn-gold    { background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light)); color: #fff; }
+	.btn-gold:hover { filter: brightness(1.08); transform: translateY(-1px); }
+	.btn-gold:disabled { opacity: 0.5; cursor: not-allowed; filter: none; transform: none; }
+	.btn-primary { background: var(--color-primary); color: #fff; }
+	.btn-primary:hover { background: var(--color-primary-light); }
+
+	/* Sidebar */
+	.quiz-help-card h3 { font-size: 0.9rem; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 0.3rem; }
+	.help-subtitle { font-size: 0.72rem; color: var(--color-text-faint); margin-bottom: 0.75rem; }
+	.help-divider { height: 1px; background: var(--color-border); margin: 1rem 0; }
+
+	.darma-list { padding-left: 1.25rem; display: flex; flex-direction: column; gap: 0.35rem; }
+	.darma-list li { font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.4; }
+	.darma-list li::marker { color: var(--color-primary); font-weight: 700; }
+
+	.trisatya-text { font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.55; }
+	.trisatya-text p { margin-bottom: 0.4rem; }
+	.trisatya-text ol { padding-left: 1.2rem; display: flex; flex-direction: column; gap: 0.3rem; }
+
+	/* Result Overlay */
+	.result-overlay { position: fixed; inset: 0; background: rgba(10,25,16,.88); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 1.5rem; }
+	.result-card { max-width: 440px; width: 100%; padding: 2rem 1.75rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.75rem; max-height: 90vh; overflow-y: auto; }
+	.result-emoji { font-size: 3rem; }
+	.result-card h2 { font-size: 1.5rem; font-weight: 800; color: var(--color-primary-dark); }
+	.result-summary { font-size: 0.88rem; color: var(--color-text-muted); line-height: 1.55; }
+	.result-stats-details { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; width: 100%; }
+	.detail-item { display: flex; flex-direction: column; gap: 0.2rem; align-items: center; }
+	.detail-item .label { font-size: 0.72rem; color: var(--color-text-faint); font-weight: 500; text-transform: uppercase; letter-spacing: 0.4px; }
+	.detail-item .value { font-size: 1.2rem; font-weight: 800; color: var(--color-primary-dark); }
+	.score-xp { color: var(--color-gold) !important; }
+	.unlocked-badges-container { width: 100%; background: rgba(212,163,43,0.08); border: 1px solid rgba(212,163,43,0.25); border-radius: var(--radius-md); padding: 0.85rem; }
+	.unlocked-badges-container h3 { font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; }
+	.unlocked-badges-list { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+	.badge-item-result { font-size: 0.82rem; background: var(--color-surface-solid); border: 1px solid var(--color-border); border-radius: var(--radius-sm); padding: 0.35rem 0.7rem; }
+	.result-actions { display: flex; gap: 0.75rem; width: 100%; flex-wrap: wrap; }
+	.result-actions .btn { flex: 1; }
+</style>

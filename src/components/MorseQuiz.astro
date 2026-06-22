@@ -1,0 +1,931 @@
+---
+/**
+ * MorseQuiz.astro - Specialized Morse Code Quiz Component
+ * Komponen kuis khusus untuk Kode Morse dengan audio dan visual
+ * 
+ * TypeScript enabled with strict type checking
+ */
+
+import type { QuizModule, Question, GameModeType, Badge } from '../types/quiz';
+
+interface Props {
+  quizId: string;
+  level?: string;
+  totalQuestions?: number;
+  mode?: GameModeType;
+}
+
+const { quizId, level, totalQuestions = 10, mode = 'standard' } = Astro.props;
+
+// Morse-specific types
+interface MorseQuizData extends QuizModule {
+  morseMap: Record<string, string>;
+  hasAudio: boolean;
+  hasVisual: boolean;
+}
+
+// Game modes configuration
+const GAME_MODES: Record<GameModeType, { xpMultiplier: number; timeLimit?: number; lives?: number }> = {
+  standard: { xpMultiplier: 1.0 },
+  time_attack: { xpMultiplier: 1.5, timeLimit: 300 },
+  no_mistake: { xpMultiplier: 2.0, lives: 1 },
+  daily: { xpMultiplier: 1.2 },
+  duel: { xpMultiplier: 1.5 },
+  survival: { xpMultiplier: 1.0 }
+} as const;
+
+const currentMode = GAME_MODES[mode];
+
+// Difficulty colors and labels
+const DIFFICULTY_COLORS: Record<string, string> = {
+  easy: 'green',
+  medium: 'red',
+  hard: 'yellow',
+  mix: 'purple'
+} as const;
+
+const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: 'Mudah',
+  medium: 'Sedang',
+  hard: 'Sulit',
+  mix: 'Campuran'
+} as const;
+
+// Badge definitions for Morse module
+const MORSE_BADGES: Record<string, Badge> = {
+  morse_novice: {
+    id: 'morse_novice',
+    name: 'Kadet Morse',
+    description: 'Selesaikan 1 kuis Morse',
+    icon: '⚡',
+    category: 'Morse',
+    rarity: 'common'
+  },
+  morse_master: {
+    id: 'morse_master',
+    name: 'Master Morse',
+    description: 'Selesaikan kuis Morse dengan skor 100%',
+    icon: '🚀',
+    category: 'Morse',
+    rarity: 'rare'
+  }
+} as const;
+
+// State for quiz data
+let quizData: MorseQuizData | null = null;
+let questions: Question[] = [];
+let quizMetadata: Partial<MorseQuizData> = {};
+let morseMap: Record<string, string> = {};
+let helpContent: { title: string; content: string } | null = null;
+
+// Load Morse quiz data
+try {
+  const morseQuiz: MorseQuizData = await import(`../data/quizzes/${quizId}.json`).then(m => m.default);
+  quizData = morseQuiz;
+  questions = morseQuiz.questions || [];
+  quizMetadata = { ...quizMetadata, ...morseQuiz };
+  morseMap = morseQuiz.morseMap || {};
+  helpContent = morseQuiz.helpContent || null;
+} catch (e: unknown) {
+  console.error('Failed to load Morse quiz data:', quizId, e);
+  // Fallback empty data
+  questions = [];
+  quizMetadata = {
+    id: quizId,
+    title: 'Kode Morse',
+    description: 'Latihan kode Morse pramuka',
+    category: 'Komunikasi & Isyarat',
+    difficulty: 'medium',
+    xpPerQuestion: 12,
+    totalQuestions: 12,
+    color: 'blue',
+    icon: '📡',
+    hasAudio: true,
+    hasVisual: true
+  };
+  morseMap = {
+    'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+    'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+    'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+    'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+    'Y': '-.--', 'Z': '--..'
+  };
+}
+
+// Shuffle questions and limit to totalQuestions
+function getShuffledQuestions(questionsPool: Question[], count: number): Question[] {
+  const shuffled = [...questionsPool].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
+
+const selectedQuestions: Question[] = getShuffledQuestions(questions, totalQuestions);
+const xpPerQuestion: number = quizMetadata.xpPerQuestion || 12;
+const difficulty: string = quizMetadata.difficulty || 'medium';
+const quizColor: string = quizMetadata.color || 'blue';
+const quizIcon: string = quizMetadata.icon || '📡';
+const quizCategory: string = quizMetadata.category || 'Komunikasi & Isyarat';
+const hasAudio: boolean = quizMetadata.hasAudio || false;
+const hasVisual: boolean = quizMetadata.hasVisual || false;
+
+// Calculate XP multiplier based on mode
+const xpMultiplier: number = currentMode.xpMultiplier;
+
+// Helper function to build class names - safe for Astro
+function buildClass(baseClass: string, modifier: string): string {
+  return baseClass + ' ' + modifier;
+}
+
+// Helper function to convert text to Morse code
+function textToMorse(text: string): string {
+  return text.split('').map(char => morseMap[char.toUpperCase()] || '').join(' ');
+}
+
+// Helper function to format Morse code for display
+function formatMorseCode(code: string): string {
+  // Convert dots and dashes to display format
+  return code.replace(/\./g, '·').replace(/\-/g, '–');
+}
+---
+
+<div class="morse-quiz-container" data-quiz-id={quizId} data-level={level} data-mode={mode}>
+  <header class="morse-quiz-header glass-card">
+    <a href="/" class="btn-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Kembali ke Dasbor
+    </a>
+    <div class="morse-quiz-title-area">
+      <h2>{quizMetadata.title || 'Kuis Kode Morse'}</h2>
+      <span class={buildClass('quiz-difficulty', DIFFICULTY_COLORS[difficulty] || 'medium')}>
+        {DIFFICULTY_LABELS[difficulty] || 'Sedang'}
+      </span>
+    </div>
+  </header>
+
+  <div class="morse-quiz-layout" id="morse-quiz-layout">
+    <div class="morse-main-card glass-card">
+      <div class="progress-tracker">
+        <span id="morse-question-number">Soal 1 dari {totalQuestions}</span>
+        <div class="progress-bar-outer">
+          <div id="morse-progress-bar" class="progress-bar-inner" style="width: 10%" ></div>
+        </div>
+      </div>
+
+      {mode === 'time_attack' && (
+        <div class="mode-display timer-display">
+          <span class="mode-icon">⏱️</span>
+          <span id="morse-timer">{currentMode.timeLimit || 300}</span> detik
+        </div>
+      )}
+      
+      {mode === 'no_mistake' && (
+        <div class="mode-display lives-display">
+          <span class="mode-icon">❤️</span>
+          <span id="morse-lives">{currentMode.lives || 1}</span>
+        </div>
+      )}
+
+      <div class="morse-question-text-area">
+        <h3 id="morse-question-prompt">{selectedQuestions[0]?.question || 'Memuat soal...'}</h3>
+        <div id="morse-code-display" class="morse-code-display" style="display: none;">
+          <div id="morse-code-visual" class="morse-visual-code"></div>
+          <div class="morse-audio-controls" id="morse-audio-controls" style={hasAudio ? '' : 'display: none;'}> 
+            <button id="btn-play-morse" class="btn-morse-control" title="Putar kode Morse">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polygon points="5 3 19 12 5 21"/>
+              </svg>
+            </button>
+            {hasVisual && (
+              <button id="btn-flash-morse" class="btn-morse-control" title="Nyalakan flash Morse">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"/>
+                  <line x1="12" y1="1" x2="12" y2="7"/>
+                  <line x1="12" y1="17" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="7" y2="12"/>
+                  <line x1="17" y1="12" x2="23" y2="12"/>
+                </svg>
+              </button>
+            )}
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col gap-2" id="morse-options-container"></div>
+
+      <div class="education-card" id="morse-education-card" style="display: none;">
+        <div class="edu-header">
+          <span class="edu-icon">📖</span>
+          <span class="edu-label">Kartu Edukasi</span>
+        </div>
+        <p id="morse-education-text"></p>
+      </div>
+
+      <div class="action-footer">
+        <span id="morse-answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+        <button id="btn-morse-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+      </div>
+    </div>
+
+    {helpContent && (
+      <div class="morse-help-card glass-card" id="morse-help-sidebar">
+        <h3 id="morse-help-sidebar-title">{helpContent.title}</h3>
+        <div class="help-content-area" id="morse-help-sidebar-content" set:html={helpContent.content}></div>
+        
+        <div class="morse-reference-section" id="morse-reference">
+          <h4>📋 Referensi Kode Morse</h4>
+          <div class="morse-reference-grid" id="morse-reference-grid"></div>
+        </div>
+      </div>
+    )}
+  </div>
+
+  <div class="result-overlay" id="morse-result-overlay" style="display: none;">
+    <div class="result-card glass-card">
+      <div class="result-emoji" id="morse-result-emoji">🏆</div>
+      <h2>Kuis Selesai!</h2>
+      <p class="result-summary" id="morse-result-text"></p>
+      
+      <div class="result-stats-details">
+        <div class="detail-item">
+          <span class="label">XP Diperoleh</span>
+          <span class="value score-xp" id="morse-result-xp">+0 XP</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Skor Akhir</span>
+          <span class="value" id="morse-result-score">0/100</span>
+        </div>
+        {mode === 'time_attack' && (
+          <div class="detail-item">
+            <span class="label">Waktu</span>
+            <span class="value" id="morse-result-time">0 detik</span>
+          </div>
+        )}
+      </div>
+
+      <div class="unlocked-badges-container" id="morse-unlocked-badges" style="display: none;">
+        <h3>🎖️ Lencana Baru Terbuka!</h3>
+        <div class="unlocked-badges-list" id="morse-badges-list-el"></div>
+      </div>
+
+      <div class="result-actions">
+        <button id="btn-morse-restart" class="btn btn-primary">Ulangi Kuis</button>
+        <a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .morse-quiz-container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 2rem; }
+  .morse-quiz-header { padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; width: max-content; transition: color var(--transition-fast); }
+  .btn-back:hover { color: var(--color-gold); }
+  .btn-back svg { width: 16px; height: 16px; }
+  .morse-quiz-title-area { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .morse-quiz-title-area h2 { font-size: 1.5rem; font-weight: 800; color: var(--color-text); margin: 0; }
+  .quiz-difficulty { font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 4px; text-transform: uppercase; }
+  .quiz-difficulty.easy { background: rgba(43, 112, 76, 0.12); color: #62c370; border: 1px solid rgba(43, 112, 76, 0.25); }
+  .quiz-difficulty.medium { background: rgba(212, 163, 43, 0.1); color: var(--color-gold); border: 1px solid rgba(212, 163, 43, 0.25); }
+  .quiz-difficulty.hard { background: rgba(185, 59, 34, 0.1); color: #e56b55; border: 1px solid rgba(185, 59, 34, 0.25); }
+  .quiz-difficulty.mix, .quiz-difficulty.purple { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; border: 1px solid rgba(139, 92, 246, 0.25); }
+  .quiz-difficulty.blue { background: rgba(59, 130, 246, 0.1); color: #3b82f6; border: 1px solid rgba(59, 130, 246, 0.25); }
+  
+  .morse-quiz-layout { display: grid; grid-template-columns: 1fr 300px; gap: 2rem; }
+  @media (max-width: 900px) { .morse-quiz-layout { grid-template-columns: 1fr; } }
+  
+  .morse-main-card { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+  .progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+  .progress-bar-outer { height: 6px; background: var(--color-border); border-radius: 3px; overflow: hidden; }
+  .progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--color-gold), var(--color-gold-light)); border-radius: 3px; transition: width 0.3s ease; }
+  .mode-display { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--color-bg); border-radius: 8px; font-size: 0.9rem; font-weight: 600; width: max-content; }
+  
+  .morse-question-text-area { display: flex; flex-direction: column; gap: 1rem; }
+  .morse-question-text-area h3 { font-size: 1.25rem; font-weight: 700; color: var(--color-text); line-height: 1.4; margin: 0; }
+  
+  .morse-code-display { padding: 1.5rem; background: var(--color-bg); border-radius: 10px; border: 2px dashed var(--color-border); text-align: center; }
+  .morse-visual-code { font-family: 'Courier New', monospace; font-size: 1.75rem; letter-spacing: 0.5rem; line-height: 2; color: var(--color-text); word-break: break-word; }
+  
+  .morse-audio-controls { display: flex; gap: 0.75rem; justify-content: center; margin-top: 1rem; }
+  .btn-morse-control { display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 10px; background: var(--color-bg); border: 2px solid var(--color-border); cursor: pointer; transition: all var(--transition-normal); color: var(--color-text); }
+  .btn-morse-control:hover { border-color: var(--color-gold); background: rgba(178, 131, 27, 0.08); }
+  .btn-morse-control svg { width: 20px; height: 20px; }
+  .btn-morse-control:active { transform: scale(0.95); }
+  .btn-morse-control.playing { background: rgba(43, 112, 76, 0.12); border-color: var(--color-success); }
+  .btn-morse-control.flashing { background: rgba(212, 163, 43, 0.12); border-color: var(--color-gold); }
+
+  .opt-btn { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border: 2px solid var(--color-border); border-radius: 10px; background: var(--color-bg); cursor: pointer; transition: all var(--transition-normal); text-align: left; position: relative; overflow: hidden; }
+  .opt-btn:hover:not(.is-answered) { border-color: var(--color-gold); box-shadow: 0 4px 12px rgba(178, 131, 27, 0.2); }
+  .opt-btn.is-selected { border-color: var(--color-gold); background: rgba(178, 131, 27, 0.08); }
+  .opt-btn.is-correct { border-color: var(--color-success); background: rgba(43, 112, 76, 0.1); }
+  .opt-btn.is-incorrect { border-color: var(--color-danger); background: rgba(185, 59, 34, 0.1); }
+  .opt-btn.is-dimmed { opacity: 0.5; }
+  .opt-btn.is-answered { cursor: not-allowed; }
+  .opt-letter { font-size: 1.1rem; font-weight: 700; color: var(--color-text-muted); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-border); flex-shrink: 0; }
+  .opt-btn.is-selected .opt-letter, .opt-btn.is-correct .opt-letter, .opt-btn.is-incorrect .opt-letter { color: white; }
+  .opt-btn.is-selected .opt-letter { background: var(--color-gold); }
+  .opt-btn.is-correct .opt-letter { background: var(--color-success); }
+  .opt-btn.is-incorrect .opt-letter { background: var(--color-danger); }
+  .opt-text { flex: 1; font-size: 0.95rem; color: var(--color-text); line-height: 1.4; }
+  .opt-indicator { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--color-bg); position: relative; }
+  .opt-radio { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--color-border); }
+  .opt-btn.is-selected .opt-radio { border-color: var(--color-gold); background: var(--color-gold); }
+  .opt-icon { width: 16px; height: 16px; position: absolute; display: none; }
+  .opt-btn.is-correct .icon-check { display: block; }
+  .opt-btn.is-incorrect .icon-cross { display: block; }
+
+  .education-card { padding: 1.25rem 1.5rem; background: rgba(178, 131, 27, 0.05); border-radius: 10px; border: 1px solid rgba(178, 131, 27, 0.15); animation: slide-down 0.25s ease; }
+  .edu-header { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.75rem; }
+  .edu-icon { font-size: 1.25rem; }
+  .edu-label { font-size: 0.85rem; font-weight: 600; color: var(--color-gold); text-transform: uppercase; letter-spacing: 0.05em; }
+  .education-card p { font-size: 0.9rem; color: var(--color-text); line-height: 1.5; margin: 0; }
+  
+  .action-footer { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-top: 0.5rem; }
+  .answer-hint { font-size: 0.85rem; color: var(--color-text-muted); }
+  
+  .btn { padding: 0.75rem 1.5rem; border-radius: 8px; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: all var(--transition-normal); border: none; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-primary { background: var(--color-primary); color: white; }
+  .btn-primary:hover:not(:disabled) { background: var(--color-primary-light); }
+  .btn-gold { background: var(--color-gold); color: white; }
+  .btn-gold:hover:not(:disabled) { background: var(--color-gold-light); }
+
+  .morse-help-card { padding: 1.5rem; background: var(--color-bg); border-radius: 12px; }
+  .morse-help-card h3 { font-size: 1rem; font-weight: 700; color: var(--color-text); margin: 0 0 1rem 0; }
+  .help-content-area { font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; }
+  .help-content-area h4 { color: var(--color-text); margin: 0 0 0.5rem 0; }
+  .help-content-area p { margin: 0 0 0.75rem 0; }
+  .help-content-area strong { color: var(--color-text); }
+  
+  .morse-reference-section { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-border); }
+  .morse-reference-section h4 { font-size: 0.9rem; color: var(--color-text); margin: 0 0 1rem 0; }
+  .morse-reference-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.5rem; }
+  .morse-ref-item { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.6rem; background: var(--color-bg); border-radius: 6px; font-size: 0.8rem; border: 1px solid var(--color-border); }
+  .morse-ref-item .letter { font-weight: 600; color: var(--color-text); }
+  .morse-ref-item .code { font-family: 'Courier New', monospace; color: var(--color-text-muted); }
+
+  .result-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1rem; animation: fade-in 0.25s ease; }
+  .result-card { max-width: 500px; width: 100%; padding: 3rem; text-align: center; animation: slide-up 0.3s ease; }
+  .result-emoji { font-size: 4rem; margin-bottom: 1rem; }
+  .result-card h2 { font-size: 1.75rem; font-weight: 800; color: var(--color-text); margin: 0 0 1rem 0; }
+  .result-summary { font-size: 1rem; color: var(--color-text-muted); line-height: 1.5; margin: 0 0 2rem 0; }
+  .result-stats-details { display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 1.5rem; padding: 1.5rem; background: var(--color-bg); border-radius: 10px; }
+  .detail-item { display: flex; justify-content: space-between; align-items: center; font-size: 0.95rem; }
+  .detail-item .label { color: var(--color-text-muted); }
+  .detail-item .value { font-weight: 700; color: var(--color-text); }
+  .score-xp { color: var(--color-gold) !important; font-size: 1.1rem !important; }
+  .unlocked-badges-container { padding: 1.5rem; background: rgba(178, 131, 27, 0.1); border-radius: 10px; border: 1px solid rgba(178, 131, 27, 0.2); margin-bottom: 1.5rem; }
+  .unlocked-badges-container h3 { font-size: 1.1rem; font-weight: 700; color: var(--color-gold); margin: 0 0 1rem 0; }
+  .unlocked-badges-list { display: flex; flex-direction: column; gap: 0.75rem; }
+  .unlocked-badge-item { display: flex; align-items: center; gap: 0.75rem; padding: 0.75rem 1rem; background: var(--color-bg); border-radius: 8px; font-size: 0.9rem; }
+  .unlocked-badge-item .u-icon { font-size: 1.25rem; }
+  .unlocked-badge-item strong { color: var(--color-text); }
+  .unlocked-badge-item span:last-child { color: var(--color-text-muted); font-size: 0.85rem; }
+  .result-actions { display: flex; gap: 1rem; justify-content: center; }
+  .result-actions .btn { flex: 1; max-width: 200px; }
+  
+  @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes slide-up { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes slide-down { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes morse-flash { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+  .morse-flash-active { animation: morse-flash 0.2s ease; }
+  
+  .glass-card { background: var(--color-glass); backdrop-filter: blur(10px); border: 1px solid var(--color-border); border-radius: 16px; }
+
+  /* Morse code visual styles */
+  .morse-dot { display: inline-block; width: 0.4em; height: 0.4em; background: var(--color-gold); border-radius: 50%; margin: 0 0.1em; }
+  .morse-dash { display: inline-block; width: 1.2em; height: 0.4em; background: var(--color-gold); border-radius: 2px; margin: 0 0.1em; }
+  .morse-symbol { display: inline-block; vertical-align: middle; }
+</style>
+
+<script>
+  // Type annotations for state
+  let selectedLevel: string | null = null;
+  let currentQuestions: Question[] = selectedQuestions;
+  let currentQuestionIndex: number = 0;
+  let selectedOptionIndex: number | null = null;
+  let correctAnswersCount: number = 0;
+  let timeLeft: number = currentMode.timeLimit || 0;
+  let lives: number = currentMode.lives || Infinity;
+  let startTime: number = 0;
+  let timer: ReturnType<typeof setInterval> | null = null;
+  let audioContext: AudioContext | null = null;
+  let isPlaying: boolean = false;
+  let isFlashing: boolean = false;
+  let flashTimeout: ReturnType<typeof setTimeout> | null = null;
+
+  // DOM Elements with type annotations
+  const morseSelectionCard: HTMLElement | null = document.getElementById('selection-card');
+  const morseQuizLayout: HTMLElement | null = document.getElementById('morse-quiz-layout');
+  const morseQuestionPrompt: HTMLElement | null = document.getElementById('morse-question-prompt');
+  const morseCodeDisplay: HTMLElement | null = document.getElementById('morse-code-display');
+  const morseCodeVisual: HTMLElement | null = document.getElementById('morse-code-visual');
+  const morseOptionsContainer: HTMLElement | null = document.getElementById('morse-options-container');
+  const morseQuestionNumber: HTMLElement | null = document.getElementById('morse-question-number');
+  const morseProgressBar: HTMLElement | null = document.getElementById('morse-progress-bar');
+  const morseSubmitBtn: HTMLButtonElement | null = document.getElementById('btn-morse-submit-answer') as HTMLButtonElement | null;
+  const morseEduCard: HTMLElement | null = document.getElementById('morse-education-card');
+  const morseEduText: HTMLElement | null = document.getElementById('morse-education-text');
+  const morseAnswerHint: HTMLElement | null = document.getElementById('morse-answer-hint');
+  const morseResultOverlay: HTMLElement | null = document.getElementById('morse-result-overlay');
+  const morseResultText: HTMLElement | null = document.getElementById('morse-result-text');
+  const morseResultXp: HTMLElement | null = document.getElementById('morse-result-xp');
+  const morseResultScore: HTMLElement | null = document.getElementById('morse-result-score');
+  const morseResultEmoji: HTMLElement | null = document.getElementById('morse-result-emoji');
+  const morseResultTimer: HTMLElement | null = document.getElementById('morse-timer');
+  const morseResultLives: HTMLElement | null = document.getElementById('morse-lives');
+  const morseResultTime: HTMLElement | null = document.getElementById('morse-result-time');
+  const morseUnlockedBadges: HTMLElement | null = document.getElementById('morse-unlocked-badges');
+  const morseBadgesListEl: HTMLElement | null = document.getElementById('morse-badges-list-el');
+  const morseReferenceGrid: HTMLElement | null = document.getElementById('morse-reference-grid');
+  const morseAudioControls: HTMLElement | null = document.getElementById('morse-audio-controls');
+  const btnPlayMorse: HTMLButtonElement | null = document.getElementById('btn-play-morse') as HTMLButtonElement | null;
+  const btnFlashMorse: HTMLButtonElement | null = document.getElementById('btn-flash-morse') as HTMLButtonElement | null;
+
+  // Morse-specific type for questions
+  interface MorseQuestion extends Question {
+    type: 'morse_to_text' | 'text_to_morse';
+    code: string;
+  }
+
+  // Audio configuration for Morse code
+  const MORSE_AUDIO_CONFIG = {
+    dotFrequency: 800,
+    dashFrequency: 800,
+    dotDuration: 100, // ms
+    dashDuration: 300, // ms
+    gapDuration: 100, // ms between symbols
+    letterGapDuration: 300, // ms between letters
+    wordGapDuration: 700 // ms between words
+  } as const;
+
+  // Initialize Web Audio API
+  function initAudioContext(): AudioContext {
+    if (!audioContext) {
+      audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+    }
+    return audioContext;
+  }
+
+  // Create oscillator for Morse audio
+  function createOscillator(frequency: number, duration: number, when: number): void {
+    const ctx: AudioContext = initAudioContext();
+    const oscillator: OscillatorNode = ctx.createOscillator();
+    const gainNode: GainNode = ctx.createGain();
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.value = frequency;
+    gainNode.gain.value = 0.1;
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(ctx.destination);
+    
+    oscillator.start(when);
+    oscillator.stop(when + duration / 1000);
+  }
+
+  // Play Morse code as audio
+  function playMorseAudio(code: string): void {
+    if (isPlaying) return;
+    isPlaying = true;
+    
+    if (btnPlayMorse) {
+      btnPlayMorse.classList.add('playing');
+      btnPlayMorse.disabled = true;
+    }
+    
+    const ctx: AudioContext = initAudioContext();
+    const now: number = ctx.currentTime;
+    let currentTime: number = now;
+    
+    // Split code by spaces (separate letters)
+    const letters: string[] = code.split(' ');
+    
+    letters.forEach((letter: string, letterIndex: number) => {
+      // Split letter into symbols (dots and dashes)
+      const symbols: string[] = letter.split('');
+      let symbolTime: number = currentTime;
+      
+      symbols.forEach((symbol: string, symbolIndex: number) => {
+        const duration: number = symbol === '.' ? MORSE_AUDIO_CONFIG.dotDuration : MORSE_AUDIO_CONFIG.dashDuration;
+        createOscillator(MORSE_AUDIO_CONFIG.dotFrequency, duration, symbolTime);
+        symbolTime += duration / 1000;
+        
+        // Gap between symbols in the same letter
+        if (symbolIndex < symbols.length - 1) {
+          symbolTime += MORSE_AUDIO_CONFIG.gapDuration / 1000;
+        }
+      });
+      
+      currentTime = symbolTime;
+      
+      // Gap between letters
+      if (letterIndex < letters.length - 1 && letters[letterIndex + 1] !== '') {
+        currentTime += MORSE_AUDIO_CONFIG.letterGapDuration / 1000;
+      }
+    });
+    
+    // Reset playing state after audio finishes
+    const totalDuration: number = letters.reduce((total: number, letter: string) => {
+      const symbols: string[] = letter.split('');
+      const letterDuration: number = symbols.reduce((sum: number, symbol: string) => {
+        return sum + (symbol === '.' ? MORSE_AUDIO_CONFIG.dotDuration : MORSE_AUDIO_CONFIG.dashDuration);
+      }, 0);
+      return total + letterDuration + (letter !== '' ? MORSE_AUDIO_CONFIG.gapDuration * (symbols.length - 1) : 0);
+    }, 0);
+    
+    const finalDuration: number = totalDuration + (letters.length > 1 ? MORSE_AUDIO_CONFIG.letterGapDuration * (letters.length - 2) : 0);
+    
+    setTimeout(() => {
+      isPlaying = false;
+      if (btnPlayMorse) {
+        btnPlayMorse.classList.remove('playing');
+        btnPlayMorse.disabled = false;
+      }
+    }, finalDuration);
+  }
+
+  // Flash Morse code visually
+  function flashMorseCode(code: string): void {
+    if (isFlashing) return;
+    isFlashing = true;
+    
+    if (btnFlashMorse) {
+      btnFlashMorse.classList.add('flashing');
+      btnFlashMorse.disabled = true;
+    }
+    
+    if (!morseCodeVisual) return;
+    
+    // Clear any existing flash timeout
+    if (flashTimeout) {
+      clearTimeout(flashTimeout);
+    }
+    
+    const symbols: string[] = code.split('');
+    let currentIndex: number = 0;
+    
+    function flashNextSymbol(): void {
+      if (currentIndex >= symbols.length) {
+        // All symbols flashed, reset
+        isFlashing = false;
+        if (btnFlashMorse) {
+          btnFlashMorse.classList.remove('flashing');
+          btnFlashMorse.disabled = false;
+        }
+        return;
+      }
+      
+      const symbol: string = symbols[currentIndex];
+      
+      if (symbol === '.') {
+        // Dot: quick flash
+        morseCodeVisual.classList.add('morse-flash-active');
+        setTimeout(() => {
+          morseCodeVisual.classList.remove('morse-flash-active');
+          currentIndex++;
+          setTimeout(flashNextSymbol, MORSE_AUDIO_CONFIG.gapDuration);
+        }, MORSE_AUDIO_CONFIG.dotDuration);
+      } else if (symbol === '-') {
+        // Dash: longer flash
+        morseCodeVisual.classList.add('morse-flash-active');
+        setTimeout(() => {
+          morseCodeVisual.classList.remove('morse-flash-active');
+          currentIndex++;
+          setTimeout(flashNextSymbol, MORSE_AUDIO_CONFIG.gapDuration);
+        }, MORSE_AUDIO_CONFIG.dashDuration);
+      } else if (symbol === ' ') {
+        // Space: longer gap
+        currentIndex++;
+        setTimeout(flashNextSymbol, MORSE_AUDIO_CONFIG.letterGapDuration);
+      } else {
+        currentIndex++;
+        setTimeout(flashNextSymbol, MORSE_AUDIO_CONFIG.gapDuration);
+      }
+    }
+    
+    flashNextSymbol();
+  }
+
+  // Display Morse code for current question
+  function displayMorseCode(question: MorseQuestion): void {
+    if (!morseCodeDisplay || !morseCodeVisual) return;
+    
+    const code: string = question.code || '';
+    const formattedCode: string = formatMorseCode(code);
+    
+    morseCodeDisplay.style.display = 'block';
+    morseCodeVisual.textContent = formattedCode;
+  }
+
+  // Build Morse reference grid
+  function buildMorseReference(): void {
+    if (!morseReferenceGrid) return;
+    
+    const letters: [string, string][] = Object.entries(morseMap).sort(([a], [b]) => a.localeCompare(b));
+    
+    letters.forEach(([letter, code]: [string, string]) => {
+      const item: HTMLDivElement = document.createElement('div');
+      item.className = 'morse-ref-item';
+      item.innerHTML = `<span class="letter">${letter}</span><span class="code">${formatMorseCode(code)}</span>`;
+      morseReferenceGrid.appendChild(item);
+    });
+  }
+
+  // Render question
+  function renderQuestion(): void {
+    const question: MorseQuestion | undefined = currentQuestions[currentQuestionIndex] as MorseQuestion;
+    if (!question) return;
+
+    if (morseQuestionPrompt) morseQuestionPrompt.textContent = question.question;
+    if (morseQuestionNumber) morseQuestionNumber.textContent = `Soal ${currentQuestionIndex + 1} dari ${currentQuestions.length}`;
+    if (morseProgressBar) morseProgressBar.style.width = `${((currentQuestionIndex + 1) / currentQuestions.length) * 100}%`;
+
+    // Display Morse code if available
+    if (question.code) {
+      displayMorseCode(question as MorseQuestion);
+    } else {
+      if (morseCodeDisplay) morseCodeDisplay.style.display = 'none';
+    }
+
+    if (morseOptionsContainer) {
+      morseOptionsContainer.innerHTML = '';
+      question.options.forEach((option: string, index: number) => {
+        const optionBtn: HTMLButtonElement = document.createElement('button');
+        optionBtn.className = 'opt-btn';
+        optionBtn.style.animationDelay = `${index * 0.06}s`;
+        optionBtn.innerHTML = `
+          <span class="opt-letter">${String.fromCharCode(65 + index)}</span>
+          <span class="opt-text">${option}</span>
+          <span class="opt-indicator">
+            <span class="opt-radio"></span>
+            <svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </span>
+        `;
+        optionBtn.addEventListener('click', () => selectOption(index));
+        morseOptionsContainer.appendChild(optionBtn);
+      });
+    }
+
+    if (morseEduCard) morseEduCard.style.display = 'none';
+    selectedOptionIndex = null;
+    if (morseSubmitBtn) {
+      morseSubmitBtn.disabled = true;
+      morseSubmitBtn.textContent = 'Konfirmasi Jawaban';
+    }
+    if (morseAnswerHint) morseAnswerHint.textContent = 'Pilih salah satu jawaban di atas';
+  }
+
+  // Select option
+  function selectOption(index: number): void {
+    if (!morseSubmitBtn) return;
+    if (morseSubmitBtn.textContent === 'Soal Berikutnya' || morseSubmitBtn.textContent === 'Lihat Hasil') return;
+    selectedOptionIndex = index;
+    document.querySelectorAll('.opt-btn').forEach((btn: Element, idx: number) => {
+      btn.classList.toggle('is-selected', idx === index);
+    });
+    morseSubmitBtn.disabled = false;
+  }
+
+  // Submit answer
+  function submitAnswer(): void {
+    const question: MorseQuestion | undefined = currentQuestions[currentQuestionIndex] as MorseQuestion;
+    if (!question || !morseSubmitBtn) return;
+
+    if (morseSubmitBtn.textContent === 'Soal Berikutnya' || morseSubmitBtn.textContent === 'Lihat Hasil') {
+      nextQuestion();
+      return;
+    }
+
+    const isCorrect: boolean = selectedOptionIndex !== null && question.options[selectedOptionIndex] === question.correctAnswer;
+
+    document.querySelectorAll('.opt-btn').forEach((btn: Element, idx: number) => {
+      btn.classList.add('is-answered');
+      btn.classList.remove('is-selected');
+      if (question.options[idx] === question.correctAnswer) {
+        btn.classList.add('is-correct');
+      } else if (idx === selectedOptionIndex) {
+        btn.classList.add('is-incorrect');
+      } else {
+        btn.classList.add('is-dimmed');
+      }
+    });
+
+    if (isCorrect) correctAnswersCount++;
+
+    if (!isCorrect && mode === 'no_mistake') {
+      lives--;
+      if (morseResultLives) morseResultLives.textContent = lives.toString();
+      if (lives <= 0) {
+        endGame();
+        return;
+      }
+    }
+
+    if (morseEduCard && morseEduText && question.explanation) {
+      morseEduText.textContent = question.explanation;
+      morseEduCard.style.display = 'block';
+      morseEduCard.style.animation = 'slide-down 0.25s ease';
+    }
+
+    if (currentQuestionIndex === currentQuestions.length - 1) {
+      if (morseSubmitBtn) morseSubmitBtn.textContent = 'Lihat Hasil';
+    } else {
+      if (morseSubmitBtn) morseSubmitBtn.textContent = 'Soal Berikutnya';
+    }
+  }
+
+  // Next question or show results
+  function nextQuestion(): void {
+    if (currentQuestionIndex < currentQuestions.length - 1) {
+      currentQuestionIndex++;
+      renderQuestion();
+    } else {
+      showQuizResults();
+    }
+  }
+
+  // Timer functions
+  function startTimer(): void {
+    if (!currentMode.timeLimit || !morseResultTimer) return;
+    timeLeft = currentMode.timeLimit;
+    startTime = Date.now();
+    timer = setInterval(() => {
+      timeLeft--;
+      if (morseResultTimer) morseResultTimer.textContent = timeLeft.toString();
+      if (timeLeft <= 0) endGame();
+    }, 1000);
+  }
+
+  function stopTimer(): void {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  // End game
+  function endGame(): void {
+    stopTimer();
+    showQuizResults();
+  }
+
+  // Show results
+  function showQuizResults(): void {
+    const score: number = correctAnswersCount;
+    const total: number = currentQuestions.length;
+    const xpGained: number = Math.round(score * xpPerQuestion * xpMultiplier);
+    const scorePercent: number = Math.round((score / total) * 100);
+    const timeTaken: number = currentMode.timeLimit ? (currentMode.timeLimit - timeLeft) : Math.floor((Date.now() - startTime) / 1000);
+
+    if (morseResultText) {
+      morseResultText.textContent = `Anda berhasil menjawab ${score} dari ${total} soal dengan benar.`;
+    }
+    if (morseResultXp) morseResultXp.textContent = `+${xpGained} XP`;
+    if (morseResultScore) morseResultScore.textContent = `${scorePercent}/100`;
+    if (morseResultEmoji) {
+      if (scorePercent === 100) morseResultEmoji.textContent = '👑';
+      else if (scorePercent >= 70) morseResultEmoji.textContent = '🏆';
+      else morseResultEmoji.textContent = '🧭';
+    }
+    if (morseResultTime && mode === 'time_attack') morseResultTime.textContent = `${timeTaken} detik`;
+
+    // Check for badges
+    let newlyUnlocked: Badge[] = [];
+    if (scorePercent >= 70) {
+      const badge: Badge | undefined = MORSE_BADGES.morse_novice;
+      if (badge) {
+        const userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+        if (!userBadges.includes(badge.id)) newlyUnlocked.push(badge);
+      }
+    }
+    if (scorePercent === 100) {
+      const badge: Badge | undefined = MORSE_BADGES.morse_master;
+      if (badge) {
+        const userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+        if (!userBadges.includes(badge.id)) newlyUnlocked.push(badge);
+      }
+    }
+
+    // Display badges
+    if (morseBadgesListEl && morseUnlockedBadges) {
+      if (newlyUnlocked.length > 0) {
+        morseBadgesListEl.innerHTML = '';
+        newlyUnlocked.forEach((b: Badge) => {
+          const item: HTMLDivElement = document.createElement('div');
+          item.className = 'unlocked-badge-item';
+          item.innerHTML = `<span class="u-icon">${b.icon}</span> <strong>${b.name}</strong> - ${b.description}`;
+          morseBadgesListEl.appendChild(item);
+        });
+        morseUnlockedBadges.style.display = 'block';
+      } else {
+        morseUnlockedBadges.style.display = 'none';
+      }
+    }
+
+    updateUserStats(score, xpGained, newlyUnlocked, level);
+    if (morseResultOverlay) morseResultOverlay.style.display = 'flex';
+  }
+
+  // Update user stats
+  function updateUserStats(score: number, xpGained: number, badges: Badge[], level?: string): void {
+    const total: number = currentQuestions.length;
+    const scorePercent: number = Math.round((score / total) * 100);
+    let oldXp: number = parseInt(localStorage.getItem('scout_xp') || '0');
+    let newXp: number = oldXp + xpGained;
+    localStorage.setItem('scout_xp', newXp.toString());
+    let userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+    badges.forEach((b: Badge) => {
+      if (!userBadges.includes(b.id)) userBadges.push(b.id);
+    });
+    localStorage.setItem('scout_badges', JSON.stringify(userBadges));
+    let streak: number = parseInt(localStorage.getItem('scout_streak') || '0');
+    if (scorePercent >= 70) streak++;
+    else streak = 0;
+    localStorage.setItem('scout_streak', streak.toString());
+    localStorage.setItem('scout_last_visit', new Date().toISOString());
+    window.dispatchEvent(new Event('statsUpdated'));
+  }
+
+  // Initialize quiz
+  function initQuiz(): void {
+    // Build Morse reference
+    buildMorseReference();
+    
+    const urlParams: URLSearchParams = new URLSearchParams(window.location.search);
+    const urlLevel: string | null = urlParams.get('level');
+    
+    // Initialize audio controls
+    if (btnPlayMorse) {
+      btnPlayMorse.addEventListener('click', () => {
+        const question: MorseQuestion | undefined = currentQuestions[currentQuestionIndex] as MorseQuestion;
+        if (question?.code) {
+          playMorseAudio(question.code);
+        }
+      });
+    }
+    
+    if (btnFlashMorse) {
+      btnFlashMorse.addEventListener('click', () => {
+        const question: MorseQuestion | undefined = currentQuestions[currentQuestionIndex] as MorseQuestion;
+        if (question?.code) {
+          flashMorseCode(question.code);
+        }
+      });
+    }
+
+    if (!quizData?.hasLevels) {
+      if (mode === 'time_attack') startTimer();
+      renderQuestion();
+    }
+  }
+
+  // Event listeners
+  if (morseSubmitBtn) {
+    morseSubmitBtn.addEventListener('click', () => {
+      if (morseSubmitBtn.textContent === 'Soal Berikutnya' || morseSubmitBtn.textContent === 'Lihat Hasil') {
+        nextQuestion();
+      } else {
+        submitAnswer();
+      }
+    });
+  }
+  
+  const morseRestartBtn: HTMLButtonElement | null = document.getElementById('btn-morse-restart') as HTMLButtonElement | null;
+  if (morseRestartBtn) {
+    morseRestartBtn.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      correctAnswersCount = 0;
+      selectedOptionIndex = null;
+      if (mode === 'time_attack') {
+        timeLeft = currentMode.timeLimit || 0;
+        if (morseResultTimer) morseResultTimer.textContent = timeLeft.toString();
+        startTimer();
+      }
+      if (mode === 'no_mistake') {
+        lives = currentMode.lives || Infinity;
+        if (morseResultLives) morseResultLives.textContent = lives.toString();
+      }
+      if (morseResultOverlay) morseResultOverlay.style.display = 'none';
+      renderQuestion();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initQuiz);
+  window.addEventListener('beforeunload', () => {
+    stopTimer();
+    if (audioContext) {
+      audioContext.close();
+      audioContext = null;
+    }
+  });
+</script>

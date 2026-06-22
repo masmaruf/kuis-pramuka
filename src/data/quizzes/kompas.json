@@ -1,0 +1,352 @@
+{
+  "id": "kompas",
+  "title": "Kuis Kompas & Navigasi Pramuka",
+  "description": "Latihan kompas dan navigasi pramuka: arah mata angin, azimuth, back azimuth, peta topografi, garis kontur, skala peta, dan teknik resection.",
+  "category": "Teknik Kepramukaan",
+  "group": "Navigasi",
+  "difficulty": "medium",
+  "xpPerQuestion": 12,
+  "totalQuestions": 26,
+  "color": "blue",
+  "icon": "🧭",
+  "hasLevels": false,
+  "badgeId": "kompas",
+  "helpContent": {
+    "title": "Referensi Kompas",
+    "content": "Arah mata angin & nilai derajat: U (Utara) = 0°/360°, TL (Timur Laut) = 45°, T (Timur) = 90°, TG (Tenggara) = 135°, S (Selatan) = 180°, BD (Barat Daya) = 225°, B (Barat) = 270°, BL (Barat Laut) = 315°. Back Azimuth: Az < 180° → +180°, Az ≥ 180° → −180°."
+  },
+  "questions": [
+    {
+      "id": "kompas_001",
+      "question": "Berapa derajat arah Timur pada kompas?",
+      "options": ["45°", "90°", "135°", "180°"],
+      "correctAnswer": "90°",
+      "explanation": "Kompas menggunakan sistem 360 derajat searah jarum jam dari Utara. Utara = 0°/360°, Timur = 90°, Selatan = 180°, Barat = 270°. Keempat arah ini disebut arah kardinal (Cardinal Directions) atau arah mata angin utama.",
+      "tags": ["arah-mata-angin", "kompas", "dasar"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_002",
+      "question": "Arah Tenggara pada kompas berada di antara arah...",
+      "options": ["Utara dan Timur", "Timur dan Selatan", "Selatan dan Barat", "Barat dan Utara"],
+      "correctAnswer": "Timur dan Selatan",
+      "explanation": "Tenggara (SE/South-East) berada di antara Timur (90°) dan Selatan (180°), yaitu pada 135°. Delapan arah mata angin: U(0°), TL(45°), T(90°), TG(135°), S(180°), BD(225°), B(270°), BL(315°).",
+      "tags": ["arah-mata-angin", "kompas"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_003",
+      "question": "Berapa jumlah arah mata angin jika menggunakan sistem 16 arah (termasuk arah antara)?",
+      "options": ["8 arah", "12 arah", "16 arah", "32 arah"],
+      "correctAnswer": "16 arah",
+      "explanation": "Sistem 16 arah membagi lingkaran menjadi 16 bagian dengan interval 22,5°. Di antara 8 arah utama (U,TL,T,TG,S,BD,B,BL) ditambahkan 8 arah antara: UUTl (NNE), TlT (ENE), TTG (ESE), TGS (SSE), SBD (SSW), BDB (WSW), BBL (WNW), BLU (NNW). Sistem ini dipakai dalam navigasi laut dan udara.",
+      "tags": ["arah-mata-angin", "navigasi"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_004",
+      "question": "Azimuth 225° setara dengan arah mata angin...",
+      "options": ["Tenggara", "Barat Daya", "Barat Laut", "Timur Laut"],
+      "correctAnswer": "Barat Daya",
+      "explanation": "Barat Daya (SW/South-West) berada pada 225°, tepat di antara Selatan (180°) dan Barat (270°). Cara menghafal derajat 8 arah: bayangkan jam dengan angka 0/360 di atas (Utara), lalu hitung searah jarum jam dengan interval 45° untuk setiap arah berikutnya.",
+      "tags": ["azimuth", "arah-mata-angin"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_005",
+      "question": "Bagian kompas yang selalu menunjuk ke arah Utara Magnetik adalah...",
+      "options": ["Jarum merah/berwarna kompas", "Lingkaran derajat (bezel)", "Kaca penutup kompas", "Pegangan kompas"],
+      "correctAnswer": "Jarum merah/berwarna kompas",
+      "explanation": "Jarum kompas (biasanya berwarna merah di ujung yang menunjuk Utara) adalah magnet kecil yang bebas berputar dan selalu sejajar dengan medan magnet bumi, menunjuk ke arah Utara Magnetik. Penting: Utara Magnetik berbeda dengan Utara Geografis (True North) akibat deklinasi magnetik.",
+      "tags": ["kompas", "membaca-kompas"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_006",
+      "question": "Cara memegang kompas yang benar saat membaca azimuth adalah...",
+      "options": [
+        "Pegang di atas kepala agar jauh dari logam",
+        "Pegang setinggi pinggang dengan satu tangan",
+        "Pegang setinggi dada, posisi datar, jauh dari logam/besi",
+        "Letakkan di tanah lalu membungkuk untuk membaca"
+      ],
+      "correctAnswer": "Pegang setinggi dada, posisi datar, jauh dari logam/besi",
+      "explanation": "Cara memegang kompas yang benar: (1) Genggam kompas dengan kedua tangan, tahan di depan dada setinggi dada. (2) Pastikan kompas dalam posisi datar/horizontal agar jarum bisa berputar bebas. (3) Jauhkan dari benda logam/besi, ponsel, dan kabel listrik yang dapat mempengaruhi jarum magnet. (4) Baca derajat saat jarum sudah berhenti bergerak.",
+      "tags": ["kompas", "teknik"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_007",
+      "question": "Deklinasi magnetik adalah...",
+      "options": [
+        "Sudut antara Utara Magnetik dan Utara Geografis (True North)",
+        "Kemampuan kompas untuk menunjuk arah di dalam air",
+        "Perbedaan derajat antara dua kompas yang berbeda merek",
+        "Kesalahan baca kompas akibat tangan yang bergetar"
+      ],
+      "correctAnswer": "Sudut antara Utara Magnetik dan Utara Geografis (True North)",
+      "explanation": "Deklinasi magnetik adalah selisih sudut antara Utara Magnetik (yang ditunjuk jarum kompas) dan Utara Geografis (arah kutub utara bumi yang sebenarnya). Nilainya berbeda di setiap lokasi di bumi dan berubah dari waktu ke waktu. Di Indonesia, deklinasi magnetik berkisar 0-3° ke Timur, relatif kecil sehingga sering diabaikan untuk navigasi sederhana.",
+      "tags": ["kompas", "deklinasi"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_008",
+      "question": "Azimuth (sudut kompas) 310° dibaca sebagai arah...",
+      "options": ["Barat Daya", "Barat", "Barat Laut", "Utara Barat Laut"],
+      "correctAnswer": "Barat Laut",
+      "explanation": "310° berada antara Barat (270°) dan Utara (360°/0°), tepatnya di kuadran Barat Laut (315° ± sekitar 45°). Barat Laut sendiri tepat di 315°, jadi 310° sangat dekat dengan Barat Laut, sedikit ke arah Barat. Untuk navigasi lapangan, pembulatan ke arah terdekat cukup akurat.",
+      "tags": ["azimuth", "arah"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_009",
+      "question": "Back azimuth (azimuth balik) dari 60° adalah...",
+      "options": ["120°", "180°", "240°", "300°"],
+      "correctAnswer": "240°",
+      "explanation": "Back azimuth adalah arah berlawanan dari azimuth. Rumus: jika azimuth < 180°, maka back azimuth = azimuth + 180°. Jika azimuth ≥ 180°, maka back azimuth = azimuth - 180°. Jadi 60° + 180° = 240°. Back azimuth berguna untuk kembali ke titik awal mengikuti jalur yang sama (backtrack).",
+      "tags": ["back-azimuth", "navigasi"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_010",
+      "question": "Jika azimuth dari titik A ke titik B adalah 270° (Barat), maka back azimuth dari B ke A adalah...",
+      "options": ["90°", "180°", "0°", "360°"],
+      "correctAnswer": "90°",
+      "explanation": "270° ≥ 180°, jadi back azimuth = 270° - 180° = 90° (arah Timur). Ini logis: jika kamu berjalan ke Barat dari A ke B, maka untuk kembali dari B ke A kamu harus berjalan ke Timur. Back azimuth selalu berlawanan 180° dengan azimuth asli.",
+      "tags": ["back-azimuth", "navigasi"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_011",
+      "question": "Azimuth 180° (Selatan) memiliki back azimuth...",
+      "options": ["0°", "90°", "270°", "360°"],
+      "correctAnswer": "0°",
+      "explanation": "180° ≥ 180°, jadi back azimuth = 180° - 180° = 0° (Utara). Arah Selatan dan Utara adalah tepat berlawanan 180°. Nilai 0° dan 360° adalah sama dalam kompas — keduanya merujuk ke arah Utara.",
+      "tags": ["back-azimuth"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_012",
+      "question": "Skala peta 1:50.000 berarti...",
+      "options": [
+        "1 cm di peta = 50 meter di lapangan",
+        "1 cm di peta = 500 meter di lapangan",
+        "1 cm di peta = 5 km di lapangan",
+        "1 mm di peta = 50 cm di lapangan"
+      ],
+      "correctAnswer": "1 cm di peta = 500 meter di lapangan",
+      "explanation": "Skala 1:50.000 berarti 1 satuan di peta = 50.000 satuan yang sama di lapangan. Jadi 1 cm di peta = 50.000 cm = 500 meter di lapangan nyata. Peta skala 1:25.000 lebih detail (1 cm = 250 m), dipakai untuk navigasi hiking. Peta 1:50.000 dipakai TNI/pramuka untuk orientasi daerah.",
+      "tags": ["peta-topografi", "skala"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_013",
+      "question": "Garis kontur pada peta topografi menghubungkan titik-titik yang...",
+      "options": [
+        "Memiliki jenis tanah yang sama",
+        "Memiliki ketinggian yang sama di atas permukaan laut",
+        "Memiliki jarak yang sama dari sumber air",
+        "Berjarak sama dari batas kota"
+      ],
+      "correctAnswer": "Memiliki ketinggian yang sama di atas permukaan laut",
+      "explanation": "Garis kontur adalah garis khayal pada peta yang menghubungkan semua titik dengan ketinggian yang sama di atas muka laut. Ciri-ciri: (1) Garis kontur yang rapat = lereng curam. (2) Garis kontur yang jarang = lereng landai. (3) Garis kontur membentuk lingkaran tertutup = puncak bukit. (4) Garis kontur berbentuk V mengarah ke hulu = lembah/sungai.",
+      "tags": ["peta-topografi", "kontur"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_014",
+      "question": "Contour interval (interval kontur) adalah...",
+      "options": [
+        "Jarak horizontal antara dua garis kontur di peta",
+        "Beda ketinggian antara dua garis kontur yang berdekatan",
+        "Tebal garis kontur pada peta",
+        "Jumlah garis kontur dalam satu lembar peta"
+      ],
+      "correctAnswer": "Beda ketinggian antara dua garis kontur yang berdekatan",
+      "explanation": "Contour interval (CI) adalah beda ketinggian antara dua garis kontur yang berurutan. Contoh: jika CI = 25 meter, setiap garis kontur lebih tinggi 25 meter dari garis di bawahnya. CI tercantum di legenda peta. Peta dengan CI kecil lebih detail dalam menggambarkan relief.",
+      "tags": ["peta-topografi", "kontur"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "kompas_015",
+      "question": "Simbol garis biru berliku-liku pada peta topografi biasanya mewakili...",
+      "options": ["Jalan raya", "Batas wilayah administrasi", "Sungai atau aliran air", "Jalur listrik tegangan tinggi"],
+      "correctAnswer": "Sungai atau aliran air",
+      "explanation": "Pada peta topografi standar, warna biru digunakan untuk unsur-unsur air: sungai (garis biru), danau/waduk (area biru), rawa (simbol biru). Warna lain: hijau = vegetasi, cokelat = garis kontur, merah/hitam = jalan dan bangunan, kuning = lahan pertanian.",
+      "tags": ["peta-topografi", "simbol"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_016",
+      "question": "Legenda peta adalah...",
+      "options": [
+        "Nama pembuat peta",
+        "Kumpulan simbol beserta penjelasannya yang tertera di tepi peta",
+        "Skala yang ditunjukkan dalam bentuk grafis",
+        "Tahun pembuatan peta"
+      ],
+      "correctAnswer": "Kumpulan simbol beserta penjelasannya yang tertera di tepi peta",
+      "explanation": "Legenda (keterangan) peta adalah daftar simbol yang digunakan dalam peta beserta artinya, biasanya terletak di bagian tepi atau sudut peta. Tanpa legenda, simbol pada peta tidak bisa dibaca dengan benar.",
+      "tags": ["peta-topografi", "legenda"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_017",
+      "question": "Orientasi peta (map orientation) artinya...",
+      "options": [
+        "Membuat peta baru berdasarkan pengamatan lapangan",
+        "Menyesuaikan arah peta dengan kondisi medan yang sebenarnya menggunakan kompas",
+        "Menggambar ulang peta yang sudah rusak",
+        "Memilih rute perjalanan di atas peta"
+      ],
+      "correctAnswer": "Menyesuaikan arah peta dengan kondisi medan yang sebenarnya menggunakan kompas",
+      "explanation": "Orientasi peta adalah proses memutar peta sehingga arah Utara peta sesuai dengan arah Utara kompas (dan kondisi medan nyata). Cara: (1) Letakkan kompas di atas peta. (2) Putar peta + kompas bersamaan hingga jarum kompas sejajar dengan garis grid utara pada peta. (3) Sekarang peta sudah terorientasi.",
+      "tags": ["orientasi", "navigasi"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_018",
+      "question": "Teknik resection dalam navigasi darat digunakan untuk...",
+      "options": [
+        "Menentukan arah ke tujuan menggunakan dua titik yang sudah dikenal",
+        "Menentukan posisi diri sendiri di peta dengan mengambil azimuth ke dua atau lebih titik yang dikenal",
+        "Memperkirakan jarak dengan menghitung langkah",
+        "Membaca ketinggian dari garis kontur peta"
+      ],
+      "correctAnswer": "Menentukan posisi diri sendiri di peta dengan mengambil azimuth ke dua atau lebih titik yang dikenal",
+      "explanation": "Resection: teknik menentukan posisi diri. Caranya: (1) Identifikasi dua atau tiga titik yang bisa dilihat dan ada di peta (puncak gunung, menara, dll). (2) Ukur back azimuth dari tiap titik ke posisimu. (3) Tarik garis di peta dari titik-titik tersebut sesuai azimuth. (4) Perpotongan garis-garis itu adalah posisimu.",
+      "tags": ["resection", "navigasi"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "kompas_019",
+      "question": "Dalam navigasi darat, 'dead reckoning' adalah teknik...",
+      "options": [
+        "Navigasi menggunakan bintang di malam hari",
+        "Memperkirakan posisi terkini berdasarkan posisi awal, kecepatan, arah, dan waktu tempuh",
+        "Membaca peta menggunakan senter di malam hari",
+        "Navigasi dengan mempertahankan jalur yang sudah dikenal tanpa peta"
+      ],
+      "correctAnswer": "Memperkirakan posisi terkini berdasarkan posisi awal, kecepatan, arah, dan waktu tempuh",
+      "explanation": "Dead reckoning adalah teknik navigasi dengan menghitung posisi terkini dari posisi yang diketahui terakhir, dengan mempertimbangkan kecepatan jalan, waktu yang ditempuh, dan arah.",
+      "tags": ["dead-reckoning", "navigasi"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "kompas_020",
+      "question": "Handrail dalam navigasi darat merujuk pada...",
+      "options": [
+        "Pegangan besi di lereng gunung",
+        "Fitur medan linear (sungai, jalan, punggungan) yang diikuti sebagai panduan arah",
+        "Tali pemandu yang dipasang di jalur pendakian berbahaya",
+        "Kompas yang dipegang dengan kedua tangan"
+      ],
+      "correctAnswer": "Fitur medan linear (sungai, jalan, punggungan) yang diikuti sebagai panduan arah",
+      "explanation": "Handrail adalah fitur alami atau buatan yang memanjang dan digunakan sebagai panduan navigasi. Contoh handrail: sungai, jalan setapak, punggungan bukit, pagar, tepi hutan. Dengan mengikuti handrail, navigator tidak perlu terus-menerus memeriksa kompas.",
+      "tags": ["handrail", "navigasi"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_021",
+      "question": "Catching feature (attack point / fitur penyergap) dalam navigasi adalah...",
+      "options": [
+        "Titik koordinat GPS yang ditandai di peta",
+        "Fitur medan yang mudah dikenali sebagai 'batas' agar tahu sudah melewati tujuan",
+        "Jalur evakuasi darurat saat tersesat",
+        "Metode untuk mengikuti peta di malam hari"
+      ],
+      "correctAnswer": "Fitur medan yang mudah dikenali sebagai 'batas' agar tahu sudah melewati tujuan",
+      "explanation": "Catching feature adalah fitur medan yang terletak di luar/melewati tujuanmu — jika mencapainya, kamu tahu sudah melewati titik tujuan. Contoh: sungai di seberang bukit yang ingin kamu capai. Jika kamu sudah mencapai sungai, berarti kamu sudah melewati bukit tujuan.",
+      "tags": ["catching-feature", "navigasi"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "kompas_022",
+      "question": "Cara paling sederhana mengukur jarak di lapangan (tanpa alat elektronik) adalah...",
+      "options": [
+        "Menggunakan bayangan matahari",
+        "Menghitung jumlah langkah kaki (pace count)",
+        "Mengukur dengan tali",
+        "Memperkirakan berdasarkan waktu tempuh saja"
+      ],
+      "correctAnswer": "Menghitung jumlah langkah kaki (pace count)",
+      "explanation": "Pace count adalah teknik mengukur jarak dengan menghitung langkah kaki. Pertama, kalibrasi: hitung berapa langkah (atau pasang langkah / double step) kamu butuhkan untuk berjalan 100 meter di medan datar. Rata-rata orang dewasa = sekitar 60-65 langkah per 100 meter.",
+      "tags": ["jarak", "pace-count"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_023",
+      "question": "Jika skala peta 1:25.000 dan jarak di peta adalah 4 cm, berapa jarak sebenarnya di lapangan?",
+      "options": ["25 meter", "100 meter", "500 meter", "1.000 meter"],
+      "correctAnswer": "1.000 meter",
+      "explanation": "Perhitungan: jarak nyata = jarak peta × skala = 4 cm × 25.000 = 100.000 cm = 1.000 meter = 1 km. Rumus mudah untuk peta 1:25.000: kalikan cm di peta dengan 250 untuk mendapatkan meter. Untuk peta 1:50.000: kalikan cm di peta dengan 500 untuk mendapatkan meter.",
+      "tags": ["skala", "peta"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_024",
+      "question": "Cara menentukan arah Utara menggunakan posisi matahari di belahan bumi selatan (Indonesia) pada siang hari adalah...",
+      "options": [
+        "Matahari selalu berada tepat di Utara saat tengah hari",
+        "Matahari berada di arah Utara saat tepat tengah hari (pukul 12 siang) di Indonesia",
+        "Bayangan benda menunjuk ke Selatan saat tengah hari di Indonesia",
+        "Matahari terbenam di arah Barat lalu bergerak ke Utara"
+      ],
+      "correctAnswer": "Bayangan benda menunjuk ke Selatan saat tengah hari di Indonesia",
+      "explanation": "Di Indonesia (yang berada antara 6°LU dan 11°LS), matahari berada di sisi Utara ekuator saat tengah hari untuk lokasi di selatan khatulistiwa. Saat tepat tengah hari, bayangan benda tegak menunjuk ke Selatan (karena matahari ada di Utara). Jadi jika punggungmu ke bayangan, kamu menghadap Utara.",
+      "tags": ["navigasi-alam", "matahari"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_025",
+      "question": "Rasi bintang yang digunakan untuk menentukan arah Selatan di belahan bumi selatan (termasuk Indonesia bagian selatan) adalah...",
+      "options": ["Orion (Waluku)", "Crux (Bintang Pari / Salib Selatan)", "Scorpius (Kalajengking)", "Ursa Major (Beruang Besar)"],
+      "correctAnswer": "Crux (Bintang Pari / Salib Selatan)",
+      "explanation": "Crux (Southern Cross / Bintang Pari) adalah rasi bintang yang digunakan untuk menentukan arah Selatan di belahan bumi selatan. Cara: perpanjang sumbu panjang Crux sejauh 4,5 kali panjangnya — ujungnya menunjuk ke arah Selatan.",
+      "tags": ["navigasi-alam", "bintang"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "kompas_026",
+      "question": "Teknik 'watch method' (metode jam tangan) untuk menentukan arah menggunakan...",
+      "options": [
+        "Jam tangan digital dengan fitur kompas",
+        "Jam tangan analog (jarum jam) diarahkan ke matahari untuk menemukan Selatan",
+        "Jam tangan sebagai alat ukur jarak",
+        "Waktu lokal dibandingkan GMT untuk menentukan bujur"
+      ],
+      "correctAnswer": "Jam tangan analog (jarum jam) diarahkan ke matahari untuk menemukan Selatan",
+      "explanation": "Metode jam tangan (untuk belahan bumi utara): arahkan jarum jam ke matahari, garis bagi sudut antara jarum jam dan angka 12 menunjuk ke Selatan. Di belahan bumi selatan: arahkan angka 12 ke matahari, garis bagi antara angka 12 dan jarum jam menunjuk ke Utara.",
+      "tags": ["navigasi-alam", "jam-tangan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "kompas_027",
+      "question": "Kelemahan utama GPS dibandingkan kompas magnetik dalam kegiatan pramuka di lapangan adalah...",
+      "options": [
+        "GPS tidak bisa menunjukkan arah sama sekali",
+        "GPS membutuhkan baterai, sinyal satelit, dan bisa mati — kompas tidak butuh keduanya",
+        "GPS hanya bisa digunakan di kota besar",
+        "GPS tidak bisa menunjukkan posisi di peta topografi"
+      ],
+      "correctAnswer": "GPS membutuhkan baterai, sinyal satelit, dan bisa mati — kompas tidak butuh keduanya",
+      "explanation": "GPS sangat akurat namun memiliki kelemahan: (1) Membutuhkan baterai yang bisa habis. (2) Sinyal lemah di hutan lebat, lembah, atau saat cuaca buruk. (3) Rentan rusak akibat jatuh atau terkena air. Kompas magnetik tidak membutuhkan baterai, tahan cuaca, dan berfungsi selama ada medan magnet bumi.",
+      "tags": ["gps", "teknologi"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "kompas_028",
+      "question": "Koordinat 'UTM' (Universal Transverse Mercator) berbeda dari koordinat 'lintang-bujur' (lat-long) karena...",
+      "options": [
+        "UTM menggunakan derajat-menit-detik, lat-long menggunakan angka desimal",
+        "UTM menggunakan sistem grid meter yang lebih mudah untuk mengukur jarak di peta topografi",
+        "UTM hanya untuk navigasi laut, lat-long untuk navigasi darat",
+        "Keduanya identik, hanya penyebutan yang berbeda"
+      ],
+      "correctAnswer": "UTM menggunakan sistem grid meter yang lebih mudah untuk mengukur jarak di peta topografi",
+      "explanation": "Koordinat lintang-bujur (latitude-longitude) menggunakan derajat dan memerlukan perhitungan kompleks untuk jarak. Koordinat UTM membagi dunia menjadi zona-zona dengan sistem grid meter, sehingga mengukur jarak di peta menjadi sederhana.",
+      "tags": ["utm", "koordinat"],
+      "difficulty": "hard"
+    }
+  ]
+}

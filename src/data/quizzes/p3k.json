@@ -1,0 +1,495 @@
+{
+  "id": "p3k",
+  "title": "Kuis P3K Pramuka",
+  "description": "Latihan pertolongan pertama (P3K) pramuka: penanganan perdarahan, luka bakar, patah tulang, syok, RJP, tersedak, gigitan ular, dan hipotermia.",
+  "category": "Keterampilan",
+  "group": "Kesehatan & Keselamatan",
+  "difficulty": "hard",
+  "xpPerQuestion": 16,
+  "totalQuestions": 35,
+  "color": "red",
+  "icon": "🩺",
+  "hasLevels": false,
+  "badgeId": "p3k",
+  "helpContent": {
+    "title": "Panduan Cepat P3K",
+    "content": "Tindakan pertolongan pertama pada kecelakaan. Prinsip DR-ABC: Danger, Response, Airway, Breathing, Circulation. Nomor darurat: 119 (ambulans), 112 (universal)."
+  },
+  "questions": [
+    {
+      "id": "p3k_001",
+      "question": "Langkah pertama yang harus dilakukan sebelum memberikan pertolongan pada korban kecelakaan adalah...",
+      "options": [
+        "Segera angkat korban ke tempat yang lebih nyaman",
+        "Pastikan keamanan lokasi dan keselamatan penolong terlebih dahulu",
+        "Langsung berikan napas buatan tanpa memeriksa dahulu",
+        "Hubungi keluarga korban sebelum melakukan tindakan apapun"
+      ],
+      "correctAnswer": "Pastikan keamanan lokasi dan keselamatan penolong terlebih dahulu",
+      "explanation": "Prinsip utama P3K: Danger — Penolong yang tidak aman tidak dapat menolong siapapun. Sebelum mendekati korban, penolong harus memastikan lokasi aman dari bahaya (api, arus listrik, lalu lintas, runtuhan bangunan). Ini adalah langkah D dalam protokol DR-ABC: Danger, Response, Airway, Breathing, Circulation.",
+      "tags": ["prinsip-dasar", "p3k", "dr-abc"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "p3k_002",
+      "question": "Singkatan DR-ABC dalam protokol pertolongan pertama mengandung urutan...",
+      "options": [
+        "Danger, Response, Airway, Breathing, Circulation",
+        "Diagnose, Rescue, Ambulance, Bandage, Compress",
+        "Direct, Relax, Assess, Balance, Care",
+        "Detect, Report, Assist, Bind, Compress"
+      ],
+      "correctAnswer": "Danger, Response, Airway, Breathing, Circulation",
+      "explanation": "DR-ABC adalah protokol dasar pertolongan pertama: D = Danger (pastikan keamanan), R = Response (periksa respons korban dengan memanggil atau menepuk bahu), A = Airway (buka jalan napas), B = Breathing (periksa pernapasan), C = Circulation (periksa sirkulasi/denyut nadi dan kendalikan perdarahan). Urutan ini harus diikuti secara sistematis.",
+      "tags": ["dr-abc", "protokol"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "p3k_003",
+      "question": "Nomor telepon darurat untuk memanggil ambulans dan layanan kesehatan darurat di Indonesia adalah...",
+      "options": ["110", "112", "113", "119"],
+      "correctAnswer": "119",
+      "explanation": "Nomor darurat kesehatan di Indonesia adalah 119 (Pusat Krisis Kesehatan Kemenkes / PSC 119). Nomor lain: 110 (Polisi), 113 (Pemadam Kebakaran), 112 (Nomor darurat universal yang akan diteruskan ke layanan terkait). Dalam kondisi darurat medis, segera hubungi 119 untuk mendapatkan panduan dan ambulans.",
+      "tags": ["nomor-darurat", "ambulans"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "p3k_004",
+      "question": "P3K singkatan dari...",
+      "options": [
+        "Pedoman Pertolongan Pertama pada Kecelakaan",
+        "Pertolongan Pertama pada Kecelakaan",
+        "Paket Perlengkapan Pertolongan Kedaruratan",
+        "Prosedur Pertama Penanganan Korban"
+      ],
+      "correctAnswer": "Pertolongan Pertama pada Kecelakaan",
+      "explanation": "P3K adalah singkatan dari Pertolongan Pertama pada Kecelakaan. Dalam kepramukaan, materi P3K merupakan salah satu syarat kecakapan umum (SKU) yang wajib dikuasai. P3K bertujuan memberikan tindakan darurat sementara sebelum korban mendapat penanganan medis profesional, bukan untuk menggantikan perawatan dokter.",
+      "tags": ["p3k", "definisi"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "p3k_005",
+      "question": "Cara yang paling tepat untuk menghentikan perdarahan dari luka terbuka adalah...",
+      "options": [
+        "Ikat bagian atas luka dengan tali sekencang mungkin (tourniquet) segera",
+        "Tekan langsung luka dengan kain bersih atau steril secara terus-menerus",
+        "Siram luka dengan air panas untuk membunuh kuman",
+        "Biarkan darah mengalir keluar sampai berhenti sendiri"
+      ],
+      "correctAnswer": "Tekan langsung luka dengan kain bersih atau steril secara terus-menerus",
+      "explanation": "Penekanan langsung (direct pressure) adalah cara terbaik pertama untuk menghentikan perdarahan. Tekan luka dengan kain bersih/steril selama minimal 10-15 menit tanpa mengangkat kain. Tourniquet hanya digunakan sebagai pilihan terakhir pada perdarahan masif anggota tubuh yang tidak bisa dikendalikan dengan cara lain, karena dapat merusak jaringan jika dipakai terlalu lama.",
+      "tags": ["perdarahan", "penekanan-langsung"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_006",
+      "question": "Jika ada benda tajam (misalnya pecahan kaca) yang masih tertancap di dalam luka, tindakan yang benar adalah...",
+      "options": [
+        "Segera cabut benda tersebut agar luka bisa dibersihkan",
+        "Jangan cabut — stabilkan benda tersebut dan balut di sekitarnya",
+        "Dorong benda lebih dalam agar tidak mengganggu pembalutan",
+        "Putar benda tersebut sebelum mencabutnya untuk mengurangi rasa sakit"
+      ],
+      "correctAnswer": "Jangan cabut — stabilkan benda tersebut dan balut di sekitarnya",
+      "explanation": "Benda tertancap TIDAK BOLEH dicabut oleh penolong pertama karena berperan sebagai sumbatan alami yang mengurangi perdarahan. Mencabut benda bisa memperparah perdarahan dan merusak jaringan lebih lanjut. Stabilkan benda dengan mengganjalnya menggunakan kain di sekitar luka agar tidak bergerak, lalu balut dengan hati-hati dan segera bawa ke fasilitas medis.",
+      "tags": ["perdarahan", "benda-tancap"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_007",
+      "question": "Tanda perdarahan dalam (internal bleeding) yang perlu diwaspadai antara lain...",
+      "options": [
+        "Kulit terlihat merah dan panas di area cedera",
+        "Korban mengeluh haus berlebihan dan kulit tampak basah karena keringat berlebih saja",
+        "Kulit pucat, dingin, lembap; denyut nadi cepat dan lemah; perut terasa kaku atau nyeri",
+        "Korban berteriak kesakitan dan suhu tubuh naik tinggi"
+      ],
+      "correctAnswer": "Kulit pucat, dingin, lembap; denyut nadi cepat dan lemah; perut terasa kaku atau nyeri",
+      "explanation": "Perdarahan dalam (internal) tidak terlihat dari luar namun sangat berbahaya. Tandanya: kulit pucat/dingin/lembap (karena darah mengalir ke organ vital), denyut nadi lemah dan cepat, tekanan darah turun, mual/muntah, perut kaku atau nyeri tekan. Jika dicurigai ada perdarahan dalam, jangan berikan makan/minum dan segera evakuasi ke rumah sakit.",
+      "tags": ["perdarahan-dalam", "tanda"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_008",
+      "question": "Pertolongan pertama pada luka bakar akibat air panas adalah...",
+      "options": [
+        "Oleskan pasta gigi untuk menenangkan kulit",
+        "Tempelkan es batu langsung pada luka",
+        "Siram dengan air mengalir yang dingin minimal 10 menit",
+        "Tutup luka dengan plester segera"
+      ],
+      "correctAnswer": "Siram dengan air mengalir yang dingin minimal 10 menit",
+      "explanation": "Luka bakar harus disiram dengan air mengalir (running water) yang dingin (tidak es) selama minimal 10 menit. Tujuannya untuk menghentikan proses pembakaran (burning process) dan mendinginkan jaringan. Jangan menggunakan pasta gigi, es batu, mentega, atau bahan lainnya karena dapat memperparah kerusakan. Air mengalir adalah pertolongan pertama terbaik.",
+      "tags": ["luka-bakar", "pertolongan-pertama"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "p3k_009",
+      "question": "Setelah menyiram luka bakar, tindakan selanjutnya yang benar adalah...",
+      "options": [
+        "Oleskan salep antibiotik secara tebal",
+        "Tutup luka dengan kain bersih dan kering (lebih baik jika steril)",
+        "Usapkan minyak kelapa untuk melembapkan",
+        "Biarkan luka terbuka agar kering"
+      ],
+      "correctAnswer": "Tutup luka dengan kain bersih dan kering (lebih baik jika steril)",
+      "explanation": "Setelah disiram, luka bakar harus ditutup dengan kain bersih dan kering (lebih baik steril) untuk melindungi dari infeksi. Jangan gunakan salep, minyak, atau bahan berminyak lainnya karena dapat menyimpan panas dan memperparah luka. Gunakan cling film (plastic wrap) bersih jika tersedia untuk luka bakar ringan.",
+      "tags": ["luka-bakar", "penutupan-luka"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_010",
+      "question": "Luka bakar derajat berapakah yang ditandai dengan kulit melepuh (blister) dan nyeri hebat?",
+      "options": ["Derajat 1", "Derajat 2", "Derajat 3", "Derajat 4"],
+      "correctAnswer": "Derajat 2",
+      "explanation": "Luka bakar derajat 2 (superficial partial thickness) mengenai lapisan epidermis dan sebagian dermis. Ciri-cirinya: kulit melepuh (blister), nyeri hebat, warna kemerahan, dan lembap. Derajat 1: hanya kemerahan tanpa melepuh. Derajat 3: kulit putih/hitam, kering, tidak nyeri (saraf rusak).",
+      "tags": ["luka-bakar", "derajat"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_011",
+      "question": "Cara penanganan patah tulang yang benar adalah...",
+      "options": [
+        "Coba luruskan tulang yang patah agar normal kembali",
+        "Gerakkan bagian tubuh patah untuk mengurangi nyeri",
+        "Jangan digerakkan; pasang bidai untuk menopang bagian yang patah",
+        "Berikan minum banyak agar tulang lebih mudah disambung"
+      ],
+      "correctAnswer": "Jangan digerakkan; pasang bidai untuk menopang bagian yang patah",
+      "explanation": "Patah tulang: JANGAN DIGERAKKAN. Menggerakkan tulang patah dapat merusak saraf, pembuluh darah, dan jaringan di sekitarnya. Segera pasang bidai (splint) untuk menopang bagian yang patah dalam posisi ditemukan. Bidai harus mengikat di atas dan di bawah lokasi patah. Gunakan bahan yang keras (papan, majalah, kayu) dan bantal dengan kain untuk mengurangi nyeri.",
+      "tags": ["patah-tulang", "bidai"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_012",
+      "question": "Untuk patah tulang paha, sebaiknya bidai dipasang dari...",
+      "options": [
+        "Pinggang sampai pergelangan kaki",
+        "Paha sampai mata kaki",
+        "Lutut sampai tumit saja",
+        "Hanya di bagian yang patah"
+      ],
+      "correctAnswer": "Pinggang sampai pergelangan kaki",
+      "explanation": "Untuk patah tulang paha (femur), bidai harus mengikat sendi di atas dan di bawah lokasi patah, yaitu: sendi pinggul dan sendi pergelangan kaki. Jadi bidai dipasang dari pinggang sampai pergelangan kaki untuk mengurangi gerakan pada tulang paha.",
+      "tags": ["patah-tulang", "bidai"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_013",
+      "question": "Tanda korban mengalami syok (shock) adalah...",
+      "options": [
+        "Kulit kemerahan dan hangat, denyut nadi lambat",
+        "Kulit pucat, dingin, lembap; denyut nadi cepat dan lemah; gelisah",
+        "Kulit kuning, denyut nadi normal, tidak sadarkan diri",
+        "Kulit kering, denyut nadi tidak teraba, suhu tubuh tinggi"
+      ],
+      "correctAnswer": "Kulit pucat, dingin, lembap; denyut nadi cepat dan lemah; gelisah",
+      "explanation": "Syok adalah kondisi gagal sirkulasi yang menyebabkan organ vital tidak mendapat cukup darah dan oksigen. Tandanya: kulit pucat, dingin, lembap (berkeringat), denyut nadi cepat dan lemah, tekanan darah turun, gelisah/bingung, bernapas cepat. Syok adalah keadaan darurat medis yang membutuhkan penanganan segera.",
+      "tags": ["syok", "tanda"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_014",
+      "question": "Pertolongan pertama untuk korban syok adalah...",
+      "options": [
+        "Barikan minum air sebanyak-banyaknya",
+        "Baringkan korban, angkat kaki sekitar 30 cm, jaga agar tetap hangat",
+        "Dudukkan korban agar lebih nyaman",
+        "Berikan makan ringan untuk menambah tenaga"
+      ],
+      "correctAnswer": "Baringkan korban, angkat kaki sekitar 30 cm, jaga agar tetap hangat",
+      "explanation": "Untuk korban syok: Baringkan (tidur telentang), angkat kaki sekitar 30 cm (jika tidak ada cedera kepala, leher, atau tulang belakang) untuk meningkatkan aliran darah ke otak dan organ vital. Jaga agar korban tetap hangat dengan selimut. JANGAN beri makan/minum sebelum diketahui sadar penuh dan tidak ada cedera internal. Longgarkan pakaian ketat.",
+      "tags": ["syok", "pertolongan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_015",
+      "question": "RJP (Resusitasi Jantung Paru) dilakukan apabila korban...",
+      "options": [
+        "Tidak bernapas dengan normal",
+        "Tidak sadarkan diri saja",
+        "Tidak sadarkan diri DAN tidak bernapas dengan normal",
+        "Merasa pusing dan mual"
+      ],
+      "correctAnswer": "Tidak sadarkan diri DAN tidak bernapas dengan normal",
+      "explanation": "RJP (CPR) dilakukan apabila korban TIDAK SADARKAN DIRI DAN TIDAK BERNAPAS DENGAN NORMAL. Indikasi RJP: korban tidak merespons (tidak sadar), tidak bernapas, atau bernapas tidak normal (seperti hanya sesak napas). Jika korban masih bernapas normal (walaupun tidak sadar), jangan melakukan RJP, cukup masukkan ke posisi pemulihan (recovery position).",
+      "tags": ["rjp", "cpr", "indikasi"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_016",
+      "question": "Rasio tekanan dada dengan pemberian napas dalam RJP standar dewasa adalah...",
+      "options": ["15 : 2", "30 : 2", "5 : 1", "10 : 1"],
+      "correctAnswer": "30 : 2",
+      "explanation": "Rasio RJP standar untuk dewasa: 30 tekanan dada (chest compression) diikuti dengan 2 napas (rescue breath). Tekanan dada dilakukan dengan kedalaman sekitar 5-6 cm (1/3 kedalaman dada) dengan frekuensi 100-120 tekanan per menit. Mulailah RJP dengan tekanan dada, bukan napas.",
+      "tags": ["rjp", "rasio"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_017",
+      "question": "Tindakan pertolongan pertama pada korban tersedak (choking) dewasa yang sadar adalah...",
+      "options": [
+        "Berikan 5 pukulan punggung (back blows)",
+        "Berikan dorongan perut (abdominal thrusts / Heimlich maneuver)",
+        "Suruh minum air banyak-banyak",
+        "Letakkan korban tidur dan tepuk punggung"
+      ],
+      "correctAnswer": "Berikan dorongan perut (abdominal thrusts / Heimlich maneuver)",
+      "explanation": "Untuk korban tersedak dewasa yang sadar: lakukan Heimlich maneuver (abdominal thrusts) dengan posisi berdiri di belakang korban. Lingkarkan tangan di depan perut korban, satu tangan mengepal di atas pusar, tangan lain menutupinya, lalu dorong ke arah dalam dan ke atas secara cepat dan keras. Ulangi sampai benda tersumbat keluar. Jika korban tidak sadar, mulai RJP.",
+      "tags": ["tersedak", "heimlich"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_018",
+      "question": "Pertolongan pertama korban tersedak bayi di bawah 1 tahun adalah...",
+      "options": [
+        "Berikan dorongan perut dengan keras",
+        "Berikan 5 pukulan punggung di antara tulang belikat, lalu 5 dorongan dada jika belum berhasil",
+        "Suruh minum air hangat",
+        "Gulingkan bayi ke atas perut dan tepuk punggung"
+      ],
+      "correctAnswer": "Berikan 5 pukulan punggung di antara tulang belikat, lalu 5 dorongan dada jika belum berhasil",
+      "explanation": "Untuk bayi tersedak: Posisi bayi telungkup di lengan penolong dengan kepala lebih rendah. Berikan 5 pukulan punggung (back blows) dengan keras di antara tulang belikat. Jika belum berhasil, balik bayi ke posisi telentang dan berikan 5 dorongan dada (chest thrusts) dengan 2 jari di tengah tulang dada. Ulangi siklus ini sampai benda keluar atau bayi tidak sadar.",
+      "tags": ["tersedak", "bayi"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_019",
+      "question": "Gigitan ular berbisa, tindakan pertama yang benar adalah...",
+      "options": [
+        "Hisap bisa menggunakan mulut",
+        "Potong dan hisap luka dengan alat penghisap",
+        "Balut bagian yang digigit dengan kain tekan (crepe bandage) menggunakan teknik immobilisasi tekan (PIT)",
+        "Ikat ketat bagian atas gigitan dengan tali"
+      ],
+      "correctAnswer": "Balut bagian yang digigit dengan kain tekan (crepe bandage) menggunakan teknik immobilisasi tekan (PIT)",
+      "explanation": "Untuk gigitan ular berbisa di Indonesia (seperti ular kobra, king cobra, viper): JANGAN hisap bisa dengan mulut, jangan potong luka, jangan ikat dengan tourniquet. Teknik yang benar: Immobilisasi Tekan (PIT) dengan crepe bandage: balut dari ujung anggota tubuh (jari kaki/tangan) ke atas sampai ketiak/paha, balutan agak kencang. Immobilisasi anggota tubuh dengan bidai. Segera bawa ke fasilitas medis.",
+      "tags": ["gigitan-ular", "pit"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_020",
+      "question": "Apa yang TIDAK BOLEH dilakukan pada korban gigitan ular?",
+      "options": [
+        "Menghisap bisa dengan mulut",
+        "Mencuci luka dengan air dan sabun",
+        "Mengimmobilisasi korban",
+        "Menenangkan korban"
+      ],
+      "correctAnswer": "Menghisap bisa dengan mulut",
+      "explanation": "JANGAN menghisap bisa ular dengan mulut karena: (1) Bisa menginfeksi penolong, (2) Bisa menimbulkan luka di mulut, (3) Tidak efektif menghilangkan bisa. Jangan juga memotong luka, mengikat ketat (tourniquet), atau mengoleskan bahan apa pun ke luka. Segera lakukan PIT dan evakuasi.",
+      "tags": ["gigitan-ular", "larangan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_021",
+      "question": "Hipotermia adalah...",
+      "options": [
+        "Kondisi tubuh kelebihan panas akibat paparan panas berlebih",
+        "Kondisi suhu tubuh turun di bawah 35°C akibat paparan dingin",
+        "Kondisi dehidrasi berat akibat kekurangan cairan",
+        "Kondisi keracunan akibat makanan atau minuman"
+      ],
+      "correctAnswer": "Kondisi suhu tubuh turun di bawah 35°C akibat paparan dingin",
+      "explanation": "Hipotermia adalah penurunan suhu tubuh inti di bawah 35°C akibat paparan dingin yang berkepanjangan. Tubuh kehilangan panas lebih cepat dari kemampuannya memproduksi panas. Tandanya: menggigil, bicara melantur, koordinasi buruk, kulit dingin, denyut nadi lambat. Pertolongan: hangatkan korban dengan perlahan (lepaskan pakaian basah, berikan selimut, berikan minuman hangat jika sadar).",
+      "tags": ["hipotermia", "dingin"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_022",
+      "question": "Pertolongan pertama untuk korban heat stroke (sengatan panas) adalah...",
+      "options": [
+        "Berikan minum air dingin banyak-banyak",
+        "Pindahkan korban ke tempat teduh, kompres air dingin, kipasi korban",
+        "Barikan obat penurun panas",
+        "Biarkan korban istirahat sambil minum kopi"
+      ],
+      "correctAnswer": "Pindahkan korban ke tempat teduh, kompres air dingin, kipasi korban",
+      "explanation": "Heat stroke (sengatan panas) adalah keadaan darurat. Tandanya: suhu tubuh > 40°C, kulit panas dan kering (tidak berkeringat), kebingungan, pingsan. Pertolongan: Pindahkan ke tempat teduh SEGERA, lepas pakaian ketat, kompres dengan air dingin, kipasi korban, berikan minum air putih jika sadar. JANGAN beri asetaminofen/parasetamol. Segera evakuasi ke rumah sakit.",
+      "tags": ["heat-stroke", "panas"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_023",
+      "question": "RICE singkatan dari...",
+      "options": [
+        "Rest, Ice, Compression, Elevation",
+        "Run, Ice, Compress, Exercise",
+        "Relax, Ice, Care, Elevate",
+        "Rescue, Ice, Clean, Elevation"
+      ],
+      "correctAnswer": "Rest, Ice, Compression, Elevation",
+      "explanation": "RICE adalah protokol pertolongan pertama untuk cedera otot, sendi, dan ligamen (keseleo, terkilir): R = Rest (istirahatkan bagian cedera), I = Ice (kompres es dibungkus kain), C = Compression (balut tekan dengan kain elastis), E = Elevation (angkat bagian cedera lebih tinggi dari jantung). Berikan selama 48 jam pertama.",
+      "tags": ["rice", "keseleo"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "p3k_024",
+      "question": "Pertolongan pertama untuk kaki terkilir (sprain) adalah...",
+      "options": [
+        "Segera pijat daerah yang nyeri",
+        "Teruskan aktivitas agar tidak kaku",
+        "Istirahatkan, kompres es, balut tekan, angkat kaki (RICE)",
+        "Berikan salep hangat"
+      ],
+      "correctAnswer": "Istirahatkan, kompres es, balut tekan, angkat kaki (RICE)",
+      "explanation": "Terkilir (sprain) adalah peregangan atau robekan ligamen akibat gerakan mendadak. Pertolongannya dengan protokol RICE: Rest (istirahatkan), Ice (kompres es 15-20 menit tiap 2 jam), Compression (balut tekan), Elevation (angkat kaki). Hindari memijat atau menghangatkan bagian yang cedera pada 48 jam pertama.",
+      "tags": ["terkilir", "rice"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_025",
+      "question": "Posisi pemulihan (recovery position) digunakan untuk korban yang...",
+      "options": [
+        "Tidak sadar tetapi bernapas dengan normal",
+        "Tidak sadar dan tidak bernapas",
+        "Sadar dan bernapas normal",
+        "Mengalami patah tulang belakang"
+      ],
+      "correctAnswer": "Tidak sadar tetapi bernapas dengan normal",
+      "explanation": "Posisi pemulihan (recovery position) adalah posisi menyamping (lateral) yang digunakan untuk korban TIDAK SADAR TETAPI BERNAPAS DENGAN NORMAL. Posisi ini menjaga jalan napas tetap terbuka dan mencegah lidah jatuh ke belakang menyumbat jalan napas. Korban dimiringkan dengan kepala mendongak ke belakang, lengan atas menopang kepala, lengan bawah di samping tubuh. Jika korban tidak bernapas, lakukan RJP.",
+      "tags": ["recovery-position", "tidak-sadar"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_026",
+      "question": "Tindakan pertolongan pertama korban pingsan adalah...",
+      "options": [
+        "Berikan minum air gula",
+        "Baringkan korban, angkat kaki 30 cm, longgarkan pakaian ketat",
+        "Tepuk pipi korban untuk membangunkan",
+        "Berikan bau-bauan agar segera sadar"
+      ],
+      "correctAnswer": "Baringkan korban, angkat kaki 30 cm, longgarkan pakaian ketat",
+      "explanation": "Untuk korban pingsan: Baringkan korban di tempat datar, angkat kaki sekitar 30 cm (jika tidak ada trauma), longgarkan pakaian ketat (dasar, ikat pinggang), berikan udara segar, jaga agar jalan napas terbuka. Jangan beri makan/minum sampai korban benar-benar sadar. Jika tidak sadar setelah 1-2 menit, segera hubungi layanan darurat.",
+      "tags": ["pingsan", "pertolongan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "p3k_027",
+      "question": "Kapan penolong boleh berhenti melakukan RJP?",
+      "options": [
+        "Setelah 5 siklus RJP",
+        "Korban mulai bernapas secara spontan",
+        "Penolong merasa lelah",
+        "Setelah 10 menit melakukan RJP"
+      ],
+      "correctAnswer": "Korban mulai bernapas secara spontan",
+      "explanation": "RJP harus terus dilakukan sampai: (1) Korban mulai bernapas secara spontan/efektif, (2) Ada petugas medis yang mengambil alih (dokter, paramedis), (3) Penolong terlalu lelah untuk melanjutkan, (4) Ada AED (Automated External Defibrillator) yang siap digunakan. JANGAN berhenti RJP sebelum salah satu kondisi ini terpenuhi.",
+      "tags": ["rjp", "berhenti"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_028",
+      "question": "Apa yang dimaksud dengan 'golden period' dalam P3K?",
+      "options": [
+        "Waktu 1 jam pertama setelah kecelakaan di mana pertolongan efektif",
+        "Waktu 10 menit pertama setelah kecelakaan yang menentukan kesembuhan korban",
+        "Waktu emas 4-6 menit di mana otak bisa bertahan tanpa oksigen",
+        "Waktu 24 jam pertama untuk memantau korban"
+      ],
+      "correctAnswer": "Waktu 4-6 menit di mana otak bisa bertahan tanpa oksigen",
+      "explanation": "Golden period (masa emas) dalam P3K mengacu pada waktu 4-6 menit setelah otak berhenti mendapatkan oksigen. Jika otak tidak mendapat oksigen selama > 4-6 menit, kerusakan otak akan permanen dan korban berisiko tinggi meninggal. Itulah sebabnya RJP harus segera dimulai dan tidak boleh terputus.",
+      "tags": ["golden-period", "otak"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_029",
+      "question": "Saat melakukan RJP, berapa kedalaman tekanan dada yang tepat untuk dewasa?",
+      "options": [
+        "1-2 cm",
+        "3-4 cm",
+        "5-6 cm (1/3 kedalaman dada)",
+        "7-8 cm"
+      ],
+      "correctAnswer": "5-6 cm (1/3 kedalaman dada)",
+      "explanation": "Kedalaman tekanan dada yang tepat untuk RJP dewasa adalah sekitar 5-6 cm, atau kira-kira 1/3 kedalaman dada. Tekanan yang terlalu dangkal tidak akan memompa darah dengan efektif, sementara tekanan terlalu dalam berisiko merusak organ dalam.",
+      "tags": ["rjp", "tekanan-dada"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_030",
+      "question": "Bagaimana memeriksa pernapasan korban yang tidak sadar?",
+      "options": [
+        "Dekatkan telinga ke mulut korban dan rasakan napas",
+        "Lihat, Dengar, Rasakan selama 5-10 detik",
+        "Cek denyut nadi di pergelangan tangan",
+        "Berikan napas buatan dan lihat reaksi"
+      ],
+      "correctAnswer": "Lihat, Dengar, Rasakan selama 5-10 detik",
+      "explanation": "Untuk memeriksa pernapasan (Assessment of Breathing): Lihat (apakah dada naik-turun), Dengar (apakah ada suara napas), Rasakan (dekatkan pipi ke mulut/hidung korban). Lakukan selama 5-10 detik. Jika tidak ada tanda pernapasan normal, segera mulai RJP.",
+      "tags": ["pernapasan", "assessment"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_031",
+      "question": "Apa yang dimaksud dengan triase dalam situasi bencana/kecelakaan massal?",
+      "options": [
+        "Pemberian pertolongan kepada semua korban tanpa memandang tingkat kegawatannya",
+        "Pemilahan korban berdasarkan tingkat kegawatan untuk menentukan prioritas penanganan",
+        "Pengumpulan korban di satu lokasi untuk memudahkan evakuasi",
+        "Pemberian obat-obatan kepada korban yang mengalami sakit ringan"
+      ],
+      "correctAnswer": "Pemilahan korban berdasarkan tingkat kegawatan untuk menentukan prioritas penanganan",
+      "explanation": "Triase adalah proses pemilahan korban dalam situasi kecelakaan massal/bencana untuk menentukan urutan prioritas penanganan berdasarkan tingkat kegawatannya. Korban dikategorikan: Merah (darurat, prioritas 1), Kuning (urgent, prioritas 2), Hijau (ringan, prioritas 3), Hitam (meninggal/menderita luka kritis yang memerlukan penanganan lama).",
+      "tags": ["triase", "bencana"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_032",
+      "question": "Pertolongan pertama luka robek yang tepat adalah...",
+      "options": [
+        "Cuci luka dengan air bersih, hentikan perdarahan, tutup luka dengan kain steril",
+        "Oleskan betadine langsung ke luka terbuka",
+        "Tutup luka dengan plester tanpa membersihkan terlebih dahulu",
+        "Biarkan luka terbuka agar kering"
+      ],
+      "correctAnswer": "Cuci luka dengan air bersih, hentikan perdarahan, tutup luka dengan kain steril",
+      "explanation": "Pertolongan pertama luka robek: (1) Cuci luka dengan air bersih mengalir untuk menghilangkan kotoran, (2) Hentikan perdarahan dengan penekanan langsung, (3) Tutup luka dengan kain bersih/steril (bisa menggunakan perban). Jangan gunakan alkohol, betadine, atau yodium langsung ke luka terbuka karena akan merusak jaringan. Imunisasi tetanus perlu dipertimbangkan.",
+      "tags": ["luka-robek", "pertolongan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "p3k_033",
+      "question": "Kapan korban perlu mendapat pertolongan RJP bayi?",
+      "options": [
+        "Bayi tidak merespons AND bernapas normal",
+        "Bayi tidak merespons DAN tidak bernapas normal",
+        "Bayi sadar tapi menangis terus",
+        "Bayi demam tinggi"
+      ],
+      "correctAnswer": "Bayi tidak merespons DAN tidak bernapas normal",
+      "explanation": "RJP bayi dilakukan apabila bayi TIDAK MERESPONS (tidak bereaksi saat dipanggil/ditepuk) DAN TIDAK BERNAPAS NORMAL. Mulailah RJP bayi dengan 5 napas mulut ke mulut/hidung, lalu 30 tekanan dada dengan 2 jari, lalu 2 napas, diteruskan dengan 30:2. Gunakan teknik tekanan yang lebih lembut untuk bayi.",
+      "tags": ["rjp", "bayi"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_034",
+      "question": "Apa tindakan pertolongan pertama untuk korban lemas (drowning)?",
+      "options": [
+        "Segera lakukan RJP meskipun air masih keluar dari mulut",
+        "Tunggu korban batuk dan mengeluarkan air terlebih dahulu",
+        "Angkat korban dengan kepala di bawah untuk mengeluarkan air",
+        "Berikan minum air hangat"
+      ],
+      "correctAnswer": "Segera lakukan RJP meskipun air masih keluar dari mulut",
+      "explanation": "Untuk korban lemas (drowning): JANGAN buang waktu untuk mengeluarkan air. Segera mulai RJP meskipun air masih keluar dari mulut/hidung. Air dalam paru-paru tidak menghalangi RJP. Mulailah dengan tekanan dada (tidak perlu napas terlebih dahulu untuk korban dewasa). Jika korban sadar dan bernapas, masukkan ke posisi pemulihan.",
+      "tags": ["lemas", "rjp"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "p3k_035",
+      "question": "Apa yang harus dilakukan jika korban mengeluh nyeri dada setelah kecelakaan?",
+      "options": [
+        "Berikan obat pereda nyeri untuk mengurangi ketidaknyamanan",
+        "Segera istirahatkan dan hubungi layanan darurat (119)",
+        "Lakukan pijatan ringan di daerah dada",
+        "Berikan minum air panas"
+      ],
+      "correctAnswer": "Segera istirahatkan dan hubungi layanan darurat (119)",
+      "explanation": "Nyeri dada setelah kecelakaan adalah TANDA BAHAYA yang perlu diwaspadai. Bisa menandakan cedera serius pada jantung, paru-paru, tulang rusuk, atau organ dalam lainnya. SEGERA istirahatkan korban, jangan berikan makanan/minuman, dan hubungi layanan darurat (119) untuk evaluasi medis. Nyeri dada bukan untuk dianggap remeh.",
+      "tags": ["nyeri-dada", "tanda-bahaya"],
+      "difficulty": "hard"
+    }
+  ]
+}

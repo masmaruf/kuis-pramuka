@@ -1,0 +1,195 @@
+{
+  "id": "semaphore",
+  "title": "Semaphore (Sinyal Bendera)",
+  "description": "Latihan semaphore pramuka interaktif: tebak huruf dan kata dari posisi bendera semaphore. Visualisasi SVG akurat dengan 30 soal acak per sesi.",
+  "category": "Komunikasi & Isyarat",
+  "group": "Komunikasi & Isyarat",
+  "difficulty": "medium",
+  "xpPerQuestion": 15,
+  "totalQuestions": 12,
+  "color": "green",
+  "icon": "🚩",
+  "hasAudio": false,
+  "hasVisual": true,
+  "helpContent": {
+    "title": "Panduan Semaphore",
+    "content": "<h4>🚩 Cara Baca Semaphore</h4><p>Sinyal bendera menggunakan dua bendera yang dipegang pada posisi yang berbeda untuk mewakili huruf. Posisi dilihat dari arah penerima (dihadapkan ke pengirim).</p><ul><li><strong>Arah jarum jam</strong>: melambangkan posisi tangan pengirim (0°=Bawah/6, 45°=Kanan-Bawah, 90°=Kanan, 135°=Atas-Kanan, 180°=Atas, 225°=Atas-Kiri, 270°=Kiri, 315°=Bawah-Kiri)</li><li><strong>Bendera kanan</strong>: tangan kanan pengirim</li><li><strong>Bendera kiri</strong>: tangan kiri pengirim</li><li><strong>Posisi istirahat</strong>: A = kanan bawah (6), kiri bawah-kiri (7)</li></ul><p><strong>Tips:</strong> Huruf <strong>S</strong> (Selatan) = bendera kanan lurus ke bawah. Huruf <strong>U</strong> (Utara) = bendera kanan tegak ke atas.</p>"
+  },
+  "semaphoreAngles": {
+    "A": { "left": 315, "right": 0 },
+    "B": { "left": 270, "right": 0 },
+    "C": { "left": 225, "right": 0 },
+    "D": { "left": 180, "right": 0 },
+    "E": { "left": 0, "right": 135 },
+    "F": { "left": 0, "right": 90 },
+    "G": { "left": 0, "right": 45 },
+    "H": { "left": 315, "right": 270 },
+    "I": { "left": 315, "right": 225 },
+    "J": { "left": 180, "right": 90 },
+    "K": { "left": 315, "right": 180 },
+    "L": { "left": 315, "right": 135 },
+    "M": { "left": 315, "right": 90 },
+    "N": { "left": 315, "right": 45 },
+    "O": { "left": 270, "right": 225 },
+    "P": { "left": 270, "right": 180 },
+    "Q": { "left": 270, "right": 135 },
+    "R": { "left": 270, "right": 90 },
+    "S": { "left": 270, "right": 45 },
+    "T": { "left": 225, "right": 180 },
+    "U": { "left": 225, "right": 135 },
+    "V": { "left": 180, "right": 45 },
+    "W": { "left": 135, "right": 90 },
+    "X": { "left": 135, "right": 45 },
+    "Y": { "left": 225, "right": 90 },
+    "Z": { "left": 45, "right": 90 },
+    "1": { "left": 0, "right": 45 },
+    "2": { "left": 45, "right": 0 },
+    "3": { "left": 90, "right": 0 },
+    "4": { "left": 135, "right": 0 },
+    "5": { "left": 180, "right": 0 },
+    "6": { "left": 225, "right": 0 },
+    "7": { "left": 270, "right": 0 },
+    "8": { "left": 315, "right": 0 },
+    "9": { "left": 0, "right": 180 },
+    "0": { "left": 0, "right": 0 }
+  },
+  "questions": [
+    {
+      "id": "semaphore_001",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "A",
+      "correctAnswer": "A",
+      "options": ["A", "B", "H", "N"],
+      "explanation": "Huruf A: bendera kanan lurus ke bawah (posisi 6), bendera kiri serong kiri-bawah (posisi 7). Ingat: A adalah huruf pertama — posisi paling \"istirahat\" di sisi kiri. Semaphore menggunakan 8 posisi arah jarum jam (1=atas, 2=kanan-atas, 3=kanan, 4=kanan-bawah, 5=bawah, 6=kiri-bawah, 7=kiri, 8=kiri-atas)."
+    },
+    {
+      "id": "semaphore_002",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "B",
+      "correctAnswer": "B",
+      "options": ["B", "A", "C", "O"],
+      "explanation": "Huruf B: bendera kanan lurus ke bawah (posisi 6), bendera kiri lurus ke samping kiri (posisi 7/horizontal kiri). B = satu langkah dari A — bendera kiri bergerak ke posisi lebih tinggi. Cara beda A vs B: di A bendera kiri serong ke bawah, di B bendera kiri horizontal ke samping."
+    },
+    {
+      "id": "semaphore_003",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "D",
+      "correctAnswer": "D",
+      "options": ["D", "E", "K", "T"],
+      "explanation": "Huruf D: bendera kanan lurus ke bawah (posisi 6), bendera kiri tegak lurus ke atas (posisi 1/8). D adalah lanjutan C ke arah atas. Trik ingat: urutan A-B-C-D menggerakkan bendera kiri dari posisi 6→7→8→1 (berlawanan arah jarum jam), bendera kanan tetap di bawah (posisi 6)."
+    },
+    {
+      "id": "semaphore_004",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "G",
+      "correctAnswer": "G",
+      "options": ["G", "F", "P", "Z"],
+      "explanation": "Huruf G: bendera kanan serong kanan-atas (posisi 2), bendera kiri lurus ke bawah (posisi 6). Mulai dari huruf G, bendera kiri yang \"diam\" di bawah dan bendera kanan yang bergerak. Ini berbeda dari A-F dimana bendera kanan yang diam di posisi 6. G adalah huruf ke-7 — ingat dengan \"7 hari seminggu = G (bukan F)\"."
+    },
+    {
+      "id": "semaphore_005",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "H",
+      "correctAnswer": "H",
+      "options": ["H", "I", "M", "S"],
+      "explanation": "Huruf H: bendera kanan lurus ke samping kanan (posisi 3/horizontal kanan), bendera kiri lurus ke bawah (posisi 6). H = G bergerak satu langkah — dari serong kanan-atas ke horizontal kanan. Cara ingat: \"H = Horizontal\" — bendera kanan posisi horizontal penuh (jam 3)."
+    },
+    {
+      "id": "semaphore_006",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "J",
+      "correctAnswer": "J",
+      "options": ["J", "R", "P", "V"],
+      "explanation": "Huruf J: bendera kanan tegak lurus ke atas (posisi 1/12), bendera kiri lurus ke bawah (posisi 6). J hampir sama dengan huruf I tapi bendera kanan naik satu langkah lagi ke posisi paling atas. Dari G hingga J: bendera kanan bergerak dari posisi 2 → 3 → 4 → 5 → 1 (melewati atas)."
+    },
+    {
+      "id": "semaphore_007",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "N",
+      "correctAnswer": "N",
+      "options": ["N", "M", "O", "S"],
+      "explanation": "Huruf N: bendera kanan serong kanan-atas (posisi 2), bendera kiri serong kiri-atas (posisi 8). N adalah posisi simetris — kedua bendera membentuk huruf V terbalik (∧). Ingat: \"N = iNdah simetris, kedua bendera sama-sama ke atas serong.\" Mudah dibedakan dari M yang asimetris."
+    },
+    {
+      "id": "semaphore_008",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "P",
+      "correctAnswer": "P",
+      "options": ["P", "J", "R", "D"],
+      "explanation": "Huruf P: bendera kanan lurus ke bawah (posisi 6), bendera kiri serong kiri-atas (posisi 8). P sering tertukar dengan J — bedanya: J punya bendera kanan ke atas (posisi 1), sedangkan P bendera kanan ke bawah (posisi 6). Trik: \"P = Posisi bendera kanan Pastilah bawah.\""
+    },
+    {
+      "id": "semaphore_009",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "R",
+      "correctAnswer": "R",
+      "options": ["R", "P", "S", "Q"],
+      "explanation": "Huruf R: bendera kanan lurus ke samping kanan (posisi 3), bendera kiri serong kiri-atas (posisi 8). R = satu langkah dari Q (jika ada) — bendera kanan bergerak dari 2→3. Bedakan R vs P: R bendera kanan horizontal (posisi 3), P bendera kanan ke bawah (posisi 6). Ingat: \"R = kanan (bendera kanan horizontal ke kanan).\""
+    },
+    {
+      "id": "semaphore_010",
+      "type": "letter",
+      "question": "Huruf apakah yang ditunjukkan oleh posisi Semaphore di atas?",
+      "value": "S",
+      "correctAnswer": "S",
+      "options": ["S", "R", "T", "N"],
+      "explanation": "Huruf S: bendera kanan serong kanan-bawah (posisi 4), bendera kiri serong kiri-atas (posisi 8). S sering tertukar N: di N kedua bendera ke atas (posisi 2 & 8), di S bendera kanan turun ke posisi 4. Urutan N-O-P-Q-R-S: bendera kanan bergerak dari 2→3→4→5→3→4 (sementara bendera kiri naik-turun)."
+    },
+    {
+      "id": "semaphore_011",
+      "type": "word",
+      "question": "Perhatikan gerakan ejaan di atas. Kata apakah yang dikirimkan?",
+      "value": "SIAGA",
+      "correctAnswer": "SIAGA",
+      "options": ["SIAGA", "SIGAP", "SANGGA", "SABAR"],
+      "explanation": "SIAGA terdiri dari 5 huruf semaphore: S(kanan↘, kiri↖) I(kanan↓↙, kiri↓) A(kanan↓, kiri↙) G(kanan↗, kiri↓) A(ulang). Latihan membaca kata semaphore: perhatikan SETIAP perpindahan posisi bendera. Kesalahan umum: SIGAP (huruf ke-4 P bukan G) — bedakan posisi bendera kanan G(↗) vs P(↓)."
+    },
+    {
+      "id": "semaphore_012",
+      "type": "word",
+      "question": "Perhatikan gerakan ejaan di atas. Kata apakah yang dikirimkan?",
+      "value": "KEMAH",
+      "correctAnswer": "KEMAH",
+      "options": ["KEMAH", "KELAS", "KAWAN", "KABAR"],
+      "explanation": "KEMAH: K(kanan↓, kiri↓kanan=tengah/X) E(kanan↓, kiri↑) M(kanan↓kanan, kiri↓) A(kanan↓, kiri↙) H(kanan→, kiri↓). Saat membaca kata semaphore, fokus pada perubahan bendera di tiap huruf. Kesalahan umum pada K: sering tertukar dengan X karena posisi kedua bendera menyilang."
+    },
+    {
+      "id": "semaphore_013",
+      "type": "word",
+      "question": "Perhatikan gerakan ejaan di atas. Kata apakah yang dikirimkan?",
+      "value": "SANDI",
+      "correctAnswer": "SANDI",
+      "options": ["SANDI", "SABDA", "SADAR", "SANTA"],
+      "explanation": "SANDI: S(kanan↘, kiri↖) A(kanan↓, kiri↙) N(kanan↗, kiri↖) D(kanan↓, kiri↑) I(kanan↙, kiri↓). Perhatikan N di tengah kata: kedua bendera ke atas-serong membentuk V terbalik — posisi paling mudah dikenali. Setelah N, D memiliki bendera kiri tegak ke atas (posisi 12/1)."
+    }
+  ],
+  "badges": {
+    "semaphore_novice": {
+      "id": "semaphore_novice",
+      "name": "Isyarat Angin",
+      "description": "Selesaikan 1 kuis Semaphore",
+      "icon": "🚩",
+      "category": "Semaphore",
+      "rarity": "common",
+      "xpRequired": 10
+    },
+    "semaphore_expert": {
+      "id": "semaphore_expert",
+      "name": "Ahli Bendera",
+      "description": "Selesaikan kuis Semaphore dengan skor 100%",
+      "icon": "🎌",
+      "category": "Semaphore",
+      "rarity": "rare",
+      "xpRequired": 150
+    }
+  }
+}

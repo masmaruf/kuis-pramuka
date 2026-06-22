@@ -1,0 +1,1014 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Survival & Teknik Bertahan Pramuka" description="Latihan survival pramuka: akronim STOP dan SURVIVAL, bivak, air, makanan, api, gangguan binatang, dan survival kit. 30 soal acak per sesi.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Survival &amp; Teknik Bertahan</h2>
+				<span class="quiz-difficulty hard">Teknik Bertahan Hidup</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<!-- Main Quiz Card -->
+			<div class="quiz-main-card glass-card">
+				<!-- Progress Tracker -->
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+					</div>
+				</div>
+
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">🏕️ Survival</span>
+				</div>
+
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+
+				<div class="education-card" id="education-card" style="display: none;">
+					<div class="edu-header">
+						<span class="edu-icon">💡</span>
+						<span class="edu-label">Penjelasan</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<!-- Reference Sidebar -->
+			<div class="quiz-help-card glass-card">
+				<h3>Akronim SURVIVAL</h3>
+				<p class="help-subtitle">Panduan bertahan di alam bebas</p>
+				<div class="survival-list">
+					<div class="sv-row"><span class="sv-letter">S</span><span class="sv-text">Sadar dalam keadaan gawat darurat</span></div>
+					<div class="sv-row"><span class="sv-letter">U</span><span class="sv-text">Usahakan tetap tenang, gunakan akal sehat</span></div>
+					<div class="sv-row"><span class="sv-letter">R</span><span class="sv-text">Rasa takut dan putus asa hilangkan</span></div>
+					<div class="sv-row"><span class="sv-letter">V</span><span class="sv-text">Vitalitas tingkatkan</span></div>
+					<div class="sv-row"><span class="sv-letter">I</span><span class="sv-text">Ingin tetap hidup dan selamat itu tujuannya</span></div>
+					<div class="sv-row"><span class="sv-letter">V</span><span class="sv-text">Variasi alam bisa dimanfaatkan</span></div>
+					<div class="sv-row"><span class="sv-letter">A</span><span class="sv-text">Asal mengerti, berlatih, dan tahu caranya</span></div>
+					<div class="sv-row"><span class="sv-letter">L</span><span class="sv-text">Lancar, slaman, slumun, slamet</span></div>
+				</div>
+
+				<div class="help-divider"></div>
+
+				<h3>Akronim STOP</h3>
+				<p class="help-subtitle">Tindakan pertama saat tersesat</p>
+				<div class="survival-list">
+					<div class="sv-row"><span class="sv-letter">S</span><span class="sv-text">Stop &amp; Seating — berhenti dan duduk</span></div>
+					<div class="sv-row"><span class="sv-letter">T</span><span class="sv-text">Thinking — berpikirlah</span></div>
+					<div class="sv-row"><span class="sv-letter">O</span><span class="sv-text">Observe — amati keadaan sekitar</span></div>
+					<div class="sv-row"><span class="sv-letter">P</span><span class="sv-text">Planning — buat rencana tindakan</span></div>
+				</div>
+
+				<div class="help-divider"></div>
+
+				<h3>Ketahanan Tanpa Air &amp; Makanan</h3>
+				<div class="fact-box">
+					<div class="fact-row"><span class="fact-key">Tanpa air</span><span class="fact-val">3–5 hari</span></div>
+					<div class="fact-row"><span class="fact-key">Tanpa makanan</span><span class="fact-val">20–30 hari</span></div>
+					<div class="fact-row"><span class="fact-key">Faktor mental</span><span class="fact-val">~80% kesiapan</span></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Result Overlay -->
+		<div class="result-overlay" id="result-overlay" style="display: none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text">Anda menjawab soal dengan baik.</p>
+
+				<div class="result-stats-details">
+					<div class="detail-item">
+						<span class="label">XP Diperoleh</span>
+						<span class="value score-xp" id="result-xp">+100 XP</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Skor Akhir</span>
+						<span class="value" id="result-score">100/100</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Jawaban Benar</span>
+						<span class="value" id="result-correct">10/10</span>
+					</div>
+				</div>
+
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display: none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	// ─── Bank Soal Survival (30 soal, pilih 10 acak per sesi) ───────────────────
+
+	interface Question {
+		kategori: string;
+		q: string;
+		options: string[];
+		correct: string;
+		edu: string;
+	}
+
+	const QUESTIONS_POOL: Question[] = [
+		// ── Definisi & Konsep ─────────────────────────────────────────────────────
+		{
+			kategori: "Definisi Survival",
+			q: "Kata 'survive' dalam konteks kepramukaan berarti...",
+			options: [
+				"Berlari menjauh dari bahaya secepatnya",
+				"Mampu mempertahankan diri dari keadaan yang buruk dan kritis",
+				"Mencari pertolongan dari orang lain",
+				"Membuat peta dan kompas dari bahan alam"
+			],
+			correct: "Mampu mempertahankan diri dari keadaan yang buruk dan kritis",
+			edu: "Survival berasal dari kata 'survive' yang berarti mampu mempertahankan diri dari keadaan tertentu — khususnya dari keadaan buruk dan kritis. Seorang 'survivor' adalah orang yang sedang dalam proses mempertahankan dirinya. Survival bukan sekadar bertahan fisik, tetapi juga mencakup ketahanan mental dan kemampuan memanfaatkan sumber daya alam."
+		},
+		{
+			kategori: "Definisi Survival",
+			q: "Faktor manakah yang paling menentukan kemampuan seorang survivor untuk bertahan, sekitar 80% kesiapan survival bergantung pada faktor ini?",
+			options: ["Perlengkapan yang dibawa", "Mental dan kejiwaan", "Kondisi fisik dan kesehatan", "Teknik survival yang dikuasai"],
+			correct: "Mental dan kejiwaan",
+			edu: "Sekitar 80% kesiapan survival terletak pada faktor mental. Kepanikan, rasa putus asa, dan kehilangan akal sehat adalah musuh terbesar seorang survivor. Faktor lainnya adalah perlengkapan, teknik survival, dan kondisi fisik — namun semuanya bergantung pada kekuatan mental yang menjadi landasan utama kemampuan bertahan."
+		},
+		{
+			kategori: "Definisi Survival",
+			q: "Mengapa kebutuhan survival bisa timbul? Penyebab utamanya adalah...",
+			options: [
+				"Cuaca yang selalu tidak menentu di hutan",
+				"Adanya usaha manusia untuk keluar dari kesulitan akibat keadaan alam, makhluk hidup sekitar, dan kondisi diri sendiri",
+				"Minimnya perlengkapan yang dibawa saat berkemah",
+				"Kurangnya pengalaman dalam kegiatan pramuka"
+			],
+			correct: "Adanya usaha manusia untuk keluar dari kesulitan akibat keadaan alam, makhluk hidup sekitar, dan kondisi diri sendiri",
+			edu: "Kebutuhan survival timbul karena adanya usaha manusia untuk keluar dari tiga jenis kesulitan: (1) Keadaan alam — cuaca dan medan; (2) Keadaan makhluk hidup sekitar — binatang dan tumbuhan; (3) Keadaan diri sendiri — mental, fisik, dan kesehatan. Banyak kesulitan tersebut sebenarnya timbul akibat kesalahan diri sendiri, seperti tidak mempersiapkan diri dengan baik."
+		},
+		{
+			kategori: "Definisi Survival",
+			q: "Seorang survivor wajib memiliki pengetahuan tentang beberapa hal berikut, KECUALI...",
+			options: [
+				"Cara membuat bivak dan memperoleh air",
+				"Pengetahuan orientasi medan",
+				"Cara menghafal nama-nama latin tumbuhan hutan",
+				"Cara mendapatkan makanan dan membuat api"
+			],
+			correct: "Cara menghafal nama-nama latin tumbuhan hutan",
+			edu: "Pengetahuan survival yang diperlukan meliputi: cara membuat bivak, cara memperoleh air, cara mendapatkan makanan, cara membuat api, pengetahuan orientasi medan, cara mengatasi gangguan binatang, dan cara mencari pertolongan. Menghafal nama latin tumbuhan bukan prioritas survival — yang penting adalah mengenali tumbuhan yang dapat dan tidak dapat dimakan secara praktis."
+		},
+		{
+			kategori: "Definisi Survival",
+			q: "Langkah pertama yang harus dilakukan bila kelompok tersesat di alam bebas adalah...",
+			options: [
+				"Langsung berpencar untuk mencari jalan keluar",
+				"Memanjat pohon tertinggi untuk orientasi",
+				"Mengkoordinasi anggota dan melakukan pertolongan pertama",
+				"Menyalakan api besar sebagai sinyal darurat"
+			],
+			correct: "Mengkoordinasi anggota dan melakukan pertolongan pertama",
+			edu: "Langkah yang harus ditempuh bila tersesat: (1) Mengkoordinasi anggota — pastikan semua orang berkumpul dan tidak ada yang panik; (2) Melakukan pertolongan pertama bila ada yang terluka; (3) Melihat kemampuan anggota; (4) Mengadakan orientasi medan; (5) Mengadakan penjatahan makanan; (6) Membuat rencana dan pembagian tugas; (7) Berusaha menyambung komunikasi; (8) Membuat jejak dan perhatian; (9) Mendapatkan pertolongan."
+		},
+		// ── Akronim STOP & SURVIVAL ───────────────────────────────────────────────
+		{
+			kategori: "Akronim STOP",
+			q: "Saat tersesat di hutan, hal pertama yang harus dilakukan sesuai akronim STOP adalah...",
+			options: [
+				"Segera berlari mencari jalan besar",
+				"Stop & Seating — berhenti dan duduk",
+				"Send signal — kirim sinyal darurat",
+				"Seek water — cari sumber air"
+			],
+			correct: "Stop & Seating — berhenti dan duduk",
+			edu: "Huruf S dalam STOP berarti Stop & Seating — berhenti dan duduk. Ini adalah langkah terpenting karena orang yang panik cenderung berlari tak tentu arah dan memperparah situasi. Dengan berhenti dan duduk, tubuh beristirahat, panik mulai mereda, dan pikiran dapat lebih jernih untuk langkah berikutnya."
+		},
+		{
+			kategori: "Akronim STOP",
+			q: "Huruf O dalam akronim STOP saat tersesat berarti...",
+			options: [
+				"Order — berikan perintah kepada anggota",
+				"Open — buka jalur komunikasi",
+				"Observe — amati keadaan sekitar",
+				"Orientate — tentukan arah utara"
+			],
+			correct: "Observe — amati keadaan sekitar",
+			edu: "O dalam STOP adalah Observe — amati keadaan sekitar. Setelah berhenti (S) dan berpikir (T), langkah berikutnya adalah mengamati lingkungan dengan cermat: arah matahari, tanda-tanda peradaban, aliran sungai, suara-suara di sekitar, dan kondisi anggota kelompok. Hasil observasi inilah yang menjadi dasar perencanaan (P) selanjutnya."
+		},
+		{
+			kategori: "Akronim SURVIVAL",
+			q: "Dalam akronim SURVIVAL, huruf R berarti...",
+			options: [
+				"Rencanakan jalur evakuasi",
+				"Rasa takut dan putus asa hilangkan",
+				"Rehat dan tidur untuk memulihkan tenaga",
+				"Radiasikan sinyal kepada penyelamat"
+			],
+			correct: "Rasa takut dan putus asa hilangkan",
+			edu: "R dalam SURVIVAL adalah 'Rasa takut dan putus asa hilangkan'. Rasa takut dan putus asa adalah musuh utama survival — keduanya menguras energi mental dan fisik, menghambat pengambilan keputusan yang tepat. Survivor yang berhasil adalah mereka yang mampu mengelola rasa takut dan tetap optimis meskipun berada dalam kondisi kritis."
+		},
+		{
+			kategori: "Akronim SURVIVAL",
+			q: "Huruf I dalam akronim SURVIVAL kepanjangannya adalah...",
+			options: [
+				"Identifikasi bahaya di sekitar",
+				"Ingin tetap hidup dan selamat itu tujuannya",
+				"Ikuti jalur aliran sungai",
+				"Isi survival kit sebelum berangkat"
+			],
+			correct: "Ingin tetap hidup dan selamat itu tujuannya",
+			edu: "I dalam SURVIVAL adalah 'Ingin tetap hidup dan selamat itu tujuannya'. Ini menekankan pentingnya motivasi dan keinginan yang kuat untuk selamat. Riset psikologi survival menunjukkan bahwa korban yang paling besar kemungkinan selamatnya adalah mereka yang memiliki alasan kuat untuk tetap hidup — bisa berupa keluarga, tanggung jawab, atau nilai-nilai yang dipegang teguh."
+		},
+		{
+			kategori: "Akronim SURVIVAL",
+			q: "Huruf V kedua (ke-6) dalam akronim SURVIVAL berarti...",
+			options: [
+				"Ventilasi — buat lubang udara di bivak",
+				"Variasi alam bisa dimanfaatkan",
+				"Verifikasi posisi dengan kompas",
+				"Visi — tetapkan target untuk esok hari"
+			],
+			correct: "Variasi alam bisa dimanfaatkan",
+			edu: "V kedua dalam SURVIVAL adalah 'Variasi alam bisa dimanfaatkan'. Alam menyediakan berbagai sumber daya yang dapat dimanfaatkan untuk bertahan hidup — dari tumbuhan yang dapat dimakan, air dari berbagai sumber, bahan untuk membuat api, hingga material untuk membuat shelter. Kreativitas dalam memanfaatkan variasi alam adalah kunci survival yang sukses."
+		},
+		// ── Shelter & Bivak ───────────────────────────────────────────────────────
+		{
+			kategori: "Shelter & Bivak",
+			q: "Tujuan utama membuat bivak (shelter) dalam survival adalah...",
+			options: [
+				"Sebagai tempat menyimpan makanan dan perlengkapan",
+				"Untuk melindungi dari angin, panas, hujan, dan dingin",
+				"Sebagai pos pengintaian di ketinggian",
+				"Agar mudah ditemukan oleh tim penyelamat"
+			],
+			correct: "Untuk melindungi dari angin, panas, hujan, dan dingin",
+			edu: "Tujuan utama membuat bivak/shelter dalam survival adalah untuk melindungi diri dari elemen alam: angin, panas matahari, hujan, dan dingin. Paparan berlebihan terhadap elemen-elemen ini dapat menyebabkan hipotermia, heat stroke, atau kelelahan ekstrem yang mengancam jiwa. Shelter yang baik mempertahankan suhu tubuh dan melindungi dari cuaca ekstrem."
+		},
+		{
+			kategori: "Shelter & Bivak",
+			q: "Manakah lokasi yang HARUS DIHINDARI saat memilih tempat mendirikan bivak?",
+			options: [
+				"Di bawah pohon yang rindang",
+				"Di daerah aliran air atau lembah sungai",
+				"Di tempat yang terlindung dari angin langsung",
+				"Di dekat sumber air bersih yang mengalir"
+			],
+			correct: "Di daerah aliran air atau lembah sungai",
+			edu: "Daerah aliran air harus dihindari saat memilih lokasi bivak karena risiko banjir bandang yang bisa datang tiba-tiba, terutama saat hujan deras di hulu. Selain itu, daerah lembah dan aliran air cenderung menjadi sarang nyamuk dan serangga. Syarat bivak yang benar: hindari daerah aliran air, pastikan tidak ada dahan mati di atas, bukan sarang nyamuk/serangga, bahan kuat, dan terlindung dari angin."
+		},
+		{
+			kategori: "Shelter & Bivak",
+			q: "Jenis shelter yang menggunakan gua alam sebagai tempat berlindung memiliki syarat penting yaitu...",
+			options: [
+				"Gua harus menghadap ke arah utara",
+				"Gua bukan tempat persembunyian binatang, tidak ada gas beracun, dan tidak mudah longsor",
+				"Gua harus memiliki aliran air di dalamnya",
+				"Gua harus cukup dalam minimal 10 meter"
+			],
+			correct: "Gua bukan tempat persembunyian binatang, tidak ada gas beracun, dan tidak mudah longsor",
+			edu: "Sebelum menggunakan gua sebagai shelter, periksa tiga hal: (1) Bukan tempat persembunyian binatang berbahaya seperti ular, kelelawar, atau hewan buas; (2) Tidak ada gas beracun — gunakan lilin atau nyala api kecil untuk mendeteksi gas berbahaya; (3) Tidak mudah longsor — periksa struktur atap dan dinding gua. Gua yang memenuhi syarat ini menjadi shelter alam terbaik."
+		},
+		{
+			kategori: "Shelter & Bivak",
+			q: "Salah satu syarat penting bivak adalah 'di atas shelter tidak ada dahan pohon mati atau rapuh'. Mengapa?",
+			options: [
+				"Agar cahaya matahari bisa masuk ke dalam bivak",
+				"Dahan mati bisa jatuh sewaktu-waktu dan membahayakan orang di dalam bivak",
+				"Agar sinyal darurat bisa terlihat dari udara",
+				"Dahan mati biasanya menjadi sarang lebah dan tawon"
+			],
+			correct: "Dahan mati bisa jatuh sewaktu-waktu dan membahayakan orang di dalam bivak",
+			edu: "Dahan pohon yang mati atau rapuh bisa jatuh kapan saja, terutama saat angin kencang atau hujan lebat — kondisi yang justru sering terjadi saat kita membutuhkan shelter. Kejatuhan dahan besar dapat menyebabkan cedera serius atau bahkan kematian. Ini adalah salah satu syarat utama pemilihan lokasi bivak yang aman selain menghindari daerah aliran air dan sarang serangga."
+		},
+		// ── Air & Makanan ─────────────────────────────────────────────────────────
+		{
+			kategori: "Air & Makanan",
+			q: "Berapa lama seseorang dalam kondisi normal dapat bertahan hidup TANPA AIR?",
+			options: ["1–2 hari", "3–5 hari", "7–10 hari", "14–20 hari"],
+			correct: "3–5 hari",
+			edu: "Seseorang dalam kondisi normal hanya dapat bertahan 3–5 hari tanpa air. Ini jauh lebih singkat dibandingkan tanpa makanan (20–30 hari). Air sangat vital untuk semua fungsi tubuh: mengatur suhu tubuh, melancarkan metabolisme, dan mengangkut nutrisi. Dalam kondisi panas atau aktivitas fisik tinggi, tubuh bisa mengalami dehidrasi kritis dalam hitungan jam."
+		},
+		{
+			kategori: "Air & Makanan",
+			q: "Air dari sumber mana yang TIDAK perlu dimurnikan terlebih dahulu sebelum diminum?",
+			options: [
+				"Air sungai besar yang mengalir deras",
+				"Air yang ditampung dari hujan langsung",
+				"Air dari genangan di lembah",
+				"Air yang digali dari pasir pantai"
+			],
+			correct: "Air yang ditampung dari hujan langsung",
+			edu: "Air hujan yang ditampung langsung (sebelum menyentuh tanah atau permukaan lain) adalah satu-satunya sumber air yang tidak perlu dimurnikan. Cara menampungnya: gunakan ponco, daun lebar, atau buat cekungan dari daun untuk mengalirkan air hujan ke wadah penampungan. Sumber air lainnya seperti sungai, genangan, atau air galian pantai harus dimurnikan terlebih dahulu."
+		},
+		{
+			kategori: "Air & Makanan",
+			q: "Cara mendapatkan air dari tanaman rambat atau rotan di hutan adalah...",
+			options: [
+				"Kupas kulitnya dan peras ke dalam wadah",
+				"Potong setinggi mungkin lalu potong bagian dekat tanah, tampung air yang menetes",
+				"Rebus batangnya hingga menghasilkan uap air",
+				"Tumbuk batangnya hingga halus kemudian peras"
+			],
+			correct: "Potong setinggi mungkin lalu potong bagian dekat tanah, tampung air yang menetes",
+			edu: "Cara mendapatkan air dari tanaman rambat/rotan: potong setinggi mungkin (dari atas), lalu potong pada bagian yang dekat dengan tanah. Air yang ada di dalam batang akan menetes karena gravitasi dan dapat ditampung atau diteteskan langsung ke mulut. Jangan memotong dari bawah dulu — tekanan udara akan mencegah air mengalir keluar."
+		},
+		{
+			kategori: "Air & Makanan",
+			q: "Patokan yang benar dalam memilih makanan dari alam saat survival adalah...",
+			options: [
+				"Pilih makanan yang paling mudah dijangkau dan berlimpah",
+				"Makanan yang dimakan kera juga bisa dimakan manusia, dan hindari makanan berwarna mencolok",
+				"Pilih tumbuhan yang paling hijau dan segar daunnya",
+				"Semua buah yang sudah matang aman untuk dimakan"
+			],
+			correct: "Makanan yang dimakan kera juga bisa dimakan manusia, dan hindari makanan berwarna mencolok",
+			edu: "Patokan memilih makanan survival: (1) Makanan yang dimakan kera juga bisa dimakan manusia — kera memiliki sistem pencernaan mirip manusia; (2) Hati-hati pada tumbuhan dan buah berwarna mencolok — sering menandakan beracun; (3) Hindari makanan yang mengeluarkan getah putih seperti sabun (kecuali sawo); (4) Coba oleskan pada tangan-lengan-bibir-lidah, tunggu sesaat, bila aman baru makan; (5) Hindari yang terlalu pahit atau asam."
+		},
+		{
+			kategori: "Air & Makanan",
+			q: "Tumbuhan berikut yang dapat dimakan bagian batangnya saat survival adalah...",
+			options: [
+				"Pohon jati dan pohon mahoni",
+				"Pohon pisang (putihnya), bambu muda (rebung), pakis, dan sagu",
+				"Pohon pinus dan pohon cemara",
+				"Semak belukar dan rerumputan"
+			],
+			correct: "Pohon pisang (putihnya), bambu muda (rebung), pakis, dan sagu",
+			edu: "Tumbuhan yang dapat dimakan dari batangnya: batang pohon pisang (bagian putihnya), bambu yang masih muda (rebung), pakis (bagian dalam yang berwarna putih), sagu (bagian dalam berwarna putih), dan tebu. Tumbuhan ini relatif mudah dikenali dan aman dikonsumsi. Bagian dalam yang berwarna putih menandakan kandungan pati yang bisa menjadi sumber energi."
+		},
+		{
+			kategori: "Air & Makanan",
+			q: "Ciri-ciri JAMUR BERACUN yang perlu diwaspadai adalah...",
+			options: [
+				"Berwarna cokelat atau hitam, berbau harum, dan tumbuh di batang pohon",
+				"Berwarna mencolok, berbau tidak sedap, bila dimasak membuat nasi menjadi kuning, dan tumbuh dari kotoran hewan",
+				"Berukuran besar, berwarna putih, dan mudah dicabut dari tanah",
+				"Tumbuh di tempat lembab, berbentuk payung, dan berbau seperti tanah"
+			],
+			correct: "Berwarna mencolok, berbau tidak sedap, bila dimasak membuat nasi menjadi kuning, dan tumbuh dari kotoran hewan",
+			edu: "Ciri-ciri jamur beracun: (1) Warna mencolok (merah, kuning cerah, ungu); (2) Bau tidak sedap; (3) Bila dimasak bersama nasi, nasinya menjadi kuning; (4) Sendok menjadi hitam bila dimasukkan ke dalam masakan; (5) Mudah hancur bila diraba; (6) Punya cawan/bentuk mangkok di bagian dasar; (7) Tumbuh dari kotoran hewan; (8) Mengeluarkan getah putih. Bila ragu, jangan dimakan."
+		},
+		// ── Api ───────────────────────────────────────────────────────────────────
+		{
+			kategori: "Membuat Api",
+			q: "Cara membuat api menggunakan sinar matahari adalah dengan...",
+			options: [
+				"Memantulkan sinar matahari menggunakan cermin ke tumpukan daun kering",
+				"Memfokuskan sinar matahari pada satu titik menggunakan lensa atau kaca pembesar",
+				"Menjemur kayu kering di bawah sinar matahari selama beberapa jam",
+				"Menggunakan batu hitam yang dipanaskan matahari untuk membakar daun"
+			],
+			correct: "Memfokuskan sinar matahari pada satu titik menggunakan lensa atau kaca pembesar",
+			edu: "Cara membuat api dengan lensa/kaca pembesar: fokuskan sinar matahari melalui lensa pada satu titik kecil di atas bahan yang mudah terbakar (kawul, daun kering, atau kertas). Sinar yang terfokus akan menghasilkan panas yang sangat tinggi dan dapat membakar bahan penyala. Metode ini efektif di siang hari cerah tetapi tidak bisa digunakan saat mendung atau malam hari."
+		},
+		{
+			kategori: "Membuat Api",
+			q: "Membuat api dengan menggesek-gesekkan dua batang kayu dikenal sebagai cara yang...",
+			options: [
+				"Paling mudah dan cepat dilakukan pemula",
+				"Paling susah dan membutuhkan latihan intensif",
+				"Paling aman dan tidak berisiko",
+				"Paling efisien dalam penggunaan tenaga"
+			],
+			correct: "Paling susah dan membutuhkan latihan intensif",
+			edu: "Membuat api dengan gesekan kayu (fire by friction) adalah cara yang paling susah. Perlu latihan intensif untuk menghasilkan panas yang cukup dari gesekan dua batang kayu. Penting untuk menggunakan kayu yang tepat (kayu keras), gerakan yang konsisten dan cepat, serta memiliki bahan penyala yang siap di dekat titik gesekan. Metode busur-gurdi (bow drill) sedikit lebih mudah daripada gesekan langsung."
+		},
+		{
+			kategori: "Membuat Api",
+			q: "Bahan penyala api alami yang terbaik dan mudah ditemukan di alam adalah...",
+			options: [
+				"Daun jati kering yang berwarna cokelat",
+				"Kawul yang terdapat pada dasar kelapa atau daun aren",
+				"Lumut kering yang tumbuh di bebatuan",
+				"Kulit kayu yang mengelupas dari pohon tua"
+			],
+			correct: "Kawul yang terdapat pada dasar kelapa atau daun aren",
+			edu: "Kawul adalah serat halus berwarna cokelat keemasan yang terdapat di pangkal pelepah (dasar) pohon kelapa atau pohon aren. Kawul mudah terbakar bahkan dari percikan kecil atau bara yang lemah karena seratnya yang sangat halus dan kering. Ini menjadikan kawul bahan penyala api alami terbaik untuk teknik survival, terutama saat menggunakan metode busur-gurdi atau batu api."
+		},
+		// ── Gangguan Binatang ─────────────────────────────────────────────────────
+		{
+			kategori: "Gangguan Binatang",
+			q: "Cara yang benar untuk melepaskan lintah yang menempel di kulit adalah...",
+			options: [
+				"Tarik paksa lintah dengan cepat menggunakan jari",
+				"Bakar lintah menggunakan korek api atau lilin",
+				"Teteskan air tembakau, tabur garam, atau teteskan sari jeruk mentah pada lintah",
+				"Siram dengan air bersih sambil digosok keras"
+			],
+			correct: "Teteskan air tembakau, tabur garam, atau teteskan sari jeruk mentah pada lintah",
+			edu: "Cara melepas lintah: teteskan air tembakau, tabur garam di atas lintah, teteskan sari jeruk mentah, atau taburkan abu rokok. Semua cara ini membuat lintah melepas gigitan secara alami. JANGAN menarik paksa atau membakar lintah — menarik paksa dapat meninggalkan bagian mulut lintah di kulit dan menyebabkan infeksi; membakar dapat membuat lintah memuntahkan darah yang terhisap kembali ke luka."
+		},
+		{
+			kategori: "Gangguan Binatang",
+			q: "Pertolongan pertama yang benar bila disengat lebah adalah...",
+			options: [
+				"Isap racun dari luka sengatan dengan mulut",
+				"Oleskan air bawang merah berkali-kali atau tempelkan tanah basah/liat di atas luka",
+				"Balut luka dengan perban ketat untuk mencegah racun menyebar",
+				"Cuci luka dengan air garam dan minum antibiotik"
+			],
+			correct: "Oleskan air bawang merah berkali-kali atau tempelkan tanah basah/liat di atas luka",
+			edu: "Pertolongan pertama sengatan lebah: (1) Oleskan air bawang merah pada luka berkali-kali — senyawa dalam bawang merah membantu menetralisir racun; (2) Tempelkan tanah basah/liat di atas luka — tanah liat memiliki sifat penyerap yang membantu menarik racun; (3) Jangan dipijit-pijit — dapat menyebarkan racun; (4) Tempelkan pecahan genting panas di atas luka. Cabut sengat lebah dengan hati-hati menggunakan kuku atau benda tumpul, jangan dipencet."
+		},
+		{
+			kategori: "Gangguan Binatang",
+			q: "Cara mencegah semut masuk ke dalam bivak atau area istirahat adalah...",
+			options: [
+				"Tutup semua lubang dengan tanah liat",
+				"Letakkan cabe merah atau sobekan daun sirih di jalan semut",
+				"Pasang perangkap semut dari air gula",
+				"Gali parit kecil berisi air di sekeliling bivak"
+			],
+			correct: "Letakkan cabe merah atau sobekan daun sirih di jalan semut",
+			edu: "Cara mengatasi semut: (1) Gosokkan obat gosok pada luka gigitan; (2) Letakkan cabe merah pada jalur semut — capsaicin dalam cabe merah mengganggu feromon semut; (3) Letakkan sobekan daun sirih pada jalur semut — minyak atsiri dalam daun sirih bersifat mengusir serangga. Taburkan garam di sekeliling bivak juga efektif mengusir berbagai serangga termasuk semut."
+		},
+		{
+			kategori: "Gangguan Binatang",
+			q: "Tindakan pertolongan pertama yang benar bila digigit kalajengking atau lipan adalah...",
+			options: [
+				"Isap racun dari luka dan segera minum air sebanyak-banyaknya",
+				"Pijat daerah sekitar luka hingga racun keluar, ikat tubuh di sebelah pangkal yang digigit",
+				"Rendam bagian yang digigit dalam air dingin selama 30 menit",
+				"Biarkan saja, racun kalajengking tidak berbahaya bagi manusia dewasa"
+			],
+			correct: "Pijat daerah sekitar luka hingga racun keluar, ikat tubuh di sebelah pangkal yang digigit",
+			edu: "Pertolongan pertama gigitan kalajengking/lipan: (1) Pijat daerah sekitar luka sampai racun keluar; (2) Ikat tubuh di sebelah pangkal yang digigit untuk memperlambat penyebaran racun; (3) Tempelkan asam yang dilumatkan di atas luka; (4) Bobokkan serbuk lada dan minyak goreng pada luka; (5) Taburkan garam di sekeliling bivak sebagai pencegahan. Segera cari pertolongan medis bila memungkinkan."
+		},
+		// ── Bahaya & Pencegahan ───────────────────────────────────────────────────
+		{
+			kategori: "Bahaya & Pencegahan",
+			q: "Bahaya ketegangan dan panik dalam survival dapat dicegah dengan...",
+			options: [
+				"Membawa obat penenang dalam survival kit",
+				"Sering berlatih, berpikir positif dan optimis, serta persiapan fisik dan mental",
+				"Tidak pernah melakukan kegiatan alam bebas sendirian",
+				"Selalu membawa makanan lebih dari cukup"
+			],
+			correct: "Sering berlatih, berpikir positif dan optimis, serta persiapan fisik dan mental",
+			edu: "Ketegangan dan panik adalah bahaya utama survival — 80% kegagalan survival disebabkan oleh faktor mental. Pencegahannya: (1) Sering berlatih — sehingga teknik survival menjadi refleks alami; (2) Berpikir positif dan optimis; (3) Persiapan fisik dan mental sebelum kegiatan. Seseorang yang sudah berlatih akan jauh lebih tenang saat menghadapi situasi nyata dibandingkan yang belum pernah berlatih sama sekali."
+		},
+		{
+			kategori: "Bahaya & Pencegahan",
+			q: "Binatang mana yang TIDAK BISA dimakan karena mengandung bisa berbahaya bagi manusia?",
+			options: [
+				"Belalang dan jangkrik",
+				"Katak hijau dan kadal",
+				"Lipan dan kalajengking",
+				"Laron dan lebah"
+			],
+			correct: "Lipan dan kalajengking",
+			edu: "Binatang yang tidak bisa dimakan: (1) Mengandung bisa: lipan dan kalajengking; (2) Mengandung racun: penyu laut; (3) Mengandung bau khas: sigung (musang). Sebaliknya, binatang yang bisa dimakan saat survival: belalang, jangkrik, tempayak putih (gendon), cacing, berbagai jenis burung, laron, lebah (larva dan madu), siput, kadal (bagian belakang dan ekor), katak hijau, ular (1/3 bagian tengah tubuhnya), dan binatang besar lainnya."
+		},
+		{
+			kategori: "Bahaya & Pencegahan",
+			q: "Isi Survival Kit (perlengkapan survival dasar) yang wajib selalu dibawa saat kegiatan alam bebas meliputi...",
+			options: [
+				"Tenda, sleeping bag, dan kompor gas",
+				"Pancing, pisau, tali, senter, cermin, peluit, korek api kedap air, tablet garam, dan obat pribadi",
+				"GPS, radio komunikasi, dan flare gun",
+				"Makanan kaleng, air minum kemasan, dan peta topografi"
+			],
+			correct: "Pancing, pisau, tali, senter, cermin, peluit, korek api kedap air, tablet garam, dan obat pribadi",
+			edu: "Survival Kit berisi perlengkapan minimum untuk bertahan: (1) Perlengkapan memancing; (2) Pisau jungle; (3) Tali kecil; (4) Senter; (5) Cermin — untuk sinyal kepada penyelamat; (6) Suryakanta (lensa pembesar) — untuk membuat api; (7) Peluit — sinyal darurat; (8) Korek api dalam wadah kedap air; (9) Tablet garam dan norit; (10) Obat-obatan pribadi. Semua item ini harus ringan dan dapat masuk ke dalam kantong."
+		},
+		{
+			kategori: "Bahaya & Pencegahan",
+			q: "Pakaian yang dianjurkan saat survival di daerah panas untuk mencegah sengatan panas adalah...",
+			options: [
+				"Pakaian ketat berwarna gelap agar menyerap panas dan menghangatkan tubuh",
+				"Pakaian longgar, lengan panjang, dan celana pendek atau kaos oblong",
+				"Tidak memakai pakaian sama sekali agar panas tubuh bisa keluar",
+				"Pakaian tebal berlapis agar terlindung dari sinar UV"
+			],
+			correct: "Pakaian longgar, lengan panjang, dan celana pendek atau kaos oblong",
+			edu: "Pakaian yang tepat di daerah panas saat survival: longgar (memungkinkan sirkulasi udara), lengan panjang (melindungi dari sinar matahari langsung dan serangga), celana pendek atau kaos oblong (mengurangi area tubuh yang terkena panas berlebih). Pakaian ketat atau gelap justru memerangkap panas. Pencegahan sengatan panas lainnya: aklimitasi, persediaan air cukup, kurangi aktivitas fisik saat panas terik, dan konsumsi garam dapur."
+		},
+		{
+			kategori: "Bahaya & Pencegahan",
+			q: "Kemerosotan mental dalam survival ditandai dengan gejala lemah, lesu, dan sulit berpikir. Cara pencegahannya adalah...",
+			options: [
+				"Tidur sebanyak mungkin dan menghindari semua aktivitas",
+				"Usahakan tetap tenang dan perbanyak latihan survival sebelumnya",
+				"Minum air gula sebanyak-banyaknya",
+				"Segera meninggalkan kelompok dan mencari pertolongan sendiri"
+			],
+			correct: "Usahakan tetap tenang dan perbanyak latihan survival sebelumnya",
+			edu: "Kemerosotan mental (mental breakdown) dalam survival disebabkan oleh dua faktor: (1) Kondisi kejiwaan dan fisik yang lemah; (2) Keadaan lingkungan yang mencekam dan tidak familiar. Gejalanya: lemah, lesu, kurang dapat berpikir jernih, dan histeria. Pencegahannya: usahakan selalu tenang (jangan biarkan panik menguasai diri) dan perbanyak latihan survival sebelumnya sehingga otak sudah terprogram menghadapi situasi sulit."
+		},
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id: 'survival_novice', name: 'Survivor Muda',  icon: '🏕️' },
+		{ id: 'survival_master', name: 'Ahli Survival',  icon: '🌿' },
+	];
+
+	// ─── State ─────────────────────────────────────────────────────────────────
+
+	let questions: Question[] = [];
+	let currentIndex = 0;
+	let selectedAnswer = '';
+	let score = 0;
+	let totalXpEarned = 0;
+
+	// ─── Utilitas ──────────────────────────────────────────────────────────────
+
+	function shuffle<T>(arr: T[]): T[] {
+		return [...arr].sort(() => Math.random() - 0.5);
+	}
+
+	function getEl<T extends HTMLElement>(id: string) {
+		return document.getElementById(id) as T | null;
+	}
+
+	// ─── Init Kuis ─────────────────────────────────────────────────────────────
+
+	function startQuiz() {
+		questions = shuffle(QUESTIONS_POOL).slice(0, QUESTIONS_PER_SESSION);
+		currentIndex = 0;
+		score = 0;
+		totalXpEarned = 0;
+		selectedAnswer = '';
+		renderQuestion();
+	}
+
+	// ─── Render Soal ───────────────────────────────────────────────────────────
+
+	function renderQuestion() {
+		const q = questions[currentIndex];
+		const num = currentIndex + 1;
+		const pct = (num / QUESTIONS_PER_SESSION) * 100;
+
+		getEl('question-number')!.textContent = `Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent = `${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width = `${pct}%`;
+
+		const catEl = getEl('question-category');
+		if (catEl) catEl.innerHTML = `<span class="cat-pill">🏕️ ${q.kategori}</span>`;
+
+		getEl('question-prompt')!.textContent = q.q;
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		if (eduCard) eduCard.style.display = 'none';
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.disabled = true;
+			submitBtn.textContent = 'Konfirmasi Jawaban';
+			submitBtn.onclick = submitAnswer;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) {
+			hint.textContent = 'Pilih salah satu jawaban di atas';
+			hint.className = 'answer-hint';
+		}
+
+		selectedAnswer = '';
+		renderOptions(q);
+	}
+
+	function renderOptions(q: Question) {
+		const container = getEl<HTMLDivElement>('options-container');
+		if (!container) return;
+
+		const shuffledOpts = shuffle(q.options);
+		container.innerHTML = shuffledOpts.map((opt, i) => {
+			const letter = String.fromCharCode(65 + i);
+			return `
+			<button class="opt-btn" data-answer="${opt.replace(/"/g, '&quot;')}" style="animation-delay:${i * 0.07}s">
+				<span class="opt-letter">${letter}</span>
+				<span class="opt-text">${opt}</span>
+				<span class="opt-indicator">
+					<span class="opt-radio"></span>
+					<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span>
+			</button>
+			`;
+		}).join('');
+
+		container.querySelectorAll('.opt-btn').forEach((btn, i) => {
+			btn.addEventListener('click', () => {
+				container.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');
+				selectedAnswer = (btn as HTMLElement).dataset.answer || '';
+
+				const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+				if (submitBtn) submitBtn.disabled = false;
+
+				const hint = getEl('answer-hint');
+				if (hint) {
+					hint.textContent = `Jawaban ${String.fromCharCode(65 + i)} dipilih — klik Konfirmasi untuk lanjut`;
+					hint.className = 'answer-hint chosen';
+				}
+			});
+		});
+	}
+
+	// ─── Submit Jawaban ────────────────────────────────────────────────────────
+
+	function submitAnswer() {
+		const q = questions[currentIndex];
+		const isCorrect = selectedAnswer === q.correct;
+		if (isCorrect) {
+			score++;
+			totalXpEarned += XP_PER_CORRECT;
+		}
+
+		const container = getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn => {
+			const el = btn as HTMLElement;
+			const ans = el.dataset.answer || '';
+			el.classList.add('is-answered');
+			el.classList.remove('is-selected');
+
+			if (ans === q.correct) {
+				el.classList.add('is-correct');
+			} else if (ans === selectedAnswer && !isCorrect) {
+				el.classList.add('is-incorrect');
+			} else {
+				el.classList.add('is-dimmed');
+			}
+		});
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		const eduText = getEl('education-text');
+		if (eduCard && eduText) {
+			eduText.textContent = q.edu;
+			eduCard.style.display = 'flex';
+			eduCard.className = `education-card ${isCorrect ? 'correct' : 'incorrect'}`;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) {
+			hint.textContent = isCorrect ? '✓ Jawaban benar!' : '✗ Jawaban salah — lihat penjelasan di bawah.';
+			hint.className = `answer-hint ${isCorrect ? 'correct-hint' : 'wrong-hint'}`;
+		}
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.textContent = currentIndex < QUESTIONS_PER_SESSION - 1 ? 'Soal Berikutnya →' : 'Lihat Hasil';
+			submitBtn.disabled = false;
+			submitBtn.onclick = nextQuestion;
+		}
+	}
+
+	function nextQuestion() {
+		currentIndex++;
+		if (currentIndex < QUESTIONS_PER_SESSION) {
+			renderQuestion();
+			const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+			if (submitBtn) submitBtn.onclick = submitAnswer;
+		} else {
+			showResult();
+		}
+	}
+
+	// ─── Hasil Akhir ───────────────────────────────────────────────────────────
+
+	function showResult() {
+		const pct = Math.round((score / QUESTIONS_PER_SESSION) * 100);
+
+		const currentXp = parseInt(localStorage.getItem('scout_xp') || '0');
+		localStorage.setItem('scout_xp', (currentXp + totalXpEarned).toString());
+
+		const earnedBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+		const newlyUnlocked: typeof BADGES_FOR_THIS_QUIZ = [];
+
+		if (!earnedBadges.includes('survival_novice')) {
+			earnedBadges.push('survival_novice');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);
+		}
+		if (pct === 100 && !earnedBadges.includes('survival_master')) {
+			earnedBadges.push('survival_master');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);
+		}
+		const totalXpNow = parseInt(localStorage.getItem('scout_xp') || '0');
+		if (totalXpNow >= 500 && !earnedBadges.includes('scout_master')) {
+			earnedBadges.push('scout_master');
+		}
+		localStorage.setItem('scout_badges', JSON.stringify(earnedBadges));
+
+		const emoji = pct === 100 ? '🏆' : pct >= 80 ? '⭐' : pct >= 60 ? '👍' : '📚';
+		getEl('result-emoji')!.textContent = emoji;
+
+		const titleEl = getEl('result-title');
+		if (titleEl) titleEl.textContent = pct === 100 ? 'Sempurna! Ahli Survival!' : pct >= 80 ? 'Bagus Sekali!' : pct >= 60 ? 'Cukup Baik!' : 'Terus Belajar!';
+
+		getEl('result-text')!.textContent = `Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct >= 80 ? 'Kamu menguasai teknik survival dengan sangat baik!' : 'Pelajari kembali akronim STOP, SURVIVAL, cara membuat bivak, dan teknik mendapatkan air.'}`;
+
+		getEl('result-xp')!.textContent = `+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent = `${pct}/100`;
+		getEl('result-correct')!.textContent = `${score}/${QUESTIONS_PER_SESSION}`;
+
+		if (newlyUnlocked.length > 0) {
+			const badgesContainer = getEl<HTMLDivElement>('unlocked-badges');
+			const badgesList = getEl('badges-list-el');
+			if (badgesContainer && badgesList) {
+				badgesList.innerHTML = newlyUnlocked.map(b => `
+					<div class="new-badge-item">
+						<span class="new-badge-icon">${b.icon}</span>
+						<span class="new-badge-name">${b.name}</span>
+					</div>
+				`).join('');
+				badgesContainer.style.display = 'block';
+			}
+		}
+
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'flex';
+
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	// ─── Event Listeners ───────────────────────────────────────────────────────
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click', submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click', () => {
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'none';
+		startQuiz();
+	});
+
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container { display: flex; flex-direction: column; gap: 1.5rem; }
+
+	.quiz-header {
+		display: flex; align-items: center; gap: 1.5rem;
+		padding: 1.25rem 1.75rem; flex-wrap: wrap;
+	}
+
+	.btn-back {
+		display: flex; align-items: center; gap: 0.45rem;
+		color: var(--color-text-muted); text-decoration: none;
+		font-size: 0.88rem; font-weight: 500; white-space: nowrap;
+		transition: color var(--transition-fast);
+	}
+	.btn-back:hover { color: var(--color-gold); }
+	.btn-back svg { width: 16px; height: 16px; }
+
+	.quiz-title-area { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+	.quiz-title-area h2 { font-size: 1.25rem; font-weight: 700; color: var(--color-text); }
+
+	.quiz-difficulty {
+		font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem;
+		border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+	}
+	.quiz-difficulty.hard { background: rgba(185,59,34,0.09); color: #c0513c; border: 1px solid rgba(185,59,34,0.18); }
+
+	/* ─── Layout ─────────────────────────────────────────────────────────────── */
+
+	.quiz-layout {
+		display: grid;
+		grid-template-columns: 1fr 300px;
+		gap: 1.5rem;
+		align-items: start;
+	}
+
+	/* ─── Main Card ──────────────────────────────────────────────────────────── */
+
+	.quiz-main-card { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+	.progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+
+	.progress-label {
+		display: flex; justify-content: space-between; align-items: center;
+		font-size: 0.8rem; color: var(--color-text-muted); font-weight: 500;
+	}
+
+	.pct-label { font-weight: 700; color: var(--color-primary-light); }
+
+	.progress-bar-outer {
+		height: 6px; background: var(--color-border); border-radius: var(--radius-full); overflow: hidden;
+	}
+
+	.progress-bar-inner {
+		height: 100%; background: linear-gradient(90deg, var(--color-primary-light), var(--color-gold));
+		border-radius: var(--radius-full); transition: width 0.4s ease;
+	}
+
+	.question-category { display: flex; }
+
+	.cat-pill {
+		background: rgba(185,59,34,0.08); color: #c0513c;
+		border: 1px solid rgba(185,59,34,0.2);
+		padding: 0.28rem 0.75rem; border-radius: var(--radius-full);
+		font-size: 0.75rem; font-weight: 700;
+	}
+
+	.question-text-area h3 {
+		font-size: 1.15rem; font-weight: 700; color: var(--color-text); line-height: 1.5;
+	}
+
+	/* ─── Options ────────────────────────────────────────────────────────────── */
+
+	.opt-btn {
+		width: 100%; display: flex; align-items: center; gap: 0.85rem;
+		padding: 0.9rem 1.1rem; background: var(--color-bg);
+		border: 1.5px solid var(--color-border); border-radius: var(--radius-md);
+		cursor: pointer; text-align: left; transition: all var(--transition-fast);
+		animation: fadeSlideIn 0.25s ease both;
+	}
+
+	@keyframes fadeSlideIn {
+		from { opacity: 0; transform: translateY(6px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+
+	.opt-btn:hover:not(.is-answered) { border-color: rgba(185,59,34,0.35); background: rgba(185,59,34,0.04); }
+
+	.opt-btn.is-selected { border-color: rgba(185,59,34,0.5); background: rgba(185,59,34,0.06); }
+
+	.opt-letter {
+		width: 28px; height: 28px; border-radius: 50%; background: var(--color-surface-solid);
+		border: 1px solid var(--color-border); display: flex; align-items: center;
+		justify-content: center; font-size: 0.75rem; font-weight: 700;
+		color: var(--color-text-muted); flex-shrink: 0;
+	}
+
+	.opt-text { flex: 1; font-size: 0.9rem; color: var(--color-text); line-height: 1.45; }
+
+	.opt-indicator { width: 24px; height: 24px; position: relative; flex-shrink: 0; }
+
+	.opt-radio {
+		width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--color-border);
+		position: absolute; top: 3px; left: 3px; transition: all var(--transition-fast);
+	}
+
+	.opt-btn.is-selected .opt-radio { border-color: #c0513c; background: rgba(185,59,34,0.15); }
+
+	.opt-icon { width: 24px; height: 24px; position: absolute; top: 0; left: 0; display: none; }
+
+	.opt-btn.is-correct .opt-radio, .opt-btn.is-incorrect .opt-radio { display: none; }
+	.opt-btn.is-correct .icon-check { display: block; }
+	.opt-btn.is-incorrect .icon-cross { display: block; }
+
+	.opt-btn.is-correct  { border-color: rgba(35,108,50,0.5);  background: rgba(35,108,50,0.08);  pointer-events: none; }
+	.opt-btn.is-incorrect{ border-color: rgba(185,59,34,0.5);  background: rgba(185,59,34,0.08);  pointer-events: none; }
+	.opt-btn.is-dimmed   { opacity: 0.45; pointer-events: none; }
+	.opt-btn.is-answered { cursor: default; }
+
+	/* ─── Education Card ─────────────────────────────────────────────────────── */
+
+	.education-card {
+		display: flex; flex-direction: column; gap: 0.6rem;
+		padding: 1rem 1.15rem; border-radius: var(--radius-md);
+		border: 1px solid var(--color-border); background: var(--color-surface-solid);
+	}
+
+	.education-card.correct { border-color: rgba(35,108,50,0.3); background: rgba(35,108,50,0.05); }
+	.education-card.incorrect { border-color: rgba(185,59,34,0.3); background: rgba(185,59,34,0.05); }
+
+	.edu-header { display: flex; align-items: center; gap: 0.5rem; }
+	.edu-icon { font-size: 1rem; }
+	.edu-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-muted); }
+
+	#education-text { font-size: 0.85rem; line-height: 1.6; color: var(--color-text-muted); }
+
+	/* ─── Action Footer ──────────────────────────────────────────────────────── */
+
+	.action-footer {
+		display: flex; align-items: center; justify-content: space-between;
+		gap: 1rem; flex-wrap: wrap; padding-top: 0.5rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.answer-hint { font-size: 0.82rem; color: var(--color-text-faint); }
+	.answer-hint.chosen { color: var(--color-text-muted); }
+	.answer-hint.correct-hint { color: #236c32; font-weight: 600; }
+	.answer-hint.wrong-hint   { color: #a5301a; font-weight: 600; }
+
+	/* ─── Sidebar ────────────────────────────────────────────────────────────── */
+
+	.quiz-help-card {
+		padding: 1.5rem; display: flex; flex-direction: column; gap: 0.85rem;
+		position: sticky; top: 1.5rem;
+	}
+
+	.quiz-help-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--color-text); }
+
+	.help-subtitle { font-size: 0.78rem; color: var(--color-text-faint); margin-top: -0.5rem; }
+
+	.help-divider { height: 1px; background: var(--color-border); margin: 0.25rem 0; }
+
+	.survival-list { display: flex; flex-direction: column; gap: 0.4rem; }
+
+	.sv-row {
+		display: flex; align-items: flex-start; gap: 0.6rem;
+		font-size: 0.8rem; line-height: 1.4;
+	}
+
+	.sv-letter {
+		font-size: 0.85rem; font-weight: 800; color: #c0513c;
+		width: 16px; flex-shrink: 0; margin-top: 0.05rem;
+	}
+
+	.sv-text { color: var(--color-text-muted); }
+
+	.fact-box { display: flex; flex-direction: column; gap: 0.35rem; }
+
+	.fact-row {
+		display: flex; justify-content: space-between; align-items: center;
+		font-size: 0.8rem; padding: 0.3rem 0;
+		border-bottom: 1px solid var(--color-border);
+	}
+	.fact-row:last-child { border-bottom: none; }
+	.fact-key { color: var(--color-text-muted); }
+	.fact-val { font-weight: 700; color: var(--color-text); }
+
+	/* ─── Result Overlay ─────────────────────────────────────────────────────── */
+
+	.result-overlay {
+		position: fixed; inset: 0; background: rgba(0,0,0,0.55);
+		display: flex; align-items: center; justify-content: center;
+		z-index: 200; padding: 1rem;
+	}
+
+	.result-card {
+		width: 100%; max-width: 480px; padding: 2.5rem 2rem;
+		display: flex; flex-direction: column; align-items: center;
+		gap: 1.25rem; text-align: center;
+	}
+
+	.result-emoji { font-size: 3rem; }
+
+	.result-card h2 { font-size: 1.6rem; font-weight: 800; color: var(--color-text); }
+
+	.result-summary { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.55; }
+
+	.result-stats-details {
+		display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center;
+		width: 100%; padding: 1.25rem; border-radius: var(--radius-md);
+		background: var(--color-surface-solid); border: 1px solid var(--color-border);
+	}
+
+	.detail-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+	.detail-item .label { font-size: 0.72rem; color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.5px; }
+	.detail-item .value { font-size: 1.25rem; font-weight: 800; color: var(--color-text); }
+	.score-xp { color: var(--color-gold); }
+
+	.unlocked-badges-container {
+		width: 100%; padding: 1rem; border-radius: var(--radius-md);
+		background: rgba(212,163,43,0.06); border: 1px solid rgba(212,163,43,0.2);
+	}
+
+	.unlocked-badges-container h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--color-text); }
+
+	.unlocked-badges-list { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+
+	.new-badge-item {
+		display: flex; align-items: center; gap: 0.5rem;
+		padding: 0.4rem 0.85rem; border-radius: var(--radius-full);
+		background: rgba(212,163,43,0.1); border: 1px solid rgba(212,163,43,0.25);
+	}
+
+	.new-badge-icon { font-size: 1.1rem; }
+	.new-badge-name { font-size: 0.8rem; font-weight: 700; color: var(--color-text); }
+
+	.result-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+
+	/* ─── Responsive ─────────────────────────────────────────────────────────── */
+
+	@media (max-width: 900px) {
+		.quiz-layout { grid-template-columns: 1fr; }
+		.quiz-help-card { position: static; }
+	}
+
+	@media (max-width: 600px) {
+		.quiz-main-card { padding: 1.25rem; }
+		.quiz-header { padding: 1rem 1.25rem; }
+	}
+</style>

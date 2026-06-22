@@ -1,0 +1,956 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Sejarah Kepramukaan" description="Latihan sejarah pramuka: Baden Powell, perkemahan Brownsea Island, berdirinya Gerakan Pramuka Indonesia 1961, tokoh, dan kode kehormatan.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Sejarah Kepramukaan</h2>
+				<span class="quiz-difficulty medium">Sejarah &amp; Tokoh Pramuka</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<!-- Main Quiz Card -->
+			<div class="quiz-main-card glass-card">
+				<!-- Progress Tracker -->
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+					</div>
+				</div>
+
+				<!-- Category Badge -->
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">📜 Sejarah Kepramukaan</span>
+				</div>
+
+				<!-- Question -->
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+
+				<!-- Options -->
+				<div class="flex flex-col gap-2.5" id="options-container">
+					<!-- dibuat oleh JavaScript -->
+				</div>
+
+				<!-- Education Card -->
+				<div class="education-card" id="education-card" style="display: none;">
+					<div class="edu-header">
+						<span class="edu-icon">📖</span>
+						<span class="edu-label">Fakta Sejarah</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+
+				<!-- Actions -->
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<!-- Reference Sidebar -->
+			<div class="quiz-help-card glass-card">
+				<h3>Linimasa Kepramukaan</h3>
+				<p class="help-subtitle">Tonggak penting sejarah Pramuka dunia &amp; Indonesia</p>
+
+				<div class="timeline">
+					<div class="tl-item">
+						<span class="tl-year">1857</span>
+						<span class="tl-event">Baden Powell lahir di London, Inggris</span>
+					</div>
+					<div class="tl-item">
+						<span class="tl-year">1907</span>
+						<span class="tl-event">Perkemahan Brownsea Island — awal gerakan pramuka</span>
+					</div>
+					<div class="tl-item">
+						<span class="tl-year">1908</span>
+						<span class="tl-event">Buku <em>Scouting for Boys</em> diterbitkan</span>
+					</div>
+					<div class="tl-item">
+						<span class="tl-year">1910</span>
+						<span class="tl-event">Kepanduan masuk ke Hindia Belanda (Indonesia)</span>
+					</div>
+					<div class="tl-item">
+						<span class="tl-year">1920</span>
+						<span class="tl-event">Jambore Dunia I di Olympia, London</span>
+					</div>
+					<div class="tl-item">
+						<span class="tl-year">1941</span>
+						<span class="tl-event">Baden Powell wafat di Nyeri, Kenya</span>
+					</div>
+					<div class="tl-item">
+						<span class="tl-year">1961</span>
+						<span class="tl-event">14 Agustus — Gerakan Pramuka Indonesia resmi berdiri (Keppres 238/1961)</span>
+					</div>
+					<div class="tl-item">
+						<span class="tl-year">2010</span>
+						<span class="tl-event">UU No. 12 Tahun 2010 tentang Gerakan Pramuka</span>
+					</div>
+				</div>
+
+				<div class="history-fact-box">
+					<div class="fact-row">
+						<span class="fact-key">Bapak Pramuka Dunia</span>
+						<span class="fact-val">Robert Baden Powell</span>
+					</div>
+					<div class="fact-row">
+						<span class="fact-key">Bapak Pramuka Indonesia</span>
+						<span class="fact-val">Sri Sultan HB IX</span>
+					</div>
+					<div class="fact-row">
+						<span class="fact-key">Hari Pramuka</span>
+						<span class="fact-val">14 Agustus</span>
+					</div>
+					<div class="fact-row">
+						<span class="fact-key">Lambang Pramuka RI</span>
+						<span class="fact-val">Tunas Kelapa</span>
+					</div>
+					<div class="fact-row">
+						<span class="fact-key">Motto</span>
+						<span class="fact-val">Satyaku Kudarmakan</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Result Overlay -->
+		<div class="result-overlay" id="result-overlay" style="display: none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text">Anda menjawab soal dengan baik.</p>
+
+				<div class="result-stats-details">
+					<div class="detail-item">
+						<span class="label">XP Diperoleh</span>
+						<span class="value score-xp" id="result-xp">+100 XP</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Skor Akhir</span>
+						<span class="value" id="result-score">100/100</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Jawaban Benar</span>
+						<span class="value" id="result-correct">10/10</span>
+					</div>
+				</div>
+
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display: none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	// ─── Bank Soal Sejarah Kepramukaan (30 soal, pilih 10 acak per sesi) ──────
+
+	interface Question {
+		kategori: string;
+		q: string;
+		options: string[];
+		correct: string;
+		edu: string;
+	}
+
+	const QUESTIONS_POOL: Question[] = [
+		// ── Baden Powell ─────────────────────────────────────────────────────────
+		{
+			kategori: "Baden Powell",
+			q: "Robert Baden Powell lahir di kota mana?",
+			options: ["Edinburgh, Skotlandia", "London, Inggris", "Dublin, Irlandia", "Manchester, Inggris"],
+			correct: "London, Inggris",
+			edu: "Robert Stephenson Smyth Baden Powell lahir di Paddington, London, Inggris, pada 22 Februari 1857. Ia anak kedelapan dari sebelas bersaudara. Tanggal 22 Februari juga bertepatan dengan hari lahir istrinya, Olave, dan kini diperingati sebagai 'Thinking Day' oleh pramuka di seluruh dunia."
+		},
+		{
+			kategori: "Baden Powell",
+			q: "Pada tahun berapa Baden Powell mengadakan perkemahan perdana yang menjadi cikal bakal Gerakan Pramuka dunia?",
+			options: ["1900", "1905", "1907", "1910"],
+			correct: "1907",
+			edu: "Pada 1–9 Agustus 1907, Baden Powell mengadakan perkemahan percobaan untuk 20 orang anak dari berbagai latar belakang sosial di Pulau Brownsea (Brownsea Island), Dorset, Inggris. Perkemahan inilah yang menjadi titik awal resmi Gerakan Pramuka (Boy Scout Movement) dunia."
+		},
+		{
+			kategori: "Baden Powell",
+			q: "Buku yang ditulis Baden Powell sebagai panduan kepramukaan pertama berjudul...",
+			options: [
+				"The Boy Scout Handbook",
+				"Scouting for Boys",
+				"Aids to Scouting",
+				"Rovering to Success"
+			],
+			correct: "Scouting for Boys",
+			edu: "Buku 'Scouting for Boys' (1908) adalah panduan kepramukaan yang ditulis Baden Powell berdasarkan pengalamannya di Brownsea Island. Buku ini awalnya diterbitkan dalam enam serial dan menjadi salah satu buku terlaris sepanjang masa. Buku sebelumnya, 'Aids to Scouting' (1899), ditulis untuk pelatihan militer."
+		},
+		{
+			kategori: "Baden Powell",
+			q: "Gelar kebangsawanan apa yang disandang Baden Powell hingga dikenal sebagai 'Lord' Baden Powell?",
+			options: ["Duke of Guilford", "Baron of Gilwell", "1st Baron Baden-Powell of Gilwell", "Earl of Hampshire"],
+			correct: "1st Baron Baden-Powell of Gilwell",
+			edu: "Pada tahun 1929, Raja George V menganugerahkan gelar kebangsawanan kepada Robert Baden Powell sebagai '1st Baron Baden-Powell of Gilwell'. Gilwell adalah nama pusat pelatihan kepramukaan di Essex, Inggris, yang sangat lekat dengan namanya. Sejak saat itu ia dikenal dengan gelar Lord Baden Powell."
+		},
+		{
+			kategori: "Baden Powell",
+			q: "Baden Powell wafat pada tanggal 8 Januari 1941 di negara mana?",
+			options: ["Inggris", "Afrika Selatan", "India", "Kenya"],
+			correct: "Kenya",
+			edu: "Baden Powell wafat pada 8 Januari 1941 di Nyeri, Kenya, Afrika Timur. Ia memilih menghabiskan masa tuanya di Kenya karena mencintai alam Afrika. Makamnya yang sederhana ada di Nyeri dengan epitaf yang ditulisnya sendiri: tanda lingkaran dengan titik di tengah — simbol kepramukaan untuk 'Aku telah pergi ke rumah'."
+		},
+		{
+			kategori: "Baden Powell",
+			q: "Sebelum mendirikan Gerakan Pramuka, Baden Powell adalah seorang...",
+			options: [
+				"Guru sekolah dasar di London",
+				"Perwira militer Inggris dengan pangkat terakhir Letnan Jenderal",
+				"Pelaut Angkatan Laut Kerajaan Inggris",
+				"Dokter bedah tentara di Afrika"
+			],
+			correct: "Perwira militer Inggris dengan pangkat terakhir Letnan Jenderal",
+			edu: "Baden Powell adalah perwira militer Inggris yang terkenal karena mempertahankan Kota Mafeking selama Perang Boer di Afrika Selatan (1899-1900). Ia terkenal menggunakan anak-anak muda sebagai kurir pesan selama pengepungan kota tersebut, yang mengilhaminya untuk mendirikan gerakan kepramukaan. Pangkat terakhirnya adalah Letnan Jenderal."
+		},
+		// ── Sejarah Kepramukaan Dunia ─────────────────────────────────────────────
+		{
+			kategori: "Kepramukaan Dunia",
+			q: "Jambore Dunia pertama diadakan pada tahun 1920 di...",
+			options: [
+				"Hyde Park, London, Inggris",
+				"Olympia, London, Inggris",
+				"Brownsea Island, Dorset, Inggris",
+				"Windsor Castle, Inggris"
+			],
+			correct: "Olympia, London, Inggris",
+			edu: "Jambore Dunia I diadakan di Olympia, London, pada 30 Juli – 8 Agustus 1920, dihadiri sekitar 8.000 pramuka dari 34 negara. Pada acara inilah Baden Powell diproklamasikan sebagai 'Chief Scout of the World' (Pramuka Utama Dunia) oleh seluruh peserta. Jambore Dunia diadakan setiap 4 tahun sekali."
+		},
+		{
+			kategori: "Kepramukaan Dunia",
+			q: "Organisasi kepramukaan dunia untuk putra disebut...",
+			options: [
+				"WAGGGS (World Association of Girl Guides and Girl Scouts)",
+				"WOSM (World Organization of the Scout Movement)",
+				"WSF (World Scout Foundation)",
+				"BPSA (Boy Scouts of America)"
+			],
+			correct: "WOSM (World Organization of the Scout Movement)",
+			edu: "WOSM (World Organization of the Scout Movement) adalah organisasi kepramukaan internasional untuk putra yang berpusat di Jenewa, Swiss. Gerakan Pramuka Indonesia (Pramuka) adalah anggota WOSM. Untuk pramuka putri, organisasi internasionalnya adalah WAGGGS (World Association of Girl Guides and Girl Scouts)."
+		},
+		{
+			kategori: "Kepramukaan Dunia",
+			q: "Istilah 'Scout' atau pramuka berasal dari kata yang berarti...",
+			options: [
+				"Pemuda pemberani yang siap berperang",
+				"Pengintai atau penjelajah yang sigap",
+				"Pemimpin muda yang bijaksana",
+				"Petualang yang cinta alam bebas"
+			],
+			correct: "Pengintai atau penjelajah yang sigap",
+			edu: "Kata 'Scout' berasal dari bahasa Prancis Kuno 'escouter' yang berarti mendengarkan atau memata-matai (pengintai). Dalam konteks militer abad pertengahan, scout adalah tentara yang dikirim di depan pasukan untuk mengenali medan. Baden Powell mengadaptasi konsep ini untuk kegiatan pemuda — penjelajah muda yang terampil dan sigap membaca lingkungan."
+		},
+		{
+			kategori: "Kepramukaan Dunia",
+			q: "Markas besar WOSM (World Organization of the Scout Movement) berada di kota...",
+			options: ["London, Inggris", "New York, Amerika Serikat", "Jenewa, Swiss", "Nairobi, Kenya"],
+			correct: "Jenewa, Swiss",
+			edu: "Markas besar WOSM (World Organization of the Scout Movement) berada di Jenewa, Swiss. WOSM berdiri pada 1922 dan kini beranggotakan lebih dari 170 negara dengan total anggota sekitar 50 juta pramuka di seluruh dunia. Kantor regional WOSM Asia-Pasifik berada di Kuala Lumpur, Malaysia."
+		},
+		{
+			kategori: "Kepramukaan Dunia",
+			q: "Tanggal 22 Februari diperingati sebagai 'World Scout Day' atau 'Thinking Day' karena...",
+			options: [
+				"Tanggal pendirian WOSM secara resmi di Jenewa",
+				"Hari lahir Baden Powell sekaligus hari lahir istrinya, Olave Baden Powell",
+				"Hari pertama perkemahan Brownsea Island 1907",
+				"Hari wafatnya Baden Powell di Kenya"
+			],
+			correct: "Hari lahir Baden Powell sekaligus hari lahir istrinya, Olave Baden Powell",
+			edu: "22 Februari adalah tanggal lahir Baden Powell (1857) dan juga tanggal lahir istrinya, Olave Baden Powell (1889), yang kemudian menjadi Chief Guide (pemimpin pramuka putri dunia). Kebetulan unik ini menjadikan 22 Februari sebagai hari perayaan ganda — disebut 'Thinking Day' oleh WAGGGS dan 'World Scout Day' secara umum."
+		},
+		// ── Kepanduan di Indonesia ────────────────────────────────────────────────
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Organisasi kepanduan pertama yang berdiri di Indonesia (pada masa Hindia Belanda) adalah...",
+			options: [
+				"Pandu Rakyat Indonesia",
+				"NPO (Nederlandsche Padvinders Organisatie)",
+				"Jong Java Padvindery",
+				"INPO (Indonesische Nationale Padvinders Organisatie)"
+			],
+			correct: "NPO (Nederlandsche Padvinders Organisatie)",
+			edu: "Gerakan kepanduan masuk ke Hindia Belanda sekitar 1912 melalui orang-orang Belanda. Pada 1916, berdiri NPO (Nederlandsche Padvinders Organisatie) — organisasi kepanduan pertama di Hindia Belanda untuk anak-anak Belanda. Kemudian pada tahun yang sama, muncul Jong Java Padvindery untuk pemuda pribumi yang ingin bergabung dalam gerakan kepanduan."
+		},
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Organisasi kepanduan putra-putri nasional yang menjadi cikal bakal Gerakan Pramuka Indonesia setelah kemerdekaan adalah...",
+			options: [
+				"Pandu Rakyat Indonesia (PRI)",
+				"Ikatan Pandu Indonesia (IAPINDO)",
+				"Gerakan Kepanduan Indonesia (GKI)",
+				"Persatuan Pandu Putra Indonesia (PAPI)"
+			],
+			correct: "Pandu Rakyat Indonesia (PRI)",
+			edu: "Pandu Rakyat Indonesia (PRI) didirikan pada 28 Desember 1945, tepat setelah kemerdekaan Indonesia. PRI menjadi satu-satunya organisasi kepanduan yang diakui pemerintah RI saat itu dan berperan penting dalam masa perjuangan kemerdekaan. PRI kemudian bergabung dengan berbagai organisasi kepanduan lainnya yang akhirnya disatukan menjadi Gerakan Pramuka pada 1961."
+		},
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Gerakan Pramuka Indonesia secara resmi lahir pada tanggal...",
+			options: ["17 Agustus 1961", "14 Agustus 1961", "28 Oktober 1961", "1 Januari 1961"],
+			correct: "14 Agustus 1961",
+			edu: "Gerakan Pramuka Indonesia resmi lahir pada 14 Agustus 1961, ditandai dengan Keputusan Presiden RI No. 238 Tahun 1961 yang ditandatangani oleh Presiden Soekarno. Tanggal 14 Agustus kini diperingati sebagai Hari Pramuka Nasional setiap tahunnya. Upacara peresmian dilaksanakan di Istana Negara Jakarta."
+		},
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Tokoh yang dikenal sebagai 'Bapak Pramuka Indonesia' adalah...",
+			options: [
+				"Ir. Soekarno",
+				"Sri Sultan Hamengkubuwono IX",
+				"Mohammad Hatta",
+				"Jenderal A.H. Nasution"
+			],
+			correct: "Sri Sultan Hamengkubuwono IX",
+			edu: "Sri Sultan Hamengkubuwono IX (Raja Yogyakarta ke-9) adalah Bapak Pramuka Indonesia. Beliau menjabat sebagai Ketua Kwartir Nasional Gerakan Pramuka pertama sejak 1961 hingga 1974. Besar dedikasinya dalam membangun dan mempersatukan berbagai organisasi kepanduan di Indonesia menjadikannya mendapat gelar kehormatan ini."
+		},
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Keputusan Presiden Nomor berapa yang mengesahkan berdirinya Gerakan Pramuka Indonesia pada tahun 1961?",
+			options: ["Keppres No. 128/1961", "Keppres No. 238/1961", "Keppres No. 12/1961", "Keppres No. 45/1961"],
+			correct: "Keppres No. 238/1961",
+			edu: "Gerakan Pramuka Indonesia disahkan melalui Keputusan Presiden RI No. 238 Tahun 1961 tentang Gerakan Pramuka. Keputusan ini ditandatangani Presiden Soekarno dan mengintegrasikan semua organisasi kepanduan yang ada di Indonesia menjadi satu wadah tunggal bernama Gerakan Pramuka. Keppres ini kemudian digantikan oleh UU No. 12 Tahun 2010."
+		},
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Lambang Gerakan Pramuka Indonesia adalah...",
+			options: [
+				"Burung Garuda membawa tali",
+				"Bunga Melati dengan tunas di tengah",
+				"Tunas Kelapa",
+				"Bintang bersudut lima dengan tali"
+			],
+			correct: "Tunas Kelapa",
+			edu: "Lambang Gerakan Pramuka Indonesia adalah Tunas Kelapa, diciptakan oleh Sunardjo Atmodipurwo. Tunas kelapa dipilih karena pohon kelapa merupakan pohon serbaguna yang seluruh bagiannya bermanfaat — melambangkan pramuka yang berguna bagi masyarakat, bangsa, dan negara. Tunas menggambarkan generasi muda yang akan tumbuh berkembang."
+		},
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Motto resmi Gerakan Pramuka Indonesia adalah...",
+			options: [
+				"Siap Selalu, Sedia Selamanya",
+				"Satyaku Kudarmakan, Darmaku Kubaktikan",
+				"Tolong Menolong di Mana Saja",
+				"Maju Terus Pantang Mundur"
+			],
+			correct: "Satyaku Kudarmakan, Darmaku Kubaktikan",
+			edu: "Motto Gerakan Pramuka Indonesia adalah 'Satyaku Kudarmakan, Darmaku Kubaktikan'. Artinya: janji (satya) yang aku ucapkan akan aku wujudkan melalui darma (pengabdian), dan darma tersebut aku bakti-kan dalam kehidupan nyata. Motto ini mencerminkan hubungan erat antara Satya Pramuka (janji) dan Darma Pramuka (kode etik)."
+		},
+		{
+			kategori: "Kepanduan di Indonesia",
+			q: "Sebelum ada Gerakan Pramuka (1961), berapa banyak organisasi kepanduan yang ada di Indonesia?",
+			options: ["Lebih dari 60 organisasi", "5 organisasi", "Sekitar 20 organisasi", "Tepat 10 organisasi"],
+			correct: "Lebih dari 60 organisasi",
+			edu: "Sebelum tahun 1961, terdapat lebih dari 60 organisasi kepanduan di Indonesia yang terpisah-pisah berdasarkan agama, suku, daerah, atau afiliasi politik. Fragmentasi ini dianggap melemahkan gerakan kepanduan. Presiden Soekarno kemudian mempersatukannya menjadi satu organisasi tunggal, yaitu Gerakan Pramuka, melalui Keppres No. 238/1961."
+		},
+		// ── Kode Kehormatan & Nilai ───────────────────────────────────────────────
+		{
+			kategori: "Kode Kehormatan",
+			q: "Janji kepramukaan yang diucapkan oleh golongan Siaga disebut...",
+			options: ["Trisatya", "Dwisatya", "Monosatya", "Pancasatya"],
+			correct: "Dwisatya",
+			edu: "Dwisatya adalah janji (satya) yang terdiri dari dua (dwi) ikrar, khusus untuk golongan Siaga (usia 7-10 tahun). Isinya: (1) Demi kehormatanku aku berjanji akan bersungguh-sungguh menjalankan kewajibanku terhadap Tuhan Yang Maha Esa, Negara Kesatuan Republik Indonesia, dan mengikuti tatakrama keluarga; (2) setiap hari berbuat kebaikan."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Trisatya adalah janji pramuka yang diucapkan oleh golongan...",
+			options: [
+				"Siaga saja",
+				"Penggalang, Penegak, dan Pandega",
+				"Penegak dan Pandega saja",
+				"Semua golongan dari Siaga hingga Pandega"
+			],
+			correct: "Penggalang, Penegak, dan Pandega",
+			edu: "Trisatya (janji tiga ikrar) diucapkan oleh golongan Penggalang, Penegak, dan Pandega. Isinya: (1) menjalankan kewajiban terhadap Tuhan YME, NKRI, dan mengamalkan Pancasila; (2) menolong sesama hidup dan mempersiapkan diri membangun masyarakat; (3) menepati Dasadarma. Siaga mengucapkan Dwisatya yang lebih sederhana."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Dasadarma Pramuka terdiri dari berapa darma?",
+			options: ["5 darma", "7 darma", "10 darma", "12 darma"],
+			correct: "10 darma",
+			edu: "Dasadarma (dari kata 'dasa' = sepuluh dan 'darma' = kewajiban/pengabdian) terdiri dari 10 darma yang menjadi pedoman perilaku pramuka Penggalang, Penegak, dan Pandega. Kesepuluh darma itu: 1)Takwa kepada Tuhan, 2)Cinta alam, 3)Patriot, 4)Patuh dan suka bermusyawarah, 5)Rela menolong, 6)Rajin, 7)Hemat, 8)Disiplin, 9)Bertanggung jawab, 10)Suci dalam pikiran."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Darma pertama dalam Dasadarma Pramuka adalah...",
+			options: [
+				"Patriot yang sopan dan kesatria",
+				"Cinta alam dan kasih sayang sesama manusia",
+				"Takwa kepada Tuhan Yang Maha Esa",
+				"Rela menolong dan tabah"
+			],
+			correct: "Takwa kepada Tuhan Yang Maha Esa",
+			edu: "Darma pertama Dasadarma adalah 'Takwa kepada Tuhan Yang Maha Esa'. Ini menempatkan keimanan dan ketakwaan sebagai fondasi utama karakter pramuka, sejalan dengan sila pertama Pancasila. Sepuluh darma tersebut disusun secara hierarkis dari landasan spiritual hingga karakter sosial dan intelektual."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Golongan Siaga menggunakan kode darma yang disebut...",
+			options: ["Dasadarma", "Dwidarma", "Tridarma", "Pancadarma"],
+			correct: "Dwidarma",
+			edu: "Dwidarma adalah kode darma khusus untuk golongan Siaga yang lebih sederhana, terdiri dari dua darma: (1) 'Siaga berbakti kepada ayah dan bundanya' — mengutamakan kewajiban kepada orang tua; dan (2) 'Siaga berani dan tidak putus asa' — membangun karakter berani dan pantang menyerah. Dwidarma disesuaikan dengan usia dan pemahaman Siaga."
+		},
+		// ── Tokoh & Organisasi ────────────────────────────────────────────────────
+		{
+			kategori: "Tokoh & Organisasi",
+			q: "Siapakah pencipta lambang Tunas Kelapa milik Gerakan Pramuka Indonesia?",
+			options: ["Ir. Soekarno", "Sri Sultan Hamengkubuwono IX", "Sunardjo Atmodipurwo", "Ki Hajar Dewantara"],
+			correct: "Sunardjo Atmodipurwo",
+			edu: "Lambang Tunas Kelapa Gerakan Pramuka Indonesia diciptakan oleh Sunardjo Atmodipurwo, yang merupakan salah satu tokoh kepramukaan Indonesia. Lambang ini kemudian disahkan melalui Surat Keputusan Kwartir Nasional. Desain tunas kelapa dipilih karena simbolisme pohon kelapa yang seluruh bagiannya bermanfaat."
+		},
+		{
+			kategori: "Tokoh & Organisasi",
+			q: "Salam khas pramuka yang diucapkan saat bertemu sesama anggota pramuka adalah...",
+			options: [
+				"'Salam Pramuka!' dijawab 'Salam!'",
+				"'Siap!' dijawab 'Siap!'",
+				"'Pramuka!' dijawab 'Jayalah!'",
+				"'Salam Sejahtera!' dijawab 'Terima Kasih!'"
+			],
+			correct: "'Salam Pramuka!' dijawab 'Salam!'",
+			edu: "Salam resmi Gerakan Pramuka Indonesia adalah 'Salam Pramuka!' yang dijawab dengan 'Salam!'. Salam ini diucapkan sambil mengangkat tangan kanan ke pelipis, dengan semua jari rapat dan lurus (berbeda dari salam militer). Salam pramuka melambangkan rasa hormat dan semangat persaudaraan antar sesama anggota Gerakan Pramuka."
+		},
+		{
+			kategori: "Tokoh & Organisasi",
+			q: "Tingkatan kepemimpinan Kwartir Nasional dalam Gerakan Pramuka Indonesia dipimpin oleh...",
+			options: [
+				"Presiden Republik Indonesia",
+				"Ketua Kwartir Nasional yang dipilih dalam Musyawarah Nasional",
+				"Menteri Pendidikan dan Kebudayaan",
+				"Panglima TNI sebagai pelindung Pramuka"
+			],
+			correct: "Ketua Kwartir Nasional yang dipilih dalam Musyawarah Nasional",
+			edu: "Kwartir Nasional (Kwarnas) Gerakan Pramuka dipimpin oleh Ketua Kwartir Nasional yang dipilih melalui Musyawarah Nasional (Munas) yang diadakan setiap 5 tahun sekali. Presiden RI berperan sebagai Pelindung Gerakan Pramuka, bukan sebagai pemimpin langsung. Ini mencerminkan sifat mandiri dan otonom Gerakan Pramuka dari pemerintah."
+		},
+		{
+			kategori: "Tokoh & Organisasi",
+			q: "Di dunia kepanduan, sebutan 'Rover Scout' atau 'Pandega' merujuk pada anggota pramuka berusia...",
+			options: ["15-17 tahun", "18-20 tahun", "21-25 tahun", "26-30 tahun"],
+			correct: "21-25 tahun",
+			edu: "Pandega adalah golongan anggota muda tertinggi dalam Gerakan Pramuka Indonesia, berusia 21–25 tahun (sesuai UU No. 12/2010). Setara dengan 'Rover Scout' dalam terminologi kepramukaan internasional. Pandega berfokus pada pengembangan kepemimpinan, pengabdian masyarakat, dan persiapan menjadi anggota dewasa Gerakan Pramuka."
+		},
+		{
+			kategori: "Tokoh & Organisasi",
+			q: "Lencana paling tinggi dalam kepramukaan dunia yang diberikan kepada pramuka putra setara dengan 'Eagle Scout' di Amerika adalah...",
+			options: [
+				"Gold Award",
+				"Garuda Scout Badge",
+				"Chief Scout Award",
+				"Diamond Jubilee Scout Award"
+			],
+			correct: "Chief Scout Award",
+			edu: "Di berbagai negara, lencana tertinggi diberikan nama berbeda: Eagle Scout (Amerika), Queen's Scout (Inggris), Garuda Scout (Indonesia - Pramuka Garuda). Di Indonesia, tingkatan tertinggi adalah Pramuka Garuda, yaitu predikat tertinggi yang dapat dicapai oleh pramuka Siaga, Penggalang, Penegak, atau Pandega yang memenuhi syarat-syarat istimewa."
+		},
+		// ── Jambore & Kegiatan ────────────────────────────────────────────────────
+		{
+			kategori: "Jambore & Kegiatan",
+			q: "Jambore Nasional Gerakan Pramuka Indonesia diadakan setiap...",
+			options: ["2 tahun sekali", "3 tahun sekali", "4 tahun sekali", "5 tahun sekali"],
+			correct: "5 tahun sekali",
+			edu: "Jambore Nasional (Jamnas) Gerakan Pramuka Indonesia diadakan setiap 5 tahun sekali, diikuti oleh pramuka Penggalang dari seluruh Indonesia. Terdapat juga Jambore Daerah (Jamda) di tingkat provinsi. Jambore Dunia (World Scout Jamboree) diadakan setiap 4 tahun sekali oleh WOSM."
+		},
+		{
+			kategori: "Jambore & Kegiatan",
+			q: "Kegiatan kepramukaan nasional khusus untuk pramuka Penegak dan Pandega disebut...",
+			options: ["Jambore Nasional", "Raimuna Nasional", "Rover Moot", "Pertinas"],
+			correct: "Raimuna Nasional",
+			edu: "Raimuna Nasional (Rainas) adalah kegiatan pertemuan besar pramuka Penegak dan Pandega tingkat nasional, diadakan setiap 5 tahun sekali. Setara dengan 'Jambore' untuk Penggalang, nama 'Raimuna' diambil dari bahasa daerah Papua yang berarti 'kebersamaan orang-orang bijaksana dan berwibawa dalam mencapai tujuan bersama'."
+		},
+		{
+			kategori: "Jambore & Kegiatan",
+			q: "Kegiatan kepramukaan yang menggabungkan pramuka dengan kegiatan kerja bakti di masyarakat disebut...",
+			options: ["Gladian", "Perkemahan Bakti (PB)", "Rover Moot", "Musyawarah Pramuka"],
+			correct: "Perkemahan Bakti (PB)",
+			edu: "Perkemahan Bakti (PB) adalah kegiatan perkemahan yang dipadukan dengan kerja nyata di masyarakat seperti membantu membangun jalan, sarana air bersih, atau kegiatan sosial lainnya. Ini mencerminkan salah satu nilai kepramukaan yaitu pengabdian kepada masyarakat. Untuk Penegak, kegiatan bakti seperti ini juga disebut 'Perkemahan Wirakarya'."
+		},
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id: 'sejarah_novice', name: 'Penjelajah Sejarah', icon: '📜' },
+		{ id: 'sejarah_master', name: 'Sejarawan Pramuka',  icon: '🏛️' },
+	];
+
+	// ─── State ─────────────────────────────────────────────────────────────────
+
+	let questions: Question[] = [];
+	let currentIndex = 0;
+	let selectedAnswer = '';
+	let score = 0;
+	let totalXpEarned = 0;
+
+	// ─── Utilitas ──────────────────────────────────────────────────────────────
+
+	function shuffle<T>(arr: T[]): T[] {
+		return [...arr].sort(() => Math.random() - 0.5);
+	}
+
+	function getEl<T extends HTMLElement>(id: string) {
+		return document.getElementById(id) as T | null;
+	}
+
+	// ─── Init Kuis ─────────────────────────────────────────────────────────────
+
+	function startQuiz() {
+		questions = shuffle(QUESTIONS_POOL).slice(0, QUESTIONS_PER_SESSION);
+		currentIndex = 0;
+		score = 0;
+		totalXpEarned = 0;
+		selectedAnswer = '';
+		renderQuestion();
+	}
+
+	// ─── Render Soal ───────────────────────────────────────────────────────────
+
+	function renderQuestion() {
+		const q = questions[currentIndex];
+		const num = currentIndex + 1;
+		const pct = (num / QUESTIONS_PER_SESSION) * 100;
+
+		getEl('question-number')!.textContent = `Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent = `${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width = `${pct}%`;
+
+		const catEl = getEl('question-category');
+		if (catEl) catEl.innerHTML = `<span class="cat-pill">📜 ${q.kategori}</span>`;
+
+		getEl('question-prompt')!.textContent = q.q;
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		if (eduCard) eduCard.style.display = 'none';
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.disabled = true;
+			submitBtn.textContent = 'Konfirmasi Jawaban';
+			submitBtn.onclick = submitAnswer;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) {
+			hint.textContent = 'Pilih salah satu jawaban di atas';
+			hint.className = 'answer-hint';
+		}
+
+		selectedAnswer = '';
+		renderOptions(q);
+	}
+
+	function renderOptions(q: Question) {
+		const container = getEl<HTMLDivElement>('options-container');
+		if (!container) return;
+
+		const shuffledOpts = shuffle(q.options);
+		container.innerHTML = shuffledOpts.map((opt, i) => {
+			const letter = String.fromCharCode(65 + i);
+			return `
+			<button class="opt-btn" data-answer="${opt.replace(/"/g, '&quot;')}" style="animation-delay:${i * 0.07}s">
+				<span class="opt-letter">${letter}</span>
+				<span class="opt-text">${opt}</span>
+				<span class="opt-indicator">
+					<span class="opt-radio"></span>
+					<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span>
+			</button>
+			`;
+		}).join('');
+
+		container.querySelectorAll('.opt-btn').forEach((btn, i) => {
+			btn.addEventListener('click', () => {
+				container.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');
+				selectedAnswer = (btn as HTMLElement).dataset.answer || '';
+
+				const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+				if (submitBtn) submitBtn.disabled = false;
+
+				const hint = getEl('answer-hint');
+				if (hint) {
+					hint.textContent = `Jawaban ${String.fromCharCode(65 + i)} dipilih — klik Konfirmasi untuk lanjut`;
+					hint.className = 'answer-hint chosen';
+				}
+			});
+		});
+	}
+
+	// ─── Submit Jawaban ────────────────────────────────────────────────────────
+
+	function submitAnswer() {
+		const q = questions[currentIndex];
+		const isCorrect = selectedAnswer === q.correct;
+		if (isCorrect) {
+			score++;
+			totalXpEarned += XP_PER_CORRECT;
+		}
+
+		const container = getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn => {
+			const el = btn as HTMLElement;
+			const ans = el.dataset.answer || '';
+			el.classList.add('is-answered');
+			el.classList.remove('is-selected');
+
+			if (ans === q.correct) {
+				el.classList.add('is-correct');
+			} else if (ans === selectedAnswer && !isCorrect) {
+				el.classList.add('is-incorrect');
+			} else {
+				el.classList.add('is-dimmed');
+			}
+		});
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		const eduText = getEl('education-text');
+		if (eduCard && eduText) {
+			eduText.textContent = q.edu;
+			eduCard.style.display = 'flex';
+			eduCard.className = `education-card ${isCorrect ? 'correct' : 'incorrect'}`;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) {
+			hint.textContent = isCorrect ? '✓ Jawaban benar!' : '✗ Jawaban salah — lihat penjelasan di bawah.';
+			hint.className = `answer-hint ${isCorrect ? 'correct-hint' : 'wrong-hint'}`;
+		}
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.textContent = currentIndex < QUESTIONS_PER_SESSION - 1 ? 'Soal Berikutnya →' : 'Lihat Hasil';
+			submitBtn.disabled = false;
+			submitBtn.onclick = nextQuestion;
+		}
+	}
+
+	function nextQuestion() {
+		currentIndex++;
+		if (currentIndex < QUESTIONS_PER_SESSION) {
+			renderQuestion();
+			const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+			if (submitBtn) submitBtn.onclick = submitAnswer;
+		} else {
+			showResult();
+		}
+	}
+
+	// ─── Hasil Akhir ───────────────────────────────────────────────────────────
+
+	function showResult() {
+		const pct = Math.round((score / QUESTIONS_PER_SESSION) * 100);
+
+		const currentXp = parseInt(localStorage.getItem('scout_xp') || '0');
+		localStorage.setItem('scout_xp', (currentXp + totalXpEarned).toString());
+
+		const earnedBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+		const newlyUnlocked: typeof BADGES_FOR_THIS_QUIZ = [];
+
+		if (!earnedBadges.includes('sejarah_novice')) {
+			earnedBadges.push('sejarah_novice');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);
+		}
+		if (pct === 100 && !earnedBadges.includes('sejarah_master')) {
+			earnedBadges.push('sejarah_master');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);
+		}
+		const totalXpNow = parseInt(localStorage.getItem('scout_xp') || '0');
+		if (totalXpNow >= 500 && !earnedBadges.includes('scout_master')) {
+			earnedBadges.push('scout_master');
+		}
+		localStorage.setItem('scout_badges', JSON.stringify(earnedBadges));
+
+		const emoji = pct === 100 ? '🏆' : pct >= 80 ? '⭐' : pct >= 60 ? '👍' : '📚';
+		getEl('result-emoji')!.textContent = emoji;
+
+		const titleEl = getEl('result-title');
+		if (titleEl) titleEl.textContent = pct === 100 ? 'Sempurna! Sejarawan Pramuka!' : pct >= 80 ? 'Bagus Sekali!' : pct >= 60 ? 'Cukup Baik!' : 'Terus Belajar!';
+
+		getEl('result-text')!.textContent = `Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct >= 80 ? 'Kamu menguasai sejarah kepramukaan dengan baik!' : 'Pelajari kembali sejarah Baden Powell dan Gerakan Pramuka Indonesia.'}`;
+
+		getEl('result-xp')!.textContent = `+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent = `${pct}/100`;
+		getEl('result-correct')!.textContent = `${score}/${QUESTIONS_PER_SESSION}`;
+
+		if (newlyUnlocked.length > 0) {
+			const badgesContainer = getEl<HTMLDivElement>('unlocked-badges');
+			const badgesList = getEl('badges-list-el');
+			if (badgesContainer && badgesList) {
+				badgesList.innerHTML = newlyUnlocked.map(b => `
+					<div class="new-badge-item">
+						<span class="new-badge-icon">${b.icon}</span>
+						<span class="new-badge-name">${b.name}</span>
+					</div>
+				`).join('');
+				badgesContainer.style.display = 'block';
+			}
+		}
+
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'flex';
+
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	// ─── Event Listeners ───────────────────────────────────────────────────────
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click', submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click', () => {
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'none';
+		startQuiz();
+	});
+
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container { display: flex; flex-direction: column; gap: 1.5rem; }
+
+	.quiz-header {
+		display: flex; align-items: center; gap: 1.5rem;
+		padding: 1.25rem 1.75rem; flex-wrap: wrap;
+	}
+
+	.btn-back {
+		display: flex; align-items: center; gap: 0.45rem;
+		color: var(--color-text-muted); text-decoration: none;
+		font-size: 0.88rem; font-weight: 500; white-space: nowrap;
+		transition: color var(--transition-fast);
+	}
+	.btn-back:hover { color: var(--color-gold); }
+	.btn-back svg { width: 15px; height: 15px; }
+
+	.quiz-title-area {
+		display: flex; justify-content: space-between;
+		align-items: center; flex-wrap: wrap; gap: 0.75rem; flex: 1;
+	}
+	.quiz-title-area h2 { font-size: 1.4rem; font-weight: 800; color: var(--color-text); }
+
+	.quiz-difficulty {
+		font-size: 0.72rem; font-weight: 700; padding: 0.28rem 0.75rem;
+		border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px;
+	}
+	.quiz-difficulty.medium {
+		background: rgba(27, 77, 50, 0.1); color: var(--color-primary-light);
+		border: 1px solid rgba(27, 77, 50, 0.2);
+	}
+
+	/* ─── Layout ─────────────────────────────────────────────────────────────── */
+
+	.quiz-layout {
+		display: grid; grid-template-columns: 1.9fr 1fr;
+		gap: 1.5rem; align-items: start;
+	}
+
+	.quiz-main-card {
+		padding: 2rem; display: flex; flex-direction: column; gap: 1.75rem;
+	}
+
+	/* ─── Progress ───────────────────────────────────────────────────────────── */
+
+	.progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+	.progress-label { display: flex; justify-content: space-between; align-items: center; }
+	.progress-label span { font-size: 0.82rem; font-weight: 600; color: var(--color-text-muted); }
+	.pct-label { color: var(--color-primary-light) !important; }
+	.progress-bar-outer {
+		height: 6px; background: rgba(27, 77, 50, 0.1);
+		border-radius: var(--radius-full); overflow: hidden;
+	}
+	.progress-bar-inner {
+		height: 100%;
+		background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
+		border-radius: var(--radius-full); transition: width var(--transition-normal);
+	}
+
+	/* ─── Category & Question ────────────────────────────────────────────────── */
+
+	.cat-pill {
+		display: inline-flex; align-items: center; gap: 0.35rem;
+		background: rgba(27, 77, 50, 0.07); color: var(--color-primary-light);
+		border: 1px solid rgba(27, 77, 50, 0.15); padding: 0.28rem 0.75rem;
+		border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 600;
+	}
+
+	.question-text-area h3 {
+		font-size: 1.1rem; font-weight: 700;
+		color: var(--color-text); line-height: 1.55;
+	}
+
+	/* ─── Education Card ─────────────────────────────────────────────────────── */
+
+	.education-card {
+		border-radius: var(--radius-md); padding: 1rem 1.1rem;
+		display: flex; flex-direction: column; gap: 0.5rem;
+		animation: slide-in 0.2s ease;
+	}
+	.education-card.correct  { background: rgba(35,108,50,.07); border: 1px solid rgba(35,108,50,.2); }
+	.education-card.incorrect{ background: rgba(165,48,26,.06); border: 1px solid rgba(165,48,26,.18); }
+
+	@keyframes slide-in {
+		from { opacity: 0; transform: translateY(-6px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+
+	.edu-header { display: flex; align-items: center; gap: 0.45rem; }
+	.edu-icon { font-size: 1rem; }
+	.edu-label {
+		font-size: 0.72rem; font-weight: 700;
+		text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-primary-light);
+	}
+	.education-card.incorrect .edu-label { color: var(--color-danger); }
+	#education-text { font-size: 0.85rem; color: var(--color-text); line-height: 1.55; }
+
+	/* ─── Action Footer ──────────────────────────────────────────────────────── */
+
+	.action-footer {
+		display: flex; align-items: center; justify-content: space-between;
+		gap: 1rem; padding-top: 0.5rem; border-top: 1px solid var(--color-border);
+	}
+	.answer-hint { font-size: 0.8rem; color: var(--color-text-faint); font-style: italic; }
+	.answer-hint.chosen { color: var(--color-primary-light); font-style: normal; font-weight: 600; }
+	.answer-hint.correct-hint { color: var(--color-success); font-style: normal; font-weight: 600; }
+	.answer-hint.wrong-hint { color: var(--color-danger, #c0392b); font-style: normal; font-weight: 600; }
+
+	#btn-submit-answer {
+		padding: 0.8rem 2rem; border-radius: var(--radius-sm);
+		font-size: 0.95rem; transition: all var(--transition-fast);
+	}
+	#btn-submit-answer:not(:disabled) { box-shadow: 0 4px 14px rgba(178,131,27,.3); }
+	#btn-submit-answer:not(:disabled):hover {
+		transform: translateY(-2px); box-shadow: 0 6px 18px rgba(178,131,27,.4);
+	}
+
+	/* ─── Sidebar ────────────────────────────────────────────────────────────── */
+
+	.quiz-help-card {
+		padding: 1.5rem; display: flex; flex-direction: column; gap: 1.1rem;
+	}
+	.quiz-help-card h3 { font-size: 1.05rem; font-weight: 700; color: var(--color-text); }
+	.help-subtitle { font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.4; margin-top: -0.5rem; }
+
+	.timeline { display: flex; flex-direction: column; gap: 0; }
+
+	.tl-item {
+		display: flex; gap: 0.65rem; align-items: flex-start;
+		padding: 0.45rem 0; border-bottom: 1px solid var(--color-border);
+	}
+	.tl-item:last-child { border-bottom: none; }
+
+	.tl-year {
+		font-size: 0.72rem; font-weight: 800;
+		color: var(--color-gold); flex-shrink: 0; width: 34px; padding-top: 0.05rem;
+	}
+
+	.tl-event {
+		font-size: 0.75rem; color: var(--color-text-muted); line-height: 1.4;
+	}
+	.tl-event em { font-style: italic; color: var(--color-primary-light); }
+
+	.history-fact-box {
+		background: rgba(27, 77, 50, 0.05); border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm); padding: 0.85rem;
+		display: flex; flex-direction: column; gap: 0.45rem;
+	}
+
+	.fact-row {
+		display: flex; justify-content: space-between; align-items: baseline;
+		gap: 0.5rem; font-size: 0.78rem;
+	}
+	.fact-key { color: var(--color-text-muted); font-weight: 500; flex-shrink: 0; }
+	.fact-val { color: var(--color-text); font-weight: 700; text-align: right; }
+
+	/* ─── Result Overlay ─────────────────────────────────────────────────────── */
+
+	.result-overlay {
+		position: fixed; inset: 0; background: rgba(10,25,16,.88);
+		backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+		display: flex; align-items: center; justify-content: center;
+		z-index: 1000; padding: 1.5rem;
+	}
+	.result-card {
+		width: 100%; max-width: 520px; padding: 2.5rem; text-align: center;
+		display: flex; flex-direction: column; align-items: center; gap: 1.25rem;
+		animation: pop-in 0.3s cubic-bezier(0.34,1.56,0.64,1);
+	}
+	@keyframes pop-in {
+		from { transform: scale(0.88); opacity: 0; }
+		to   { transform: scale(1);    opacity: 1; }
+	}
+	.result-emoji { font-size: 3.5rem; line-height: 1; }
+	.result-card h2 { font-size: 1.75rem; font-weight: 800; color: #f0f5f2; }
+	.result-summary { font-size: 0.95rem; color: rgba(255,255,255,.65); line-height: 1.55; }
+
+	.result-stats-details { display: flex; width: 100%; gap: 0.85rem; }
+	.detail-item {
+		flex: 1; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1);
+		padding: 1rem; border-radius: var(--radius-md);
+		display: flex; flex-direction: column; gap: 0.25rem;
+	}
+	.detail-item .label {
+		font-size: 0.72rem; color: rgba(255,255,255,.5);
+		text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px;
+	}
+	.detail-item .value { font-size: 1.4rem; font-weight: 800; color: #f0f5f2; }
+	.detail-item .value.score-xp { color: var(--color-gold-light); }
+
+	.unlocked-badges-container {
+		width: 100%; background: rgba(212,163,43,.06);
+		border: 1px solid rgba(212,163,43,.25); border-radius: var(--radius-md); padding: 1rem; text-align: left;
+	}
+	.unlocked-badges-container h3 { font-size: 0.9rem; font-weight: 700; color: var(--color-gold-light); margin-bottom: 0.65rem; }
+	.unlocked-badges-list { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+	.new-badge-item {
+		display: flex; align-items: center; gap: 0.5rem;
+		background: rgba(212,163,43,.1); border: 1px solid rgba(212,163,43,.25);
+		border-radius: var(--radius-sm); padding: 0.4rem 0.75rem;
+	}
+	.new-badge-icon { font-size: 1.1rem; }
+	.new-badge-name { font-size: 0.82rem; font-weight: 700; color: var(--color-gold-light); }
+
+	.result-actions {
+		display: flex; gap: 0.85rem; flex-wrap: wrap;
+		justify-content: center; width: 100%;
+	}
+	.result-actions .btn { flex: 1; min-width: 140px; }
+
+	/* ─── Responsive ─────────────────────────────────────────────────────────── */
+
+	@media (max-width: 900px) {
+		.quiz-layout { grid-template-columns: 1fr; }
+		.quiz-help-card { order: -1; }
+		.timeline { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; }
+		.tl-item { border-bottom: 1px solid var(--color-border); border-right: 1px solid var(--color-border); }
+	}
+
+	@media (max-width: 600px) {
+		.quiz-main-card { padding: 1.25rem; }
+		.quiz-header { padding: 1rem; }
+		.timeline { grid-template-columns: 1fr; }
+		.result-stats-details { flex-wrap: wrap; }
+		.detail-item { flex-basis: calc(50% - 0.4rem); }
+	}
+</style>

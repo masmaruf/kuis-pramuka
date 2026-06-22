@@ -1,0 +1,319 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Organisasi Pramuka" description="Latihan organisasi pramuka: hierarki kwartir (Kwarnas–Kwarda–Kwarcab–Kwaran–Gudep), musyawarah, Dewan Kerja, WOSM, dan sejarah pramuka.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Organisasi Pramuka</h2>
+				<span class="quiz-difficulty medium">Kwartir, Musyawarah &amp; WOSM</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<div class="quiz-main-card glass-card">
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width:10%"></div>
+					</div>
+				</div>
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">🏛️ Organisasi Pramuka</span>
+				</div>
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+				<div class="education-card" id="education-card" style="display:none;">
+					<div class="edu-header">
+						<span class="edu-icon">🏛️</span>
+						<span class="edu-label">Penjelasan</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<div class="quiz-help-card glass-card">
+				<h3>📋 Referensi Organisasi</h3>
+				<p class="help-subtitle">Hierarki kwartir, musyawarah, kursus &amp; WOSM</p>
+
+				<div class="org-section">
+					<div class="org-title">Hierarki Kwartir</div>
+					<div class="org-item"><span class="org-key">Kwarnas</span><span class="org-val">Nasional / Jakarta</span></div>
+					<div class="org-item"><span class="org-key">Kwarda</span><span class="org-val">Provinsi</span></div>
+					<div class="org-item"><span class="org-key">Kwarcab</span><span class="org-val">Kabupaten / Kota</span></div>
+					<div class="org-item"><span class="org-key">Kwaran</span><span class="org-val">Kecamatan</span></div>
+					<div class="org-item"><span class="org-key">Gudep</span><span class="org-val">Satuan terbawah</span></div>
+				</div>
+
+				<div class="org-section">
+					<div class="org-title">Musyawarah</div>
+					<div class="org-item"><span class="org-key">Munas</span><span class="org-val">Nasional — 5 tahun</span></div>
+					<div class="org-item"><span class="org-key">Musda</span><span class="org-val">Daerah — 5 tahun</span></div>
+					<div class="org-item"><span class="org-key">Muscab</span><span class="org-val">Cabang — 5 tahun</span></div>
+					<div class="org-item"><span class="org-key">Musran</span><span class="org-val">Ranting — 3 tahun</span></div>
+				</div>
+
+				<div class="org-section">
+					<div class="org-title">Kursus Pembina</div>
+					<div class="org-item"><span class="org-key">KMD</span><span class="org-val">Kursus Mahir Dasar</span></div>
+					<div class="org-item"><span class="org-key">KML</span><span class="org-val">Kursus Mahir Lanjutan</span></div>
+					<div class="org-item"><span class="org-key">KPD/KPL</span><span class="org-val">Kursus Pelatih (Dasar/Lanjutan)</span></div>
+				</div>
+
+				<div class="org-section">
+					<div class="org-title">Fakta Penting</div>
+					<div class="org-item"><span class="org-key">Berdiri</span><span class="org-val">14 Agustus 1961</span></div>
+					<div class="org-item"><span class="org-key">UU</span><span class="org-val">No. 12 Tahun 2010</span></div>
+					<div class="org-item"><span class="org-key">Motto</span><span class="org-val">Satyaku kudarmakan…</span></div>
+					<div class="org-item"><span class="org-key">WOSM</span><span class="org-val">Fleur-de-lis ungu</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="result-overlay" id="result-overlay" style="display:none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text"></p>
+				<div class="result-stats-details">
+					<div class="detail-item"><span class="label">XP Diperoleh</span><span class="value score-xp" id="result-xp">+0 XP</span></div>
+					<div class="detail-item"><span class="label">Skor Akhir</span><span class="value" id="result-score">0/100</span></div>
+					<div class="detail-item"><span class="label">Jawaban Benar</span><span class="value" id="result-correct">0/10</span></div>
+				</div>
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display:none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	interface Question { kategori:string; q:string; options:string[]; correct:string; edu:string; }
+
+	const QUESTIONS_POOL: Question[] = [
+		{ kategori:"Hierarki Kwartir", q:"Urutan hierarki organisasi Gerakan Pramuka dari pusat ke daerah terkecil adalah...", options:["Kwarnas → Kwarda → Kwarcab → Kwaran → Gudep","Gudep → Kwaran → Kwarcab → Kwarda → Kwarnas","Kwarcab → Kwarnas → Kwarda → Kwaran → Gudep","Kwarda → Kwarnas → Kwarcab → Gudep → Kwaran"], correct:"Kwarnas → Kwarda → Kwarcab → Kwaran → Gudep", edu:"Hierarki: Kwartir Nasional (Jakarta) → Kwartir Daerah (provinsi) → Kwartir Cabang (kabupaten/kota) → Kwartir Ranting (kecamatan) → Gugus Depan (satuan tempat pembinaan langsung)." },
+		{ kategori:"Kwartir", q:"Kwartir Nasional (Kwarnas) Gerakan Pramuka berkedudukan di...", options:["Jakarta","Yogyakarta","Bandung","Surabaya"], correct:"Jakarta", edu:"Kwartir Nasional Gerakan Pramuka berkedudukan di Jakarta sebagai ibu kota negara Indonesia. Kwarnas memimpin seluruh organisasi kepramukaan Indonesia secara nasional." },
+		{ kategori:"Kwartir", q:"Kwartir Daerah (Kwarda) dalam Gerakan Pramuka setingkat dengan pemerintahan...", options:["Provinsi","Kabupaten/Kota","Kecamatan","Kelurahan/Desa"], correct:"Provinsi", edu:"Kwartir Daerah (Kwarda) setingkat provinsi. Ada 34 Kwarda di Indonesia sesuai jumlah provinsi. Kwarda dipimpin Ketua Kwarda yang dipilih dalam Musyawarah Daerah (Musda) setiap 5 tahun." },
+		{ kategori:"Kwartir", q:"Kwartir Cabang (Kwarcab) dalam Gerakan Pramuka setingkat dengan pemerintahan...", options:["Kabupaten atau kota","Provinsi","Kecamatan","Kelurahan"], correct:"Kabupaten atau kota", edu:"Kwartir Cabang setingkat kabupaten atau kota. Kwarcab memiliki peran penting karena menetapkan nomor gugus depan dan mengatur kegiatan kepramukaan di wilayah kabupaten/kota." },
+		{ kategori:"Kwartir", q:"Kwartir Ranting (Kwaran) dalam Gerakan Pramuka setingkat dengan pemerintahan...", options:["Kecamatan","Kabupaten","Provinsi","Kelurahan/Desa"], correct:"Kecamatan", edu:"Kwartir Ranting setingkat kecamatan. Kwaran berperan sebagai jembatan antara Kwarcab dan Gugus Depan, membantu pembinaan gugus depan di wilayah kecamatan setempat." },
+		{ kategori:"Gugus Depan", q:"Satuan terbawah dalam hierarki organisasi Gerakan Pramuka tempat pembinaan langsung berlangsung adalah...", options:["Gugus Depan","Kwartir Ranting","Kwartir Cabang","Barung"], correct:"Gugus Depan", edu:"Gugus Depan (Gudep) adalah satuan terbawah — tempat Pramuka Siaga, Penggalang, Penegak, dan Pandega langsung dibina. Nomor Gudep ditetapkan Kwarcab: ganjil untuk putra, genap untuk putri." },
+		{ kategori:"Musyawarah", q:"Musyawarah Gerakan Pramuka tingkat nasional yang diadakan setiap 5 tahun disebut...", options:["Musyawarah Nasional (Munas)","Musyawarah Daerah (Musda)","Rapat Kerja Nasional","Kongres Pramuka Nasional"], correct:"Musyawarah Nasional (Munas)", edu:"Munas adalah forum pengambilan keputusan tertinggi Gerakan Pramuka, diadakan setiap 5 tahun. Munas memilih Ketua Kwarnas baru dan menetapkan Anggaran Dasar/Rumah Tangga serta kebijakan nasional." },
+		{ kategori:"Musyawarah", q:"Musyawarah Gerakan Pramuka tingkat provinsi disebut...", options:["Musyawarah Daerah (Musda)","Musyawarah Nasional (Munas)","Musyawarah Cabang (Muscab)","Musyawarah Ranting (Musran)"], correct:"Musyawarah Daerah (Musda)", edu:"Musda adalah forum pengambilan keputusan tingkat provinsi, diadakan setiap 5 tahun. Musda memilih Ketua Kwarda dan menetapkan program serta kebijakan kepramukaan di tingkat provinsi." },
+		{ kategori:"Musyawarah", q:"Musyawarah Gerakan Pramuka tingkat kabupaten/kota disebut...", options:["Musyawarah Cabang (Muscab)","Musyawarah Daerah (Musda)","Musyawarah Ranting (Musran)","Musyawarah Nasional (Munas)"], correct:"Musyawarah Cabang (Muscab)", edu:"Muscab adalah forum pengambilan keputusan tingkat kabupaten/kota, diadakan setiap 5 tahun. Muscab memilih Ketua Kwarcab baru dan menentukan arah kepramukaan di kabupaten/kota tersebut." },
+		{ kategori:"Musyawarah", q:"Musyawarah Gerakan Pramuka tingkat kecamatan disebut...", options:["Musyawarah Ranting (Musran)","Musyawarah Cabang (Muscab)","Musyawarah Daerah (Musda)","Rapat Gugus Depan"], correct:"Musyawarah Ranting (Musran)", edu:"Musran adalah forum pengambilan keputusan tingkat kecamatan, diadakan setiap 3 tahun (lebih sering dari tingkat lain). Musran memilih Ketua Kwaran dan merancang program kepramukaan di kecamatan." },
+		{ kategori:"Majelis Pembimbing", q:"Badan yang bertugas memberikan bimbingan, konsultasi, dan dukungan kepada Gerakan Pramuka pada setiap tingkatan disebut...", options:["Majelis Pembimbing (Mabi)","Dewan Kerja","Andalan Kwartir","Pelatih Pembina"], correct:"Majelis Pembimbing (Mabi)", edu:"Majelis Pembimbing (Mabi) terdiri dari pejabat/tokoh masyarakat yang memberikan dukungan non-teknis. Ada Mabinas (pusat), Mabida (daerah), Mabicab (cabang), Mabiran (ranting), Mabigus (gugus depan)." },
+		{ kategori:"Pengurus", q:"Pengurus Kwartir Pramuka pada setiap tingkatan (Nasional, Daerah, Cabang, Ranting) disebut...", options:["Andalan","Pembina","Pelatih","Pramuka Garuda"], correct:"Andalan", edu:"Andalan adalah pengurus Kwartir — Andalan Nasional (Kwarnas), Andalan Daerah (Kwarda), Andalan Cabang (Kwarcab), Andalan Ranting (Kwaran). Mereka dipilih dalam musyawarah masing-masing tingkatan." },
+		{ kategori:"Pembina", q:"Anggota dewasa Gerakan Pramuka yang bertugas mendidik dan membina anggota Pramuka di gugus depan disebut...", options:["Pembina Pramuka","Pelatih Pramuka","Andalan","Instruktur Nasional"], correct:"Pembina Pramuka", edu:"Pembina Pramuka adalah anggota dewasa yang langsung berinteraksi dengan anggota muda dalam satuan di gugus depan. Pembina wajib memiliki sertifikat KMD (Kursus Mahir Dasar) minimal." },
+		{ kategori:"Pelatih", q:"Anggota dewasa Gerakan Pramuka yang bertugas melatih dan meningkatkan kualitas Pembina Pramuka disebut...", options:["Pelatih Pembina Pramuka","Pembina Pramuka","Andalan Kwartir","Instruktur Senior"], correct:"Pelatih Pembina Pramuka", edu:"Pelatih Pembina Pramuka menyelenggarakan kursus KMD dan KML untuk menghasilkan Pembina berkualitas. Untuk menjadi Pelatih, seseorang harus lulus KPD (Kursus Pelatih Dasar) terlebih dahulu." },
+		{ kategori:"Kursus", q:"Kursus dasar wajib yang harus diikuti untuk menjadi Pembina Pramuka bersertifikat disebut...", options:["KMD (Kursus Mahir Dasar)","KML (Kursus Mahir Lanjutan)","KPD (Kursus Pelatih Dasar)","KPL (Kursus Pelatih Lanjutan)"], correct:"KMD (Kursus Mahir Dasar)", edu:"KMD (Kursus Mahir Dasar) adalah kursus pertama calon Pembina Pramuka, mencakup materi dasar kepramukaan dan metodologi pembinaan. Setelah KMD, dapat melanjutkan ke KML untuk kualifikasi lebih tinggi." },
+		{ kategori:"Kursus", q:"Kursus lanjutan untuk Pembina Pramuka setelah menyelesaikan KMD disebut...", options:["KML (Kursus Mahir Lanjutan)","KMD (Kursus Mahir Dasar)","KPD (Kursus Pelatih Dasar)","KTP (Kursus Teknis Pramuka)"], correct:"KML (Kursus Mahir Lanjutan)", edu:"KML (Kursus Mahir Lanjutan) adalah kursus tingkat lanjut setelah KMD. Pembina ber-KML memiliki kualifikasi lebih tinggi dan dapat menjadi kandidat Pelatih Pembina Pramuka setelah menempuh KPD." },
+		{ kategori:"WOSM", q:"Badan dunia yang menghimpun dan mengkoordinasikan organisasi kepramukaan dari seluruh dunia adalah...", options:["WOSM (World Organization of the Scout Movement)","UNESCO","UNICEF","WHO"], correct:"WOSM (World Organization of the Scout Movement)", edu:"WOSM (World Organization of the Scout Movement) adalah federasi internasional kepramukaan yang menghimpun lebih dari 170 negara anggota. Indonesia adalah salah satu anggota aktif WOSM." },
+		{ kategori:"WOSM", q:"Lambang organisasi kepramukaan dunia (WOSM) adalah...", options:["Fleur-de-lis (bunga bakung) berwarna ungu dengan dasar putih","Elang emas dengan perisai merah","Matahari terbit dengan globe berwarna biru","Bintang lima dengan tali di sekelilingnya"], correct:"Fleur-de-lis (bunga bakung) berwarna ungu dengan dasar putih", edu:"Lambang WOSM adalah fleur-de-lis (bunga bakung/lis) berwarna ungu di atas dasar putih. Simbol ini telah digunakan sebagai lambang kepramukaan internasional sejak Baden Powell mendirikan Boy Scouts pada 1907." },
+		{ kategori:"WOSM", q:"World Scout Jamboree, pertemuan kepramukaan internasional terbesar di dunia, diadakan setiap...", options:["4 tahun","2 tahun","5 tahun","10 tahun"], correct:"4 tahun", edu:"World Scout Jamboree diadakan setiap 4 tahun, mengumpulkan puluhan ribu Pramuka Penggalang dari seluruh dunia. Pertama kali diadakan tahun 1920 di Olympia, London, atas inisiatif Baden Powell." },
+		{ kategori:"Dewan Kerja", q:"Dewan Kerja Pramuka adalah wadah pengembangan kepemimpinan bagi golongan Pramuka...", options:["Penegak dan Pandega","Siaga dan Penggalang","Semua golongan","Hanya Pandega"], correct:"Penegak dan Pandega", edu:"Dewan Kerja adalah badan kelengkapan Kwartir yang beranggotakan Pramuka Penegak dan Pandega. Mereka membantu Kwartir mengelola kegiatan bagi golongan mereka. Ada DKN, DKD, DKC, dan DKR." },
+		{ kategori:"Gugus Depan", q:"Gugus depan Pramuka umumnya dibentuk berbasis...", options:["Sekolah, lembaga pendidikan, atau instansi/domisili setempat","Suku atau etnis yang sama","Agama yang dianut anggotanya","Tingkat kekayaan ekonomi keluarga anggota"], correct:"Sekolah, lembaga pendidikan, atau instansi/domisili setempat", edu:"Gugus depan umumnya berbasis sekolah (SD, SMP, SMA, Perguruan Tinggi), instansi (kantor, masjid, gereja), atau domisili (RT/RW). Pramuka terbuka bagi semua tanpa membedakan suku, agama, dan status sosial." },
+		{ kategori:"Gugus Depan", q:"Nomor gugus depan Pramuka di suatu wilayah ditetapkan oleh...", options:["Kwartir Cabang (Kwarcab) setempat","Kwartir Nasional (Kwarnas)","Kepala Sekolah atau pimpinan instansi","Pemerintah daerah setempat"], correct:"Kwartir Cabang (Kwarcab) setempat", edu:"Nomor gugus depan ditetapkan Kwarcab di wilayah kabupaten/kota tempat gugus depan berada. Nomor ganjil untuk gudep putra, genap untuk gudep putri. Satu sekolah biasanya memiliki satu gudep putra dan satu gudep putri." },
+		{ kategori:"Anggota", q:"Anggota biasa Gerakan Pramuka terdiri dari...", options:["Pramuka Siaga, Penggalang, Penegak, dan Pandega","Hanya Pramuka Penggalang dan Penegak","Semua warga negara Indonesia","Hanya pelajar SD hingga SMA"], correct:"Pramuka Siaga, Penggalang, Penegak, dan Pandega", edu:"Anggota biasa: Siaga (7-10 th), Penggalang (11-15 th), Penegak (16-20 th), Pandega (21-25 th). Anggota dewasa (Pembina, Pelatih, Andalan, Mabi) adalah kategori anggota terpisah." },
+		{ kategori:"Perundangan", q:"Undang-Undang yang mengatur tentang Gerakan Pramuka Indonesia adalah...", options:["UU No. 12 Tahun 2010","UU No. 20 Tahun 2003 tentang Sisdiknas","UU No. 35 Tahun 2014","Kepres No. 238 Tahun 1961"], correct:"UU No. 12 Tahun 2010", edu:"UU No. 12 Tahun 2010 tentang Gerakan Pramuka adalah landasan hukum utama kepramukaan Indonesia, mengatur asas, tujuan, fungsi, tugas pokok, organisasi, keanggotaan, dan pendanaan Gerakan Pramuka." },
+		{ kategori:"Sejarah", q:"Gerakan Pramuka Indonesia secara resmi didirikan pada tanggal...", options:["14 Agustus 1961","17 Agustus 1945","1 Januari 1961","2 Mei 1961"], correct:"14 Agustus 1961", edu:"Gerakan Pramuka resmi didirikan 14 Agustus 1961 berdasarkan Kepres No. 238 Tahun 1961 yang ditandatangani Presiden Soekarno. Tanggal ini diperingati sebagai Hari Pramuka setiap tahun." },
+		{ kategori:"Sejarah", q:"Hari Pramuka Indonesia diperingati setiap tanggal...", options:["14 Agustus","17 Agustus","1 Oktober","28 Oktober"], correct:"14 Agustus", edu:"Hari Pramuka diperingati setiap 14 Agustus, bertepatan dengan hari berdirinya Gerakan Pramuka Indonesia pada tahun 1961. Peringatan ini dirayakan di seluruh Indonesia dengan upacara dan berbagai kegiatan kepramukaan." },
+		{ kategori:"Motto", q:"Motto Gerakan Pramuka Indonesia adalah...", options:["Satyaku kudarmakan, darmaku kubaktikan","Bhinneka Tunggal Ika","Ing ngarsa sung tuladha","Maju tak gentar, membela yang benar"], correct:"Satyaku kudarmakan, darmaku kubaktikan", edu:"Motto Gerakan Pramuka: 'Satyaku kudarmakan, darmaku kubaktikan' — Janjiku akan kulaksanakan, darma/kewajibanku akan kubaktikan. Mencerminkan komitmen Pramuka pada Tri Satya dan Dasa Darma." },
+		{ kategori:"Sifat", q:"Menurut UU No. 12 Tahun 2010, Gerakan Pramuka bersifat...", options:["Mandiri, sukarela, nonpolitik, dan terbuka untuk semua","Pemerintah, wajib, dan bersifat politis","Swasta, komersial, dan tertutup","Internasional, religius, dan eksklusif berbasis golongan"], correct:"Mandiri, sukarela, nonpolitik, dan terbuka untuk semua", edu:"Sifat Gerakan Pramuka: Mandiri (tidak tergantung partai/instansi), Sukarela (keanggotaan tidak dipaksakan), Nonpolitik (tidak terlibat politik praktis), Terbuka (untuk semua WNI tanpa membedakan SARA)." },
+		{ kategori:"Bapak Pramuka", q:"Yang dikenal sebagai 'Bapak Pramuka Indonesia' dan menjabat sebagai Ketua Kwartir Nasional pertama adalah...", options:["Sri Sultan Hamengkubuwono IX","Presiden Soekarno","Sri Sultan Hamengkubuwono X","Mohammad Hatta"], correct:"Sri Sultan Hamengkubuwono IX", edu:"Sri Sultan Hamengkubuwono IX adalah Bapak Pramuka Indonesia, menjabat sebagai Ketua Kwarnas pertama dan sangat aktif mengembangkan kepramukaan Indonesia. Presiden Soekarno menandatangani Kepres pendiriannya." },
+		{ kategori:"Tri Satya", q:"Tri Satya adalah janji Pramuka yang diucapkan saat pelantikan. 'Tri' berarti...", options:["Tiga","Pertama","Suci","Utama"], correct:"Tiga", edu:"'Tri' dalam bahasa Sansekerta/Jawa berarti 'tiga'. Tri Satya adalah tiga janji/ikrar Pramuka: (1) Setia kepada Tuhan Yang Maha Esa, NKRI, Pancasila; (2) Menolong sesama; (3) Mengamalkan Dasa Darma." },
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id:'org_novice', name:'Pandu Organisasi', icon:'🏛️' },
+		{ id:'org_master', name:'Ahli Keorganisasian', icon:'📋' },
+	];
+
+	let questions:Question[]=[], currentIndex=0, selectedAnswer='', score=0, totalXpEarned=0;
+
+	function shuffle<T>(arr:T[]):T[]{return [...arr].sort(()=>Math.random()-.5);}
+	function getEl<T extends HTMLElement>(id:string){return document.getElementById(id) as T|null;}
+
+	function startQuiz(){questions=shuffle(QUESTIONS_POOL).slice(0,QUESTIONS_PER_SESSION);currentIndex=0;score=0;totalXpEarned=0;selectedAnswer='';renderQuestion();}
+
+	function renderQuestion(){
+		const q=questions[currentIndex],num=currentIndex+1,pct=(num/QUESTIONS_PER_SESSION)*100;
+		getEl('question-number')!.textContent=`Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent=`${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width=`${pct}%`;
+		const catEl=getEl('question-category');if(catEl)catEl.innerHTML=`<span class="cat-pill">🏛️ ${q.kategori}</span>`;
+		getEl('question-prompt')!.textContent=q.q;
+		const eduCard=getEl<HTMLDivElement>('education-card');if(eduCard)eduCard.style.display='none';
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Konfirmasi Jawaban';submitBtn.onclick=submitAnswer;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent='Pilih salah satu jawaban di atas';hint.className='answer-hint';}
+		selectedAnswer='';renderOptions(q);
+	}
+
+	function renderOptions(q:Question){
+		const container=getEl<HTMLDivElement>('options-container');if(!container)return;
+		container.innerHTML=shuffle(q.options).map((opt,i)=>{
+			const letter=String.fromCharCode(65+i);
+			return `<button class="opt-btn" data-answer="${opt.replace(/"/g,'&quot;')}" style="animation-delay:${i*.07}s">
+				<span class="opt-letter">${letter}</span><span class="opt-text">${opt}</span>
+				<span class="opt-indicator"><span class="opt-radio"></span>
+				<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span></button>`;
+		}).join('');
+		container.querySelectorAll('.opt-btn').forEach((btn,i)=>{
+			btn.addEventListener('click',()=>{
+				container.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');selectedAnswer=(btn as HTMLElement).dataset.answer||'';
+				const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.disabled=false;
+				const h=getEl('answer-hint');if(h){h.textContent=`Jawaban ${String.fromCharCode(65+i)} dipilih — klik Konfirmasi untuk lanjut`;h.className='answer-hint chosen';}
+			});
+		});
+	}
+
+	function submitAnswer(){
+		const q=questions[currentIndex],isCorrect=selectedAnswer===q.correct;
+		if(isCorrect){score++;totalXpEarned+=XP_PER_CORRECT;}
+		const container=getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn=>{
+			const el=btn as HTMLElement,ans=el.dataset.answer||'';
+			el.classList.add('is-answered');el.classList.remove('is-selected');
+			if(ans===q.correct)el.classList.add('is-correct');
+			else if(ans===selectedAnswer&&!isCorrect)el.classList.add('is-incorrect');
+			else el.classList.add('is-dimmed');
+		});
+		const eduCard=getEl<HTMLDivElement>('education-card'),eduText=getEl('education-text');
+		if(eduCard&&eduText){eduText.textContent=q.edu;eduCard.style.display='flex';eduCard.className=`education-card ${isCorrect?'correct':'incorrect'}`;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent=isCorrect?'✓ Jawaban benar!':'✗ Jawaban salah — lihat penjelasan di bawah.';hint.className=`answer-hint ${isCorrect?'correct-hint':'wrong-hint'}`;}
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.textContent=currentIndex<QUESTIONS_PER_SESSION-1?'Soal Berikutnya →':'Lihat Hasil';submitBtn.disabled=false;submitBtn.onclick=nextQuestion;}
+	}
+
+	function nextQuestion(){
+		currentIndex++;
+		if(currentIndex<QUESTIONS_PER_SESSION){renderQuestion();const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.onclick=submitAnswer;}
+		else showResult();
+	}
+
+	function showResult(){
+		const pct=Math.round((score/QUESTIONS_PER_SESSION)*100);
+		const currentXp=parseInt(localStorage.getItem('scout_xp')||'0');
+		localStorage.setItem('scout_xp',(currentXp+totalXpEarned).toString());
+		const earnedBadges:string[]=JSON.parse(localStorage.getItem('scout_badges')||'[]');
+		const newlyUnlocked:typeof BADGES_FOR_THIS_QUIZ=[];
+		if(!earnedBadges.includes('org_novice')){earnedBadges.push('org_novice');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);}
+		if(pct===100&&!earnedBadges.includes('org_master')){earnedBadges.push('org_master');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);}
+		if(parseInt(localStorage.getItem('scout_xp')||'0')>=500&&!earnedBadges.includes('scout_master'))earnedBadges.push('scout_master');
+		localStorage.setItem('scout_badges',JSON.stringify(earnedBadges));
+		getEl('result-emoji')!.textContent=pct===100?'🏆':pct>=80?'⭐':pct>=60?'👍':'📚';
+		const t=getEl('result-title');if(t)t.textContent=pct===100?'Sempurna! Ahli Keorganisasian!':pct>=80?'Bagus Sekali!':pct>=60?'Cukup Baik!':'Terus Belajar!';
+		getEl('result-text')!.textContent=`Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct>=80?'Kamu memahami struktur organisasi Gerakan Pramuka dengan baik!':'Pelajari kembali hierarki kwartir, musyawarah, dan peran-peran dalam organisasi Pramuka.'}`;
+		getEl('result-xp')!.textContent=`+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent=`${pct}/100`;
+		getEl('result-correct')!.textContent=`${score}/${QUESTIONS_PER_SESSION}`;
+		if(newlyUnlocked.length>0){
+			const bc=getEl<HTMLDivElement>('unlocked-badges'),bl=getEl('badges-list-el');
+			if(bc&&bl){bl.innerHTML=newlyUnlocked.map(b=>`<div class="new-badge-item"><span class="new-badge-icon">${b.icon}</span><span class="new-badge-name">${b.name}</span></div>`).join('');bc.style.display='block';}
+		}
+		const overlay=getEl<HTMLDivElement>('result-overlay');if(overlay)overlay.style.display='flex';
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click',submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click',()=>{const o=getEl<HTMLDivElement>('result-overlay');if(o)o.style.display='none';startQuiz();});
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container{display:flex;flex-direction:column;gap:1.5rem}
+	.quiz-header{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 1.75rem;flex-wrap:wrap}
+	.btn-back{display:flex;align-items:center;gap:.45rem;color:var(--color-text-muted);text-decoration:none;font-size:.88rem;font-weight:500;white-space:nowrap;transition:color var(--transition-fast)}
+	.btn-back:hover{color:var(--color-gold)}.btn-back svg{width:15px;height:15px}
+	.quiz-title-area{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;flex:1}
+	.quiz-title-area h2{font-size:1.4rem;font-weight:800;color:var(--color-text)}
+	.quiz-difficulty{font-size:.72rem;font-weight:700;padding:.28rem .75rem;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+	.quiz-difficulty.medium{background:rgba(26,74,124,.1);color:#1a4a7c;border:1px solid rgba(26,74,124,.2)}
+	.quiz-layout{display:grid;grid-template-columns:1.9fr 1fr;gap:1.5rem;align-items:start}
+	.quiz-main-card{padding:2rem;display:flex;flex-direction:column;gap:1.75rem}
+	.progress-tracker{display:flex;flex-direction:column;gap:.5rem}
+	.progress-label{display:flex;justify-content:space-between;align-items:center}
+	.progress-label span{font-size:.82rem;font-weight:600;color:var(--color-text-muted)}
+	.pct-label{color:#1a4a7c!important}
+	.progress-bar-outer{height:6px;background:rgba(26,74,124,.1);border-radius:var(--radius-full);overflow:hidden}
+	.progress-bar-inner{height:100%;background:linear-gradient(90deg,#1a4a7c,#2a7ac8);border-radius:var(--radius-full);transition:width var(--transition-normal)}
+	.cat-pill{display:inline-flex;align-items:center;gap:.35rem;background:rgba(26,74,124,.07);color:#1a4a7c;border:1px solid rgba(26,74,124,.18);padding:.28rem .75rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:600}
+	.question-text-area h3{font-size:1.1rem;font-weight:700;color:var(--color-text);line-height:1.55}
+	.education-card{border-radius:var(--radius-md);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;animation:slide-in .2s ease}
+	.education-card.correct{background:rgba(35,108,50,.07);border:1px solid rgba(35,108,50,.2)}
+	.education-card.incorrect{background:rgba(165,48,26,.06);border:1px solid rgba(165,48,26,.18)}
+	@keyframes slide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+	.edu-header{display:flex;align-items:center;gap:.45rem}
+	.edu-icon{font-size:1rem}
+	.edu-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#1a4a7c}
+	.education-card.incorrect .edu-label{color:var(--color-danger)}
+	#education-text{font-size:.85rem;color:var(--color-text);line-height:1.55}
+	.action-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:.5rem;border-top:1px solid var(--color-border)}
+	.answer-hint{font-size:.8rem;color:var(--color-text-faint);font-style:italic}
+	.answer-hint.chosen{color:#1a4a7c;font-style:normal;font-weight:600}
+	.answer-hint.correct-hint{color:var(--color-success);font-style:normal;font-weight:600}
+	.answer-hint.wrong-hint{color:var(--color-danger,#c0392b);font-style:normal;font-weight:600}
+	#btn-submit-answer{padding:.8rem 2rem;border-radius:var(--radius-sm);font-size:.95rem;transition:all var(--transition-fast)}
+	#btn-submit-answer:not(:disabled){box-shadow:0 4px 14px rgba(178,131,27,.3)}
+	#btn-submit-answer:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(178,131,27,.4)}
+
+	.quiz-help-card{padding:1.5rem;display:flex;flex-direction:column;gap:.85rem}
+	.quiz-help-card h3{font-size:1.05rem;font-weight:700;color:var(--color-text)}
+	.help-subtitle{font-size:.78rem;color:var(--color-text-muted);line-height:1.4;margin-top:-.5rem}
+	.org-section{display:flex;flex-direction:column;gap:.25rem}
+	.org-title{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#1a4a7c;padding:.2rem 0;border-bottom:1px solid var(--color-border);margin-bottom:.1rem}
+	.org-item{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;padding:.2rem .5rem;border-radius:4px;background:var(--color-bg);border:1px solid var(--color-border)}
+	.org-key{font-size:.72rem;font-weight:700;color:var(--color-text);flex-shrink:0}
+	.org-val{font-size:.68rem;color:var(--color-text-muted);text-align:right}
+
+	.result-overlay{position:fixed;inset:0;background:rgba(10,25,16,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1.5rem}
+	.result-card{width:100%;max-width:520px;padding:2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.25rem;animation:pop-in .3s cubic-bezier(.34,1.56,.64,1)}
+	@keyframes pop-in{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+	.result-emoji{font-size:3.5rem;line-height:1}
+	.result-card h2{font-size:1.75rem;font-weight:800;color:#f0f5f2}
+	.result-summary{font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.55}
+	.result-stats-details{display:flex;width:100%;gap:.85rem}
+	.detail-item{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:1rem;border-radius:var(--radius-md);display:flex;flex-direction:column;gap:.25rem}
+	.detail-item .label{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:600;letter-spacing:.5px}
+	.detail-item .value{font-size:1.4rem;font-weight:800;color:#f0f5f2}
+	.detail-item .value.score-xp{color:var(--color-gold-light)}
+	.unlocked-badges-container{width:100%;background:rgba(212,163,43,.06);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-md);padding:1rem;text-align:left}
+	.unlocked-badges-container h3{font-size:.9rem;font-weight:700;color:var(--color-gold-light);margin-bottom:.65rem}
+	.unlocked-badges-list{display:flex;gap:.75rem;flex-wrap:wrap}
+	.new-badge-item{display:flex;align-items:center;gap:.5rem;background:rgba(212,163,43,.1);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-sm);padding:.4rem .75rem}
+	.new-badge-icon{font-size:1.1rem}
+	.new-badge-name{font-size:.82rem;font-weight:700;color:var(--color-gold-light)}
+	.result-actions{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:center;width:100%}
+	.result-actions .btn{flex:1;min-width:140px}
+
+	@media(max-width:900px){.quiz-layout{grid-template-columns:1fr}.quiz-help-card{order:-1}.org-section{display:grid;grid-template-columns:repeat(2,1fr)}.org-title{grid-column:1/-1}}
+	@media(max-width:600px){.quiz-main-card{padding:1.25rem}.quiz-header{padding:1rem}.org-section{grid-template-columns:1fr}.result-stats-details{flex-wrap:wrap}.detail-item{flex-basis:calc(50% - .4rem)}}
+</style>

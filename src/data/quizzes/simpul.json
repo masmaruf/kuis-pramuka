@@ -1,0 +1,450 @@
+{
+  "id": "simpul",
+  "title": "Kuis Simpul & Ikatan Pramuka",
+  "description": "Latihan tali-temali pramuka: simpul mati, anyam, tiang, pangkal, delapan, ikatan segi empat, silang, dan kaki tiga. 30 soal acak per sesi.",
+  "category": "Keterampilan",
+  "group": "Tali Temali",
+  "difficulty": "medium",
+  "xpPerQuestion": 14,
+  "totalQuestions": 30,
+  "color": "green",
+  "icon": "🪢",
+  "hasLevels": false,
+  "badgeId": "simpul",
+  "helpContent": {
+    "title": "Simpul & Ikatan Dasar",
+    "content": "Tali temali wajib dalam Gerakan Pramuka Indonesia. Simpul (Knots): Mati, Hidup, Tiang, Pangkal, Anyam, Anyam Berganda, Delapan, Kembar. Ikatan (Lashings): Segi Empat, Silang, Kaki Tiga."
+  },
+  "questions": [
+    {
+      "id": "simpul_001",
+      "question": "Simpul Mati digunakan untuk...",
+      "options": [
+        "Menyambung dua tali yang berbeda ukurannya",
+        "Menyambung dua tali yang sama ukurannya",
+        "Membuat lingkaran tetap di ujung tali",
+        "Mengakhiri sebuah ikatan pada tongkat"
+      ],
+      "correctAnswer": "Menyambung dua tali yang sama ukurannya",
+      "explanation": "Simpul Mati (Reef Knot / Square Knot) adalah simpul untuk menyambung dua tali yang sama ukuran dan bahannya. Ciri khasnya: ujung-ujung tali keluar sejajar di kedua sisi. Jika tidak sejajar, maka simpul tersebut menjadi Simpul Hidup yang mudah lepas.",
+      "tags": ["simpul-mati", "simpul", "dasar"],
+      "difficulty": "easy",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/8/84/Reef_knot.svg",
+      "imageCaption": "Simpul Mati (Reef Knot)"
+    },
+    {
+      "id": "simpul_002",
+      "question": "Simpul Hidup (Granny Knot) berbeda dari Simpul Mati karena...",
+      "options": [
+        "Simpul Hidup lebih kuat dan tidak mudah lepas",
+        "Ujung tali pada Simpul Hidup tidak sejajar, sehingga mudah lepas saat ditarik",
+        "Simpul Hidup digunakan untuk tali yang berbeda ukuran",
+        "Simpul Hidup hanya boleh digunakan untuk tali nilon"
+      ],
+      "correctAnswer": "Ujung tali pada Simpul Hidup tidak sejajar, sehingga mudah lepas saat ditarik",
+      "explanation": "Simpul Hidup (Granny Knot) terbentuk ketika kedua putaran tali dibuat searah (bukan berlawanan arah). Akibatnya ujung tali tidak sejajar dan simpul mudah tergelincir saat diberi beban. Untuk mengenali: jika ujung tali menyilang, itu Simpul Hidup; jika sejajar, itu Simpul Mati.",
+      "tags": ["simpul-hidup", "simpul"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "simpul_003",
+      "question": "Simpul Tiang (Bowline) paling tepat digunakan untuk...",
+      "options": [
+        "Menyambung dua tali yang berbeda ukuran",
+        "Membuat lingkaran tetap yang tidak mencekik di ujung tali",
+        "Memulai sebuah ikatan pada tongkat",
+        "Mencegah ujung tali berburai"
+      ],
+      "correctAnswer": "Membuat lingkaran tetap yang tidak mencekik di ujung tali",
+      "explanation": "Simpul Tiang (Bowline) menghasilkan lingkaran (loop) tetap di ujung tali yang tidak akan mengencang atau mencekik saat dibebani. Keunggulannya: ukuran lingkaran tidak berubah saat ditarik. Simpul ini banyak digunakan dalam operasi penyelamatan dan mendaki.",
+      "tags": ["simpul-tiang", "bowline"],
+      "difficulty": "easy",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/7/77/Bowline.svg",
+      "imageCaption": "Simpul Tiang (Bowline)"
+    },
+    {
+      "id": "simpul_004",
+      "question": "Simpul Pangkal (Clove Hitch) paling sering digunakan untuk...",
+      "options": [
+        "Menyambung dua tali yang putus",
+        "Memulai dan mengakhiri ikatan pada tongkat atau tiang",
+        "Membuat simpul darurat tanpa alat bantu",
+        "Menyambung tali pada benda bergerak"
+      ],
+      "correctAnswer": "Memulai dan mengakhiri ikatan pada tongkat atau tiang",
+      "explanation": "Simpul Pangkal (Clove Hitch) adalah simpul yang digunakan untuk memulai dan mengakhiri ikatan pada sebuah tongkat, tiang, atau spar. Saat dibuat dengan benar, tekanan tali pada tongkat mengunci simpul ini dengan kuat. Hampir semua ikatan (lashing) dimulai dan diakhiri dengan Simpul Pangkal.",
+      "tags": ["simpul-pangkal", "clove-hitch"],
+      "difficulty": "easy",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Webeleinenstek3.svg",
+      "imageCaption": "Simpul Pangkal (Clove Hitch)"
+    },
+    {
+      "id": "simpul_005",
+      "question": "Kapan Simpul Anyam (Sheet Bend) digunakan?",
+      "options": [
+        "Untuk membuat tiang bendera yang kuat",
+        "Untuk menyambung dua tali yang berbeda ukuran atau bahan",
+        "Untuk mengikat perahu ke dermaga",
+        "Untuk membuat simpul di tengah tali"
+      ],
+      "correctAnswer": "Untuk menyambung dua tali yang berbeda ukuran atau bahan",
+      "explanation": "Simpul Anyam (Sheet Bend) digunakan untuk menyambung dua tali yang berbeda ukuran (diameter) atau berbeda bahan. Simpul Anyam Berganda (Double Sheet Bend) digunakan jika perbedaan ukuran tali sangat besar. Ini adalah solusi terbaik saat Simpul Mati tidak bisa dipakai karena ukuran tali berbeda.",
+      "tags": ["simpul-anyam", "sheet-bend"],
+      "difficulty": "easy",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/4/42/Sheet_bend.svg",
+      "imageCaption": "Simpul Anyam (Sheet Bend)"
+    },
+    {
+      "id": "simpul_006",
+      "question": "Simpul Delapan (Figure-Eight Knot) termasuk kategori simpul...",
+      "options": [
+        "Simpul sambung — untuk menyambung dua tali",
+        "Simpul stopper — mencegah ujung tali melolos dari lubang atau blok",
+        "Simpul ikatan — untuk mengikat pada tiang",
+        "Simpul penyelamat — untuk operasi rescue"
+      ],
+      "correctAnswer": "Simpul stopper — mencegah ujung tali melolos dari lubang atau blok",
+      "explanation": "Simpul Delapan (Figure-Eight Knot) adalah simpul stopper. Fungsinya mencegah ujung tali melolos melewati lubang pada katrol, blok, atau lubang lainnya. Simpul ini lebih besar dan lebih mudah dibuka dibanding Simpul Setengah Mati, sehingga lebih disukai dalam panjat tebing dan kepramukaan.",
+      "tags": ["simpul-delapan", "stopper"],
+      "difficulty": "medium",
+      "image": "https://upload.wikimedia.org/wikipedia/commons/d/db/Figure-eight_knot.svg",
+      "imageCaption": "Simpul Delapan (Figure-Eight)"
+    },
+    {
+      "id": "simpul_007",
+      "question": "Simpul Kembar (Double Fisherman's Knot) digunakan untuk...",
+      "options": [
+        "Menyambung dua tali nilon yang licin",
+        "Membuat lingkaran di tengah tali",
+        "Mengikat tali pada kayu bundar",
+        "Memulai ikatan tripod"
+      ],
+      "correctAnswer": "Menyambung dua tali nilon yang licin",
+      "explanation": "Simpul Kembar (Double Fisherman's Bend) adalah simpul terbaik untuk menyambung dua tali nilon, tali PE, atau tali licin lainnya. Simpul ini memiliki dua putaran ganda yang mencegah tali licin tergelincir.",
+      "tags": ["simpul-kembar", "fisherman"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_008",
+      "question": "Ikatan Segi Empat (Square Lashing) digunakan untuk...",
+      "options": [
+        "Membuat sudut 90° antar tongkat",
+        "Membuat tripod untuk tenda",
+        "Mengikat kayu pada tiang tegak",
+        "Membuat tangga dari tali"
+      ],
+      "correctAnswer": "Membuat sudut 90° antar tongkat",
+      "explanation": "Ikatan Segi Empat (Square Lashing) adalah ikatan untuk menggabungkan dua tongkat sehingga membentuk sudut 90° (siku-siku). Digunakan untuk membuat konstruksi seperti tiang bendera, menara pengamat, atau kerangka dasi pramuka.",
+      "tags": ["ikatan-segi-empat", "lashing"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_009",
+      "question": "Ikatan Silang (Diagonal Lashing) digunakan untuk...",
+      "options": [
+        "Memperkuat ikatan bersilang",
+        "Membuat kaki tiga untuk tenda",
+        "Mengikat tongkat dengan sudut 45°",
+        "Menyambung dua tali panjang"
+      ],
+      "correctAnswer": "Memperkuat ikatan bersilang",
+      "explanation": "Ikatan Silang (Diagonal Lashing) digunakan untuk menyatukan dua tongkat yang saling bersilangan (cross). Digunakan untuk membuat rangka struktur yang kuat dengan diagonal penyangga.",
+      "tags": ["ikatan-silang", "diagonal"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "simpul_010",
+      "question": "Ikatan Kaki Tiga (Tripod Lashing) digunakan untuk...",
+      "options": [
+        "Membuat sudut siku-siku",
+        "Membuat konstruksi tripod / kaki tiga",
+        "Mengikat kayu pada tiang bundar",
+        "Membuat tangga tali"
+      ],
+      "correctAnswer": "Membuat konstruksi tripod / kaki tiga",
+      "explanation": "Ikatan Kaki Tiga (Tripod Lashing) digunakan untuk menyatukan tiga tongkat yang bertemu di satu titik, membentuk struktur tripod. Digunakan untuk membuat dapur, tiang tenda, atau konstruksi yang membutuhkan tiga kaki penyangga.",
+      "tags": ["ikatan-kaki-tiga", "tripod"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_011",
+      "question": "Simpul manakah yang membentuk lingkaran yang tidak mencekik?",
+      "options": [
+        "Simpul Mati",
+        "Simpul Tiang",
+        "Simpul Pangkal",
+        "Simpul Anyam"
+      ],
+      "correctAnswer": "Simpul Tiang",
+      "explanation": "Simpul Tiang (Bowline) menghasilkan lingkaran yang tidak mencekik dan tidak mengencang saat diberi beban. Ini membuatnya ideal untuk penyelamatan.",
+      "tags": ["simpul-tiang", "lingkaran"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "simpul_012",
+      "question": "Simpul mana yang digambarkan dengan bentuk angka 8?",
+      "options": [
+        "Simpul Mati",
+        "Simpul Pangkal",
+        "Simpul Delapan",
+        "Simpul Tiang"
+      ],
+      "correctAnswer": "Simpul Delapan",
+      "explanation": "Simpul Delapan (Figure-Eight Knot) memiliki bentuk khas seperti angka 8. Digunakan sebagai stopper untuk mencegah tali lepas dari katrol.",
+      "tags": ["simpul-delapan", "stopper"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "simpul_013",
+      "question": "Apa fungsi utama Simpul Anyam Berganda (Double Sheet Bend)?",
+      "options": [
+        "Menyambung tali yang sangat berbeda ukuran",
+        "Membuat lingkaran di ujung tali",
+        "Mengikat tali pada tiang",
+        "Memulai ikatan"
+      ],
+      "correctAnswer": "Menyambung tali yang sangat berbeda ukuran",
+      "explanation": "Simpul Anyam Berganda (Double Sheet Bend) digunakan saat perbedaan diameter tali sangat besar. Dua putaran ganda memberikan keamanan ekstra.",
+      "tags": ["simpul-anyam-berganda", "sheet-bend"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_014",
+      "question": "Ikatan mana yang membutuhkan Simpul Pangkal di awal dan akhir ikatan?",
+      "options": [
+        "Semua jenis ikatan pramuka",
+        "Hanya Ikatan Segi Empat",
+        "Hanya Ikatan Silang",
+        "Ikatan Kaki Tiga saja"
+      ],
+      "correctAnswer": "Semua jenis ikatan pramuka",
+      "explanation": "Hampir semua ikatan (lashing) dalam pramuka dimulai dan diakhiri dengan Simpul Pangkal (Clove Hitch) untuk mengunci ikatan dengan kuat.",
+      "tags": ["simpul-pangkal", "ikatan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_015",
+      "question": "Apa nama internasional dari Simpul Mati?",
+      "options": [
+        "Reef Knot",
+        "Square Knot",
+        "Bowline",
+        "Reef Knot dan Square Knot keduanya benar"
+      ],
+      "correctAnswer": "Reef Knot dan Square Knot keduanya benar",
+      "explanation": "Simpul Mati dikenal dengan dua nama internasional: Reef Knot (karena digunakan untuk mengikat layar - reef) dan Square Knot (karena bentuknya yang simetris).",
+      "tags": ["simpul-mati", "internasional"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_016",
+      "question": "Apa nama internasional dari Simpul Tiang?",
+      "options": [
+        "Clove Hitch",
+        "Bowline",
+        "Sheet Bend",
+        "Figure-Eight"
+      ],
+      "correctAnswer": "Bowline",
+      "explanation": "Simpul Tiang dikenal sebagai Bowline (diucapkan 'boh-lin') dalam istilah internasional.",
+      "tags": ["simpul-tiang", "bowline"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "simpul_017",
+      "question": "Apa istilah untuk ujung tali yang aktif/dikerjakan dalam tali-temali?",
+      "options": [
+        "Standing End",
+        "Working End",
+        "Running End",
+        "Fixed End"
+      ],
+      "correctAnswer": "Working End",
+      "explanation": "Working End (ujung aktif) adalah bagian tali yang digunakan untuk membuat simpul atau ikatan. Standing End adalah bagian tali yang tidak bergerak (tetap).",
+      "tags": ["tali-temali", "istilah"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_018",
+      "question": "Lilitan pengikat dalam ikatan disebut?",
+      "options": [
+        "Clove Hitch",
+        "Frapping Turns",
+        "Half Hitch",
+        "Timber Hitch"
+      ],
+      "correctAnswer": "Frapping Turns",
+      "explanation": "Frapping Turns adalah lilitan pengikat yang melilit secara diagonal di antara dua tongkat untuk menambah kekuatan ikatan.",
+      "tags": ["ikatan", "frapping"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "simpul_019",
+      "question": "Simpul manakah yang tidak boleh digunakan untuk tali nilon karena mudah lepas?",
+      "options": [
+        "Simpul Mati",
+        "Simpul Hidup",
+        "Simpul Tiang",
+        "Simpul Anyam"
+      ],
+      "correctAnswer": "Simpul Hidup",
+      "explanation": "Simpul Hidup (Granny Knot) sangat tidak dianjurkan untuk tali nilon atau tali licin lainnya karena sangat mudah tergelincir.",
+      "tags": ["simpul-hidup", "nilon"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_020",
+      "question": "Apa fungsi utama dari Simpul Delapan (Figure-Eight)?",
+      "options": [
+        "Menyambung dua tali",
+        "Mencegah ujung tali melolos dari katrol",
+        "Membuat lingkaran di ujung tali",
+        "Memulai ikatan"
+      ],
+      "correctAnswer": "Mencegah ujung tali melolos dari katrol",
+      "explanation": "Simpul Delapan berfungsi sebagai stopper knot, mencegah ujung tali melewati lubang katrol, blok, atau lubang lainnya.",
+      "tags": ["simpul-delapan", "stopper"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_021",
+      "question": "Ikatan mana yang paling cocok untuk membuat konstruksi menara dengan empat kaki?",
+      "options": [
+        "Ikatan Segi Empat",
+        "Ikatan Silang",
+        "Ikatan Kaki Tiga",
+        "Semua ikatan di atas"
+      ],
+      "correctAnswer": "Ikatan Segi Empat",
+      "explanation": "Ikatan Segi Empat (Square Lashing) paling cocok untuk menyatukan dua tongkat yang membentuk sudut 90°, seperti dalam konstruksi menara empat kaki.",
+      "tags": ["ikatan-segi-empat", "konstruksi"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_022",
+      "question": "Berapa jumlah putaran minimal dalam Simpul Tiang untuk keamanan?",
+      "options": [
+        "1 putaran",
+        "2 putaran",
+        "3 putaran",
+        "Tidak ada putaran"
+      ],
+      "correctAnswer": "2 putaran",
+      "explanation": "Simpul Tiang standar memiliki 2 putaran untuk membentuk lingkaran yang aman. Ada juga variasi dengan 3 putaran untuk tali yang sangat licin.",
+      "tags": ["simpul-tiang", "teknik"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "simpul_023",
+      "question": "Simpul apa yang digunakan untuk mengikat benda bundar seperti tongkat atau tiang?",
+      "options": [
+        "Simpul Mati",
+        "Simpul Tiang",
+        "Simpul Pangkal",
+        "Simpul Anyam"
+      ],
+      "correctAnswer": "Simpul Pangkal",
+      "explanation": "Simpul Pangkal (Clove Hitch) adalah simpul yang dirancang khusus untuk mengikat pada benda bundar seperti tongkat, tiang, atau spar.",
+      "tags": ["simpul-pangkal", "mengikat"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "simpul_024",
+      "question": "Apa keuntungan menggunakan Simpul Delapan dibanding simpul stopper lainnya?",
+      "options": [
+        "Lebih kuat",
+        "Lebih mudah dibuka meski sudah diberi beban",
+        "Lebih cepat dibuat",
+        "Lebih besar ukurannya"
+      ],
+      "correctAnswer": "Lebih mudah dibuka meski sudah diberi beban",
+      "explanation": "Simpul Delapan (Figure-Eight Knot) lebih mudah dibuka dibandingkan simpul stopper lainnya, bahkan setelah menerima beban yang besar. Hal ini menjadikannya populer dalam panjat tebing.",
+      "tags": ["simpul-delapan", "keuntungan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_025",
+      "question": "Simpul mana yang memiliki julukan 'raja simpul' karena serba guna?",
+      "options": [
+        "Simpul Mati",
+        "Simpul Tiang",
+        "Simpul Pangkal",
+        "Simpul Anyam"
+      ],
+      "correctAnswer": "Simpul Tiang",
+      "explanation": "Simpul Tiang (Bowline) dijuluki 'The King of Knots' karena memiliki banyak kegunaan: membuat lingkaran, ikatan, penyelamatan, dan sebagainya. Simpul ini memiliki lingkaran yang tidak mencekik.",
+      "tags": ["simpul-tiang", "king-of-knots"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_026",
+      "question": "Apa fungsi frapping turns dalam ikatan?",
+      "options": [
+        "Membuat ikatan lebih indah",
+        "Menambah kekuatan ikatan dengan menutup celah antar tali",
+        "Mempermudah pelepas ikatan",
+        "Mengurangi penggunaan tali"
+      ],
+      "correctAnswer": "Menambah kekuatan ikatan dengan menutup celah antar tali",
+      "explanation": "Frapping Turns adalah lilitan diagonal yang melilit secara silang di antara dua tongkat. Fungsinya untuk menutup celah dan menambah kekuatan ikatan secara signifikan.",
+      "tags": ["frapping-turns", "ikatan"],
+      "difficulty": "hard"
+    },
+    {
+      "id": "simpul_027",
+      "question": "Simpul mana yang digunakan untuk menyambung tali yang rusak di tengah?",
+      "options": [
+        "Simpul Mati",
+        "Simpul Anyam",
+        "Simpul Anyam Berganda",
+        "Simpul Tiang"
+      ],
+      "correctAnswer": "Simpul Anyam Berganda",
+      "explanation": "Simpul Anyam Berganda (Double Sheet Bend) adalah simpul terbaik untuk menyambung tali yang rusak di tengah, terutama jika tali memiliki diameter yang berbeda.",
+      "tags": ["simpul-anyam-berganda", "perbaikan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_028",
+      "question": "Apa yang dimaksud dengan 'standing end' dalam tali-temali?",
+      "options": [
+        "Ujung tali yang bebas",
+        "Ujung tali yang aktif/dikerjakan",
+        "Bagian tali yang tidak bergerak (tetap)",
+        "Bagian tengah tali"
+      ],
+      "correctAnswer": "Bagian tali yang tidak bergerak (tetap)",
+      "explanation": "Standing End adalah bagian tali yang tidak bergerak atau tidak ikut dalam pembuatan simpul. Working End adalah kebalikannya, yaitu ujung tali yang aktif dikerjakan.",
+      "tags": ["standing-end", "tali-temali"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "simpul_029",
+      "question": "Berapa minimal tali yang dibutuhkan untuk membuat Ikatan Segi Empat?",
+      "options": [
+        "1 buah tali",
+        "2 buah tali",
+        "3 buah tali",
+        "4 buah tali"
+      ],
+      "correctAnswer": "1 buah tali",
+      "explanation": "Ikatan Segi Empat (Square Lashing) dibuat dengan satu buah tali yang dililitkan secara melintang dan memanjang pada dua tongkat yang bersudut 90°.",
+      "tags": ["ikatan-segi-empat", "bahan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "simpul_030",
+      "question": "Manakah dari berikut yang BUKAN merupakan ikatan (lashing)?",
+      "options": [
+        "Segi Empat",
+        "Silang",
+        "Kaki Tiga",
+        "Delapan"
+      ],
+      "correctAnswer": "Delapan",
+      "explanation": "Simpul Delapan (Figure-Eight) adalah simpul, bukan ikatan. Ikatan adalah teknik mengikat tali antara dua atau lebih tongkat. Simpul adalah teknik mengikat tali pada dirinya sendiri.",
+      "tags": ["ikatan", "simpul"],
+      "difficulty": "easy"
+    }
+  ]
+}

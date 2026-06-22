@@ -1,0 +1,452 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Lencana Kehormatan" description="Lihat semua 30 lencana kepramukaan — buka kunci lencana dengan menyelesaikan kuis dan meraih skor sempurna.">
+	<div class="lencana-page">
+
+		<!-- Hero -->
+		<section class="lencana-hero glass-card">
+			<div class="hero-left">
+				<span class="hero-tag">Pencapaian Pandu</span>
+				<h1>Lencana Kehormatan</h1>
+				<p>Selesaikan kuis dan raih skor sempurna untuk membuka lencana kehormatan. Setiap lencana mencerminkan kompetensi kepramukaan yang telah kamu kuasai.</p>
+			</div>
+			<div class="hero-stats">
+				<div class="stat-pill">
+					<span class="pill-val" id="stat-unlocked">0</span>
+					<span class="pill-label">Terbuka</span>
+				</div>
+				<div class="stat-pill muted">
+					<span class="pill-val">30</span>
+					<span class="pill-label">Total</span>
+				</div>
+				<div class="progress-ring-wrap">
+					<svg class="progress-ring" viewBox="0 0 80 80">
+						<circle cx="40" cy="40" r="34" fill="none" stroke="rgba(27,77,50,0.1)" stroke-width="6"/>
+						<circle id="ring-progress" cx="40" cy="40" r="34" fill="none" stroke="var(--color-gold)" stroke-width="6"
+							stroke-linecap="round" stroke-dasharray="213.6" stroke-dashoffset="213.6"
+							transform="rotate(-90 40 40)" style="transition: stroke-dashoffset 0.8s ease"/>
+						<text id="ring-pct" x="40" y="45" text-anchor="middle" font-size="16" font-weight="800" fill="var(--color-text)" font-family="Outfit">0%</text>
+					</svg>
+				</div>
+			</div>
+		</section>
+
+		<!-- Group 1: Komunikasi -->
+		<section class="badge-group glass-card">
+			<div class="group-header comm-header">
+				<div class="group-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+				</div>
+				<div>
+					<h2>Komunikasi &amp; Isyarat</h2>
+					<span>4 lencana · Morse, Semaphore, Sandi</span>
+				</div>
+				<span id="count-comm" class="group-badge-count">0 / 4</span>
+			</div>
+			<div class="badge-list" id="grid-comm"></div>
+		</section>
+
+		<!-- Group 2: Teknik -->
+		<section class="badge-group glass-card">
+			<div class="group-header teknik-header">
+				<div class="group-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+				</div>
+				<div>
+					<h2>Teknik Kepramukaan</h2>
+					<span>12 lencana · Simpul, Pioniring, P3K, Kompas, Perkemahan, PBB</span>
+				</div>
+				<span id="count-teknik" class="group-badge-count">0 / 12</span>
+			</div>
+			<div class="badge-list" id="grid-teknik"></div>
+		</section>
+
+		<!-- Group 3: Pengetahuan -->
+		<section class="badge-group glass-card">
+			<div class="group-header penget-header">
+				<div class="group-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+				</div>
+				<div>
+					<h2>Pengetahuan Pramuka</h2>
+					<span>13 lencana · Sejarah, UU, SKU, Organisasi, Tanda Pengenal, Dasa Darma</span>
+				</div>
+				<span id="count-penget" class="group-badge-count">0 / 13</span>
+			</div>
+			<div class="badge-list" id="grid-penget"></div>
+		</section>
+
+		<!-- Group 4: Pencapaian Khusus -->
+		<section class="badge-group glass-card special-group">
+			<div class="group-header special-header">
+				<div class="group-icon">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+				</div>
+				<div>
+					<h2>Pencapaian Khusus</h2>
+					<span>1 lencana · Milestone XP</span>
+				</div>
+				<span id="count-special" class="group-badge-count">0 / 1</span>
+			</div>
+			<div class="badge-list" id="grid-special"></div>
+		</section>
+
+	</div>
+</Layout>
+
+<script>
+	const ALL_BADGES = [
+		// Komunikasi & Isyarat
+		{ id: 'morse_novice',      group: 'comm',    name: 'Kadet Morse',          desc: 'Selesaikan 1 kuis Morse',                          icon: '⚡',  href: '/morse' },
+		{ id: 'morse_master',      group: 'comm',    name: 'Master Morse',          desc: 'Skor 100% pada kuis Morse',                        icon: '🚀',  href: '/morse' },
+		{ id: 'semaphore_novice',  group: 'comm',    name: 'Isyarat Angin',         desc: 'Selesaikan 1 kuis Semaphore',                      icon: '🚩',  href: '/semaphore' },
+		{ id: 'sandi_breaker',     group: 'comm',    name: 'Pecah Sandi',           desc: 'Selesaikan 1 kuis Sandi',                          icon: '🔑',  href: '/sandi' },
+		// Teknik Kepramukaan
+		{ id: 'simpul_novice',     group: 'teknik',  name: 'Pengikat Muda',         desc: 'Selesaikan 1 kuis Simpul & Ikatan',                icon: '🪢',  href: '/simpul' },
+		{ id: 'simpul_master',     group: 'teknik',  name: 'Ahli Tali Temali',      desc: 'Skor 100% pada kuis Simpul & Ikatan',              icon: '🏅',  href: '/simpul' },
+		{ id: 'pionir_novice',     group: 'teknik',  name: 'Pionir Muda',           desc: 'Selesaikan 1 kuis Pioniring',                      icon: '🪵',  href: '/pioniring' },
+		{ id: 'pionir_master',     group: 'teknik',  name: 'Ahli Pioniring',        desc: 'Skor 100% pada kuis Pioniring',                    icon: '🏗️', href: '/pioniring' },
+		{ id: 'p3k_novice',        group: 'teknik',  name: 'Penolong Pertama',      desc: 'Selesaikan 1 kuis P3K',                            icon: '🩺',  href: '/p3k' },
+		{ id: 'p3k_master',        group: 'teknik',  name: 'Ahli P3K',              desc: 'Skor 100% pada kuis P3K',                          icon: '❤️‍🩹', href: '/p3k' },
+		{ id: 'kompas_novice',     group: 'teknik',  name: 'Penjelajah Muda',       desc: 'Selesaikan 1 kuis Kompas & Navigasi',              icon: '🧭',  href: '/kompas' },
+		{ id: 'kompas_master',     group: 'teknik',  name: 'Navigator Handal',      desc: 'Skor 100% pada kuis Kompas & Navigasi',            icon: '🗺️', href: '/kompas' },
+		{ id: 'kemah_novice',      group: 'teknik',  name: 'Pendaki Muda',          desc: 'Selesaikan 1 kuis Perkemahan',                     icon: '⛺',  href: '/perkemahan' },
+		{ id: 'kemah_master',      group: 'teknik',  name: 'Ahli Perkemahan',       desc: 'Skor 100% pada kuis Perkemahan',                   icon: '🏕️', href: '/perkemahan' },
+		{ id: 'pbb_novice',        group: 'teknik',  name: 'Pandu Berbaris',        desc: 'Selesaikan 1 kuis Baris-Berbaris (PBB)',           icon: '🪖',  href: '/baris-berbaris' },
+		{ id: 'pbb_master',        group: 'teknik',  name: 'Komandan Barisan',      desc: 'Skor 100% pada kuis Baris-Berbaris',               icon: '🎖️', href: '/baris-berbaris' },
+		// Pengetahuan Pramuka
+		{ id: 'sejarah_novice',    group: 'penget',  name: 'Penjelajah Sejarah',    desc: 'Selesaikan 1 kuis Sejarah Kepramukaan',            icon: '📜',  href: '/sejarah' },
+		{ id: 'sejarah_master',    group: 'penget',  name: 'Sejarawan Pramuka',     desc: 'Skor 100% pada kuis Sejarah',                      icon: '🏛️', href: '/sejarah' },
+		{ id: 'uu_pramuka_novice', group: 'penget',  name: 'Pandu Hukum',           desc: 'Selesaikan 1 kuis UU No. 12/2010',                 icon: '⚖️', href: '/uu-pramuka' },
+		{ id: 'uu_pramuka_master', group: 'penget',  name: 'Ahli Perundangan',      desc: 'Skor 100% pada kuis UU Pramuka',                   icon: '📜',  href: '/uu-pramuka' },
+		{ id: 'sku_siaga',         group: 'penget',  name: 'Pandu Mula',            desc: 'Selesaikan kuis SKU Siaga',                        icon: '🟢',  href: '/sku' },
+		{ id: 'sku_penggalang',    group: 'penget',  name: 'Pandu Ramu',            desc: 'Selesaikan kuis SKU Penggalang',                   icon: '🔴',  href: '/sku' },
+		{ id: 'sku_penegak',       group: 'penget',  name: 'Pandu Bantara',         desc: 'Selesaikan kuis SKU Penegak',                      icon: '🟡',  href: '/sku' },
+		{ id: 'org_novice',        group: 'penget',  name: 'Pandu Organisasi',      desc: 'Selesaikan 1 kuis Organisasi Pramuka',             icon: '🏛️', href: '/organisasi' },
+		{ id: 'org_master',        group: 'penget',  name: 'Ahli Keorganisasian',   desc: 'Skor 100% pada kuis Organisasi Pramuka',           icon: '📋',  href: '/organisasi' },
+		{ id: 'tanda_novice',      group: 'penget',  name: 'Pandu Berpengenal',     desc: 'Selesaikan 1 kuis Tanda Pengenal',                 icon: '🎗️', href: '/tanda-pengenal' },
+		{ id: 'tanda_master',      group: 'penget',  name: 'Ahli Tanda Pengenal',   desc: 'Skor 100% pada kuis Tanda Pengenal',               icon: '🏵️', href: '/tanda-pengenal' },
+		{ id: 'dasa_novice',       group: 'penget',  name: 'Pramuka Berakhlak',     desc: 'Selesaikan 1 kuis Dasa Darma',                     icon: '🌟',  href: '/dasa-darma' },
+		{ id: 'dasa_master',       group: 'penget',  name: 'Teladan Dharma',        desc: 'Skor 100% pada kuis Dasa Darma',                   icon: '🏅',  href: '/dasa-darma' },
+		// Pencapaian Khusus
+		{ id: 'scout_master',      group: 'special', name: 'Pengembara Ulung',      desc: 'Capai total 500 XP dari semua kuis',               icon: '⚜️', href: '/' },
+	];
+
+	const GROUP_COUNTS: Record<string, number> = { comm: 0, teknik: 0, penget: 0, special: 0 };
+	ALL_BADGES.forEach(b => GROUP_COUNTS[b.group]++);
+
+	function badgeCard(badge: typeof ALL_BADGES[number], unlocked: boolean) {
+		return `
+			<div class="badge-card ${unlocked ? 'unlocked' : 'locked'}">
+				<div class="badge-icon-wrap">${badge.icon}</div>
+				<div class="badge-info">
+					<h3>${badge.name}</h3>
+					<p>${badge.desc}</p>
+				</div>
+				${unlocked
+					? `<span class="badge-chip chip-open">✓ Terbuka</span>`
+					: `<a href="${badge.href}" class="badge-chip chip-locked">Mulai →</a>`
+				}
+			</div>
+		`;
+	}
+
+	function render() {
+		const unlocked: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+		const total = unlocked.length;
+		const pct = Math.round((total / ALL_BADGES.length) * 100);
+
+		const statEl = document.getElementById('stat-unlocked');
+		const ringEl = document.getElementById('ring-progress');
+		const pctEl  = document.getElementById('ring-pct');
+		if (statEl) statEl.textContent = total.toString();
+		if (pctEl)  pctEl.textContent  = `${pct}%`;
+		if (ringEl) {
+			const circumference = 2 * Math.PI * 34;
+			ringEl.style.strokeDashoffset = `${circumference * (1 - pct / 100)}`;
+		}
+
+		const groups: Record<string, typeof ALL_BADGES> = { comm: [], teknik: [], penget: [], special: [] };
+		ALL_BADGES.forEach(b => groups[b.group].push(b));
+
+		const gridIds: Record<string, string> = { comm: 'grid-comm', teknik: 'grid-teknik', penget: 'grid-penget', special: 'grid-special' };
+		const countIds: Record<string, string> = { comm: 'count-comm', teknik: 'count-teknik', penget: 'count-penget', special: 'count-special' };
+
+		Object.keys(groups).forEach(key => {
+			const grid = document.getElementById(gridIds[key]);
+			const countEl = document.getElementById(countIds[key]);
+			const badges = groups[key];
+			const openCount = badges.filter(b => unlocked.includes(b.id)).length;
+
+			if (grid)    grid.innerHTML = badges.map(b => badgeCard(b, unlocked.includes(b.id))).join('');
+			if (countEl) countEl.textContent = `${openCount} / ${badges.length}`;
+		});
+	}
+
+	render();
+	window.addEventListener('statsUpdated', render);
+</script>
+
+<style>
+	.lencana-page {
+		display: flex;
+		flex-direction: column;
+		gap: 1.75rem;
+	}
+
+	/* ─── Hero ────────────────────────────────────────────────────────────────── */
+
+	.lencana-hero {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2rem;
+		padding: 2.5rem;
+		background: linear-gradient(135deg, rgba(27, 77, 50, 0.07) 0%, rgba(255, 255, 255, 0.9) 60%, rgba(212, 163, 43, 0.05) 100%) !important;
+	}
+
+	.hero-left { flex: 1; }
+
+	.hero-tag {
+		display: inline-block;
+		background: rgba(212, 163, 43, 0.1);
+		color: var(--color-gold);
+		border: 1px solid rgba(212, 163, 43, 0.22);
+		padding: 0.28rem 0.8rem;
+		font-size: 0.73rem;
+		font-weight: 700;
+		border-radius: var(--radius-full);
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		margin-bottom: 0.9rem;
+	}
+
+	.lencana-hero h1 {
+		font-size: clamp(1.5rem, 3vw, 2.2rem);
+		font-weight: 800;
+		color: var(--color-primary-dark);
+		margin-bottom: 0.7rem;
+	}
+
+	.lencana-hero p {
+		font-size: 0.95rem;
+		line-height: 1.65;
+		color: var(--color-text-muted);
+	}
+
+	.hero-stats {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		flex-shrink: 0;
+	}
+
+	.stat-pill {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.2rem;
+	}
+
+	.pill-val {
+		font-size: 2rem;
+		font-weight: 800;
+		color: var(--color-gold);
+		line-height: 1;
+	}
+
+	.stat-pill.muted .pill-val {
+		color: var(--color-text-faint);
+	}
+
+	.pill-label {
+		font-size: 0.72rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+		color: var(--color-text-faint);
+	}
+
+	.progress-ring-wrap { width: 80px; height: 80px; }
+	.progress-ring { width: 100%; height: 100%; }
+
+	/* ─── Badge Group ─────────────────────────────────────────────────────────── */
+
+	.badge-group { padding: 1.75rem; }
+
+	.group-header {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		margin-bottom: 1.25rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.group-icon {
+		width: 40px;
+		height: 40px;
+		border-radius: var(--radius-sm);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.group-icon svg { width: 20px; height: 20px; }
+
+	.comm-header   .group-icon { background: rgba(27, 77, 50, 0.1);   color: var(--color-primary-light); border: 1px solid rgba(27, 77, 50, 0.18); }
+	.teknik-header .group-icon { background: rgba(176, 90, 26, 0.1);  color: #b05a1a;                    border: 1px solid rgba(176, 90, 26, 0.18); }
+	.penget-header .group-icon { background: rgba(60, 80, 160, 0.1);  color: #5a6bc4;                    border: 1px solid rgba(60, 80, 160, 0.18); }
+	.special-header .group-icon { background: rgba(212, 163, 43, 0.12); color: var(--color-gold);         border: 1px solid rgba(212, 163, 43, 0.25); }
+
+	.group-header h2 {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--color-text);
+		margin-bottom: 0.15rem;
+	}
+
+	.group-header span {
+		font-size: 0.78rem;
+		color: var(--color-text-faint);
+	}
+
+	.group-badge-count {
+		margin-left: auto;
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--color-gold);
+		background: rgba(212, 163, 43, 0.1);
+		border: 1px solid rgba(212, 163, 43, 0.2);
+		padding: 0.25rem 0.65rem;
+		border-radius: var(--radius-full);
+		white-space: nowrap;
+	}
+
+	.badge-list {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: 0.75rem;
+	}
+
+	/* ─── Badge Card ──────────────────────────────────────────────────────────── */
+
+	.badge-card {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		padding: 0.9rem 1rem;
+		border-radius: var(--radius-md);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		transition: all var(--transition-normal);
+		position: relative;
+	}
+
+	.badge-card.unlocked {
+		background: rgba(212, 163, 43, 0.04);
+		border-color: rgba(212, 163, 43, 0.2);
+	}
+
+	.badge-card.unlocked:hover {
+		border-color: rgba(212, 163, 43, 0.35);
+		box-shadow: 0 2px 12px rgba(212, 163, 43, 0.1);
+	}
+
+	.badge-card.locked:hover {
+		border-color: var(--color-border-hover);
+	}
+
+	.badge-icon-wrap {
+		font-size: 1.65rem;
+		width: 42px;
+		height: 42px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		background: var(--color-surface-solid);
+		border: 1px solid var(--color-border);
+		flex-shrink: 0;
+	}
+
+	.badge-card.locked .badge-icon-wrap {
+		filter: grayscale(1) opacity(0.35);
+	}
+
+	.badge-card.unlocked .badge-icon-wrap {
+		background: rgba(212, 163, 43, 0.08);
+		border-color: rgba(212, 163, 43, 0.2);
+	}
+
+	.badge-info { flex: 1; min-width: 0; }
+
+	.badge-info h3 {
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: var(--color-text);
+		margin-bottom: 0.15rem;
+	}
+
+	.badge-card.locked .badge-info h3 {
+		color: var(--color-text-muted);
+	}
+
+	.badge-info p {
+		font-size: 0.72rem;
+		color: var(--color-text-faint);
+		line-height: 1.35;
+	}
+
+	.badge-chip {
+		font-size: 0.68rem;
+		font-weight: 700;
+		padding: 0.22rem 0.6rem;
+		border-radius: var(--radius-full);
+		white-space: nowrap;
+		flex-shrink: 0;
+		text-decoration: none;
+		display: inline-block;
+	}
+
+	.chip-open {
+		background: rgba(35, 108, 50, 0.08);
+		color: var(--color-success);
+		border: 1px solid rgba(35, 108, 50, 0.18);
+	}
+
+	.chip-locked {
+		background: rgba(27, 77, 50, 0.06);
+		color: var(--color-primary-light);
+		border: 1px solid var(--color-border);
+		transition: all var(--transition-fast);
+	}
+
+	.chip-locked:hover {
+		background: rgba(27, 77, 50, 0.12);
+		border-color: var(--color-border-hover);
+	}
+
+	/* ─── Special Group ───────────────────────────────────────────────────────── */
+
+	.special-group {
+		background: linear-gradient(135deg, rgba(212, 163, 43, 0.04) 0%, rgba(255,255,255,0.92) 100%) !important;
+	}
+
+	/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+	@media (max-width: 700px) {
+		.lencana-hero {
+			flex-direction: column;
+			padding: 1.75rem;
+		}
+
+		.hero-stats {
+			width: 100%;
+			justify-content: center;
+		}
+	}
+</style>

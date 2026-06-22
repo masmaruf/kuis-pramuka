@@ -1,0 +1,2544 @@
+---
+interface Props {
+	title: string;
+	description?: string;
+}
+
+const { title, description = "Platform latihan kepramukaan interaktif: Morse, Semaphore, Sandi, SKU, Kompas, P3K, dan 16 modul lainnya. Kumpulkan XP dan raih Lencana Pandu. Gratis, offline, tanpa daftar." } = Astro.props;
+
+const SITE_URL = 'https://kuis.pramukaupdate.id';
+const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href;
+const ogImage = `${SITE_URL}/og-image.svg`;
+
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "WebSite",
+	"name": "Kuis Pramuka Interaktif",
+	"alternateName": "KuisPramuka",
+	"url": SITE_URL,
+	"description": "Platform latihan kepramukaan interaktif: Morse, Semaphore, Sandi, SKU, Kompas, P3K, Dasa Darma, dan modul lainnya.",
+	"inLanguage": "id",
+	"publisher": {
+		"@type": "Organization",
+		"name": "PramukaUpdate.id",
+		"url": "https://pramukaupdate.id"
+	},
+	"potentialAction": {
+		"@type": "SearchAction",
+		"target": { "@type": "EntryPoint", "urlTemplate": `${SITE_URL}/?q={search_term_string}` },
+		"query-input": "required name=search_term_string"
+	}
+};
+---
+
+<!doctype html>
+<html lang="id">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title} | Kuis Pramuka Interaktif</title>
+		<meta name="description" content={description} />
+
+		<!-- PWA -->
+		<link rel="manifest" href="/site.webmanifest" />
+		<meta name="theme-color" content="#1b4d32" />
+		<meta name="mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+		<meta name="apple-mobile-web-app-title" content="KuisPramuka" />
+		<link rel="apple-touch-icon" href="/icons/pwa-192.svg" />
+
+		<!-- Canonical -->
+		<link rel="canonical" href={canonicalURL} />
+
+		<!-- Open Graph -->
+		<meta property="og:title" content={`${title} | Kuis Pramuka Interaktif`} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalURL} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content="id_ID" />
+		<meta property="og:site_name" content="Kuis Pramuka Interaktif" />
+
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={`${title} | Kuis Pramuka Interaktif`} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={ogImage} />
+
+		<!-- JSON-LD Structured Data -->
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+		<!-- Anti-flash: apply theme + latihan patch before first paint -->
+		<script is:inline>
+			(function(){
+				var t = localStorage.getItem('scout_theme');
+				if (t === 'dark') document.documentElement.setAttribute('data-theme', 'dark');
+
+				// Simpan fungsi asli sebelum dipatch
+				window._origLocalSetItem = localStorage.setItem.bind(localStorage);
+
+				// Jika Mode Latihan aktif, blokir penulisan XP/badge/streak
+				if (localStorage.getItem('scout_latihan') === '1') {
+					document.documentElement.setAttribute('data-latihan', 'true');
+					var BLOCKED = ['scout_xp', 'scout_badges', 'scout_streak', 'scout_last_visit'];
+					localStorage.setItem = function(k, v) {
+						if (BLOCKED.indexOf(k) !== -1) return;
+						window._origLocalSetItem(k, v);
+					};
+				}
+			})();
+		</script>
+
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+		<script src="https://cdn.tailwindcss.com"></script>
+		<script>
+			// @ts-ignore
+			tailwind.config = {
+				theme: {
+					extend: {
+						colors: {
+							scout:   { DEFAULT: '#1b4d32', light: '#2a6f4a', dark: '#0f2e1e' },
+							gold:    { DEFAULT: '#b2831b', light: '#d4a32b' },
+							success: { DEFAULT: '#236c32' },
+							danger:  { DEFAULT: '#a5301a' },
+						}
+					}
+				},
+				corePlugins: { preflight: false }
+			}
+		</script>
+	</head>
+	<body>
+		<header class="app-header">
+			<div class="header-container">
+				<a href="/" class="logo-area">
+					<svg class="logo-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+						<path d="M12 2L2 22H22L12 2Z" stroke="var(--color-gold)" stroke-width="2" stroke-linejoin="round"/>
+						<circle cx="12" cy="14" r="3" stroke="var(--color-gold)" stroke-width="2"/>
+						<path d="M12 8V11" stroke="var(--color-gold)" stroke-width="2" stroke-linecap="round"/>
+					</svg>
+					<span class="logo-text">KUIS<span>PRAMUKA</span></span>
+				</a>
+
+				<nav class="nav-links">
+					<a href="/" class="nav-link" id="nav-home">Dasbor</a>
+					<div class="nav-dropdown" id="nav-modul-wrap">
+						<button class="nav-link nav-dropdown-btn" id="nav-modul" aria-haspopup="true" aria-expanded="false">
+							Modul
+							<svg class="dropdown-caret" viewBox="0 0 10 6" fill="none">
+								<path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+							</svg>
+						</button>
+						<div class="nav-dropdown-menu" role="menu">
+							<div class="dropdown-col">
+								<span class="dropdown-col-title">Komunikasi &amp; Isyarat</span>
+								<a href="/morse" class="dropdown-item" data-nav="morse">⚡ Kode Morse</a>
+								<a href="/semaphore" class="dropdown-item" data-nav="semaphore">🚩 Semaphore</a>
+								<a href="/sandi" class="dropdown-item" data-nav="sandi">🔑 Sandi</a>
+							</div>
+							<div class="dropdown-col">
+								<span class="dropdown-col-title">Teknik Kepramukaan</span>
+								<a href="/simpul" class="dropdown-item" data-nav="simpul">🪢 Simpul &amp; Ikatan</a>
+								<a href="/pioniring" class="dropdown-item" data-nav="pioniring">🏗️ Pioniring</a>
+								<a href="/kompas" class="dropdown-item" data-nav="kompas">🧭 Kompas &amp; Navigasi</a>
+								<a href="/perkemahan" class="dropdown-item" data-nav="perkemahan">⛺ Perkemahan</a>
+								<a href="/p3k" class="dropdown-item" data-nav="p3k">🩺 P3K</a>
+								<a href="/baris-berbaris" class="dropdown-item" data-nav="baris-berbaris">🪖 Baris-Berbaris</a>
+							</div>
+							<div class="dropdown-col">
+								<span class="dropdown-col-title">Pengetahuan Pramuka</span>
+								<a href="/sejarah" class="dropdown-item" data-nav="sejarah">🕰️ Sejarah</a>
+								<a href="/uu-pramuka" class="dropdown-item" data-nav="uu-pramuka">⚖️ UU No. 12/2010</a>
+								<a href="/sku" class="dropdown-item" data-nav="sku">📖 SKU</a>
+								<a href="/organisasi" class="dropdown-item" data-nav="organisasi">🏛️ Organisasi</a>
+								<a href="/tanda-pengenal" class="dropdown-item" data-nav="tanda-pengenal">🎗️ Tanda Pengenal</a>
+								<a href="/dasa-darma" class="dropdown-item" data-nav="dasa-darma">⚜️ Dasa Darma</a>
+							</div>
+						</div>
+					</div>
+					<a href="/referensi" class="nav-link" id="nav-referensi">Referensi</a>
+					<a href="/lencana" class="nav-link" id="nav-lencana">Lencana</a>
+					<a href="/profil" class="nav-link" id="nav-profil">Profil</a>
+				</nav>
+
+				<div class="user-stats-bar">
+					<button class="profile-btn" id="header-profile-btn">
+						<span id="header-avatar" class="avatar-icon">👤</span>
+						<span id="header-username" class="username-text">Atur Profil</span>
+					</button>
+
+					<div class="stat-separator"></div>
+
+					<div class="stat-badge level-badge">
+						<span class="label">LVL</span>
+						<span id="header-level" class="value">1</span>
+					</div>
+					<div class="xp-progress-container">
+						<div class="xp-info">
+							<span id="header-xp-display">0/100 XP</span>
+						</div>
+						<div class="xp-bar-outer">
+							<div id="header-xp-bar" class="xp-bar-inner" style="width: 0%"></div>
+						</div>
+					</div>
+					<div class="stat-badge badge-count" title="Lencana yang Diperoleh">
+						<svg class="badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+							<path d="M12 15L15.5 18L14.5 13.5L18 10.5L13.5 10L12 5.5L10.5 10L6 10.5L9.5 13.5L8.5 18L12 15Z" fill="var(--color-gold)" stroke="var(--color-gold)"/>
+						</svg>
+						<span id="header-badge-count" class="value">0</span>
+					</div>
+					<div class="stat-badge streak-badge" id="header-streak" title="Streak Harian">
+						<span class="streak-fire">🔥</span>
+						<span id="header-streak-count" class="value">0</span>
+					</div>
+					<button id="theme-toggle" class="theme-toggle-btn" aria-label="Toggle dark mode" title="Ganti Tema">
+						<span id="theme-icon">🌙</span>
+					</button>
+					<button id="latihan-toggle" class="theme-toggle-btn latihan-toggle-btn" aria-label="Mode Latihan" title="Aktifkan Mode Latihan" aria-pressed="false">
+						<span id="latihan-icon">🎯</span>
+					</button>
+					<button id="timer-toggle" class="theme-toggle-btn timer-toggle-btn" aria-label="Timer kuis" title="Aktifkan Timer" aria-pressed="false">
+						<span id="timer-icon">⏱️</span>
+					</button>
+				</div>
+			</div>
+		</header>
+
+		<!-- Banner Mode Latihan -->
+		<div id="latihan-banner" class="latihan-banner" aria-live="polite">
+			🎯 <strong>Mode Latihan Aktif</strong> — Jawaban ditampilkan langsung, XP tidak dihitung
+		</div>
+
+		<main class="main-content">
+			<slot />
+		</main>
+
+		<footer class="app-footer">
+			<div class="footer-container">
+				<p>&copy; 2026 <strong>Kuis Pramuka Interaktif</strong> — Media Pembelajaran &amp; Kegiatan Gugus Depan.</p>
+				<p class="credit">
+					Bagian dari <a href="https://pramukaupdate.id" target="_blank" rel="noopener" class="footer-brand">PramukaUpdate.id</a>
+					— Media Informasi &amp; Edukasi Gerakan Pramuka Indonesia.
+				</p>
+			</div>
+		</footer>
+
+		<!-- Badge Unlock Overlay -->
+		<div id="badge-unlock-overlay" class="badge-unlock-overlay" style="display:none">
+			<div class="badge-unlock-card">
+				<div id="confetti-stage" class="confetti-stage"></div>
+				<div class="unlock-sparkle">✨ Lencana Baru Terbuka!</div>
+				<div id="unlock-icon" class="unlock-icon">⚡</div>
+				<h2 id="unlock-name" class="unlock-name">—</h2>
+				<p id="unlock-desc" class="unlock-desc">—</p>
+				<button id="btn-close-unlock" class="btn btn-gold">Luar Biasa! 🎉</button>
+			</div>
+		</div>
+
+		<!-- Share Panel -->
+		<div id="share-panel" class="share-panel">
+			<button id="btn-close-share" class="share-close" aria-label="Tutup">✕</button>
+			<div class="share-header">
+				<span id="share-emoji" class="share-emoji">📢</span>
+				<div>
+					<strong id="share-title">Bagikan Hasil</strong>
+					<span id="share-subtitle">Ajak temanmu latihan!</span>
+				</div>
+			</div>
+			<div class="share-actions">
+				<a id="btn-share-wa" href="#" target="_blank" rel="noopener" class="btn btn-share-wa">
+					<svg viewBox="0 0 24 24" fill="currentColor" style="width:16px;height:16px;flex-shrink:0"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+					WhatsApp
+				</a>
+				<button id="btn-copy-link" class="btn btn-copy-link">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:15px;height:15px;flex-shrink:0"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+					<span id="copy-link-text">Salin Link</span>
+				</button>
+			</div>
+		</div>
+
+		<!-- Streak Toast -->
+		<div id="streak-toast" class="streak-toast" role="status" aria-live="polite">
+			<span id="streak-toast-icon">🔥</span>
+			<div class="toast-body">
+				<strong id="streak-toast-title"></strong>
+				<span id="streak-toast-sub"></span>
+			</div>
+		</div>
+
+		<!-- Modal Profil / Registrasi -->
+		<div id="profile-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+			<div class="modal-card">
+				<button class="modal-close-btn" id="btn-close-modal" aria-label="Tutup modal">✕</button>
+
+				<div class="modal-header-area">
+					<div class="modal-avatar-preview" id="modal-preview-avatar">👤</div>
+					<h2 class="modal-title" id="modal-title">Buat Profil Pandumu</h2>
+					<p class="modal-subtitle">Profilmu disimpan di perangkat ini. Tidak perlu daftar ke server — progres kuis, XP, dan lencanamu tetap tersimpan.</p>
+				</div>
+
+				<div class="modal-body-area">
+					<div class="form-group">
+						<label for="input-username" class="form-label">Nama Pandu</label>
+						<input
+							type="text"
+							id="input-username"
+							class="form-input"
+							placeholder="Contoh: Budi Santoso"
+							maxlength="20"
+							autocomplete="off"
+						/>
+						<span class="form-hint">Maks. 20 karakter</span>
+					</div>
+
+					<div class="form-group">
+						<label class="form-label">Pilih Avatar</label>
+						<div class="avatar-grid" id="avatar-picker">
+							<!-- diisi oleh JavaScript -->
+						</div>
+					</div>
+				</div>
+
+				<div class="modal-footer-area">
+					<button id="btn-save-profile" class="btn btn-primary" disabled>Simpan Profil</button>
+					<button id="btn-skip-profile" class="btn btn-secondary">Lewati</button>
+				</div>
+			</div>
+		</div>
+
+		<script>
+			// ─── Konstanta & Konfigurasi ──────────────────────────────────────────────
+
+			const AVATAR_OPTIONS = ['🦁', '🦊', '🐺', '🦅', '🐻', '🌟', '⚜️', '🏕️', '🧭', '🔥', '🎯', '🏆', '🛡️', '🌿', '⛺'];
+
+			// ─── Fungsi Leveling (Satu Sumber Kebenaran) ─────────────────────────────
+
+			function calcLevel(xp) {
+				if (xp >= 1000) {
+					const lvl = 5 + Math.floor((xp - 1000) / 500);
+					const base = 1000 + (lvl - 5) * 500;
+					return { level: lvl, xpBase: base, xpNext: base + 500 };
+				}
+				if (xp >= 600) return { level: 4, xpBase: 600, xpNext: 1000 };
+				if (xp >= 300) return { level: 3, xpBase: 300, xpNext: 600 };
+				if (xp >= 100) return { level: 2, xpBase: 100, xpNext: 300 };
+				return { level: 1, xpBase: 0, xpNext: 100 };
+			}
+
+			// ─── Update Header Stats ──────────────────────────────────────────────────
+
+			function updateHeaderStats() {
+				const xp = parseInt(localStorage.getItem('scout_xp') || '0');
+				const badges = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+				const { level, xpBase, xpNext } = calcLevel(xp);
+				const pct = Math.min(100, Math.max(0, ((xp - xpBase) / (xpNext - xpBase)) * 100));
+
+				const username = localStorage.getItem('scout_username') || '';
+				const avatar = localStorage.getItem('scout_avatar') || '👤';
+
+				const profileBtn = document.getElementById('header-profile-btn');
+				const avatarEl = document.getElementById('header-avatar');
+				const usernameEl = document.getElementById('header-username');
+
+				if (avatarEl) avatarEl.textContent = avatar;
+				if (usernameEl) usernameEl.textContent = username ? `Kak ${username}` : 'Atur Profil';
+				if (profileBtn) profileBtn.classList.toggle('has-profile', !!username);
+
+				const lvlEl = document.getElementById('header-level');
+				const xpTextEl = document.getElementById('header-xp-display');
+				const xpBarEl = document.getElementById('header-xp-bar');
+				const badgeCountEl = document.getElementById('header-badge-count');
+
+				if (lvlEl) lvlEl.textContent = level.toString();
+				if (xpTextEl) xpTextEl.textContent = `${xp}/${xpNext} XP`;
+				if (xpBarEl) xpBarEl.style.width = `${pct}%`;
+				if (badgeCountEl) badgeCountEl.textContent = badges.length.toString();
+			}
+
+			// ─── Active Nav Link ──────────────────────────────────────────────────────
+
+			function highlightActiveLink() {
+				const path = window.location.pathname;
+
+				const homeEl = document.getElementById('nav-home');
+				if (homeEl) homeEl.classList.toggle('active', path === '/' || path === '/index.html');
+
+				const referensiEl = document.getElementById('nav-referensi');
+				if (referensiEl) referensiEl.classList.toggle('active', path.includes('referensi'));
+
+				const lencanaEl = document.getElementById('nav-lencana');
+				if (lencanaEl) lencanaEl.classList.toggle('active', path.includes('lencana'));
+
+				const profilEl = document.getElementById('nav-profil');
+				if (profilEl) profilEl.classList.toggle('active', path.includes('profil'));
+
+				const quizRoutes = ['morse','semaphore','sandi','simpul','pioniring','kompas','perkemahan','p3k','baris-berbaris','sejarah','uu-pramuka','sku','organisasi','tanda-pengenal','dasa-darma'];
+				const onQuiz = quizRoutes.some(r => path.includes(r));
+				const modulBtn = document.getElementById('nav-modul');
+				if (modulBtn) modulBtn.classList.toggle('active', onQuiz);
+
+				document.querySelectorAll('.dropdown-item[data-nav]').forEach(el => {
+					const route = (el as HTMLElement).dataset.nav || '';
+					el.classList.toggle('active', path.includes(route));
+				});
+			}
+
+			// ─── Modal Profil ─────────────────────────────────────────────────────────
+
+			let selectedAvatar = '👤';
+
+			function openProfileModal() {
+				const modal = document.getElementById('profile-modal');
+				if (!modal) return;
+
+				const savedUsername = localStorage.getItem('scout_username') || '';
+				const savedAvatar = localStorage.getItem('scout_avatar') || '👤';
+				selectedAvatar = savedAvatar;
+
+				const input = document.getElementById('input-username') as HTMLInputElement | null;
+				if (input) input.value = savedUsername;
+
+				buildAvatarPicker();
+				updateModalPreview();
+				updateSaveBtn();
+
+				modal.style.display = 'flex';
+				document.body.style.overflow = 'hidden';
+				setTimeout(() => input?.focus(), 50);
+			}
+
+			function closeProfileModal() {
+				const modal = document.getElementById('profile-modal');
+				if (modal) modal.style.display = 'none';
+				document.body.style.overflow = '';
+			}
+
+			function buildAvatarPicker() {
+				const grid = document.getElementById('avatar-picker');
+				if (!grid) return;
+
+				grid.innerHTML = AVATAR_OPTIONS.map(emoji => `
+					<button
+						type="button"
+						class="avatar-option ${emoji === selectedAvatar ? 'selected' : ''}"
+						data-avatar="${emoji}"
+						aria-label="Pilih avatar ${emoji}"
+					>${emoji}</button>
+				`).join('');
+
+				grid.querySelectorAll('.avatar-option').forEach(btn => {
+					btn.addEventListener('click', () => {
+						selectedAvatar = (btn as HTMLElement).dataset.avatar || '👤';
+						grid.querySelectorAll('.avatar-option').forEach(b => b.classList.remove('selected'));
+						btn.classList.add('selected');
+						updateModalPreview();
+					});
+				});
+			}
+
+			function updateModalPreview() {
+				const preview = document.getElementById('modal-preview-avatar');
+				if (preview) preview.textContent = selectedAvatar;
+			}
+
+			function updateSaveBtn() {
+				const input = document.getElementById('input-username') as HTMLInputElement | null;
+				const btn = document.getElementById('btn-save-profile') as HTMLButtonElement | null;
+				if (btn && input) btn.disabled = input.value.trim().length === 0;
+			}
+
+			function saveProfile() {
+				const input = document.getElementById('input-username') as HTMLInputElement | null;
+				const name = input?.value.trim() || '';
+				if (!name) return;
+
+				localStorage.setItem('scout_username', name);
+				localStorage.setItem('scout_avatar', selectedAvatar);
+				localStorage.setItem('scout_visited', 'true');
+
+				updateHeaderStats();
+				closeProfileModal();
+				window.dispatchEvent(new Event('statsUpdated'));
+			}
+
+			// ─── Streak Harian ───────────────────────────────────────────────────────
+
+			function todayStr() {
+				return new Date().toISOString().split('T')[0];
+			}
+
+			function yesterdayStr() {
+				const d = new Date();
+				d.setDate(d.getDate() - 1);
+				return d.toISOString().split('T')[0];
+			}
+
+			function showStreakToast(icon: string, title: string, sub: string) {
+				const toast   = document.getElementById('streak-toast');
+				const iconEl  = document.getElementById('streak-toast-icon');
+				const titleEl = document.getElementById('streak-toast-title');
+				const subEl   = document.getElementById('streak-toast-sub');
+				if (!toast) return;
+				if (iconEl)  iconEl.textContent  = icon;
+				if (titleEl) titleEl.textContent = title;
+				if (subEl)   subEl.textContent   = sub;
+				toast.classList.add('show');
+				setTimeout(() => toast.classList.remove('show'), 4000);
+			}
+
+			function updateStreakDisplay(streak: number) {
+				const el = document.getElementById('header-streak-count');
+				const wrap = document.getElementById('header-streak');
+				if (el) el.textContent = streak.toString();
+				if (wrap) {
+					wrap.classList.toggle('streak-active', streak >= 3);
+					wrap.classList.toggle('streak-hot',    streak >= 7);
+				}
+			}
+
+			function checkDailyStreak() {
+				const today    = todayStr();
+				const lastVisit  = localStorage.getItem('scout_last_visit') || '';
+				const prevStreak = parseInt(localStorage.getItem('scout_streak') || '0');
+
+				if (lastVisit === today) {
+					updateStreakDisplay(prevStreak);
+					return;
+				}
+
+				let newStreak: number;
+				if (lastVisit === yesterdayStr()) {
+					newStreak = prevStreak + 1;
+				} else if (!lastVisit) {
+					newStreak = 1;
+				} else {
+					newStreak = 1;
+				}
+
+				localStorage.setItem('scout_last_visit', today);
+				localStorage.setItem('scout_streak', newStreak.toString());
+				updateStreakDisplay(newStreak);
+
+				// Streak putus setelah >2 hari
+				if (!lastVisit) {
+					// Kunjungan pertama — sapa saja
+					setTimeout(() => showStreakToast('🌿', 'Selamat datang, Pandu!', 'Mulai kuis pertamamu hari ini.'), 1200);
+					return;
+				}
+
+				if (lastVisit !== yesterdayStr() && prevStreak >= 3) {
+					// Streak putus
+					setTimeout(() => showStreakToast('😅', `Streak ${prevStreak} hari terputus`, 'Mulai lagi hari ini — kamu bisa!'), 1200);
+					return;
+				}
+
+				// Bonus XP untuk streak hari ke-2+
+				if (newStreak >= 2) {
+					const bonusXp = newStreak >= 7 ? 15 : newStreak >= 3 ? 10 : 5;
+					const xp = parseInt(localStorage.getItem('scout_xp') || '0');
+					localStorage.setItem('scout_xp', (xp + bonusXp).toString());
+
+					// Cek badge scout_master (500 XP)
+					const newXp = xp + bonusXp;
+					if (newXp >= 500) {
+						const badges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+						if (!badges.includes('scout_master')) {
+							badges.push('scout_master');
+							localStorage.setItem('scout_badges', JSON.stringify(badges));
+						}
+					}
+
+					window.dispatchEvent(new Event('statsUpdated'));
+
+					const msg = newStreak >= 7
+						? `🔥 ${newStreak} hari berturut-turut!`
+						: newStreak >= 3
+							? `${newStreak} hari streak!`
+							: 'Hari kedua!';
+					setTimeout(() => showStreakToast('🔥', msg, `+${bonusXp} XP bonus streak`), 1000);
+				}
+			}
+
+			// ─── Share Panel ─────────────────────────────────────────────────────────
+
+			let shareTimeout: ReturnType<typeof setTimeout> | null = null;
+
+			function showSharePanel(quizName: string, correct: number, total: number, pct: number) {
+				const panel   = document.getElementById('share-panel');
+				const emoji   = document.getElementById('share-emoji');
+				const title   = document.getElementById('share-title');
+				const sub     = document.getElementById('share-subtitle');
+				const waBtn   = document.getElementById('btn-share-wa') as HTMLAnchorElement | null;
+				if (!panel) return;
+
+				const icon = pct === 100 ? '🏆' : pct >= 80 ? '⭐' : pct >= 60 ? '👍' : '📚';
+				const pageUrl = window.location.origin + window.location.pathname;
+				const msg = `Aku baru dapat ${pct}/100 di Kuis Pramuka: *${quizName}* ${icon}\n🏕️ Coba juga: ${pageUrl}`;
+
+				if (emoji) emoji.textContent = icon;
+				if (title) title.textContent = `${correct}/${total} Benar — ${quizName}`;
+				if (sub)   sub.textContent   = 'Bagikan ke temanmu!';
+				if (waBtn) waBtn.href = `https://wa.me/?text=${encodeURIComponent(msg)}`;
+
+				panel.classList.add('show');
+				if (shareTimeout) clearTimeout(shareTimeout);
+				shareTimeout = setTimeout(() => panel.classList.remove('show'), 12000);
+			}
+
+			function checkAndShowShare() {
+				const path = window.location.pathname;
+				if (path === '/' || path === '/index.html' || path.includes('lencana') || path.includes('profil')) return;
+
+				const overlay = document.getElementById('result-overlay');
+				if (!overlay || overlay.style.display === 'none' || overlay.style.display === '') return;
+
+				const scoreEl   = document.getElementById('result-score');
+				const scoreText = scoreEl?.textContent || '0/100';
+				const pct       = parseInt(scoreText.split('/')[0]) || 0;
+				const correct   = Math.round(pct / 10);
+
+				const quizName = document.title.split('|')[0].trim();
+				showSharePanel(quizName, correct, 10, pct);
+			}
+
+			// ─── Badge Unlock Notification ───────────────────────────────────────────
+
+			const BADGE_META: Record<string, { name: string; icon: string; desc: string }> = {
+				morse_novice:      { name: 'Kadet Morse',          icon: '⚡',    desc: 'Selesaikan 1 kuis Morse' },
+				morse_master:      { name: 'Master Morse',          icon: '🚀',    desc: 'Skor 100% pada kuis Morse' },
+				semaphore_novice:  { name: 'Isyarat Angin',         icon: '🚩',    desc: 'Selesaikan 1 kuis Semaphore' },
+				sandi_breaker:     { name: 'Pecah Sandi',           icon: '🔑',    desc: 'Selesaikan 1 kuis Sandi' },
+				sku_siaga:         { name: 'Pandu Mula',            icon: '🟢',    desc: 'Selesaikan kuis SKU Siaga' },
+				sku_penggalang:    { name: 'Pandu Ramu',            icon: '🔴',    desc: 'Selesaikan kuis SKU Penggalang' },
+				sku_penegak:       { name: 'Pandu Bantara',         icon: '🟡',    desc: 'Selesaikan kuis SKU Penegak' },
+				scout_master:      { name: 'Pengembara Ulung',      icon: '⚜️',   desc: 'Capai total 500 XP dari semua kuis' },
+				uu_pramuka_novice: { name: 'Pandu Hukum',           icon: '⚖️',   desc: 'Selesaikan 1 kuis UU No. 12/2010' },
+				uu_pramuka_master: { name: 'Ahli Perundangan',      icon: '📜',    desc: 'Skor 100% pada kuis UU Pramuka' },
+				simpul_novice:     { name: 'Pengikat Muda',         icon: '🪢',    desc: 'Selesaikan 1 kuis Simpul & Ikatan' },
+				simpul_master:     { name: 'Ahli Tali Temali',      icon: '🏅',    desc: 'Skor 100% pada kuis Simpul & Ikatan' },
+				sejarah_novice:    { name: 'Penjelajah Sejarah',    icon: '📜',    desc: 'Selesaikan 1 kuis Sejarah Kepramukaan' },
+				sejarah_master:    { name: 'Sejarawan Pramuka',     icon: '🏛️',   desc: 'Skor 100% pada kuis Sejarah' },
+				p3k_novice:        { name: 'Penolong Pertama',      icon: '🩺',    desc: 'Selesaikan 1 kuis P3K' },
+				p3k_master:        { name: 'Ahli P3K',              icon: '❤️‍🩹', desc: 'Skor 100% pada kuis P3K' },
+				kompas_novice:     { name: 'Penjelajah Muda',       icon: '🧭',    desc: 'Selesaikan 1 kuis Kompas & Navigasi' },
+				kompas_master:     { name: 'Navigator Handal',      icon: '🗺️',   desc: 'Skor 100% pada kuis Kompas & Navigasi' },
+				pbb_novice:        { name: 'Pandu Berbaris',        icon: '🪖',    desc: 'Selesaikan 1 kuis Baris-Berbaris' },
+				pbb_master:        { name: 'Komandan Barisan',      icon: '🎖️',   desc: 'Skor 100% pada kuis Baris-Berbaris' },
+				kemah_novice:      { name: 'Pendaki Muda',          icon: '⛺',    desc: 'Selesaikan 1 kuis Perkemahan' },
+				kemah_master:      { name: 'Ahli Perkemahan',       icon: '🏕️',   desc: 'Skor 100% pada kuis Perkemahan' },
+				tanda_novice:      { name: 'Pandu Berpengenal',     icon: '🎗️',   desc: 'Selesaikan 1 kuis Tanda Pengenal' },
+				tanda_master:      { name: 'Ahli Tanda Pengenal',   icon: '🏵️',   desc: 'Skor 100% pada kuis Tanda Pengenal' },
+				pionir_novice:     { name: 'Pionir Muda',           icon: '🪵',    desc: 'Selesaikan 1 kuis Pioniring' },
+				pionir_master:     { name: 'Ahli Pioniring',        icon: '🏗️',   desc: 'Skor 100% pada kuis Pioniring' },
+				org_novice:        { name: 'Pandu Organisasi',      icon: '🏛️',   desc: 'Selesaikan 1 kuis Organisasi Pramuka' },
+				org_master:        { name: 'Ahli Keorganisasian',   icon: '📋',    desc: 'Skor 100% pada kuis Organisasi Pramuka' },
+				dasa_novice:       { name: 'Pramuka Berakhlak',     icon: '🌟',    desc: 'Selesaikan 1 kuis Dasa Darma' },
+				dasa_master:       { name: 'Teladan Dharma',        icon: '🏅',    desc: 'Skor 100% pada kuis Dasa Darma' },
+			};
+
+			let knownBadgeSet = new Set<string>();
+			let unlockQueue: string[] = [];
+			let isShowingUnlock = false;
+
+			// ─── Review Soal Salah ────────────────────────────────────────────────────
+			interface WrongItem { q: string; wrong: string; correct: string; edu: string; }
+			let wrongAnswers: WrongItem[] = [];
+			let reviewObserver: MutationObserver | null = null;
+
+			function startReviewTracking() {
+				const container = document.getElementById('options-container');
+				if (!container) return;
+
+				wrongAnswers = [];
+				reviewObserver?.disconnect();
+
+				reviewObserver = new MutationObserver((mutations) => {
+					for (const mut of mutations) {
+						if (mut.type !== 'attributes' || mut.attributeName !== 'class') continue;
+						const btn = mut.target as HTMLElement;
+						if (!btn.classList.contains('is-incorrect')) continue;
+
+						// Ambil detail jawaban setelah semua class teraplikasi
+						setTimeout(() => {
+							const correctBtn = container.querySelector('.opt-btn.is-correct') as HTMLElement | null;
+							const qEl  = document.getElementById('question-prompt');
+							const eduEl = document.getElementById('education-text');
+
+							const qText      = qEl?.textContent?.trim() ?? '';
+							const wrongText  = (btn.querySelector('.opt-text') as HTMLElement)?.textContent?.trim()
+								?? btn.dataset.answer ?? '';
+							const correctText = (correctBtn?.querySelector('.opt-text') as HTMLElement)?.textContent?.trim()
+								?? correctBtn?.dataset.answer ?? '';
+							const eduText = eduEl?.textContent?.trim() ?? '';
+
+							if (qText && wrongText && correctText) {
+								wrongAnswers.push({ q: qText, wrong: wrongText, correct: correctText, edu: eduText });
+							}
+						}, 50);
+					}
+				});
+
+				reviewObserver.observe(container, { attributes: true, attributeFilter: ['class'], subtree: true });
+			}
+
+			function injectWrongAnswerReview() {
+				const resultCard = document.querySelector('.result-card');
+				const resultActions = resultCard?.querySelector('.result-actions') as HTMLElement | null;
+				if (!resultCard || !resultActions) return;
+
+				document.getElementById('review-wrong-answers')?.remove();
+				if (wrongAnswers.length === 0) return;
+
+				const div = document.createElement('div');
+				div.id = 'review-wrong-answers';
+				div.className = 'review-wrong-answers';
+				div.innerHTML = `
+					<button class="review-toggle" id="btn-review-toggle" aria-expanded="false">
+						<span>📝 Review ${wrongAnswers.length} Soal yang Salah</span>
+						<svg class="review-caret" viewBox="0 0 10 6" fill="none">
+							<path d="M1 1L5 5L9 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+						</svg>
+					</button>
+					<div class="review-list" id="review-list" hidden>
+						${wrongAnswers.map((item, i) => `
+							<div class="review-item">
+								<div class="review-q"><span class="review-num">${i + 1}</span>${item.q}</div>
+								<div class="review-wrong">✗ &nbsp;${item.wrong}</div>
+								<div class="review-correct">✓ &nbsp;${item.correct}</div>
+								${item.edu ? `<div class="review-edu">${item.edu}</div>` : ''}
+							</div>
+						`).join('')}
+					</div>`;
+
+				resultCard.insertBefore(div, resultActions);
+
+				document.getElementById('btn-review-toggle')?.addEventListener('click', () => {
+					const list = document.getElementById('review-list') as HTMLElement | null;
+					const btn  = document.getElementById('btn-review-toggle');
+					if (!list) return;
+					const opening = list.hasAttribute('hidden');
+					opening ? list.removeAttribute('hidden') : list.setAttribute('hidden', '');
+					btn?.setAttribute('aria-expanded', opening ? 'true' : 'false');
+					btn?.classList.toggle('open', opening);
+				});
+			}
+
+			function launchConfetti(stage: HTMLElement) {
+				stage.innerHTML = '';
+				const colors = ['#d4a32b','#1b4d32','#2a6f4a','#c0513c','#5a6bc4','#e07b20','#b2831b','#4a9960'];
+				for (let i = 0; i < 56; i++) {
+					const piece = document.createElement('div');
+					const angle    = Math.random() * Math.PI * 2;
+					const dist     = 70 + Math.random() * 130;
+					const dx       = Math.cos(angle) * dist;
+					const dy       = Math.sin(angle) * dist - 30;
+					const size     = 6 + Math.random() * 8;
+					const color    = colors[Math.floor(Math.random() * colors.length)];
+					const delay    = Math.random() * 350;
+					const dur      = 700 + Math.random() * 800;
+					const rot      = 200 + Math.random() * 560;
+					const isCircle = Math.random() > 0.45;
+					piece.style.cssText = `
+						position:absolute; left:calc(50% - ${size/2}px); top:38%;
+						width:${size}px; height:${size}px;
+						background:${color}; border-radius:${isCircle?'50%':'3px'};
+						opacity:1; pointer-events:none;
+					`;
+					stage.appendChild(piece);
+					setTimeout(() => {
+						piece.style.transition = `transform ${dur}ms cubic-bezier(.25,.46,.45,.94), opacity ${dur}ms ease`;
+						piece.style.transform  = `translate(${dx}px,${dy}px) rotate(${rot}deg)`;
+						piece.style.opacity    = '0';
+					}, delay);
+				}
+				setTimeout(() => { stage.innerHTML = ''; }, 1800);
+			}
+
+			function showNextUnlock() {
+				if (isShowingUnlock || unlockQueue.length === 0) return;
+				const badgeId = unlockQueue.shift()!;
+				const meta = BADGE_META[badgeId];
+				if (!meta) { showNextUnlock(); return; }
+
+				const overlay  = document.getElementById('badge-unlock-overlay');
+				const iconEl   = document.getElementById('unlock-icon');
+				const nameEl   = document.getElementById('unlock-name');
+				const descEl   = document.getElementById('unlock-desc');
+				const stage    = document.getElementById('confetti-stage');
+				if (!overlay) return;
+
+				if (iconEl)  iconEl.textContent  = meta.icon;
+				if (nameEl)  nameEl.textContent  = meta.name;
+				if (descEl)  descEl.textContent  = meta.desc;
+
+				overlay.style.display = 'flex';
+				requestAnimationFrame(() => overlay.classList.add('visible'));
+				isShowingUnlock = true;
+
+				if (stage) setTimeout(() => launchConfetti(stage), 200);
+			}
+
+			function closeUnlockOverlay() {
+				const overlay = document.getElementById('badge-unlock-overlay');
+				if (!overlay) return;
+				overlay.classList.remove('visible');
+				setTimeout(() => {
+					overlay.style.display = 'none';
+					isShowingUnlock = false;
+					showNextUnlock();
+				}, 300);
+			}
+
+			function checkForNewBadges() {
+				const current: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+				const newOnes = current.filter(id => !knownBadgeSet.has(id));
+				if (newOnes.length > 0) {
+					newOnes.forEach(id => { unlockQueue.push(id); knownBadgeSet.add(id); });
+					showNextUnlock();
+				}
+			}
+
+			// Expose ke window agar /profil bisa trigger modal
+			(window as any).openProfileModal = openProfileModal;
+
+			// ─── Inisialisasi ─────────────────────────────────────────────────────────
+
+			if (typeof window !== 'undefined') {
+				localStorage.setItem('scout_xp', localStorage.getItem('scout_xp') || '0');
+				localStorage.setItem('scout_badges', localStorage.getItem('scout_badges') || '[]');
+
+				// Inisialisasi set badge yang sudah diketahui (sebelum event apapun)
+				knownBadgeSet = new Set(JSON.parse(localStorage.getItem('scout_badges') || '[]'));
+
+				updateHeaderStats();
+				highlightActiveLink();
+				checkDailyStreak();
+
+				// Terhubung ke event update dari halaman kuis
+				window.addEventListener('statsUpdated', () => {
+					updateHeaderStats();
+					checkForNewBadges();
+					setTimeout(checkAndShowShare, 600);
+					setTimeout(injectWrongAnswerReview, 300);
+					stopQuestionTimer();
+					// Bonus XP dari timer — tulis setelah kuis simpan XP-nya
+					setTimeout(() => {
+						if (isTimerMode() && !isLatihanMode() && sessionBonusXp > 0) {
+							const cur = parseInt(localStorage.getItem('scout_xp') || '0');
+							(window as any)._origLocalSetItem('scout_xp', (cur + sessionBonusXp).toString());
+							const xpEl = document.getElementById('result-xp');
+							if (xpEl) {
+								const base = xpEl.textContent?.match(/\d+/)?.[0] ?? '0';
+								xpEl.innerHTML = `+${parseInt(base) + sessionBonusXp} XP <span class="bonus-xp-tag">⏱️ +${sessionBonusXp}</span>`;
+							}
+							updateHeaderStats();
+						}
+						sessionBonusXp = 0;
+					}, 150);
+				});
+
+				// Mulai tracking soal salah jika ini halaman kuis
+				startReviewTracking();
+
+				// Reset tracking & timer saat kuis diulang
+				document.addEventListener('click', (e) => {
+					if ((e.target as HTMLElement).id === 'btn-restart') {
+						setTimeout(startReviewTracking, 100);
+						if (isTimerMode()) setTimeout(initTimerOnPage, 150);
+					}
+				});
+
+				// Share panel controls
+				document.getElementById('btn-close-share')?.addEventListener('click', () => {
+					document.getElementById('share-panel')?.classList.remove('show');
+				});
+
+				document.getElementById('btn-copy-link')?.addEventListener('click', () => {
+					const url = window.location.origin + window.location.pathname;
+					navigator.clipboard?.writeText(url).then(() => {
+						const el = document.getElementById('copy-link-text');
+						if (el) { el.textContent = 'Tersalin! ✓'; setTimeout(() => { el.textContent = 'Salin Link'; }, 2000); }
+					});
+				});
+
+				// Tutup overlay badge saat klik tombol
+				document.getElementById('btn-close-unlock')?.addEventListener('click', closeUnlockOverlay);
+				// Klik background overlay juga tutup
+				document.getElementById('badge-unlock-overlay')?.addEventListener('click', (e) => {
+					if (e.target === e.currentTarget) closeUnlockOverlay();
+				});
+
+				// Buka modal profil saat klik tombol header
+				document.getElementById('header-profile-btn')?.addEventListener('click', openProfileModal);
+
+				// Kontrol modal
+				document.getElementById('btn-close-modal')?.addEventListener('click', closeProfileModal);
+				document.getElementById('btn-skip-profile')?.addEventListener('click', () => {
+					localStorage.setItem('scout_visited', 'true');
+					closeProfileModal();
+				});
+				document.getElementById('btn-save-profile')?.addEventListener('click', saveProfile);
+
+				// Validasi real-time nama
+				document.getElementById('input-username')?.addEventListener('input', updateSaveBtn);
+
+				// Enter untuk simpan
+				document.getElementById('input-username')?.addEventListener('keydown', (e) => {
+					if ((e as KeyboardEvent).key === 'Enter') saveProfile();
+				});
+
+				// Klik luar modal untuk tutup
+				document.getElementById('profile-modal')?.addEventListener('click', (e) => {
+					if (e.target === e.currentTarget) closeProfileModal();
+				});
+
+				// Tampilkan modal pertama kali jika belum ada profil
+				if (!localStorage.getItem('scout_visited') && !localStorage.getItem('scout_username')) {
+					setTimeout(openProfileModal, 800);
+				}
+
+				// Daftarkan Service Worker untuk PWA / offline
+				if ('serviceWorker' in navigator) {
+					window.addEventListener('load', () => {
+						navigator.serviceWorker.register('/sw.js');
+					});
+				}
+
+				// ─── Mode Latihan ──────────────────────────────────────────────────────
+				function isLatihanMode(): boolean {
+					return localStorage.getItem('scout_latihan') === '1';
+				}
+
+				function applyLatihanPatch() {
+					const BLOCKED = ['scout_xp', 'scout_badges', 'scout_streak', 'scout_last_visit'];
+					localStorage.setItem = function(k: string, v: string) {
+						if (BLOCKED.includes(k)) return;
+						(window as any)._origLocalSetItem(k, v);
+					};
+					document.documentElement.setAttribute('data-latihan', 'true');
+				}
+
+				function removeLatihanPatch() {
+					localStorage.setItem = (window as any)._origLocalSetItem;
+					document.documentElement.removeAttribute('data-latihan');
+				}
+
+				function updateLatihanBtn() {
+					const btn = document.getElementById('latihan-toggle');
+					const icon = document.getElementById('latihan-icon');
+					const active = isLatihanMode();
+					btn?.setAttribute('aria-pressed', active ? 'true' : 'false');
+					btn?.setAttribute('title', active ? 'Nonaktifkan Mode Latihan' : 'Aktifkan Mode Latihan');
+					if (icon) icon.textContent = active ? '📖' : '🎯';
+				}
+
+				function toggleLatihanMode() {
+					const active = isLatihanMode();
+					if (active) {
+						(window as any)._origLocalSetItem('scout_latihan', '');
+						localStorage.removeItem('scout_latihan');
+						removeLatihanPatch();
+						showStreakToast('✅', 'Mode Latihan Nonaktif', 'XP kembali dihitung seperti biasa');
+					} else {
+						(window as any)._origLocalSetItem('scout_latihan', '1');
+						applyLatihanPatch();
+						showStreakToast('🎯', 'Mode Latihan Aktif', 'Jawaban langsung ditampilkan — XP tidak dihitung');
+					}
+					updateLatihanBtn();
+				}
+
+				// Auto-submit saat opt-btn diklik di Mode Latihan
+				document.addEventListener('click', (e) => {
+					if (!isLatihanMode()) return;
+					const optBtn = (e.target as HTMLElement).closest('.opt-btn');
+					if (!optBtn) return;
+					setTimeout(() => {
+						const btn = document.getElementById('btn-submit-answer') as HTMLButtonElement | null;
+						const txt = btn?.textContent?.trim() ?? '';
+						if (btn && !btn.disabled && txt.startsWith('Konfirmasi')) {
+							btn.click();
+						}
+					}, 80);
+				});
+
+				updateLatihanBtn();
+				document.getElementById('latihan-toggle')?.addEventListener('click', toggleLatihanMode);
+
+				// ─── Timer Kuis ───────────────────────────────────────────────────────
+				const TIMER_DURATION = 30;
+				let timerInterval: ReturnType<typeof setInterval> | null = null;
+				let timerSecondsLeft = TIMER_DURATION;
+				let sessionBonusXp = 0;
+				let containerTimerObs: MutationObserver | null = null;
+
+				function isTimerMode(): boolean {
+					return localStorage.getItem('scout_timer') === '1';
+				}
+
+				function updateTimerToggleBtn() {
+					const btn = document.getElementById('timer-toggle');
+					const active = isTimerMode();
+					btn?.setAttribute('aria-pressed', active ? 'true' : 'false');
+					btn?.setAttribute('title', active ? `Nonaktifkan Timer (${TIMER_DURATION}s/soal)` : 'Aktifkan Timer Kuis');
+				}
+
+				function stopQuestionTimer() {
+					if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+				}
+
+				function updateTimerDisplay() {
+					const fill = document.getElementById('timer-fill') as HTMLElement | null;
+					const sec  = document.getElementById('timer-seconds');
+					const bar  = document.getElementById('quiz-timer-bar');
+					if (!fill || !sec || !bar) return;
+					fill.style.width = `${(timerSecondsLeft / TIMER_DURATION) * 100}%`;
+					sec.textContent = String(timerSecondsLeft);
+					bar.classList.toggle('timer-warning', timerSecondsLeft <= 10 && timerSecondsLeft > 5);
+					bar.classList.toggle('timer-danger',  timerSecondsLeft <= 5);
+				}
+
+				function forceSubmit() {
+					const btn = document.getElementById('btn-submit-answer') as HTMLButtonElement | null;
+					if (!btn) return;
+					const txt = btn.textContent?.trim() ?? '';
+					if (!txt.startsWith('Konfirmasi')) return;
+					if (!btn.disabled) {
+						btn.click();
+					} else {
+						// Belum pilih jawaban — pilih opsi pertama lalu submit
+						const firstOpt = document.querySelector('#options-container .opt-btn:not(.is-answered)') as HTMLElement | null;
+						if (firstOpt) {
+							firstOpt.click();
+							setTimeout(() => {
+								const b = document.getElementById('btn-submit-answer') as HTMLButtonElement | null;
+								if (b && !b.disabled) b.click();
+							}, 100);
+						}
+					}
+				}
+
+				function startQuestionTimer() {
+					stopQuestionTimer();
+					timerSecondsLeft = TIMER_DURATION;
+					updateTimerDisplay();
+					timerInterval = setInterval(() => {
+						timerSecondsLeft = Math.max(0, timerSecondsLeft - 1);
+						updateTimerDisplay();
+						if (timerSecondsLeft === 0) { stopQuestionTimer(); forceSubmit(); }
+					}, 1000);
+				}
+
+				function injectTimerUI() {
+					document.getElementById('quiz-timer-bar')?.remove();
+					const container = document.getElementById('options-container');
+					if (!container) return;
+					const bar = document.createElement('div');
+					bar.id = 'quiz-timer-bar';
+					bar.className = 'quiz-timer-bar';
+					bar.innerHTML = `
+						<span class="timer-emoji">⏱️</span>
+						<div class="timer-track">
+							<div id="timer-fill" class="timer-fill" style="width:100%"></div>
+						</div>
+						<span id="timer-seconds" class="timer-seconds">${TIMER_DURATION}</span>`;
+					container.parentElement?.insertBefore(bar, container);
+				}
+
+				function initTimerOnPage() {
+					const container = document.getElementById('options-container');
+					if (!container) return;
+					injectTimerUI();
+					sessionBonusXp = 0;
+					containerTimerObs?.disconnect();
+
+					// Restart timer setiap kali soal baru di-render
+					containerTimerObs = new MutationObserver((mutations) => {
+						if (!isTimerMode()) return;
+						for (const mut of mutations) {
+							if (mut.type === 'childList' && mut.addedNodes.length > 0) {
+								const firstAdded = mut.addedNodes[0] as HTMLElement;
+								if (firstAdded?.classList?.contains('opt-btn')) {
+									setTimeout(startQuestionTimer, 60);
+									return;
+								}
+							}
+						}
+					});
+					containerTimerObs.observe(container, { childList: true });
+
+					// Mulai timer jika soal sudah tampil
+					if (container.querySelector('.opt-btn')) startQuestionTimer();
+				}
+
+				function toggleTimerMode() {
+					const active = isTimerMode();
+					if (active) {
+						localStorage.removeItem('scout_timer');
+						stopQuestionTimer();
+						document.getElementById('quiz-timer-bar')?.remove();
+						containerTimerObs?.disconnect();
+						showStreakToast('⏱️', 'Timer Dinonaktifkan', 'Kuis tanpa batas waktu');
+					} else {
+						localStorage.setItem('scout_timer', '1');
+						initTimerOnPage();
+						showStreakToast('⏱️', 'Timer Aktif', `${TIMER_DURATION} detik per soal — jawab cepat untuk bonus XP!`);
+					}
+					updateTimerToggleBtn();
+				}
+
+				// Deteksi submit untuk hitung bonus XP timer
+				document.addEventListener('click', (e) => {
+					if (!isTimerMode()) return;
+					const target = e.target as HTMLElement;
+					const submitBtn = target.closest('#btn-submit-answer') as HTMLButtonElement | null;
+					if (!submitBtn) return;
+					if (!submitBtn.textContent?.trim().startsWith('Konfirmasi')) return;
+					setTimeout(() => {
+						stopQuestionTimer();
+						const c = document.getElementById('options-container');
+						const isCorrect = !!c?.querySelector('.opt-btn.is-correct') && !c?.querySelector('.opt-btn.is-incorrect');
+						if (isCorrect && timerSecondsLeft > 0) {
+							sessionBonusXp += Math.max(1, Math.ceil(timerSecondsLeft / 4));
+						}
+					}, 180);
+				});
+
+				updateTimerToggleBtn();
+				document.getElementById('timer-toggle')?.addEventListener('click', toggleTimerMode);
+				if (isTimerMode()) initTimerOnPage();
+
+				// Dark mode toggle
+				function applyTheme(dark: boolean) {
+					document.documentElement.setAttribute('data-theme', dark ? 'dark' : 'light');
+					const icon = document.getElementById('theme-icon');
+					if (icon) icon.textContent = dark ? '☀️' : '🌙';
+					localStorage.setItem('scout_theme', dark ? 'dark' : 'light');
+				}
+
+				// Sinkron ikon dengan preferensi yang sudah diset di <head>
+				const savedTheme = localStorage.getItem('scout_theme');
+				applyTheme(savedTheme === 'dark');
+
+				document.getElementById('theme-toggle')?.addEventListener('click', () => {
+					const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+					applyTheme(!isDark);
+				});
+			}
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	:root {
+		--color-bg: #f4f7f5;
+		--color-surface: rgba(255, 255, 255, 0.85);
+		--color-surface-hover: rgba(255, 255, 255, 0.98);
+		--color-surface-solid: #ffffff;
+		--color-primary: #1b4d32;
+		--color-primary-light: #2a6f4a;
+		--color-primary-dark: #0f2e1e;
+		--color-gold: #b2831b;
+		--color-gold-light: #d4a32b;
+		--color-text: #17271f;
+		--color-text-muted: #53695c;
+		--color-text-faint: #8aa396;
+		--color-danger: #a5301a;
+		--color-success: #236c32;
+		--color-border: rgba(27, 77, 50, 0.1);
+		--color-border-hover: rgba(27, 77, 50, 0.2);
+		--font-main: 'Outfit', sans-serif;
+		--shadow-sm: 0 2px 8px rgba(27, 77, 50, 0.06);
+		--shadow-md: 0 4px 16px rgba(27, 77, 50, 0.08);
+		--shadow-lg: 0 8px 32px rgba(27, 77, 50, 0.1);
+		--radius-sm: 8px;
+		--radius-md: 12px;
+		--radius-lg: 16px;
+		--radius-full: 999px;
+		--transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+		--transition-normal: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+	}
+
+	[data-theme="dark"] {
+		--color-bg: #0d1a12;
+		--color-surface: rgba(22, 40, 28, 0.9);
+		--color-surface-hover: rgba(30, 52, 38, 0.98);
+		--color-surface-solid: #16281c;
+		--color-primary: #4caf77;
+		--color-primary-light: #5dc98a;
+		--color-primary-dark: #2e7a4f;
+		--color-gold: #d4a32b;
+		--color-gold-light: #e8c050;
+		--color-text: #e8f0eb;
+		--color-text-muted: #9dbdac;
+		--color-text-faint: #5e8a70;
+		--color-danger: #e05c45;
+		--color-success: #4caf77;
+		--color-border: rgba(76, 175, 119, 0.15);
+		--color-border-hover: rgba(76, 175, 119, 0.28);
+		--shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.25);
+		--shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
+		--shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.4);
+	}
+
+	* {
+		box-sizing: border-box;
+		margin: 0;
+		padding: 0;
+	}
+
+	body {
+		background-color: var(--color-bg);
+		color: var(--color-text);
+		font-family: var(--font-main);
+		min-height: 100vh;
+		display: flex;
+		flex-direction: column;
+		overflow-x: hidden;
+		background-image:
+			radial-gradient(ellipse at 15% 10%, rgba(27, 77, 50, 0.05) 0%, transparent 45%),
+			radial-gradient(ellipse at 85% 90%, rgba(212, 163, 43, 0.04) 0%, transparent 45%);
+		background-attachment: fixed;
+		transition: background-color 0.3s ease, color 0.3s ease;
+	}
+
+	[data-theme="dark"] body,
+	[data-theme="dark"].body-root {
+		background-image:
+			radial-gradient(ellipse at 15% 10%, rgba(76, 175, 119, 0.06) 0%, transparent 45%),
+			radial-gradient(ellipse at 85% 90%, rgba(212, 163, 43, 0.04) 0%, transparent 45%);
+	}
+
+	/* ─── Header ──────────────────────────────────────────────────────────────── */
+
+	.app-header {
+		background: rgba(244, 247, 245, 0.92);
+		backdrop-filter: blur(16px);
+		-webkit-backdrop-filter: blur(16px);
+		border-bottom: 1px solid var(--color-border);
+		box-shadow: var(--shadow-sm);
+		position: sticky;
+		top: 0;
+		z-index: 100;
+		transition: background 0.3s ease, border-color 0.3s ease;
+	}
+
+	[data-theme="dark"] .app-header {
+		background: rgba(13, 26, 18, 0.92);
+	}
+
+	.header-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0.85rem 1.5rem;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+	}
+
+	.logo-area {
+		display: flex;
+		align-items: center;
+		gap: 0.65rem;
+		text-decoration: none;
+		color: var(--color-text);
+		flex-shrink: 0;
+	}
+
+	.logo-icon {
+		width: 30px;
+		height: 30px;
+		filter: drop-shadow(0 0 5px rgba(212, 163, 43, 0.35));
+		transition: transform var(--transition-normal);
+	}
+
+	.logo-area:hover .logo-icon {
+		transform: rotate(12deg) scale(1.08);
+	}
+
+	.logo-text {
+		font-weight: 800;
+		font-size: 1.2rem;
+		letter-spacing: 1.5px;
+		color: var(--color-primary-dark);
+	}
+
+	.logo-text span {
+		color: var(--color-gold);
+	}
+
+	/* ─── Nav ─────────────────────────────────────────────────────────────────── */
+
+	.nav-links {
+		display: flex;
+		gap: 1.5rem;
+	}
+
+	.nav-link {
+		color: var(--color-text-muted);
+		text-decoration: none;
+		font-size: 0.9rem;
+		font-weight: 500;
+		transition: color var(--transition-fast);
+		position: relative;
+		padding: 0.25rem 0;
+	}
+
+	.nav-link:hover,
+	.nav-link.active {
+		color: var(--color-primary);
+	}
+
+	.nav-link::after {
+		content: '';
+		position: absolute;
+		bottom: -2px;
+		left: 0;
+		width: 0;
+		height: 2px;
+		background: var(--color-gold);
+		border-radius: var(--radius-full);
+		transition: width var(--transition-fast);
+	}
+
+	.nav-link:hover::after,
+	.nav-link.active::after {
+		width: 100%;
+	}
+
+	/* ─── Nav Dropdown ───────────────────────────────────────────────────────── */
+
+	.nav-dropdown { position: relative; }
+
+	.nav-dropdown-btn {
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-family: var(--font-main);
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.dropdown-caret {
+		width: 10px;
+		height: 6px;
+		transition: transform var(--transition-fast);
+		flex-shrink: 0;
+		opacity: 0.6;
+	}
+
+	.nav-dropdown:hover .dropdown-caret,
+	.nav-dropdown:focus-within .dropdown-caret {
+		transform: rotate(180deg);
+	}
+
+	.nav-dropdown-menu {
+		display: none;
+		position: absolute;
+		top: calc(100% + 14px);
+		left: 50%;
+		transform: translateX(-50%);
+		background: var(--color-surface-solid);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		box-shadow: 0 8px 32px rgba(27, 77, 50, 0.14);
+		padding: 1.1rem;
+		gap: 0.25rem;
+		min-width: 580px;
+		z-index: 150;
+		animation: dropdown-in 0.16s ease;
+	}
+
+	/* small arrow pointing up */
+	.nav-dropdown-menu::before {
+		content: '';
+		position: absolute;
+		top: -6px;
+		left: 50%;
+		transform: translateX(-50%) rotate(45deg);
+		width: 10px;
+		height: 10px;
+		background: var(--color-surface-solid);
+		border-top: 1px solid var(--color-border);
+		border-left: 1px solid var(--color-border);
+	}
+
+	@keyframes dropdown-in {
+		from { opacity: 0; transform: translateX(-50%) translateY(-6px); }
+		to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+	}
+
+	.nav-dropdown:hover .nav-dropdown-menu,
+	.nav-dropdown:focus-within .nav-dropdown-menu {
+		display: flex;
+	}
+
+	.dropdown-col {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+		flex: 1;
+		padding: 0 0.4rem;
+	}
+
+	.dropdown-col + .dropdown-col {
+		border-left: 1px solid var(--color-border);
+	}
+
+	.dropdown-col-title {
+		font-size: 0.67rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		color: var(--color-text-faint);
+		padding: 0 0.5rem;
+		margin-bottom: 0.4rem;
+	}
+
+	.dropdown-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		padding: 0.42rem 0.6rem;
+		border-radius: var(--radius-sm);
+		text-decoration: none;
+		font-size: 0.84rem;
+		font-weight: 500;
+		color: var(--color-text-muted);
+		transition: all var(--transition-fast);
+		white-space: nowrap;
+	}
+
+	.dropdown-item:hover {
+		background: rgba(27, 77, 50, 0.06);
+		color: var(--color-primary);
+	}
+
+	.dropdown-item.active {
+		background: rgba(27, 77, 50, 0.08);
+		color: var(--color-primary);
+		font-weight: 600;
+	}
+
+	/* ─── User Stats Bar ──────────────────────────────────────────────────────── */
+
+	.user-stats-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		background: var(--color-surface-solid);
+		border: 1px solid var(--color-border);
+		box-shadow: var(--shadow-sm);
+		padding: 0.4rem 0.85rem;
+		border-radius: var(--radius-full);
+	}
+
+	.profile-btn {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-family: var(--font-main);
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+		padding: 0.2rem 0;
+		transition: color var(--transition-fast);
+		white-space: nowrap;
+	}
+
+	.profile-btn:hover {
+		color: var(--color-primary);
+	}
+
+	.profile-btn.has-profile {
+		color: var(--color-text);
+	}
+
+	.avatar-icon {
+		font-size: 1rem;
+		line-height: 1;
+	}
+
+	.username-text {
+		max-width: 100px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.stat-separator {
+		width: 1px;
+		height: 20px;
+		background: var(--color-border);
+	}
+
+	.stat-badge {
+		display: flex;
+		align-items: center;
+		gap: 0.3rem;
+	}
+
+	.level-badge {
+		background: var(--color-primary);
+		padding: 0.2rem 0.55rem;
+		border-radius: var(--radius-full);
+		font-size: 0.72rem;
+		font-weight: 700;
+	}
+
+	.level-badge .label {
+		color: rgba(255, 255, 255, 0.55);
+	}
+
+	.level-badge .value {
+		color: var(--color-gold-light);
+	}
+
+	.xp-progress-container {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		width: 90px;
+	}
+
+	.xp-info {
+		font-size: 0.67rem;
+		font-weight: 600;
+		color: var(--color-text-faint);
+		text-align: center;
+		margin-bottom: 3px;
+	}
+
+	.xp-bar-outer {
+		height: 5px;
+		background: rgba(27, 77, 50, 0.1);
+		border-radius: var(--radius-full);
+		overflow: hidden;
+	}
+
+	.xp-bar-inner {
+		height: 100%;
+		background: linear-gradient(90deg, var(--color-primary-light), var(--color-gold));
+		border-radius: var(--radius-full);
+		transition: width 0.5s ease-out;
+	}
+
+	.badge-count {
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: var(--color-gold);
+		background: rgba(212, 163, 43, 0.1);
+		border: 1px solid rgba(212, 163, 43, 0.25);
+		padding: 0.2rem 0.5rem;
+		border-radius: var(--radius-full);
+	}
+
+	.badge-icon {
+		width: 13px;
+		height: 13px;
+	}
+
+	.streak-badge {
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: var(--color-text-faint);
+		background: rgba(27, 77, 50, 0.05);
+		border: 1px solid var(--color-border);
+		padding: 0.2rem 0.5rem;
+		border-radius: var(--radius-full);
+		transition: all var(--transition-normal);
+	}
+
+	.streak-badge.streak-active {
+		color: #e07b20;
+		background: rgba(224, 123, 32, 0.1);
+		border-color: rgba(224, 123, 32, 0.28);
+	}
+
+	.streak-badge.streak-hot {
+		color: #c83010;
+		background: rgba(200, 48, 16, 0.1);
+		border-color: rgba(200, 48, 16, 0.28);
+		animation: streak-pulse 2s ease infinite;
+	}
+
+	@keyframes streak-pulse {
+		0%, 100% { box-shadow: none; }
+		50%       { box-shadow: 0 0 8px rgba(200, 48, 16, 0.25); }
+	}
+
+	.streak-fire { font-size: 0.9rem; }
+
+	/* ─── Dark Mode Toggle ───────────────────────────────────────────────────── */
+
+	.theme-toggle-btn {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-full);
+		width: 34px;
+		height: 34px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		font-size: 1rem;
+		transition: background var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast);
+		flex-shrink: 0;
+	}
+
+	.theme-toggle-btn:hover {
+		background: var(--color-surface-hover);
+		border-color: var(--color-border-hover);
+		transform: scale(1.08);
+	}
+
+	/* ─── Mode Latihan Banner ───────────────────────────────────────────────── */
+
+	.latihan-banner {
+		display: none;
+		background: linear-gradient(90deg, #1b4d32 0%, #2a6f4a 100%);
+		color: #d4a32b;
+		text-align: center;
+		font-size: 0.78rem;
+		font-weight: 500;
+		padding: 0.38rem 1rem;
+		letter-spacing: 0.2px;
+		position: sticky;
+		top: 57px;
+		z-index: 99;
+	}
+
+	[data-latihan="true"] .latihan-banner {
+		display: block;
+	}
+
+	.latihan-toggle-btn[aria-pressed="true"] {
+		background: rgba(27, 77, 50, 0.15);
+		border-color: var(--color-primary);
+	}
+
+	[data-theme="dark"] .latihan-toggle-btn[aria-pressed="true"] {
+		background: rgba(76, 175, 119, 0.2);
+		border-color: var(--color-primary);
+	}
+
+	/* ─── Timer Kuis ────────────────────────────────────────────────────────── */
+
+	.timer-toggle-btn[aria-pressed="true"] {
+		background: rgba(27, 77, 50, 0.15);
+		border-color: var(--color-primary);
+	}
+
+	[data-theme="dark"] .timer-toggle-btn[aria-pressed="true"] {
+		background: rgba(76, 175, 119, 0.2);
+		border-color: var(--color-primary);
+	}
+
+	.quiz-timer-bar {
+		display: flex;
+		align-items: center;
+		gap: 0.55rem;
+		margin-bottom: 0.75rem;
+		padding: 0.15rem 0;
+	}
+
+	.timer-emoji { font-size: 0.85rem; flex-shrink: 0; }
+
+	.timer-track {
+		flex: 1;
+		height: 5px;
+		background: var(--color-border);
+		border-radius: 99px;
+		overflow: hidden;
+	}
+
+	.timer-fill {
+		height: 100%;
+		background: var(--color-primary);
+		border-radius: 99px;
+		transition: width 0.85s linear, background 0.4s ease;
+	}
+
+	.quiz-timer-bar.timer-warning .timer-fill { background: #e07b20; }
+	.quiz-timer-bar.timer-danger  .timer-fill { background: var(--color-danger); animation: timer-pulse 0.5s ease infinite; }
+
+	@keyframes timer-pulse {
+		0%, 100% { opacity: 1; }
+		50%       { opacity: 0.6; }
+	}
+
+	.timer-seconds {
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: var(--color-text-muted);
+		min-width: 1.6rem;
+		text-align: right;
+		font-variant-numeric: tabular-nums;
+		transition: color 0.3s ease;
+	}
+
+	.quiz-timer-bar.timer-warning .timer-seconds { color: #e07b20; }
+	.quiz-timer-bar.timer-danger  .timer-seconds { color: var(--color-danger); }
+
+	.bonus-xp-tag {
+		font-size: 0.75rem;
+		font-weight: 600;
+		color: var(--color-gold);
+		opacity: 0.9;
+	}
+
+	/* ─── Review Soal Salah ─────────────────────────────────────────────────── */
+
+	.review-wrong-answers {
+		width: 100%;
+		margin: 1rem 0 0.25rem;
+		border-top: 1px solid var(--color-border);
+		padding-top: 0.85rem;
+	}
+
+	.review-toggle {
+		width: 100%;
+		background: none;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		padding: 0.6rem 1rem;
+		cursor: pointer;
+		font-family: var(--font-main);
+		font-size: 0.86rem;
+		font-weight: 600;
+		color: var(--color-text);
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 0.5rem;
+		transition: background var(--transition-fast), border-color var(--transition-fast);
+	}
+
+	.review-toggle:hover {
+		background: var(--color-surface);
+		border-color: var(--color-border-hover);
+	}
+
+	.review-caret {
+		width: 10px;
+		height: 6px;
+		flex-shrink: 0;
+		opacity: 0.6;
+		transition: transform var(--transition-fast);
+	}
+
+	.review-toggle.open .review-caret { transform: rotate(180deg); }
+
+	.review-list {
+		margin-top: 0.6rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.6rem;
+		max-height: 340px;
+		overflow-y: auto;
+		padding-right: 2px;
+	}
+
+	.review-item {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		padding: 0.7rem 0.85rem;
+		font-size: 0.82rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+
+	.review-num {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		width: 18px;
+		height: 18px;
+		background: var(--color-primary);
+		color: #fff;
+		border-radius: 50%;
+		font-size: 0.68rem;
+		font-weight: 700;
+		flex-shrink: 0;
+		margin-right: 0.4rem;
+	}
+
+	.review-q   { color: var(--color-text); font-weight: 500; line-height: 1.45; display: flex; align-items: flex-start; gap: 0; }
+	.review-wrong   { color: var(--color-danger);  font-size: 0.79rem; padding-left: 0.25rem; }
+	.review-correct { color: var(--color-success); font-size: 0.79rem; font-weight: 600; padding-left: 0.25rem; }
+
+	.review-edu {
+		color: var(--color-text-muted);
+		font-size: 0.77rem;
+		line-height: 1.55;
+		border-top: 1px solid var(--color-border);
+		margin-top: 0.2rem;
+		padding-top: 0.4rem;
+	}
+
+	/* ─── Badge Unlock Overlay ───────────────────────────────────────────────── */
+
+	.badge-unlock-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 400;
+		background: rgba(10, 30, 18, 0.6);
+		backdrop-filter: blur(10px);
+		-webkit-backdrop-filter: blur(10px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		opacity: 0;
+		transition: opacity 0.28s ease;
+	}
+
+	.badge-unlock-overlay.visible { opacity: 1; }
+
+	.badge-unlock-card {
+		background: var(--color-surface-solid);
+		border: 1px solid rgba(212, 163, 43, 0.28);
+		border-radius: var(--radius-lg);
+		box-shadow: 0 24px 70px rgba(10, 30, 18, 0.32), 0 0 0 1px rgba(212, 163, 43, 0.1);
+		padding: 2.5rem 2rem;
+		width: 100%;
+		max-width: 360px;
+		text-align: center;
+		position: relative;
+		overflow: hidden;
+		animation: card-pop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+	}
+
+	@keyframes card-pop {
+		from { transform: scale(0.82) translateY(20px); opacity: 0; }
+		to   { transform: scale(1) translateY(0);       opacity: 1; }
+	}
+
+	.confetti-stage {
+		position: absolute;
+		inset: 0;
+		pointer-events: none;
+		overflow: hidden;
+	}
+
+	.unlock-sparkle {
+		display: inline-block;
+		background: linear-gradient(135deg, rgba(212, 163, 43, 0.15), rgba(212, 163, 43, 0.06));
+		color: var(--color-gold);
+		border: 1px solid rgba(212, 163, 43, 0.3);
+		padding: 0.3rem 0.9rem;
+		border-radius: var(--radius-full);
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.8px;
+		text-transform: uppercase;
+		margin-bottom: 1.25rem;
+	}
+
+	.unlock-icon {
+		font-size: 4rem;
+		line-height: 1;
+		margin-bottom: 1rem;
+		display: block;
+		animation: icon-bounce 0.6s 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+		filter: drop-shadow(0 4px 16px rgba(212, 163, 43, 0.35));
+	}
+
+	@keyframes icon-bounce {
+		from { transform: scale(0.5) rotate(-15deg); opacity: 0; }
+		to   { transform: scale(1) rotate(0deg);     opacity: 1; }
+	}
+
+	.unlock-name {
+		font-size: 1.4rem;
+		font-weight: 800;
+		color: var(--color-text);
+		margin-bottom: 0.45rem;
+	}
+
+	.unlock-desc {
+		font-size: 0.88rem;
+		color: var(--color-text-muted);
+		margin-bottom: 1.75rem;
+		line-height: 1.5;
+	}
+
+	/* ─── Streak Toast ────────────────────────────────────────────────────────── */
+
+	.streak-toast {
+		position: fixed;
+		bottom: 1.5rem;
+		right: 1.5rem;
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		background: var(--color-surface-solid);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		padding: 0.9rem 1.2rem;
+		box-shadow: 0 8px 28px rgba(27, 77, 50, 0.14);
+		z-index: 300;
+		min-width: 240px;
+		max-width: 320px;
+		opacity: 0;
+		transform: translateY(12px);
+		pointer-events: none;
+		transition: opacity 0.3s ease, transform 0.3s ease;
+	}
+
+	.streak-toast.show {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	#streak-toast-icon {
+		font-size: 1.6rem;
+		flex-shrink: 0;
+	}
+
+	.toast-body {
+		display: flex;
+		flex-direction: column;
+		gap: 0.15rem;
+	}
+
+	.toast-body strong {
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: var(--color-text);
+	}
+
+	.toast-body span {
+		font-size: 0.78rem;
+		color: var(--color-text-muted);
+	}
+
+	/* ─── Share Panel ─────────────────────────────────────────────────────────── */
+
+	.share-panel {
+		position: fixed;
+		bottom: 1.5rem;
+		left: 1.5rem;
+		background: var(--color-surface-solid);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-md);
+		padding: 1rem 1.1rem;
+		box-shadow: 0 8px 28px rgba(27, 77, 50, 0.14);
+		z-index: 290;
+		width: 280px;
+		opacity: 0;
+		transform: translateY(12px);
+		pointer-events: none;
+		transition: opacity 0.3s ease, transform 0.3s ease;
+	}
+
+	.share-panel.show {
+		opacity: 1;
+		transform: translateY(0);
+		pointer-events: auto;
+	}
+
+	.share-close {
+		position: absolute;
+		top: 0.6rem;
+		right: 0.75rem;
+		background: none;
+		border: none;
+		cursor: pointer;
+		font-size: 0.8rem;
+		color: var(--color-text-faint);
+		padding: 0.15rem 0.3rem;
+		border-radius: 4px;
+		transition: color var(--transition-fast);
+		font-family: var(--font-main);
+	}
+
+	.share-close:hover { color: var(--color-danger); }
+
+	.share-header {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		margin-bottom: 0.85rem;
+	}
+
+	.share-emoji { font-size: 1.5rem; flex-shrink: 0; }
+
+	.share-header strong {
+		display: block;
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: var(--color-text);
+	}
+
+	.share-header span {
+		font-size: 0.73rem;
+		color: var(--color-text-faint);
+	}
+
+	.share-actions {
+		display: flex;
+		gap: 0.5rem;
+	}
+
+	.btn-share-wa {
+		flex: 1;
+		background: #25d366;
+		color: #ffffff !important;
+		border: none;
+		font-size: 0.82rem;
+		padding: 0.55rem 0.75rem;
+		border-radius: var(--radius-sm);
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		justify-content: center;
+		font-weight: 600;
+		cursor: pointer;
+		transition: filter var(--transition-fast);
+		text-decoration: none;
+		font-family: var(--font-main);
+	}
+
+	.btn-share-wa:hover { filter: brightness(1.08); }
+
+	.btn-copy-link {
+		background: rgba(27, 77, 50, 0.06);
+		color: var(--color-text-muted);
+		border: 1px solid var(--color-border);
+		font-size: 0.82rem;
+		padding: 0.55rem 0.75rem;
+		border-radius: var(--radius-sm);
+		display: flex;
+		align-items: center;
+		gap: 0.4rem;
+		font-weight: 600;
+		cursor: pointer;
+		transition: all var(--transition-fast);
+		font-family: var(--font-main);
+		white-space: nowrap;
+	}
+
+	.btn-copy-link:hover {
+		background: rgba(27, 77, 50, 0.1);
+		color: var(--color-primary);
+	}
+
+	/* ─── Main Content ────────────────────────────────────────────────────────── */
+
+	.main-content {
+		flex: 1;
+		max-width: 1200px;
+		width: 100%;
+		margin: 0 auto;
+		padding: 2rem 1.5rem;
+	}
+
+	/* ─── Footer ──────────────────────────────────────────────────────────────── */
+
+	.app-footer {
+		background: var(--color-surface-solid);
+		border-top: 1px solid var(--color-border);
+		padding: 1.75rem 1.5rem;
+		text-align: center;
+		color: var(--color-text-faint);
+		font-size: 0.82rem;
+	}
+
+	.footer-container {
+		max-width: 1200px;
+		margin: 0 auto;
+		display: flex;
+		flex-direction: column;
+		gap: 0.4rem;
+	}
+
+	.footer-container .credit {
+		color: rgba(178, 131, 27, 0.7);
+		font-style: italic;
+	}
+
+	.footer-brand {
+		color: var(--color-gold);
+		font-weight: 700;
+		text-decoration: none;
+		font-style: normal;
+		border-bottom: 1px dotted rgba(178, 131, 27, 0.4);
+		transition: border-color var(--transition-fast), color var(--transition-fast);
+	}
+
+	.footer-brand:hover {
+		color: var(--color-gold-light);
+		border-bottom-color: var(--color-gold-light);
+	}
+
+	/* ─── Glass Card ──────────────────────────────────────────────────────────── */
+
+	.glass-card {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		box-shadow: var(--shadow-md);
+		backdrop-filter: blur(8px);
+		-webkit-backdrop-filter: blur(8px);
+		border-radius: var(--radius-lg);
+		padding: 2rem;
+		transition: box-shadow var(--transition-normal), border-color var(--transition-normal);
+	}
+
+	.glass-card:hover {
+		box-shadow: var(--shadow-lg);
+		border-color: var(--color-border-hover);
+	}
+
+	/* ─── Buttons ─────────────────────────────────────────────────────────────── */
+
+	.btn {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.45rem;
+		font-family: var(--font-main);
+		font-weight: 600;
+		font-size: 0.9rem;
+		padding: 0.7rem 1.4rem;
+		border-radius: var(--radius-sm);
+		border: none;
+		cursor: pointer;
+		text-decoration: none;
+		transition: all var(--transition-fast);
+		white-space: nowrap;
+	}
+
+	.btn:disabled {
+		opacity: 0.45;
+		cursor: not-allowed;
+		transform: none !important;
+	}
+
+	.btn-primary {
+		background: linear-gradient(135deg, var(--color-primary-light), var(--color-primary));
+		color: #ffffff;
+		box-shadow: 0 3px 10px rgba(27, 77, 50, 0.28);
+	}
+
+	.btn-primary:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 5px 14px rgba(27, 77, 50, 0.38);
+		filter: brightness(1.08);
+	}
+
+	.btn-primary:active:not(:disabled) {
+		transform: translateY(0);
+	}
+
+	.btn-gold {
+		background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+		color: #ffffff;
+		box-shadow: 0 3px 10px rgba(178, 131, 27, 0.28);
+	}
+
+	.btn-gold:hover:not(:disabled) {
+		transform: translateY(-2px);
+		box-shadow: 0 5px 14px rgba(212, 163, 43, 0.38);
+	}
+
+	.btn-secondary {
+		background: rgba(27, 77, 50, 0.06);
+		color: var(--color-text-muted);
+		border: 1px solid var(--color-border);
+	}
+
+	.btn-secondary:hover:not(:disabled) {
+		background: rgba(27, 77, 50, 0.1);
+		border-color: var(--color-border-hover);
+		color: var(--color-text);
+	}
+
+	/* ─── Modal Profil ────────────────────────────────────────────────────────── */
+
+	.modal-overlay {
+		position: fixed;
+		inset: 0;
+		z-index: 200;
+		background: rgba(15, 46, 30, 0.45);
+		backdrop-filter: blur(6px);
+		-webkit-backdrop-filter: blur(6px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem;
+		animation: fadeIn 0.2s ease;
+	}
+
+	@keyframes fadeIn {
+		from { opacity: 0; }
+		to { opacity: 1; }
+	}
+
+	.modal-card {
+		background: var(--color-surface-solid);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		box-shadow: 0 20px 60px rgba(15, 46, 30, 0.2);
+		width: 100%;
+		max-width: 440px;
+		position: relative;
+		animation: slideUp 0.25s ease;
+		overflow: hidden;
+	}
+
+	@keyframes slideUp {
+		from { opacity: 0; transform: translateY(16px); }
+		to { opacity: 1; transform: translateY(0); }
+	}
+
+	.modal-close-btn {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		border: 1px solid var(--color-border);
+		background: var(--color-bg);
+		color: var(--color-text-muted);
+		font-size: 0.85rem;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all var(--transition-fast);
+		font-family: var(--font-main);
+		z-index: 1;
+	}
+
+	.modal-close-btn:hover {
+		background: rgba(165, 48, 26, 0.08);
+		color: var(--color-danger);
+		border-color: rgba(165, 48, 26, 0.2);
+	}
+
+	.modal-header-area {
+		background: linear-gradient(135deg, rgba(27, 77, 50, 0.06) 0%, rgba(212, 163, 43, 0.04) 100%);
+		border-bottom: 1px solid var(--color-border);
+		padding: 2rem 2rem 1.75rem;
+		text-align: center;
+	}
+
+	.modal-avatar-preview {
+		font-size: 3rem;
+		line-height: 1;
+		margin-bottom: 0.85rem;
+		transition: transform 0.2s ease;
+	}
+
+	.modal-title {
+		font-size: 1.35rem;
+		font-weight: 800;
+		color: var(--color-text);
+		margin-bottom: 0.5rem;
+	}
+
+	.modal-subtitle {
+		font-size: 0.82rem;
+		color: var(--color-text-muted);
+		line-height: 1.5;
+	}
+
+	.modal-body-area {
+		padding: 1.75rem 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+	}
+
+	.form-group {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.form-label {
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: var(--color-text);
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+	}
+
+	.form-input {
+		font-family: var(--font-main);
+		font-size: 0.95rem;
+		padding: 0.7rem 1rem;
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		background: var(--color-bg);
+		color: var(--color-text);
+		outline: none;
+		transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+	}
+
+	.form-input:focus {
+		border-color: var(--color-primary-light);
+		box-shadow: 0 0 0 3px rgba(42, 111, 74, 0.12);
+	}
+
+	.form-hint {
+		font-size: 0.75rem;
+		color: var(--color-text-faint);
+	}
+
+	.avatar-grid {
+		display: grid;
+		grid-template-columns: repeat(5, 1fr);
+		gap: 0.5rem;
+	}
+
+	.avatar-option {
+		aspect-ratio: 1;
+		font-size: 1.5rem;
+		border-radius: var(--radius-sm);
+		border: 2px solid transparent;
+		background: var(--color-bg);
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all var(--transition-fast);
+		padding: 0;
+	}
+
+	.avatar-option:hover {
+		background: rgba(27, 77, 50, 0.06);
+		border-color: var(--color-border-hover);
+		transform: scale(1.1);
+	}
+
+	.avatar-option.selected {
+		border-color: var(--color-primary-light);
+		background: rgba(42, 111, 74, 0.1);
+		box-shadow: 0 0 0 3px rgba(42, 111, 74, 0.1);
+	}
+
+	.modal-footer-area {
+		padding: 1.25rem 2rem 1.75rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.65rem;
+	}
+
+	.modal-footer-area .btn {
+		width: 100%;
+		padding: 0.8rem;
+	}
+
+	/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+	@media (max-width: 900px) {
+		.header-container {
+			flex-wrap: wrap;
+			padding: 0.85rem 1rem;
+			gap: 0.75rem;
+		}
+
+		.nav-links {
+			order: 3;
+			width: 100%;
+			justify-content: center;
+			gap: 1.25rem;
+		}
+
+		.user-stats-bar {
+			margin-left: auto;
+		}
+
+		.xp-progress-container {
+			display: none;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.user-stats-bar {
+			width: 100%;
+			justify-content: space-between;
+		}
+
+		.xp-progress-container {
+			display: flex;
+			flex: 1;
+			max-width: 120px;
+		}
+
+		.username-text {
+			display: none;
+		}
+
+		.modal-header-area {
+			padding: 1.5rem 1.5rem 1.25rem;
+		}
+
+		.modal-body-area,
+		.modal-footer-area {
+			padding-left: 1.5rem;
+			padding-right: 1.5rem;
+		}
+	}
+
+	/* ═══════════════════════════════════════════════════════════════
+	   GLOBAL OPTION BUTTON — dipakai di semua halaman kuis
+	   Elemen dibuat dinamis via JS, sehingga harus global (is:global)
+	   ═══════════════════════════════════════════════════════════════ */
+
+	@keyframes option-enter {
+		from { opacity: 0; transform: translateY(10px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+	@keyframes correct-pulse {
+		0%   { box-shadow: 0 0 0 0 rgba(35, 108, 50, 0.45); }
+		60%  { box-shadow: 0 0 0 10px rgba(35, 108, 50, 0); }
+		100% { box-shadow: 0 0 0 3px rgba(35, 108, 50, 0.12); }
+	}
+	@keyframes wrong-shake {
+		0%, 100% { transform: translateX(0); }
+		20%      { transform: translateX(-7px); }
+		50%      { transform: translateX(7px); }
+		80%      { transform: translateX(-3px); }
+	}
+
+	.opt-btn {
+		width: 100%;
+		display: flex;
+		align-items: stretch;
+		border-radius: 12px;
+		border: 2px solid #e2e8f0;
+		background: #ffffff;
+		text-align: left;
+		cursor: pointer;
+		overflow: hidden;
+		font-family: 'Outfit', sans-serif;
+		transition: border-color 0.18s, background 0.18s, box-shadow 0.18s, opacity 0.18s;
+		animation: option-enter 0.26s ease both;
+	}
+	.opt-btn:hover:not(.is-answered) {
+		border-color: #2a6f4a;
+		box-shadow: 0 3px 12px rgba(27, 77, 50, 0.1);
+	}
+	.opt-btn:hover:not(.is-answered) .opt-letter {
+		background: rgba(27, 77, 50, 0.06);
+		color: #2a6f4a;
+	}
+
+	.opt-letter {
+		width: 56px;
+		min-width: 56px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 800;
+		font-size: 0.875rem;
+		color: #94a3b8;
+		background: #f8fafc;
+		border-right: 1.5px solid #e2e8f0;
+		flex-shrink: 0;
+		padding: 1rem 0;
+		transition: background 0.18s, color 0.18s, border-color 0.18s;
+	}
+	.opt-text {
+		flex: 1;
+		padding: 0.875rem 1rem;
+		font-size: 0.9rem;
+		font-weight: 500;
+		color: #334155;
+		line-height: 1.55;
+		text-align: left;
+		transition: color 0.18s;
+	}
+	.opt-indicator {
+		width: 48px;
+		min-width: 48px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+	.opt-radio {
+		width: 20px;
+		height: 20px;
+		border-radius: 50%;
+		border: 2px solid #e2e8f0;
+		background: transparent;
+		transition: all 0.18s;
+		flex-shrink: 0;
+	}
+	.opt-icon { display: none; width: 20px; height: 20px; flex-shrink: 0; }
+
+	/* ── Selected ── */
+	.opt-btn.is-selected {
+		border-color: #b2831b;
+		background: rgba(178, 131, 27, 0.04);
+		box-shadow: 0 0 0 3px rgba(178, 131, 27, 0.14);
+	}
+	.opt-btn.is-selected .opt-letter {
+		background: rgba(178, 131, 27, 0.1);
+		color: #b2831b;
+		border-right-color: rgba(178, 131, 27, 0.25);
+	}
+	.opt-btn.is-selected .opt-text { font-weight: 600; color: #1e293b; }
+	.opt-btn.is-selected .opt-radio {
+		border-color: #b2831b;
+		background: #b2831b;
+		transform: scale(1.1);
+		box-shadow: 0 0 0 3px rgba(178, 131, 27, 0.2);
+	}
+
+	/* ── Correct ── */
+	.opt-btn.is-correct {
+		border-color: #236c32;
+		background: rgba(35, 108, 50, 0.06);
+		animation: correct-pulse 0.5s ease forwards;
+	}
+	.opt-btn.is-correct .opt-letter {
+		background: rgba(35, 108, 50, 0.1);
+		color: #236c32;
+		border-right-color: rgba(35, 108, 50, 0.22);
+	}
+	.opt-btn.is-correct .opt-text { color: #236c32; font-weight: 600; }
+	.opt-btn.is-correct .opt-radio { display: none; }
+	.opt-btn.is-correct .opt-icon.icon-check { display: block; }
+
+	/* ── Incorrect ── */
+	.opt-btn.is-incorrect {
+		border-color: #a5301a;
+		background: rgba(165, 48, 26, 0.05);
+		animation: wrong-shake 0.4s ease;
+	}
+	.opt-btn.is-incorrect .opt-letter {
+		background: rgba(165, 48, 26, 0.08);
+		color: #a5301a;
+		border-right-color: rgba(165, 48, 26, 0.2);
+	}
+	.opt-btn.is-incorrect .opt-text {
+		color: #94a3b8;
+		text-decoration: line-through;
+		text-decoration-color: rgba(165, 48, 26, 0.45);
+	}
+	.opt-btn.is-incorrect .opt-radio { display: none; }
+	.opt-btn.is-incorrect .opt-icon.icon-cross { display: block; }
+
+	/* ── Dimmed & Answered ── */
+	.opt-btn.is-dimmed { opacity: 0.35; }
+	.opt-btn.is-answered { cursor: default; pointer-events: none; }
+</style>

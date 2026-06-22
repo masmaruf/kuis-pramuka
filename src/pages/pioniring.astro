@@ -1,0 +1,319 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Pioniring Pramuka" description="Latihan pioniring pramuka: ikatan segi empat, silang, kaki tiga, membangun jembatan, menara, dan tandu dari tongkat. 30 soal acak per sesi.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Pioniring</h2>
+				<span class="quiz-difficulty medium">Konstruksi Tali &amp; Tongkat</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<div class="quiz-main-card glass-card">
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width:10%"></div>
+					</div>
+				</div>
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">🪵 Pioniring</span>
+				</div>
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+				<div class="education-card" id="education-card" style="display:none;">
+					<div class="edu-header">
+						<span class="edu-icon">🪵</span>
+						<span class="edu-label">Penjelasan</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<div class="quiz-help-card glass-card">
+				<h3>🏗️ Referensi Pioniring</h3>
+				<p class="help-subtitle">Jenis ikatan, simpul, dan teknik dasar pioniring</p>
+
+				<div class="pionir-section">
+					<div class="pionir-title">Ikatan Pioniring</div>
+					<div class="pionir-item"><span class="pionir-key">Segi Empat</span><span class="pionir-val">Dua tongkat sejajar</span></div>
+					<div class="pionir-item"><span class="pionir-key">Silang</span><span class="pionir-val">Dua tongkat 90°</span></div>
+					<div class="pionir-item"><span class="pionir-key">Kaki Tiga</span><span class="pionir-val">Tiga tongkat (tripod)</span></div>
+					<div class="pionir-item"><span class="pionir-key">Awal/Akhir</span><span class="pionir-val">Simpul pangkal</span></div>
+				</div>
+
+				<div class="pionir-section">
+					<div class="pionir-title">Urutan Membuat Ikatan</div>
+					<div class="pionir-item"><span class="pionir-key">1. Mulai</span><span class="pionir-val">Simpul pangkal di satu tongkat</span></div>
+					<div class="pionir-item"><span class="pionir-key">2. Belitan</span><span class="pionir-val">Lilit melingkar 3-4 kali</span></div>
+					<div class="pionir-item"><span class="pionir-key">3. Kunci</span><span class="pionir-val">Frap di antara dua tongkat</span></div>
+					<div class="pionir-item"><span class="pionir-key">4. Akhiri</span><span class="pionir-val">Simpul pangkal di tongkat lain</span></div>
+				</div>
+
+				<div class="pionir-section">
+					<div class="pionir-title">Simpul Utama Pioniring</div>
+					<div class="pionir-item"><span class="pionir-key">Pangkal</span><span class="pionir-val">Awal/akhir ikatan ke tongkat</span></div>
+					<div class="pionir-item"><span class="pionir-key">Anyam</span><span class="pionir-val">Sambung tali beda ukuran</span></div>
+					<div class="pionir-item"><span class="pionir-key">Tiang</span><span class="pionir-val">Lingkaran tetap di ujung tali</span></div>
+					<div class="pionir-item"><span class="pionir-key">Mati</span><span class="pionir-val">Sambung dua tali sama ukuran</span></div>
+				</div>
+
+				<div class="pionir-section">
+					<div class="pionir-title">Keselamatan Pioniring</div>
+					<div class="pionir-item"><span class="pionir-key">Uji beban</span><span class="pionir-val">Sebelum konstruksi digunakan</span></div>
+					<div class="pionir-item"><span class="pionir-key">Satu orang</span><span class="pionir-val">Melewati jembatan sekaligus</span></div>
+					<div class="pionir-item"><span class="pionir-key">Helm + tali</span><span class="pionir-val">Wajib di menara tinggi</span></div>
+					<div class="pionir-item"><span class="pionir-key">Tidak di bawah</span><span class="pionir-val">Tiang yang sedang didirikan</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="result-overlay" id="result-overlay" style="display:none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text"></p>
+				<div class="result-stats-details">
+					<div class="detail-item"><span class="label">XP Diperoleh</span><span class="value score-xp" id="result-xp">+0 XP</span></div>
+					<div class="detail-item"><span class="label">Skor Akhir</span><span class="value" id="result-score">0/100</span></div>
+					<div class="detail-item"><span class="label">Jawaban Benar</span><span class="value" id="result-correct">0/10</span></div>
+				</div>
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display:none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	interface Question { kategori:string; q:string; options:string[]; correct:string; edu:string; }
+
+	const QUESTIONS_POOL: Question[] = [
+		{ kategori:"Pengertian", q:"Yang dimaksud dengan 'pioniring' dalam kepramukaan adalah...", options:["Kegiatan membangun konstruksi dari tongkat/bambu dan tali","Kegiatan menjelajah hutan sebagai pelopor","Teknik memasak di alam terbuka","Seni merangkai tali menjadi hiasan"], correct:"Kegiatan membangun konstruksi dari tongkat/bambu dan tali", edu:"Pioniring adalah kegiatan membangun konstruksi fungsional (jembatan, menara, tangga, tandu, dll.) menggunakan tongkat/bambu dan tali sebagai bahan utama, tanpa menggunakan paku atau baut." },
+		{ kategori:"Bahan", q:"Bahan utama yang digunakan dalam kegiatan pioniring Pramuka adalah...", options:["Tongkat/bambu dan tali","Batu bata dan semen","Besi dan kawat","Plastik dan karet"], correct:"Tongkat/bambu dan tali", edu:"Bahan utama pioniring adalah tongkat/bambu (diameter 5-10 cm) sebagai rangka struktural dan tali (alam/sintetis) sebagai pengikat. Filosofinya: membangun konstruksi kuat tanpa paku menggunakan ikatan tali." },
+		{ kategori:"Ikatan", q:"Ikatan yang digunakan untuk menyatukan dua tongkat yang sejajar satu sama lain disebut...", options:["Ikatan segi empat","Ikatan silang","Ikatan kaki tiga","Ikatan jangkar"], correct:"Ikatan segi empat", edu:"Ikatan segi empat (square lashing) digunakan untuk mengikat dua tongkat yang sejajar/paralel. Nama 'segi empat' merujuk pada pola persegi yang terbentuk saat tali dililitkan bergantian di kedua tongkat." },
+		{ kategori:"Ikatan", q:"Ikatan yang digunakan untuk menyatukan dua tongkat yang bersilang membentuk sudut 90° disebut...", options:["Ikatan silang","Ikatan segi empat","Ikatan kaki tiga","Ikatan palang"], correct:"Ikatan silang", edu:"Ikatan silang (diagonal/cross lashing) digunakan untuk tongkat yang bersilang membentuk sudut siku-siku. Berbeda dari segi empat, tali pada ikatan silang dililitkan secara diagonal mengikuti sudut silangan tongkat." },
+		{ kategori:"Ikatan", q:"Ikatan kaki tiga dalam pioniring digunakan untuk...", options:["Menyatukan tiga tongkat pada satu titik sehingga bisa berdiri sebagai tripod","Menghubungkan lantai jembatan ke kuda-kuda","Membuat sudut 90° pada rangka menara","Memperkuat sambungan diagonal sebuah rangka"], correct:"Menyatukan tiga tongkat pada satu titik sehingga bisa berdiri sebagai tripod", edu:"Ikatan kaki tiga (tripod lashing) menyatukan tiga tongkat pada satu ujung sehingga ketiganya dapat dibentangkan dan berdiri seperti tripod. Digunakan untuk tiang bendera, menara kecil, atau steger (perancah)." },
+		{ kategori:"Simpul", q:"Simpul yang biasa digunakan sebagai awal dan akhir dari setiap ikatan pioniring adalah...", options:["Simpul pangkal (clove hitch)","Simpul mati","Simpul tiang","Simpul anyam"], correct:"Simpul pangkal (clove hitch)", edu:"Simpul pangkal (clove hitch) digunakan untuk memulai dan mengakhiri setiap ikatan karena mengunci tali dengan kuat pada tongkat dan mudah dibuat. Simpul ini mencegah tali bergeser selama proses pengikatan." },
+		{ kategori:"Teknik", q:"Setelah selesai melakukan belitan pada suatu ikatan, gerakan tali di antara dua tongkat untuk mengencangkan ikatan disebut...", options:["Kunci/frap (frapping)","Belitan (wrapping)","Sambungan","Penguncian balik"], correct:"Kunci/frap (frapping)", edu:"Kunci atau frap (frapping) dilakukan setelah belitan utama selesai. Tali diputar melingkari bagian yang menghubungkan kedua tongkat (bukan melingkar tongkat) sebanyak 2-3 kali untuk mengencangkan seluruh ikatan." },
+		{ kategori:"Konstruksi", q:"Konstruksi pioniring yang berfungsi sebagai sarana penyeberangan di atas rintangan (parit, sungai kecil) disebut...", options:["Jembatan pioniring","Menara pioniring","Tangga pioniring","Perahu pioniring"], correct:"Jembatan pioniring", edu:"Jembatan pioniring dibangun untuk menyeberangi rintangan seperti parit atau sungai kecil. Ada berbagai tipe: jembatan kuda-kuda, jembatan gantung bambu, dll. Prinsip utamanya: kuat, stabil, dan aman untuk dilalui." },
+		{ kategori:"Konstruksi", q:"Bagian jembatan pioniring yang berfungsi sebagai rangka penopang berbentuk segitiga disebut...", options:["Kuda-kuda","Gelagar","Lantai","Pagar pengaman"], correct:"Kuda-kuda", edu:"Kuda-kuda adalah rangka segitiga yang berfungsi sebagai penopang utama jembatan. Bentuk segitiga dipilih karena memberikan kestabilan optimal — segitiga adalah bentuk paling kaku dan tahan beban." },
+		{ kategori:"Konstruksi", q:"Fungsi menara pioniring dalam kegiatan Pramuka adalah...", options:["Sebagai menara pengamatan dan sarana latihan keterampilan tali-temali","Tempat penyimpanan peralatan perkemahan","Penanda batas area perkemahan","Menara antena komunikasi darurat"], correct:"Sebagai menara pengamatan dan sarana latihan keterampilan tali-temali", edu:"Menara pioniring berfungsi ganda: secara praktis sebagai menara pengamatan, secara pedagogis sebagai sarana latihan kerja sama tim, kepercayaan diri, dan penguasaan teknik ikatan tali dalam skala besar." },
+		{ kategori:"Keselamatan", q:"Sebelum suatu konstruksi pioniring digunakan (dinaiki atau diseberangi), yang harus dilakukan terlebih dahulu adalah...", options:["Uji beban dan periksa semua ikatan","Foto konstruksi untuk dokumentasi lomba","Beri cat atau tanda untuk identifikasi","Ukur ketinggian tepat dengan meteran"], correct:"Uji beban dan periksa semua ikatan", edu:"Uji beban (load testing) wajib dilakukan sebelum konstruksi digunakan: periksa semua ikatan apakah kencang, coba konstruksi dengan beban bertahap, dan pastikan tidak ada tongkat yang retak atau tali yang kendur." },
+		{ kategori:"Keselamatan", q:"Jumlah orang yang boleh menyeberangi jembatan pioniring standar sekaligus adalah...", options:["Satu orang pada satu waktu","Dua orang bersamaan","Tiga orang bersamaan","Tidak ada batasan asalkan berjalan pelan-pelan"], correct:"Satu orang pada satu waktu", edu:"Jembatan pioniring standar dirancang untuk satu orang menyeberang pada satu waktu. Beban berlebih akibat banyak orang sekaligus dapat menyebabkan ikatan terlepas atau tongkat patah secara tiba-tiba." },
+		{ kategori:"Keselamatan", q:"Perlengkapan keselamatan yang wajib dikenakan saat membangun atau menaiki menara pioniring yang tinggi adalah...", options:["Helm dan tali pengaman","Sepatu bot saja","Sarung tangan tebal saja","Kacamata pelindung saja"], correct:"Helm dan tali pengaman", edu:"Helm melindungi kepala dari benturan tongkat atau jatuhan material. Tali pengaman (safety rope/harness) mencegah jatuh bebas saat menaiki menara. Keduanya wajib digunakan pada menara di atas 2 meter." },
+		{ kategori:"Keselamatan", q:"Posisi yang benar saat tiang panjang pioniring sedang didirikan/diangkat adalah...", options:["Tidak ada yang berdiri di bawah/lintasan jatuh tiang","Beberapa orang memegang tiang dari posisi tepat di bawahnya","Satu orang berdiri di dekat ujung bawah tiang","Semua orang menjauh dan hanya menonton dari jauh"], correct:"Tidak ada yang berdiri di bawah/lintasan jatuh tiang", edu:"Saat mendirikan tiang, semua orang harus berada di sisi samping tiang, bukan di bawahnya. Jika tiang tiba-tiba terjatuh ke satu arah, tidak ada orang yang tertimpa. Gunakan tali penarik dari jarak aman." },
+		{ kategori:"Simpul", q:"Simpul yang digunakan untuk menyambung dua tali yang berbeda ukuran/ketebalan adalah...", options:["Simpul anyam (sheet bend)","Simpul mati (reef knot)","Simpul tiang (bowline)","Simpul pangkal (clove hitch)"], correct:"Simpul anyam (sheet bend)", edu:"Simpul anyam (sheet bend) dirancang untuk menyambung dua tali yang berbeda diameter. Tali yang lebih tebal membentuk lingkaran ('U'), sementara tali tipis memasuki lingkaran, melingkari di baliknya, dan menyelip di bawah dirinya sendiri." },
+		{ kategori:"Simpul", q:"Simpul yang menghasilkan lingkaran tetap (fixed loop) di ujung tali yang tidak akan mengencang saat diberi beban disebut...", options:["Simpul tiang (bowline)","Simpul jerat (running noose)","Simpul mati","Simpul anyam"], correct:"Simpul tiang (bowline)", edu:"Simpul tiang (bowline) menghasilkan lingkaran yang tidak mengencang (non-slip loop), berbeda dari simpul jerat. Digunakan untuk membuat lingkaran aman di ujung tali, misalnya untuk pegangan atau pengaman seseorang." },
+		{ kategori:"Simpul", q:"Simpul yang digunakan untuk menyambung dua tali yang berukuran sama adalah...", options:["Simpul mati (reef knot)","Simpul tiang","Simpul pangkal","Simpul anyam"], correct:"Simpul mati (reef knot)", edu:"Simpul mati (reef knot) menyambung dua tali yang sama ukurannya. Cara mudah mengingatnya: kiri di atas kanan, lalu kanan di atas kiri. Jika dibuat terbalik, akan menghasilkan simpul nenek yang mudah lepas." },
+		{ kategori:"Teknik", q:"Teknik mendirikan tiang atau tongkat panjang menggunakan tali penarik yang dipasang pada ujung tiang disebut...", options:["Teknik ginpole","Teknik derrick","Teknik swing-up","Teknik pivot"], correct:"Teknik ginpole", edu:"Teknik ginpole: pasang tali penarik di ujung atas tiang, atur tim penarik dari jarak aman di samping/depan tiang. Tiang ditarik pelan-pelan dari posisi berbaring ke posisi tegak. Satu tim lain menstabilkan kaki tiang." },
+		{ kategori:"Bahan", q:"Diameter tongkat/bambu yang ideal untuk digunakan sebagai bahan utama pioniring adalah...", options:["5-10 cm","1-2 cm","15-20 cm","Lebih dari 20 cm"], correct:"5-10 cm", edu:"Tongkat dengan diameter 5-10 cm memberikan keseimbangan optimal antara kekuatan struktural dan kemudahan handling. Terlalu kecil (<5 cm) mudah patah, terlalu besar (>10 cm) berat dan sulit diikat." },
+		{ kategori:"Bahan", q:"Panjang tongkat standar yang umum digunakan dalam kegiatan pioniring Pramuka adalah...", options:["1,5-2 meter dan 3-4 meter","50 cm dan 1 meter","5 meter dan 10 meter","10 cm dan 20 cm"], correct:"1,5-2 meter dan 3-4 meter", edu:"Tongkat pioniring standar umumnya berukuran 1,5-2 meter (untuk penyambung/bracing) dan 3-4 meter (untuk tiang utama/kaki). Dua ukuran berbeda ini memungkinkan variasi konstruksi yang lebih fleksibel." },
+		{ kategori:"Konstruksi", q:"Bagian terbawah dari konstruksi menara pioniring yang langsung menyentuh tanah disebut...", options:["Kaki menara","Kepala menara","Badan menara","Pondasi tali"], correct:"Kaki menara", edu:"Kaki menara adalah bagian tiang-tiang terluar yang langsung ke tanah. Kaki menara harus diperkuat dengan ganjal (penahan) agar tidak tergelincir, dan sering dibuat sedikit miring ke dalam untuk stabilitas." },
+		{ kategori:"Konstruksi", q:"Fungsi diagonal/silang pada kerangka menara pioniring adalah...", options:["Memperkuat struktur dan mencegah goyangan ke samping","Sebagai hiasan estetika menara","Tempat pijakan saat mendaki menara","Pengikat semua tongkat vertikal agar tidak berputar"], correct:"Memperkuat struktur dan mencegah goyangan ke samping", edu:"Diagonal/silang pada menara berfungsi sebagai brace (penguat) yang mencegah rangka bergeser ke samping (racking). Prinsip ini sama dengan diagonal pada rangka atap rumah atau rangka jembatan baja." },
+		{ kategori:"Lomba", q:"Dalam kompetisi pioniring Pramuka, aspek utama yang dinilai juri antara lain...", options:["Kekuatan konstruksi, kerapian ikatan, kecepatan kerja, dan keselamatan","Keindahan visual dan warna tali saja","Biaya bahan yang digunakan","Tinggi konstruksi semata-mata"], correct:"Kekuatan konstruksi, kerapian ikatan, kecepatan kerja, dan keselamatan", edu:"Penilaian lomba pioniring mencakup: kekuatan (uji beban oleh juri), kerapian (ikatan rapi, tidak ada ujung tali berlebih), kecepatan (waktu penyelesaian), keselamatan kerja (APD, prosedur), dan desain konstruksi." },
+		{ kategori:"Konstruksi", q:"Selain jembatan dan menara, jenis konstruksi pioniring lain yang umum dibuat dalam latihan Pramuka adalah...", options:["Tangga, tandu, dan perahu bambu","Meja makan beton permanen","Bangunan bata setengah jadi","Jalan aspal darurat di hutan"], correct:"Tangga, tandu, dan perahu bambu", edu:"Berbagai konstruksi pioniring: tangga (untuk mendaki halangan), tandu (alat angkut korban darurat dari bambu dan tali), perahu bambu (untuk kegiatan air), gapura, tempat tidur lapangan, dan rak penyimpanan." },
+		{ kategori:"Istilah", q:"Istilah 'lashing' dalam kepramukaan bahasa Indonesia berarti...", options:["Ikatan","Belitan","Simpul","Tali"], correct:"Ikatan", edu:"'Lashing' dalam bahasa Inggris kepramukaan berarti 'ikatan' — teknik mengikat dua atau lebih tongkat menggunakan tali. Ada square lashing (ikatan segi empat), diagonal lashing (ikatan silang), tripod lashing (ikatan kaki tiga), dst." },
+		{ kategori:"Bahan", q:"Cara memeriksa kondisi tali sebelum digunakan dalam kegiatan pioniring adalah...", options:["Periksa serat, keausan, dan lakukan uji tarik ringan","Cium aromanya untuk menentukan kualitas","Lihat warnanya; warna cerah berarti masih bagus","Timbang beratnya dibandingkan tali baru"], correct:"Periksa serat, keausan, dan lakukan uji tarik ringan", edu:"Pemeriksaan tali: (1) Visual — cari serat yang putus, keausan, atau jamur. (2) Raba — rasakan bagian yang keras/kaku menunjukkan kerusakan internal. (3) Uji tarik — tarik dengan tangan untuk merasakan kekuatan dasarnya." },
+		{ kategori:"Bahan", q:"Cara menyimpan tali pioniring yang benar setelah kegiatan adalah...", options:["Digulung rapi dan disimpan di tempat kering, terhindar dari sinar matahari langsung","Dibiarkan tergeletak di lapangan sampai kegiatan berikutnya","Direndam air agar tetap lentur dan tidak kaku","Diikat sembarangan dan digantung di tiang"], correct:"Digulung rapi dan disimpan di tempat kering, terhindar dari sinar matahari langsung", edu:"Tali alam (sisal/manila) rusak jika lembap (jamur, busuk) atau terlalu kering (rapuh). Tali sintetis rusak oleh paparan UV sinar matahari jangka panjang. Gulung rapi dalam lingkaran untuk mencegah kusut dan simpan di tempat teduh kering." },
+		{ kategori:"Keselamatan", q:"Fungsi 'ganjal' atau penahan yang dipasang pada kaki tiang menara pioniring adalah...", options:["Mencegah kaki tiang tergelincir atau bergeser ke luar saat diberi beban","Sebagai dekorasi pada dasar menara","Penanda batas zona aman mendekati menara","Tempat menyimpan peralatan cadangan"], correct:"Mencegah kaki tiang tergelincir atau bergeser ke luar saat diberi beban", edu:"Ganjal (stake/patok) ditancapkan di tanah di luar kaki tiang, diikat tali ke kaki tiang. Beban ke bawah dari menara cenderung mendorong kaki tiang ke luar — ganjal menahan gerakan ini dan menjaga stabilitas." },
+		{ kategori:"Manfaat", q:"Manfaat utama belajar pioniring dalam kepramukaan adalah...", options:["Melatih kerja sama tim, kreativitas, dan keterampilan tali-temali dalam konstruksi nyata","Sekadar mengisi waktu luang di sela-sela perkemahan","Belajar cara membuat furniture kayu secara permanen","Menghafal nama-nama simpul tanpa praktik lapangan"], correct:"Melatih kerja sama tim, kreativitas, dan keterampilan tali-temali dalam konstruksi nyata", edu:"Pioniring melatih: kerja sama tim (semua anggota bekerja serentak), komunikasi (koordinasi antar bagian), kreativitas (desain konstruksi), teknik (ikatan dan simpul), dan kepercayaan diri (menaiki hasil karya sendiri)." },
+		{ kategori:"Teknik", q:"Teknik yang benar saat melilit tali pada dua tongkat dalam ikatan segi empat adalah...", options:["Lilit melingkari kedua tongkat 3-4 kali lalu kunci (frap) di antara tongkat","Ikat satu tongkat dulu baru sambung ke tongkat kedua secara terpisah","Gunakan lem kayu sebelum dililit agar ikatan kuat","Langsung buat simpul mati di titik pertemuan kedua tongkat"], correct:"Lilit melingkari kedua tongkat 3-4 kali lalu kunci (frap) di antara tongkat", edu:"Ikatan segi empat: (1) Simpul pangkal di satu tongkat → (2) Lilit melingkari KEDUA tongkat 3-4 kali → (3) Frap/kunci di antara dua tongkat 2-3 kali → (4) Akhiri dengan simpul pangkal di tongkat lain." },
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id:'pionir_novice', name:'Pionir Muda', icon:'🪵' },
+		{ id:'pionir_master', name:'Ahli Pioniring', icon:'🏗️' },
+	];
+
+	let questions:Question[]=[], currentIndex=0, selectedAnswer='', score=0, totalXpEarned=0;
+
+	function shuffle<T>(arr:T[]):T[]{return [...arr].sort(()=>Math.random()-.5);}
+	function getEl<T extends HTMLElement>(id:string){return document.getElementById(id) as T|null;}
+
+	function startQuiz(){questions=shuffle(QUESTIONS_POOL).slice(0,QUESTIONS_PER_SESSION);currentIndex=0;score=0;totalXpEarned=0;selectedAnswer='';renderQuestion();}
+
+	function renderQuestion(){
+		const q=questions[currentIndex],num=currentIndex+1,pct=(num/QUESTIONS_PER_SESSION)*100;
+		getEl('question-number')!.textContent=`Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent=`${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width=`${pct}%`;
+		const catEl=getEl('question-category');if(catEl)catEl.innerHTML=`<span class="cat-pill">🪵 ${q.kategori}</span>`;
+		getEl('question-prompt')!.textContent=q.q;
+		const eduCard=getEl<HTMLDivElement>('education-card');if(eduCard)eduCard.style.display='none';
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Konfirmasi Jawaban';submitBtn.onclick=submitAnswer;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent='Pilih salah satu jawaban di atas';hint.className='answer-hint';}
+		selectedAnswer='';renderOptions(q);
+	}
+
+	function renderOptions(q:Question){
+		const container=getEl<HTMLDivElement>('options-container');if(!container)return;
+		container.innerHTML=shuffle(q.options).map((opt,i)=>{
+			const letter=String.fromCharCode(65+i);
+			return `<button class="opt-btn" data-answer="${opt.replace(/"/g,'&quot;')}" style="animation-delay:${i*.07}s">
+				<span class="opt-letter">${letter}</span><span class="opt-text">${opt}</span>
+				<span class="opt-indicator"><span class="opt-radio"></span>
+				<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span></button>`;
+		}).join('');
+		container.querySelectorAll('.opt-btn').forEach((btn,i)=>{
+			btn.addEventListener('click',()=>{
+				container.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');selectedAnswer=(btn as HTMLElement).dataset.answer||'';
+				const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.disabled=false;
+				const h=getEl('answer-hint');if(h){h.textContent=`Jawaban ${String.fromCharCode(65+i)} dipilih — klik Konfirmasi untuk lanjut`;h.className='answer-hint chosen';}
+			});
+		});
+	}
+
+	function submitAnswer(){
+		const q=questions[currentIndex],isCorrect=selectedAnswer===q.correct;
+		if(isCorrect){score++;totalXpEarned+=XP_PER_CORRECT;}
+		const container=getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn=>{
+			const el=btn as HTMLElement,ans=el.dataset.answer||'';
+			el.classList.add('is-answered');el.classList.remove('is-selected');
+			if(ans===q.correct)el.classList.add('is-correct');
+			else if(ans===selectedAnswer&&!isCorrect)el.classList.add('is-incorrect');
+			else el.classList.add('is-dimmed');
+		});
+		const eduCard=getEl<HTMLDivElement>('education-card'),eduText=getEl('education-text');
+		if(eduCard&&eduText){eduText.textContent=q.edu;eduCard.style.display='flex';eduCard.className=`education-card ${isCorrect?'correct':'incorrect'}`;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent=isCorrect?'✓ Jawaban benar!':'✗ Jawaban salah — lihat penjelasan di bawah.';hint.className=`answer-hint ${isCorrect?'correct-hint':'wrong-hint'}`;}
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.textContent=currentIndex<QUESTIONS_PER_SESSION-1?'Soal Berikutnya →':'Lihat Hasil';submitBtn.disabled=false;submitBtn.onclick=nextQuestion;}
+	}
+
+	function nextQuestion(){
+		currentIndex++;
+		if(currentIndex<QUESTIONS_PER_SESSION){renderQuestion();const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.onclick=submitAnswer;}
+		else showResult();
+	}
+
+	function showResult(){
+		const pct=Math.round((score/QUESTIONS_PER_SESSION)*100);
+		const currentXp=parseInt(localStorage.getItem('scout_xp')||'0');
+		localStorage.setItem('scout_xp',(currentXp+totalXpEarned).toString());
+		const earnedBadges:string[]=JSON.parse(localStorage.getItem('scout_badges')||'[]');
+		const newlyUnlocked:typeof BADGES_FOR_THIS_QUIZ=[];
+		if(!earnedBadges.includes('pionir_novice')){earnedBadges.push('pionir_novice');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);}
+		if(pct===100&&!earnedBadges.includes('pionir_master')){earnedBadges.push('pionir_master');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);}
+		if(parseInt(localStorage.getItem('scout_xp')||'0')>=500&&!earnedBadges.includes('scout_master'))earnedBadges.push('scout_master');
+		localStorage.setItem('scout_badges',JSON.stringify(earnedBadges));
+		getEl('result-emoji')!.textContent=pct===100?'🏆':pct>=80?'⭐':pct>=60?'👍':'📚';
+		const t=getEl('result-title');if(t)t.textContent=pct===100?'Sempurna! Ahli Pioniring!':pct>=80?'Bagus Sekali!':pct>=60?'Cukup Baik!':'Terus Belajar!';
+		getEl('result-text')!.textContent=`Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct>=80?'Kamu menguasai teknik pioniring dengan baik!':'Pelajari kembali jenis ikatan, simpul, dan keselamatan pioniring.'}`;
+		getEl('result-xp')!.textContent=`+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent=`${pct}/100`;
+		getEl('result-correct')!.textContent=`${score}/${QUESTIONS_PER_SESSION}`;
+		if(newlyUnlocked.length>0){
+			const bc=getEl<HTMLDivElement>('unlocked-badges'),bl=getEl('badges-list-el');
+			if(bc&&bl){bl.innerHTML=newlyUnlocked.map(b=>`<div class="new-badge-item"><span class="new-badge-icon">${b.icon}</span><span class="new-badge-name">${b.name}</span></div>`).join('');bc.style.display='block';}
+		}
+		const overlay=getEl<HTMLDivElement>('result-overlay');if(overlay)overlay.style.display='flex';
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click',submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click',()=>{const o=getEl<HTMLDivElement>('result-overlay');if(o)o.style.display='none';startQuiz();});
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container{display:flex;flex-direction:column;gap:1.5rem}
+	.quiz-header{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 1.75rem;flex-wrap:wrap}
+	.btn-back{display:flex;align-items:center;gap:.45rem;color:var(--color-text-muted);text-decoration:none;font-size:.88rem;font-weight:500;white-space:nowrap;transition:color var(--transition-fast)}
+	.btn-back:hover{color:var(--color-gold)}.btn-back svg{width:15px;height:15px}
+	.quiz-title-area{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;flex:1}
+	.quiz-title-area h2{font-size:1.4rem;font-weight:800;color:var(--color-text)}
+	.quiz-difficulty{font-size:.72rem;font-weight:700;padding:.28rem .75rem;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+	.quiz-difficulty.medium{background:rgba(176,90,26,.1);color:#b05a1a;border:1px solid rgba(176,90,26,.2)}
+	.quiz-layout{display:grid;grid-template-columns:1.9fr 1fr;gap:1.5rem;align-items:start}
+	.quiz-main-card{padding:2rem;display:flex;flex-direction:column;gap:1.75rem}
+	.progress-tracker{display:flex;flex-direction:column;gap:.5rem}
+	.progress-label{display:flex;justify-content:space-between;align-items:center}
+	.progress-label span{font-size:.82rem;font-weight:600;color:var(--color-text-muted)}
+	.pct-label{color:#b05a1a!important}
+	.progress-bar-outer{height:6px;background:rgba(176,90,26,.1);border-radius:var(--radius-full);overflow:hidden}
+	.progress-bar-inner{height:100%;background:linear-gradient(90deg,#b05a1a,#e08030);border-radius:var(--radius-full);transition:width var(--transition-normal)}
+	.cat-pill{display:inline-flex;align-items:center;gap:.35rem;background:rgba(176,90,26,.07);color:#b05a1a;border:1px solid rgba(176,90,26,.18);padding:.28rem .75rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:600}
+	.question-text-area h3{font-size:1.1rem;font-weight:700;color:var(--color-text);line-height:1.55}
+	.education-card{border-radius:var(--radius-md);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;animation:slide-in .2s ease}
+	.education-card.correct{background:rgba(35,108,50,.07);border:1px solid rgba(35,108,50,.2)}
+	.education-card.incorrect{background:rgba(165,48,26,.06);border:1px solid rgba(165,48,26,.18)}
+	@keyframes slide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+	.edu-header{display:flex;align-items:center;gap:.45rem}
+	.edu-icon{font-size:1rem}
+	.edu-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#b05a1a}
+	.education-card.incorrect .edu-label{color:var(--color-danger)}
+	#education-text{font-size:.85rem;color:var(--color-text);line-height:1.55}
+	.action-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:.5rem;border-top:1px solid var(--color-border)}
+	.answer-hint{font-size:.8rem;color:var(--color-text-faint);font-style:italic}
+	.answer-hint.chosen{color:#b05a1a;font-style:normal;font-weight:600}
+	.answer-hint.correct-hint{color:var(--color-success);font-style:normal;font-weight:600}
+	.answer-hint.wrong-hint{color:var(--color-danger,#c0392b);font-style:normal;font-weight:600}
+	#btn-submit-answer{padding:.8rem 2rem;border-radius:var(--radius-sm);font-size:.95rem;transition:all var(--transition-fast)}
+	#btn-submit-answer:not(:disabled){box-shadow:0 4px 14px rgba(178,131,27,.3)}
+	#btn-submit-answer:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(178,131,27,.4)}
+
+	.quiz-help-card{padding:1.5rem;display:flex;flex-direction:column;gap:.85rem}
+	.quiz-help-card h3{font-size:1.05rem;font-weight:700;color:var(--color-text)}
+	.help-subtitle{font-size:.78rem;color:var(--color-text-muted);line-height:1.4;margin-top:-.5rem}
+	.pionir-section{display:flex;flex-direction:column;gap:.25rem}
+	.pionir-title{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#b05a1a;padding:.2rem 0;border-bottom:1px solid var(--color-border);margin-bottom:.1rem}
+	.pionir-item{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;padding:.2rem .5rem;border-radius:4px;background:var(--color-bg);border:1px solid var(--color-border)}
+	.pionir-key{font-size:.72rem;font-weight:700;color:var(--color-text);flex-shrink:0}
+	.pionir-val{font-size:.68rem;color:var(--color-text-muted);text-align:right}
+
+	.result-overlay{position:fixed;inset:0;background:rgba(10,25,16,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1.5rem}
+	.result-card{width:100%;max-width:520px;padding:2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.25rem;animation:pop-in .3s cubic-bezier(.34,1.56,.64,1)}
+	@keyframes pop-in{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+	.result-emoji{font-size:3.5rem;line-height:1}
+	.result-card h2{font-size:1.75rem;font-weight:800;color:#f0f5f2}
+	.result-summary{font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.55}
+	.result-stats-details{display:flex;width:100%;gap:.85rem}
+	.detail-item{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:1rem;border-radius:var(--radius-md);display:flex;flex-direction:column;gap:.25rem}
+	.detail-item .label{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:600;letter-spacing:.5px}
+	.detail-item .value{font-size:1.4rem;font-weight:800;color:#f0f5f2}
+	.detail-item .value.score-xp{color:var(--color-gold-light)}
+	.unlocked-badges-container{width:100%;background:rgba(212,163,43,.06);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-md);padding:1rem;text-align:left}
+	.unlocked-badges-container h3{font-size:.9rem;font-weight:700;color:var(--color-gold-light);margin-bottom:.65rem}
+	.unlocked-badges-list{display:flex;gap:.75rem;flex-wrap:wrap}
+	.new-badge-item{display:flex;align-items:center;gap:.5rem;background:rgba(212,163,43,.1);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-sm);padding:.4rem .75rem}
+	.new-badge-icon{font-size:1.1rem}
+	.new-badge-name{font-size:.82rem;font-weight:700;color:var(--color-gold-light)}
+	.result-actions{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:center;width:100%}
+	.result-actions .btn{flex:1;min-width:140px}
+
+	@media(max-width:900px){.quiz-layout{grid-template-columns:1fr}.quiz-help-card{order:-1}.pionir-section{display:grid;grid-template-columns:repeat(2,1fr)}.pionir-title{grid-column:1/-1}}
+	@media(max-width:600px){.quiz-main-card{padding:1.25rem}.quiz-header{padding:1rem}.pionir-section{grid-template-columns:1fr}.result-stats-details{flex-wrap:wrap}.detail-item{flex-basis:calc(50% - .4rem)}}
+</style>

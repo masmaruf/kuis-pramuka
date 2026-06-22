@@ -1,0 +1,88 @@
+{
+  "id": "sku_penegak",
+  "title": "SKU Penegak",
+  "description": "Latihan Syarat Kecakapan Umum (SKU) untuk Pramuka Penegak (usia 16-20 tahun). Meliputi sejarah, organisasi, administrasi, sandi, dan kepemimpinan.",
+  "category": "Pengetahuan Umum",
+  "group": "SKU & Pengetahuan",
+  "difficulty": "hard",
+  "xpPerQuestion": 20,
+  "totalQuestions": 10,
+  "color": "yellow",
+  "icon": "🟡",
+  "helpContent": {
+    "title": "Ambalan Penegak",
+    "content": "<h4>⚜️ Ambalan Penegak</h4><p><strong>Raimuna</strong>: Kegiatan perkemahan besar Penegak & Pandega untuk rekreasi dan bakti sosial.</p><br><p><strong>Bapak Pramuka Dunia</strong>:<br>Robert Baden Powell (Lord Baden Powell of Gilwell). Lahir 22 Februari 1857.</p><br><p><strong>Ambalan Penegak</strong>:<br>Dihimpun dalam Ambalan yang menggunakan nama-nama pahlawan nasional atau tokoh sejarah bangsa Indonesia.</p>"
+  },
+  "questions": [
+    {
+      "id": "sku_penegak_001",
+      "question": "Siapakah pendiri gerakan kepramukaan dunia (Bapak Pramuka Dunia)?",
+      "options": ["Lord Baden Powell", "Robert Clinton", "William Smith", "Soenardjo Atmodipoerwo"],
+      "correctAnswer": "Lord Baden Powell",
+      "explanation": "Robert Stephenson Smyth Baden-Powell, Baron Baden-Powell ke-1, mendirikan gerakan kepanduan internasional pada tahun 1907 setelah perkemahan di Pulau Brownsea."
+    },
+    {
+      "id": "sku_penegak_002",
+      "question": "Pada tanggal berapakah Hari Pramuka Indonesia diperingati setiap tahunnya?",
+      "options": ["14 Agustus", "20 Mei", "9 Maret", "22 Februari"],
+      "correctAnswer": "14 Agustus",
+      "explanation": "Hari Pramuka diperingati setiap 14 Agustus karena pada tanggal tersebut di tahun 1961, Presiden Soekarno secara resmi menganugerahkan Panji Gerakan Pramuka melalui defile nasional."
+    },
+    {
+      "id": "sku_penegak_003",
+      "question": "Berapakah batas usia untuk golongan Pramuka Penegak?",
+      "options": ["16 - 20 tahun", "11 - 15 tahun", "21 - 25 tahun", "7 - 10 tahun"],
+      "correctAnswer": "16 - 20 tahun",
+      "explanation": "Pramuka Penegak adalah golongan bagi remaja usia 16 hingga 20 tahun, berfokus pada kemandirian, kepemimpinan, dan bakti masyarakat."
+    },
+    {
+      "id": "sku_penegak_004",
+      "question": "Satuan terkecil dalam golongan Pramuka Penegak dinamakan...",
+      "options": ["Sangga", "Regu", "Barung", "Reka"],
+      "correctAnswer": "Sangga",
+      "explanation": "Sangga beranggotakan 6-8 orang dipimpin oleh seorang Pemimpin Sangga (Pinsa). Beberapa Sangga dihimpun dalam Ambalan Penegak."
+    },
+    {
+      "id": "sku_penegak_005",
+      "question": "Sandi yang dibaca dengan cara melipat abjad A ke Z (A berpasangan dengan Z, B dengan Y, dst) dinamakan...",
+      "options": ["Sandi AZ", "Sandi AN", "Sandi Kotak", "Sandi Caesar"],
+      "correctAnswer": "Sandi AZ",
+      "explanation": "Sandi AZ membalik susunan abjad (Atbash cipher) sehingga A=Z, B=Y, C=X, dst."
+    },
+    {
+      "id": "sku_penegak_006",
+      "question": "Apa nama tingkatan TKU pertama dalam golongan Pramuka Penegak?",
+      "options": ["Penegak Bantara", "Penegak Laksana", "Penegak Mula", "Penegak Pandega"],
+      "correctAnswer": "Penegak Bantara",
+      "explanation": "Tingkatan SKU Penegak hanya terdiri dari dua level: Penegak Bantara (tingkat pertama) dan Penegak Laksana (tingkat kedua/tertinggi)."
+    },
+    {
+      "id": "sku_penegak_007",
+      "question": "Pertemuan besar untuk Pramuka Penegak dan Pandega dalam bentuk perkemahan bakti disebut...",
+      "options": ["Raimuna", "Jambore", "Lomba Tingkat", "Pesta Siaga"],
+      "correctAnswer": "Raimuna",
+      "explanation": "Raimuna adalah pertemuan besar Penegak/Pandega. Sementara Jambore adalah pertemuan besar tingkat Penggalang."
+    },
+    {
+      "id": "sku_penegak_008",
+      "question": "Buku harian Baden Powell yang sangat terkenal dan melandasi metode pembinaan remaja adalah...",
+      "options": ["Scouting for Boys", "Aids to Scoutmastership", "Rovering to Success", "Yarn of Scout"],
+      "correctAnswer": "Scouting for Boys",
+      "explanation": "'Scouting for Boys' ditulis oleh Baden Powell pada tahun 1908 dan menjadi buku panduan terlaris sepanjang sejarah kepanduan dunia."
+    },
+    {
+      "id": "sku_penegak_009",
+      "question": "Wadah pembinaan di tingkat Kwartir bagi Pramuka Penegak/Pandega untuk menyalurkan minat bakat tertentu (misalnya dirgantara, bahari, kepolisian) disebut...",
+      "options": ["Satuan Karya (SAKA)", "Ambalan", "Dewan Kerja", "Gugus Depan"],
+      "correctAnswer": "Satuan Karya (SAKA)",
+      "explanation": "Satuan Karya Pramuka (SAKA) memfasilitasi minat khusus anggota. Contoh: Saka Bhayangkara (Kepolisian), Saka Dirgantara (Kedirgantaraan), Saka Bahari (Kelautan)."
+    },
+    {
+      "id": "sku_penegak_010",
+      "question": "Bentuk formasi barisan upacara Pramuka Penegak adalah...",
+      "options": ["Bersaf (Barisan Lurus)", "Angkare", "Lingkaran", "Setengah Lingkaran"],
+      "correctAnswer": "Bersaf (Barisan Lurus)",
+      "explanation": "Formasi Bersaf (barisan sejajar lurus) melambangkan bahwa Pramuka Penegak diposisikan sejajar dan setara dengan masyarakat, siap berbakti dan memimpin secara profesional."
+    }
+  ]
+}

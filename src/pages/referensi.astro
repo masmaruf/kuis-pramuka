@@ -1,0 +1,565 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Referensi Cepat Kepramukaan" description="Tabel Kode Morse, posisi Semaphore, 16 arah kompas, dan daftar simpul pramuka — referensi cepat untuk latihan kepramukaan.">
+	<div class="ref-page">
+
+		<div class="ref-hero">
+			<h1>📚 Referensi Cepat</h1>
+			<p>Kode Morse · Semaphore · Kompas · Simpul Pramuka</p>
+			<nav class="ref-jumps" aria-label="Lompat ke seksi">
+				<a href="#morse" class="jump-btn">⚡ Morse</a>
+				<a href="#semaphore" class="jump-btn">🚩 Semaphore</a>
+				<a href="#kompas" class="jump-btn">🧭 Kompas</a>
+				<a href="#simpul" class="jump-btn">🪢 Simpul</a>
+			</nav>
+		</div>
+
+		<!-- ─── MORSE ──────────────────────────────────────────────────────────── -->
+		<section class="ref-section" id="morse">
+			<div class="section-header">
+				<span class="sec-icon">⚡</span>
+				<div>
+					<h2>Kode Morse</h2>
+					<p class="sec-sub">Titik (·) = pendek &nbsp;|&nbsp; Strip (−) = panjang</p>
+				</div>
+			</div>
+
+			<div class="morse-group-label">Alfabet (A–Z)</div>
+			<div class="morse-grid" id="morse-alpha"></div>
+
+			<div class="morse-group-label" style="margin-top:1.25rem">Angka (0–9)</div>
+			<div class="morse-grid" id="morse-digit"></div>
+
+			<div class="morse-group-label" style="margin-top:1.25rem">Tanda & Sinyal Khusus</div>
+			<div class="morse-grid">
+				<div class="morse-cell"><span class="mc-char">SOS</span><span class="mc-code">···−−−···</span></div>
+				<div class="morse-cell"><span class="mc-char">AR</span><span class="mc-code">·−·−·</span><span class="mc-note">Akhir pesan</span></div>
+				<div class="morse-cell"><span class="mc-char">SK</span><span class="mc-code">···−·−</span><span class="mc-note">Akhir kontak</span></div>
+				<div class="morse-cell"><span class="mc-char">BT</span><span class="mc-code">−···−</span><span class="mc-note">Pemisah</span></div>
+				<div class="morse-cell"><span class="mc-char">.</span><span class="mc-code">·−·−·−</span><span class="mc-note">Titik</span></div>
+				<div class="morse-cell"><span class="mc-char">,</span><span class="mc-code">−−··−−</span><span class="mc-note">Koma</span></div>
+				<div class="morse-cell"><span class="mc-char">?</span><span class="mc-code">··−−··</span><span class="mc-note">Tanya</span></div>
+			</div>
+		</section>
+
+		<!-- ─── SEMAPHORE ─────────────────────────────────────────────────────── -->
+		<section class="ref-section" id="semaphore">
+			<div class="section-header">
+				<span class="sec-icon">🚩</span>
+				<div>
+					<h2>Semaphore</h2>
+					<p class="sec-sub">Posisi bendera dilihat dari sudut pemberi isyarat</p>
+				</div>
+			</div>
+
+			<div class="semaphore-pos-legend">
+				<div class="pos-diagram">
+					<div class="pos-cell p8">↖<span>8</span></div>
+					<div class="pos-cell p1">↑<span>1</span></div>
+					<div class="pos-cell p2">↗<span>2</span></div>
+					<div class="pos-cell p7">←<span>7</span></div>
+					<div class="pos-cell center">🧍</div>
+					<div class="pos-cell p3">→<span>3</span></div>
+					<div class="pos-cell p6">↙<span>6</span></div>
+					<div class="pos-cell p5">↓<span>5</span></div>
+					<div class="pos-cell p4">↘<span>4</span></div>
+				</div>
+				<div class="pos-legend-text">
+					<p><strong>8 Posisi Bendera:</strong></p>
+					<p>1 Atas · 2 Serong Atas Kanan · 3 Kanan · 4 Serong Bawah Kanan</p>
+					<p>5 Bawah · 6 Serong Bawah Kiri · 7 Kiri · 8 Serong Atas Kiri</p>
+					<p class="pos-note">Tabel di bawah: <strong>Ki</strong> = tangan kiri, <strong>Ka</strong> = tangan kanan pemberi isyarat</p>
+				</div>
+			</div>
+
+			<div class="semaphore-groups">
+				<div class="sem-group">
+					<div class="sem-group-title">Kelompok I — Ki: 5 (↓ Bawah)</div>
+					<div class="sem-table">
+						<div class="sem-row header"><span>Huruf</span><span>Ki</span><span>Ka</span></div>
+						<div class="sem-row"><span class="sem-char">A</span><span>5↓</span><span>4↘</span></div>
+						<div class="sem-row"><span class="sem-char">B</span><span>5↓</span><span>3→</span></div>
+						<div class="sem-row"><span class="sem-char">C</span><span>5↓</span><span>2↗</span></div>
+						<div class="sem-row"><span class="sem-char">D</span><span>5↓</span><span>1↑</span></div>
+						<div class="sem-row"><span class="sem-char">E</span><span>5↓</span><span>8↖</span></div>
+						<div class="sem-row"><span class="sem-char">F</span><span>5↓</span><span>7←</span></div>
+						<div class="sem-row"><span class="sem-char">G</span><span>5↓</span><span>6↙</span></div>
+					</div>
+				</div>
+				<div class="sem-group">
+					<div class="sem-group-title">Kelompok II — Ki: 4 (↘ Serong Bawah Kanan)</div>
+					<div class="sem-table">
+						<div class="sem-row header"><span>Huruf</span><span>Ki</span><span>Ka</span></div>
+						<div class="sem-row"><span class="sem-char">H</span><span>4↘</span><span>3→</span></div>
+						<div class="sem-row"><span class="sem-char">I</span><span>4↘</span><span>2↗</span></div>
+						<div class="sem-row"><span class="sem-char">J</span><span>4↘</span><span>1↑</span></div>
+						<div class="sem-row"><span class="sem-char">K</span><span>4↘</span><span>8↖</span></div>
+						<div class="sem-row"><span class="sem-char">L</span><span>4↘</span><span>7←</span></div>
+						<div class="sem-row"><span class="sem-char">M</span><span>4↘</span><span>6↙</span></div>
+						<div class="sem-row"><span class="sem-char">N</span><span>4↘</span><span>5↓</span></div>
+					</div>
+				</div>
+				<div class="sem-group">
+					<div class="sem-group-title">Kelompok III — Ki: 3 (→ Kanan)</div>
+					<div class="sem-table">
+						<div class="sem-row header"><span>Huruf</span><span>Ki</span><span>Ka</span></div>
+						<div class="sem-row"><span class="sem-char">O</span><span>3→</span><span>2↗</span></div>
+						<div class="sem-row"><span class="sem-char">P</span><span>3→</span><span>1↑</span></div>
+						<div class="sem-row"><span class="sem-char">Q</span><span>3→</span><span>8↖</span></div>
+						<div class="sem-row"><span class="sem-char">R</span><span>3→</span><span>7←</span></div>
+						<div class="sem-row"><span class="sem-char">S</span><span>3→</span><span>6↙</span></div>
+					</div>
+				</div>
+				<div class="sem-group">
+					<div class="sem-group-title">Kelompok IV — Ki: 2 (↗ Serong Atas Kanan)</div>
+					<div class="sem-table">
+						<div class="sem-row header"><span>Huruf</span><span>Ki</span><span>Ka</span></div>
+						<div class="sem-row"><span class="sem-char">T</span><span>2↗</span><span>1↑</span></div>
+						<div class="sem-row"><span class="sem-char">U</span><span>2↗</span><span>8↖</span></div>
+						<div class="sem-row"><span class="sem-char">Y</span><span>2↗</span><span>7←</span></div>
+					</div>
+				</div>
+				<div class="sem-group">
+					<div class="sem-group-title">Kelompok V — Posisi Khusus</div>
+					<div class="sem-table">
+						<div class="sem-row header"><span>Huruf</span><span>Ki</span><span>Ka</span></div>
+						<div class="sem-row"><span class="sem-char">V</span><span>6↙</span><span>4↘</span></div>
+						<div class="sem-row"><span class="sem-char">W</span><span>1↑</span><span>3→</span></div>
+						<div class="sem-row"><span class="sem-char">X</span><span>1↑</span><span>6↙</span></div>
+						<div class="sem-row"><span class="sem-char">Z</span><span>1↑</span><span>4↘</span></div>
+						<div class="sem-row"><span class="sem-char">Angka</span><span>6↙</span><span>6↙</span></div>
+						<div class="sem-row"><span class="sem-char">Ulang</span><span>2↗</span><span>2↗</span></div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ─── KOMPAS ────────────────────────────────────────────────────────── -->
+		<section class="ref-section" id="kompas">
+			<div class="section-header">
+				<span class="sec-icon">🧭</span>
+				<div>
+					<h2>Kompas &amp; Arah</h2>
+					<p class="sec-sub">16 mata angin beserta derajat azimut</p>
+				</div>
+			</div>
+
+			<div class="compass-layout">
+				<div class="compass-rose">
+					<div class="rose-ring">
+						<span class="rose-n">U</span>
+						<span class="rose-ne">TL</span>
+						<span class="rose-e">T</span>
+						<span class="rose-se">Tg</span>
+						<span class="rose-s">S</span>
+						<span class="rose-sw">BD</span>
+						<span class="rose-w">B</span>
+						<span class="rose-nw">BL</span>
+						<div class="rose-arrow">
+							<div class="arrow-n"></div>
+							<div class="arrow-s"></div>
+						</div>
+					</div>
+				</div>
+				<div class="compass-table-wrap">
+					<table class="compass-table">
+						<thead><tr><th>Derajat</th><th>Singkatan</th><th>Nama Lengkap</th></tr></thead>
+						<tbody>
+							<tr class="cardinal"><td>0° / 360°</td><td>U</td><td>Utara</td></tr>
+							<tr><td>22,5°</td><td>UBL</td><td>Utara-Barat Laut</td></tr>
+							<tr class="inter"><td>45°</td><td>BL</td><td>Barat Laut</td></tr>
+							<tr><td>67,5°</td><td>BBL</td><td>Barat-Barat Laut</td></tr>
+							<tr class="cardinal"><td>90°</td><td>B</td><td>Barat</td></tr>
+							<tr><td>112,5°</td><td>BBD</td><td>Barat-Barat Daya</td></tr>
+							<tr class="inter"><td>135°</td><td>BD</td><td>Barat Daya</td></tr>
+							<tr><td>157,5°</td><td>SBD</td><td>Selatan-Barat Daya</td></tr>
+							<tr class="cardinal"><td>180°</td><td>S</td><td>Selatan</td></tr>
+							<tr><td>202,5°</td><td>STg</td><td>Selatan-Tenggara</td></tr>
+							<tr class="inter"><td>225°</td><td>Tg</td><td>Tenggara</td></tr>
+							<tr><td>247,5°</td><td>TTg</td><td>Timur-Tenggara</td></tr>
+							<tr class="cardinal"><td>270°</td><td>T</td><td>Timur</td></tr>
+							<tr><td>292,5°</td><td>TTL</td><td>Timur-Timur Laut</td></tr>
+							<tr class="inter"><td>315°</td><td>TL</td><td>Timur Laut</td></tr>
+							<tr><td>337,5°</td><td>UTL</td><td>Utara-Timur Laut</td></tr>
+						</tbody>
+					</table>
+					<p class="compass-note">Kompas selalu menunjuk ke <strong>Utara Magnetik</strong>. Sesuaikan dengan deklinasi magnetik wilayah jika perlu presisi tinggi.</p>
+				</div>
+			</div>
+
+			<div class="azimuth-tips">
+				<h3>Tips Membaca Azimut</h3>
+				<div class="tip-grid">
+					<div class="tip-card">
+						<span class="tip-icon">☀️</span>
+						<strong>Matahari Terbit</strong>
+						<p>Selalu dari arah Timur (~90°). Bayangan pagi menunjuk ke Barat.</p>
+					</div>
+					<div class="tip-card">
+						<span class="tip-icon">🌙</span>
+						<strong>Bintang Selatan</strong>
+						<p>Rasi Salib Selatan (Crux) menunjuk arah Selatan di belahan bumi selatan.</p>
+					</div>
+					<div class="tip-card">
+						<span class="tip-icon">⌚</span>
+						<strong>Metode Jam Analog</strong>
+						<p>Arahkan jarum jam ke matahari. Titik tengah antara angka 12 dan jarum pendek = Utara.</p>
+					</div>
+					<div class="tip-card">
+						<span class="tip-icon">🌿</span>
+						<strong>Lumut di Pohon</strong>
+						<p>Lumut tumbuh lebih lebat di sisi yang lebih lembab (biasanya Selatan di belahan bumi utara).</p>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- ─── SIMPUL ────────────────────────────────────────────────────────── -->
+		<section class="ref-section" id="simpul">
+			<div class="section-header">
+				<span class="sec-icon">🪢</span>
+				<div>
+					<h2>Simpul &amp; Ikatan</h2>
+					<p class="sec-sub">Jenis simpul dasar pramuka beserta fungsinya</p>
+				</div>
+			</div>
+
+			<div class="knot-grid">
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><path d="M10 25 C20 10, 30 10, 40 25 C50 40, 60 40, 70 25"/><path d="M10 25 C20 40, 30 40, 40 25 C50 10, 60 10, 70 25" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Simpul Mati</h3>
+					<span class="knot-en">Reef Knot</span>
+					<p>Mengikat dua ujung tali yang sama ukurannya. Untuk menutup perban dan mengikat bungkusan.</p>
+					<div class="knot-tags"><span class="kt easy">Dasar</span><span class="kt">P3K</span><span class="kt">Perkemahan</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><path d="M10 30 Q25 10 40 25 Q55 40 70 20"/><path d="M30 35 Q40 45 50 30" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Simpul Hidup</h3>
+					<span class="knot-en">Sheet Bend</span>
+					<p>Mengikat dua tali yang berbeda ukuran atau jenis. Untuk menyambung tali yang tidak sama besar.</p>
+					<div class="knot-tags"><span class="kt easy">Dasar</span><span class="kt">Pioniring</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><line x1="40" y1="5" x2="40" y2="45"/><path d="M10 20 Q25 35 40 25 Q55 15 70 30" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Simpul Jangkar</h3>
+					<span class="knot-en">Clove Hitch</span>
+					<p>Mengikat tali pada tiang atau benda silinder. Untuk memulai dan mengakhiri ikatan.</p>
+					<div class="knot-tags"><span class="kt medium">Menengah</span><span class="kt">Tiang</span><span class="kt">Pioniring</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><path d="M10 25 Q25 5 40 25 Q40 40 30 35 Q20 30 30 22 Q40 14 55 25"/><line x1="55" y1="25" x2="70" y2="25"/></svg>
+					</div>
+					<h3>Simpul Tiang</h3>
+					<span class="knot-en">Bowline</span>
+					<p>Membuat lingkaran tetap yang tidak mengencang atau mengendur. Untuk menyelamatkan orang, menambatkan perahu.</p>
+					<div class="knot-tags"><span class="kt medium">Menengah</span><span class="kt">Keselamatan</span><span class="kt">Navigasi</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><path d="M10 25 L30 25 Q40 5 50 25 Q60 45 70 25"/><path d="M30 25 Q40 45 50 25" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Simpul Delapan</h3>
+					<span class="knot-en">Figure-Eight Knot</span>
+					<p>Membuat simpul henti di ujung tali agar tidak lepas dari lubang. Dasar dari berbagai simpul panjat.</p>
+					<div class="knot-tags"><span class="kt easy">Dasar</span><span class="kt">Henti</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><line x1="40" y1="5" x2="40" y2="45"/><path d="M10 18 L70 18" stroke="var(--color-gold)"/><path d="M10 32 L70 32" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Ikatan Palang</h3>
+					<span class="knot-en">Square Lashing</span>
+					<p>Mengikat dua tiang yang bersilangan tegak lurus. Untuk membuat struktur pioniring seperti menara dan jembatan.</p>
+					<div class="knot-tags"><span class="kt hard">Lanjut</span><span class="kt">Pioniring</span><span class="kt">Konstruksi</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><line x1="20" y1="10" x2="60" y2="40"/><line x1="60" y1="10" x2="20" y2="40"/><ellipse cx="40" cy="25" rx="12" ry="8" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Ikatan Silang</h3>
+					<span class="knot-en">Diagonal Lashing</span>
+					<p>Mengikat dua tiang yang bersilangan diagonal. Untuk memperkuat rangka pioniring yang bergerak.</p>
+					<div class="knot-tags"><span class="kt hard">Lanjut</span><span class="kt">Pioniring</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><line x1="40" y1="5" x2="40" y2="45"/><path d="M10 25 Q20 15 30 25 Q40 35 50 25 Q60 15 70 25" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Ikatan Pangkal</h3>
+					<span class="knot-en">Cleat Hitch</span>
+					<p>Mengikat tali pada tiang dengan dua setengah simpul. Lebih aman dari simpul jangkar untuk beban berat.</p>
+					<div class="knot-tags"><span class="kt medium">Menengah</span><span class="kt">Tiang</span></div>
+				</div>
+
+				<div class="knot-card">
+					<div class="knot-visual">
+						<svg viewBox="0 0 80 50" fill="none" stroke="var(--color-primary)" stroke-width="3" stroke-linecap="round"><path d="M10 20 Q30 5 40 20 Q50 35 70 20"/><path d="M25 35 Q40 45 55 35" stroke="var(--color-gold)"/></svg>
+					</div>
+					<h3>Simpul Anyam Berganda</h3>
+					<span class="knot-en">Double Sheet Bend</span>
+					<p>Versi lebih kuat dari simpul hidup untuk beban berat atau tali yang sangat berbeda ukuran.</p>
+					<div class="knot-tags"><span class="kt medium">Menengah</span><span class="kt">Sambungan</span></div>
+				</div>
+			</div>
+
+			<div class="knot-rule">
+				<h3>🎯 Aturan Emas Simpul Pramuka</h3>
+				<div class="rule-list">
+					<div class="rule-item"><span class="rule-num">1</span><span>Simpul harus mudah <strong>dibuat</strong> dan mudah <strong>dilepas</strong> saat tidak diperlukan.</span></div>
+					<div class="rule-item"><span class="rule-num">2</span><span>Gunakan simpul yang <strong>tepat</strong> untuk fungsi yang tepat — jangan pakai simpul mati untuk tali berbeda ukuran.</span></div>
+					<div class="rule-item"><span class="rule-num">3</span><span>Selalu periksa simpul sebelum digunakan, terutama untuk kegiatan yang berkaitan dengan <strong>keselamatan</strong>.</span></div>
+					<div class="rule-item"><span class="rule-num">4</span><span>Latihan berulang adalah kunci — seorang pramuka harus bisa membuat simpul dalam gelap sekalipun.</span></div>
+				</div>
+			</div>
+		</section>
+
+	</div>
+</Layout>
+
+<script>
+	// Build Morse table
+	const MORSE_ALPHA: Record<string, string> = {
+		A:'·−', B:'−···', C:'−·−·', D:'−··', E:'·', F:'··−·', G:'−−·', H:'····',
+		I:'··', J:'·−−−', K:'−·−', L:'·−··', M:'−−', N:'−·', O:'−−−', P:'·−−·',
+		Q:'−−·−', R:'·−·', S:'···', T:'−', U:'··−', V:'···−', W:'·−−', X:'−··−',
+		Y:'−·−−', Z:'−−··',
+	};
+	const MORSE_DIGIT: Record<string, string> = {
+		'0':'−−−−−','1':'·−−−−','2':'··−−−','3':'···−−','4':'····−',
+		'5':'·····','6':'−····','7':'−−···','8':'−−−··','9':'−−−−·',
+	};
+
+	function buildGrid(container: HTMLElement | null, data: Record<string, string>) {
+		if (!container) return;
+		container.innerHTML = Object.entries(data).map(([ch, code]) =>
+			`<div class="morse-cell"><span class="mc-char">${ch}</span><span class="mc-code">${code}</span></div>`
+		).join('');
+	}
+
+	buildGrid(document.getElementById('morse-alpha'), MORSE_ALPHA);
+	buildGrid(document.getElementById('morse-digit'), MORSE_DIGIT);
+
+	// Smooth scroll for jump links
+	document.querySelectorAll('.jump-btn').forEach(btn => {
+		btn.addEventListener('click', (e) => {
+			e.preventDefault();
+			const href = (btn as HTMLAnchorElement).getAttribute('href') ?? '';
+			document.querySelector(href)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		});
+	});
+</script>
+
+<style>
+	.ref-page {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 2rem 1.25rem 4rem;
+		display: flex;
+		flex-direction: column;
+		gap: 2.5rem;
+	}
+
+	/* ─── Hero ─── */
+	.ref-hero {
+		text-align: center;
+		padding: 2.5rem 1rem 1.5rem;
+	}
+	.ref-hero h1 { font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 800; color: var(--color-primary-dark); margin-bottom: 0.5rem; }
+	.ref-hero p  { color: var(--color-text-muted); font-size: 1rem; margin-bottom: 1.5rem; }
+
+	.ref-jumps { display: flex; flex-wrap: wrap; gap: 0.6rem; justify-content: center; }
+	.jump-btn {
+		display: inline-flex; align-items: center; gap: 0.35rem;
+		padding: 0.45rem 1rem; border-radius: var(--radius-full);
+		background: var(--color-surface); border: 1px solid var(--color-border);
+		color: var(--color-text-muted); font-size: 0.85rem; font-weight: 600;
+		text-decoration: none; transition: all var(--transition-fast);
+	}
+	.jump-btn:hover { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+
+	/* ─── Section ─── */
+	.ref-section {
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-lg);
+		padding: 1.75rem;
+		box-shadow: var(--shadow-sm);
+		scroll-margin-top: 80px;
+	}
+
+	.section-header {
+		display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.5rem;
+		padding-bottom: 1rem; border-bottom: 1px solid var(--color-border);
+	}
+	.sec-icon { font-size: 2rem; flex-shrink: 0; line-height: 1; }
+	.section-header h2 { font-size: 1.4rem; font-weight: 800; color: var(--color-primary-dark); margin-bottom: 0.2rem; }
+	.sec-sub  { font-size: 0.82rem; color: var(--color-text-muted); }
+
+	/* ─── Morse ─── */
+	.morse-group-label {
+		font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+		letter-spacing: 0.8px; color: var(--color-text-faint); margin-bottom: 0.6rem;
+	}
+	.morse-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+		gap: 0.4rem;
+	}
+	.morse-cell {
+		background: var(--color-surface-solid); border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm); padding: 0.45rem 0.5rem;
+		display: flex; flex-direction: column; align-items: center; gap: 0.1rem;
+		transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+	}
+	.morse-cell:hover { border-color: var(--color-gold); box-shadow: 0 0 0 2px rgba(212,163,43,0.15); }
+	.mc-char { font-size: 1rem; font-weight: 800; color: var(--color-primary-dark); line-height: 1; }
+	.mc-code { font-size: 0.75rem; font-weight: 600; color: var(--color-gold); letter-spacing: 1px; font-family: monospace; }
+	.mc-note { font-size: 0.62rem; color: var(--color-text-faint); text-align: center; }
+
+	/* ─── Semaphore ─── */
+	.semaphore-pos-legend {
+		display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: flex-start;
+		background: var(--color-surface-solid); border: 1px solid var(--color-border);
+		border-radius: var(--radius-md); padding: 1rem 1.25rem; margin-bottom: 1.25rem;
+	}
+	.pos-diagram {
+		display: grid; grid-template-columns: repeat(3, 36px); grid-template-rows: repeat(3, 36px);
+		gap: 2px; flex-shrink: 0;
+	}
+	.pos-cell {
+		display: flex; flex-direction: column; align-items: center; justify-content: center;
+		background: var(--color-surface); border: 1px solid var(--color-border);
+		border-radius: 4px; font-size: 0.85rem; font-weight: 700;
+		color: var(--color-primary); position: relative;
+	}
+	.pos-cell span { font-size: 0.55rem; font-weight: 700; color: var(--color-text-faint); line-height: 1; }
+	.center { background: var(--color-primary); color: #fff; border-color: var(--color-primary); font-size: 1rem; }
+	.pos-legend-text { flex: 1; min-width: 200px; }
+	.pos-legend-text p { font-size: 0.82rem; color: var(--color-text-muted); margin-bottom: 0.3rem; }
+	.pos-legend-text strong { color: var(--color-text); }
+	.pos-note { font-size: 0.78rem !important; color: var(--color-text-faint) !important; margin-top: 0.5rem !important; }
+
+	.semaphore-groups { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1rem; }
+
+	.sem-group { background: var(--color-surface-solid); border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+	.sem-group-title { background: var(--color-primary); color: #fff; font-size: 0.72rem; font-weight: 700; padding: 0.4rem 0.75rem; }
+	.sem-table { padding: 0.5rem; }
+	.sem-row {
+		display: grid; grid-template-columns: 2rem 1fr 1fr;
+		padding: 0.3rem 0.4rem; gap: 0.25rem; border-radius: 4px;
+		font-size: 0.8rem; align-items: center;
+	}
+	.sem-row:hover { background: var(--color-surface); }
+	.sem-row.header { font-size: 0.68rem; font-weight: 700; color: var(--color-text-faint); text-transform: uppercase; }
+	.sem-char { font-size: 1rem; font-weight: 800; color: var(--color-primary-dark); }
+	.sem-row span:not(.sem-char) { color: var(--color-text-muted); font-family: monospace; font-size: 0.78rem; }
+
+	/* ─── Kompas ─── */
+	.compass-layout { display: flex; flex-wrap: wrap; gap: 1.5rem; align-items: flex-start; }
+
+	.compass-rose {
+		flex-shrink: 0; width: 160px; height: 160px;
+		display: flex; align-items: center; justify-content: center;
+	}
+	.rose-ring {
+		width: 140px; height: 140px; border-radius: 50%;
+		border: 2px solid var(--color-border);
+		background: var(--color-surface-solid);
+		position: relative; box-shadow: var(--shadow-md);
+	}
+	.rose-ring [class^="rose-"] {
+		position: absolute; font-size: 0.72rem; font-weight: 800;
+		color: var(--color-primary-dark); transform: translate(-50%, -50%);
+	}
+	.rose-n  { top: 8%;  left: 50%; color: var(--color-danger); }
+	.rose-s  { top: 92%; left: 50%; }
+	.rose-e  { top: 50%; left: 92%; }
+	.rose-w  { top: 50%; left: 8%; }
+	.rose-ne { top: 18%; left: 82%; font-size: 0.62rem; }
+	.rose-se { top: 82%; left: 82%; font-size: 0.62rem; }
+	.rose-sw { top: 82%; left: 18%; font-size: 0.62rem; }
+	.rose-nw { top: 18%; left: 18%; font-size: 0.62rem; }
+	.rose-arrow {
+		position: absolute; top: 50%; left: 50%;
+		transform: translate(-50%,-50%);
+		width: 4px; height: 90px; margin-left: -2px; margin-top: -45px;
+	}
+	.arrow-n { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 45px solid var(--color-danger); margin-left: -4px; }
+	.arrow-s { width: 0; height: 0; border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 45px solid var(--color-text-faint); margin-left: -4px; }
+
+	.compass-table-wrap { flex: 1; min-width: 260px; }
+	.compass-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+	.compass-table th { background: var(--color-primary); color: #fff; padding: 0.4rem 0.6rem; text-align: left; font-size: 0.75rem; }
+	.compass-table td { padding: 0.3rem 0.6rem; border-bottom: 1px solid var(--color-border); }
+	.compass-table .cardinal td { font-weight: 700; color: var(--color-primary-dark); background: rgba(27,77,50,0.05); }
+	.compass-table .inter td { font-weight: 600; }
+	.compass-note { font-size: 0.78rem; color: var(--color-text-muted); margin-top: 0.75rem; }
+
+	.azimuth-tips { margin-top: 1.5rem; }
+	.azimuth-tips h3 { font-size: 1rem; font-weight: 700; margin-bottom: 0.85rem; color: var(--color-text); }
+	.tip-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.75rem; }
+	.tip-card {
+		background: var(--color-surface-solid); border: 1px solid var(--color-border);
+		border-radius: var(--radius-md); padding: 0.85rem;
+		display: flex; flex-direction: column; gap: 0.25rem;
+	}
+	.tip-icon { font-size: 1.4rem; }
+	.tip-card strong { font-size: 0.84rem; color: var(--color-text); }
+	.tip-card p { font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.45; }
+
+	/* ─── Simpul ─── */
+	.knot-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+	.knot-card {
+		background: var(--color-surface-solid); border: 1px solid var(--color-border);
+		border-radius: var(--radius-md); padding: 1rem; display: flex; flex-direction: column; gap: 0.35rem;
+		transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+	}
+	.knot-card:hover { border-color: var(--color-primary); box-shadow: var(--shadow-md); }
+	.knot-visual { height: 60px; display: flex; align-items: center; justify-content: center; margin-bottom: 0.25rem; }
+	.knot-visual svg { width: 80px; height: 50px; }
+	.knot-card h3 { font-size: 0.92rem; font-weight: 700; color: var(--color-primary-dark); }
+	.knot-en { font-size: 0.72rem; color: var(--color-text-faint); font-style: italic; }
+	.knot-card p { font-size: 0.79rem; color: var(--color-text-muted); line-height: 1.5; flex: 1; }
+	.knot-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; margin-top: 0.25rem; }
+	.kt { font-size: 0.68rem; font-weight: 600; padding: 0.15rem 0.5rem; border-radius: var(--radius-full); background: var(--color-surface); border: 1px solid var(--color-border); color: var(--color-text-muted); }
+	.kt.easy   { background: rgba(35,108,50,0.1); color: var(--color-success); border-color: rgba(35,108,50,0.2); }
+	.kt.medium { background: rgba(224,123,32,0.1); color: #e07b20; border-color: rgba(224,123,32,0.2); }
+	.kt.hard   { background: rgba(165,48,26,0.1); color: var(--color-danger); border-color: rgba(165,48,26,0.2); }
+
+	.knot-rule {
+		background: linear-gradient(135deg, rgba(27,77,50,0.06), rgba(212,163,43,0.05));
+		border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem 1.5rem;
+	}
+	.knot-rule h3 { font-size: 0.95rem; font-weight: 700; color: var(--color-primary-dark); margin-bottom: 0.9rem; }
+	.rule-list { display: flex; flex-direction: column; gap: 0.6rem; }
+	.rule-item { display: flex; gap: 0.75rem; align-items: flex-start; font-size: 0.83rem; color: var(--color-text-muted); }
+	.rule-num {
+		display: inline-flex; align-items: center; justify-content: center;
+		width: 22px; height: 22px; background: var(--color-primary); color: #fff;
+		border-radius: 50%; font-size: 0.72rem; font-weight: 700; flex-shrink: 0;
+	}
+	.rule-item strong { color: var(--color-text); }
+
+	@media (max-width: 600px) {
+		.ref-section { padding: 1.25rem; }
+		.morse-grid { grid-template-columns: repeat(auto-fill, minmax(64px, 1fr)); }
+		.semaphore-groups { grid-template-columns: 1fr 1fr; }
+		.compass-layout { flex-direction: column; }
+	}
+</style>

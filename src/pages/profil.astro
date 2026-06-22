@@ -1,0 +1,697 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Profil Pandu" description="Lihat statistik, progres modul, dan pencapaian kepramukaanmu.">
+	<div class="profil-page">
+
+		<!-- Hero Profile Card -->
+		<section class="profile-hero glass-card">
+			<div class="avatar-wrap">
+				<div class="avatar-circle" id="p-avatar">👤</div>
+				<button class="avatar-edit-btn" id="btn-edit-profil" title="Edit Profil">✏️</button>
+			</div>
+			<div class="profile-main">
+				<div class="profile-name-row">
+					<h1 id="p-username">Pandu</h1>
+					<span class="level-chip" id="p-level-chip">Lv. 1</span>
+				</div>
+				<p class="rank-title" id="p-rank">Pandu Mula</p>
+				<div class="xp-section">
+					<div class="xp-numbers">
+						<span id="p-xp-current">0 XP</span>
+						<span id="p-xp-next" class="xp-next-label">/ 100 XP ke level berikutnya</span>
+					</div>
+					<div class="xp-bar-big">
+						<div id="p-xp-bar" class="xp-fill-big" style="width:0%"></div>
+					</div>
+				</div>
+			</div>
+			<div class="streak-hero-block">
+				<span class="streak-big-num" id="p-streak">0</span>
+				<span class="streak-big-label">🔥<br>Hari<br>Streak</span>
+			</div>
+		</section>
+
+		<!-- Stats Grid -->
+		<section class="profil-stats">
+			<div class="pstat-card glass-card">
+				<div class="pstat-icon xp-color">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+				</div>
+				<div>
+					<h2 class="pstat-val" id="p-xp-total">0</h2>
+					<span class="pstat-label">Total XP</span>
+				</div>
+			</div>
+			<div class="pstat-card glass-card">
+				<div class="pstat-icon level-color">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+				</div>
+				<div>
+					<h2 class="pstat-val" id="p-level-val">1</h2>
+					<span class="pstat-label">Level Saat Ini</span>
+				</div>
+			</div>
+			<div class="pstat-card glass-card">
+				<div class="pstat-icon badges-color">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 15L15.5 18L14.5 13.5L18 10.5L13.5 10L12 5.5L10.5 10L6 10.5L9.5 13.5L8.5 18L12 15Z"/></svg>
+				</div>
+				<div>
+					<h2 class="pstat-val" id="p-badge-count">0</h2>
+					<span class="pstat-label">Lencana Terbuka</span>
+				</div>
+			</div>
+			<div class="pstat-card glass-card">
+				<div class="pstat-icon streak-color">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.53 0-2.94-.44-4.13-1.2"/></svg>
+				</div>
+				<div>
+					<h2 class="pstat-val" id="p-streak-val">0</h2>
+					<span class="pstat-label">Hari Streak</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- Progres per Modul -->
+		<section class="progress-section glass-card">
+			<div class="section-header-row">
+				<div>
+					<h2>Progres Modul</h2>
+					<p>Lencana yang sudah kamu buka dari setiap modul latihan.</p>
+				</div>
+				<span class="total-progress-chip" id="p-total-progress">0 / 30 lencana</span>
+			</div>
+
+			<!-- Komunikasi -->
+			<div class="modul-group">
+				<div class="group-label-row">
+					<div class="group-dot comm-dot"></div>
+					<span>Komunikasi &amp; Isyarat</span>
+				</div>
+				<div class="modul-list" id="list-comm"></div>
+			</div>
+
+			<!-- Teknik -->
+			<div class="modul-group">
+				<div class="group-label-row">
+					<div class="group-dot teknik-dot"></div>
+					<span>Teknik Kepramukaan</span>
+				</div>
+				<div class="modul-list" id="list-teknik"></div>
+			</div>
+
+			<!-- Pengetahuan -->
+			<div class="modul-group">
+				<div class="group-label-row">
+					<div class="group-dot penget-dot"></div>
+					<span>Pengetahuan Pramuka</span>
+				</div>
+				<div class="modul-list" id="list-penget"></div>
+			</div>
+		</section>
+
+		<!-- Danger Zone -->
+		<section class="danger-section glass-card">
+			<div class="danger-header">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;color:var(--color-danger)"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+				<div>
+					<h3>Zona Bahaya</h3>
+					<p>Reset semua XP, lencana, dan profil. Tindakan ini tidak dapat dibatalkan.</p>
+				</div>
+			</div>
+			<button id="btn-reset-all" class="btn btn-danger">Hapus Semua Progres</button>
+		</section>
+
+	</div>
+</Layout>
+
+<script>
+	// ─── Data Modul ───────────────────────────────────────────────────────────
+
+	type Modul = { name: string; icon: string; href: string; badges: string[]; };
+
+	const MODULES: { group: 'comm'|'teknik'|'penget'; items: Modul[] }[] = [
+		{
+			group: 'comm',
+			items: [
+				{ name: 'Kode Morse',      icon: '⚡', href: '/morse',         badges: ['morse_novice','morse_master'] },
+				{ name: 'Semaphore',       icon: '🚩', href: '/semaphore',     badges: ['semaphore_novice'] },
+				{ name: 'Sandi',           icon: '🔑', href: '/sandi',         badges: ['sandi_breaker'] },
+			]
+		},
+		{
+			group: 'teknik',
+			items: [
+				{ name: 'Simpul & Ikatan',    icon: '🪢', href: '/simpul',         badges: ['simpul_novice','simpul_master'] },
+				{ name: 'Pioniring',          icon: '🏗️', href: '/pioniring',      badges: ['pionir_novice','pionir_master'] },
+				{ name: 'P3K',               icon: '🩺', href: '/p3k',            badges: ['p3k_novice','p3k_master'] },
+				{ name: 'Kompas & Navigasi', icon: '🧭', href: '/kompas',         badges: ['kompas_novice','kompas_master'] },
+				{ name: 'Perkemahan',        icon: '⛺', href: '/perkemahan',     badges: ['kemah_novice','kemah_master'] },
+				{ name: 'Baris-Berbaris',    icon: '🪖', href: '/baris-berbaris', badges: ['pbb_novice','pbb_master'] },
+			]
+		},
+		{
+			group: 'penget',
+			items: [
+				{ name: 'Sejarah',          icon: '🕰️', href: '/sejarah',       badges: ['sejarah_novice','sejarah_master'] },
+				{ name: 'UU No. 12/2010',   icon: '⚖️', href: '/uu-pramuka',   badges: ['uu_pramuka_novice','uu_pramuka_master'] },
+				{ name: 'SKU',              icon: '📖', href: '/sku',           badges: ['sku_siaga','sku_penggalang','sku_penegak'] },
+				{ name: 'Organisasi Pramuka', icon: '🏛️', href: '/organisasi', badges: ['org_novice','org_master'] },
+				{ name: 'Tanda Pengenal',   icon: '🎗️', href: '/tanda-pengenal', badges: ['tanda_novice','tanda_master'] },
+				{ name: 'Dasa Darma',       icon: '🌟', href: '/dasa-darma',     badges: ['dasa_novice','dasa_master'] },
+			]
+		}
+	];
+
+	const BADGE_LABELS: Record<string, string> = {
+		morse_novice:'Novice', morse_master:'Master',
+		semaphore_novice:'Novice', sandi_breaker:'Pemecah',
+		simpul_novice:'Novice', simpul_master:'Master',
+		pionir_novice:'Novice', pionir_master:'Master',
+		p3k_novice:'Novice', p3k_master:'Master',
+		kompas_novice:'Novice', kompas_master:'Master',
+		kemah_novice:'Novice', kemah_master:'Master',
+		pbb_novice:'Novice', pbb_master:'Master',
+		sejarah_novice:'Novice', sejarah_master:'Master',
+		uu_pramuka_novice:'Novice', uu_pramuka_master:'Master',
+		sku_siaga:'Siaga', sku_penggalang:'Penggalang', sku_penegak:'Penegak',
+		org_novice:'Novice', org_master:'Master',
+		tanda_novice:'Novice', tanda_master:'Master',
+		dasa_novice:'Novice', dasa_master:'Master',
+		scout_master:'Ulung',
+	};
+
+	// ─── Level System ─────────────────────────────────────────────────────────
+
+	function calcLevel(xp: number) {
+		if (xp >= 1000) {
+			const lvl  = 5 + Math.floor((xp - 1000) / 500);
+			const base = 1000 + (lvl - 5) * 500;
+			return { level: lvl, xpBase: base, xpNext: base + 500, rankTitle: `Pandu Laksana (Lv. ${lvl})` };
+		}
+		const tiers = [
+			{ level: 4, xpBase: 600,  xpNext: 1000, rankTitle: 'Pandu Penegak' },
+			{ level: 3, xpBase: 300,  xpNext: 600,  rankTitle: 'Pandu Rakit'   },
+			{ level: 2, xpBase: 100,  xpNext: 300,  rankTitle: 'Pandu Ramu'    },
+			{ level: 1, xpBase: 0,    xpNext: 100,  rankTitle: 'Pandu Mula'    },
+		];
+		return tiers.find(t => xp >= t.xpBase) || tiers[3];
+	}
+
+	// ─── Render ───────────────────────────────────────────────────────────────
+
+	function renderModulRow(m: Modul, unlocked: string[]) {
+		const earned    = m.badges.filter(id => unlocked.includes(id)).length;
+		const total     = m.badges.length;
+		const pct       = Math.round((earned / total) * 100);
+		const allDone   = earned === total;
+		const started   = earned > 0;
+
+		const badgePills = m.badges.map(id => {
+			const isEarned = unlocked.includes(id);
+			return `<span class="badge-dot ${isEarned ? 'dot-earned' : 'dot-empty'}" title="${BADGE_LABELS[id] ?? id}">
+				${isEarned ? '●' : '○'}
+			</span>`;
+		}).join('');
+
+		const statusClass = allDone ? 'status-done' : started ? 'status-partial' : 'status-none';
+		const statusText  = allDone ? 'Selesai ✓' : started ? `${earned}/${total}` : 'Belum mulai';
+
+		return `
+			<div class="modul-row">
+				<a href="${m.href}" class="modul-icon-link" title="Buka ${m.name}">
+					<span class="modul-icon">${m.icon}</span>
+				</a>
+				<div class="modul-info">
+					<a href="${m.href}" class="modul-name">${m.name}</a>
+					<div class="modul-progress-bar"><div class="modul-fill" style="width:${pct}%"></div></div>
+				</div>
+				<div class="badge-dots">${badgePills}</div>
+				<span class="modul-status ${statusClass}">${statusText}</span>
+			</div>
+		`;
+	}
+
+	function render() {
+		const xp       = parseInt(localStorage.getItem('scout_xp') || '0');
+		const badges   = JSON.parse(localStorage.getItem('scout_badges') || '[]') as string[];
+		const username = localStorage.getItem('scout_username') || 'Pandu';
+		const avatar   = localStorage.getItem('scout_avatar') || '👤';
+		const streak   = parseInt(localStorage.getItem('scout_streak') || '0');
+		const { level, xpBase, xpNext, rankTitle } = calcLevel(xp);
+		const pct      = Math.min(100, Math.round(((xp - xpBase) / (xpNext - xpBase)) * 100));
+
+		// Hero
+		const avatarEl = document.getElementById('p-avatar');
+		if (avatarEl) avatarEl.textContent = avatar;
+		setTxt('p-username',   username);
+		setTxt('p-level-chip', `Lv. ${level}`);
+		setTxt('p-rank',       rankTitle);
+		setTxt('p-xp-current', `${xp} XP`);
+		setTxt('p-xp-next',    xp >= xpNext - 1 ? '✓ Level maksimum saat ini' : `/ ${xpNext} XP ke level berikutnya`);
+		const bar = document.getElementById('p-xp-bar');
+		if (bar) bar.style.width = `${pct}%`;
+		setTxt('p-streak', streak.toString());
+
+		// Stats
+		setTxt('p-xp-total',   xp.toString());
+		setTxt('p-level-val',  level.toString());
+		setTxt('p-badge-count', badges.length.toString());
+		setTxt('p-streak-val', streak.toString());
+
+		// Total progress
+		const totalBadges = MODULES.flatMap(g => g.items).flatMap(m => m.badges).length + 1; // +1 scout_master
+		setTxt('p-total-progress', `${badges.length} / ${totalBadges} lencana`);
+
+		// Modul lists
+		const listIds = { comm: 'list-comm', teknik: 'list-teknik', penget: 'list-penget' };
+		MODULES.forEach(group => {
+			const el = document.getElementById(listIds[group.group]);
+			if (el) el.innerHTML = group.items.map(m => renderModulRow(m, badges)).join('');
+		});
+	}
+
+	function setTxt(id: string, val: string) {
+		const el = document.getElementById(id);
+		if (el) el.textContent = val;
+	}
+
+	render();
+	window.addEventListener('statsUpdated', render);
+
+	// Edit profil button → trigger modal dari Layout.astro
+	document.getElementById('btn-edit-profil')?.addEventListener('click', () => {
+		(window as any).openProfileModal?.();
+	});
+
+	// Reset
+	document.getElementById('btn-reset-all')?.addEventListener('click', () => {
+		if (confirm('Hapus SEMUA progres: XP, lencana, profil, dan streak? Tidak bisa dibatalkan.')) {
+			['scout_xp','scout_badges','scout_username','scout_avatar','scout_streak','scout_last_visit','scout_visited']
+				.forEach(k => localStorage.removeItem(k));
+			window.dispatchEvent(new Event('statsUpdated'));
+			render();
+		}
+	});
+</script>
+
+<style>
+	.profil-page {
+		display: flex;
+		flex-direction: column;
+		gap: 1.75rem;
+	}
+
+	/* ─── Hero ────────────────────────────────────────────────────────────────── */
+
+	.profile-hero {
+		display: flex;
+		align-items: center;
+		gap: 2rem;
+		padding: 2.5rem;
+		background: linear-gradient(135deg, rgba(27,77,50,.07) 0%, rgba(255,255,255,.92) 60%, rgba(212,163,43,.05) 100%) !important;
+	}
+
+	.avatar-wrap { position: relative; flex-shrink: 0; }
+
+	.avatar-circle {
+		width: 90px;
+		height: 90px;
+		border-radius: 50%;
+		background: linear-gradient(135deg, rgba(27,77,50,.08), rgba(212,163,43,.08));
+		border: 3px solid rgba(212,163,43,.3);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 3rem;
+		box-shadow: 0 4px 18px rgba(27,77,50,.12);
+	}
+
+	.avatar-edit-btn {
+		position: absolute;
+		bottom: -4px;
+		right: -4px;
+		width: 28px;
+		height: 28px;
+		border-radius: 50%;
+		background: var(--color-surface-solid);
+		border: 2px solid var(--color-border);
+		font-size: 0.8rem;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		transition: all var(--transition-fast);
+		box-shadow: var(--shadow-sm);
+	}
+
+	.avatar-edit-btn:hover {
+		border-color: var(--color-primary-light);
+		background: rgba(42,111,74,.06);
+	}
+
+	.profile-main { flex: 1; min-width: 0; }
+
+	.profile-name-row {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+		margin-bottom: 0.2rem;
+	}
+
+	.profile-name-row h1 {
+		font-size: clamp(1.4rem, 3vw, 2rem);
+		font-weight: 800;
+		color: var(--color-primary-dark);
+	}
+
+	.level-chip {
+		background: var(--color-primary);
+		color: var(--color-gold-light);
+		font-size: 0.75rem;
+		font-weight: 700;
+		padding: 0.25rem 0.65rem;
+		border-radius: var(--radius-full);
+	}
+
+	.rank-title {
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+		margin-bottom: 1rem;
+	}
+
+	.xp-section { display: flex; flex-direction: column; gap: 0.35rem; }
+
+	.xp-numbers {
+		display: flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		font-size: 0.85rem;
+		font-weight: 700;
+		color: var(--color-text);
+	}
+
+	.xp-next-label {
+		font-size: 0.78rem;
+		font-weight: 500;
+		color: var(--color-text-faint);
+	}
+
+	.xp-bar-big {
+		height: 10px;
+		background: rgba(27,77,50,.1);
+		border-radius: var(--radius-full);
+		overflow: hidden;
+	}
+
+	.xp-fill-big {
+		height: 100%;
+		background: linear-gradient(90deg, var(--color-primary-light), var(--color-gold));
+		border-radius: var(--radius-full);
+		transition: width .8s cubic-bezier(.25,.46,.45,.94);
+	}
+
+	.streak-hero-block {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 0.3rem;
+		flex-shrink: 0;
+		background: rgba(224,123,32,.07);
+		border: 1px solid rgba(224,123,32,.2);
+		border-radius: var(--radius-md);
+		padding: 1rem 1.5rem;
+	}
+
+	.streak-big-num {
+		font-size: 2.5rem;
+		font-weight: 800;
+		color: #e07b20;
+		line-height: 1;
+	}
+
+	.streak-big-label {
+		font-size: 0.72rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+		color: var(--color-text-faint);
+		text-align: center;
+		line-height: 1.4;
+	}
+
+	/* ─── Stats ───────────────────────────────────────────────────────────────── */
+
+	.profil-stats {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+		gap: 1rem;
+	}
+
+	.pstat-card {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.25rem 1.4rem;
+	}
+
+	.pstat-icon {
+		width: 46px;
+		height: 46px;
+		border-radius: var(--radius-md);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.pstat-icon svg { width: 22px; height: 22px; }
+
+	.xp-color     { background: rgba(35,108,50,.1);   color: var(--color-success);        border: 1px solid rgba(35,108,50,.2);  }
+	.level-color  { background: rgba(27,77,50,.12);   color: var(--color-primary-light);  border: 1px solid rgba(27,77,50,.22); }
+	.badges-color { background: rgba(178,131,27,.1);  color: var(--color-gold);            border: 1px solid rgba(178,131,27,.22);}
+	.streak-color { background: rgba(224,123,32,.1);  color: #e07b20;                      border: 1px solid rgba(224,123,32,.22);}
+
+	.pstat-val {
+		font-size: 1.8rem;
+		font-weight: 800;
+		color: var(--color-text);
+		line-height: 1;
+		margin-bottom: 0.2rem;
+	}
+
+	.pstat-label {
+		font-size: 0.73rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.7px;
+		color: var(--color-text-faint);
+	}
+
+	/* ─── Progress Modul ──────────────────────────────────────────────────────── */
+
+	.progress-section { padding: 2rem; }
+
+	.section-header-row {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-bottom: 1.75rem;
+	}
+
+	.section-header-row h2 {
+		font-size: 1.4rem;
+		font-weight: 800;
+		color: var(--color-text);
+		margin-bottom: 0.3rem;
+	}
+
+	.section-header-row p {
+		font-size: 0.85rem;
+		color: var(--color-text-muted);
+	}
+
+	.total-progress-chip {
+		background: rgba(212,163,43,.1);
+		color: var(--color-gold);
+		border: 1px solid rgba(212,163,43,.22);
+		padding: 0.3rem 0.8rem;
+		border-radius: var(--radius-full);
+		font-size: 0.8rem;
+		font-weight: 700;
+		white-space: nowrap;
+	}
+
+	.modul-group { margin-bottom: 1.5rem; }
+	.modul-group:last-child { margin-bottom: 0; }
+
+	.group-label-row {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+		color: var(--color-text-faint);
+		margin-bottom: 0.65rem;
+		padding-bottom: 0.5rem;
+		border-bottom: 1px solid var(--color-border);
+	}
+
+	.group-dot {
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		flex-shrink: 0;
+	}
+
+	.comm-dot   { background: var(--color-primary-light); }
+	.teknik-dot { background: #b05a1a; }
+	.penget-dot { background: #5a6bc4; }
+
+	.modul-list { display: flex; flex-direction: column; gap: 0.5rem; }
+
+	.modul-row {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		padding: 0.7rem 0.85rem;
+		border-radius: var(--radius-md);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		transition: border-color var(--transition-fast);
+	}
+
+	.modul-row:hover { border-color: var(--color-border-hover); }
+
+	.modul-icon-link { text-decoration: none; flex-shrink: 0; }
+	.modul-icon { font-size: 1.2rem; }
+
+	.modul-info { flex: 1; min-width: 0; }
+
+	.modul-name {
+		display: block;
+		font-size: 0.88rem;
+		font-weight: 600;
+		color: var(--color-text);
+		text-decoration: none;
+		margin-bottom: 0.3rem;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.modul-name:hover { color: var(--color-primary); }
+
+	.modul-progress-bar {
+		height: 4px;
+		background: rgba(27,77,50,.08);
+		border-radius: var(--radius-full);
+		overflow: hidden;
+	}
+
+	.modul-fill {
+		height: 100%;
+		background: linear-gradient(90deg, var(--color-primary-light), var(--color-gold));
+		border-radius: var(--radius-full);
+		transition: width .5s ease;
+	}
+
+	.badge-dots {
+		display: flex;
+		gap: 0.3rem;
+		flex-shrink: 0;
+	}
+
+	.badge-dot {
+		font-size: 1.1rem;
+		line-height: 1;
+		transition: color var(--transition-fast);
+	}
+
+	.dot-earned { color: var(--color-gold); }
+	.dot-empty  { color: var(--color-border); }
+
+	.modul-status {
+		font-size: 0.72rem;
+		font-weight: 700;
+		padding: 0.22rem 0.55rem;
+		border-radius: var(--radius-full);
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	.status-done    { background: rgba(35,108,50,.08);  color: var(--color-success); border: 1px solid rgba(35,108,50,.18); }
+	.status-partial { background: rgba(212,163,43,.08); color: var(--color-gold);    border: 1px solid rgba(212,163,43,.2); }
+	.status-none    { background: var(--color-bg);      color: var(--color-text-faint); border: 1px solid var(--color-border); }
+
+	/* ─── Danger Zone ─────────────────────────────────────────────────────────── */
+
+	.danger-section {
+		padding: 1.5rem 2rem;
+		border-color: rgba(165,48,26,.18) !important;
+		background: rgba(165,48,26,.03) !important;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		flex-wrap: wrap;
+	}
+
+	.danger-header {
+		display: flex;
+		align-items: flex-start;
+		gap: 0.85rem;
+	}
+
+	.danger-header h3 {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--color-danger);
+		margin-bottom: 0.2rem;
+	}
+
+	.danger-header p {
+		font-size: 0.82rem;
+		color: var(--color-text-muted);
+	}
+
+	.btn-danger {
+		background: rgba(165,48,26,.08);
+		color: var(--color-danger);
+		border: 1px solid rgba(165,48,26,.25);
+		font-size: 0.88rem;
+		padding: 0.6rem 1.2rem;
+		border-radius: var(--radius-sm);
+		cursor: pointer;
+		font-family: var(--font-main);
+		font-weight: 600;
+		transition: all var(--transition-fast);
+		white-space: nowrap;
+	}
+
+	.btn-danger:hover {
+		background: rgba(165,48,26,.14);
+		border-color: rgba(165,48,26,.4);
+	}
+
+	/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+	@media (max-width: 720px) {
+		.profile-hero { flex-wrap: wrap; padding: 1.75rem; gap: 1.5rem; }
+		.streak-hero-block { width: 100%; flex-direction: row; justify-content: center; gap: 0.75rem; }
+		.streak-big-label { text-align: left; }
+		.profil-stats { grid-template-columns: repeat(2, 1fr); }
+	}
+
+	@media (max-width: 480px) {
+		.profil-stats { grid-template-columns: 1fr 1fr; }
+		.modul-row { flex-wrap: wrap; }
+		.modul-status { margin-left: auto; }
+	}
+</style>

@@ -1,0 +1,943 @@
+---
+/**
+ * SandiQuiz.astro - Specialized Cipher/Code Quiz Component
+ * Komponen kuis khusus untuk berbagai jenis Sandi Pramuka
+ * 
+ * TypeScript enabled with strict type checking
+ */
+
+import type { QuizModule, Question, GameModeType, Badge } from '../types/quiz';
+
+interface Props {
+  quizId: string;
+  level?: string;
+  totalQuestions?: number;
+  mode?: GameModeType;
+}
+
+const { quizId, level, totalQuestions = 10, mode = 'standard' } = Astro.props;
+
+// Sandi-specific types
+interface SandiQuizData extends QuizModule {
+  morseMap: Record<string, string>;
+  hasAudio: boolean;
+  hasVisual: boolean;
+}
+
+interface SandiQuestion extends Question {
+  type: 'kotak1' | 'rumput' | 'an' | 'az' | 'koordinat';
+  value: string;
+  code: string;
+}
+
+// Game modes configuration
+const GAME_MODES: Record<GameModeType, { xpMultiplier: number; timeLimit?: number; lives?: number }> = {
+  standard: { xpMultiplier: 1.0 },
+  time_attack: { xpMultiplier: 1.5, timeLimit: 300 },
+  no_mistake: { xpMultiplier: 2.0, lives: 1 },
+  daily: { xpMultiplier: 1.2 },
+  duel: { xpMultiplier: 1.5 },
+  survival: { xpMultiplier: 1.0 }
+} as const;
+
+const currentMode = GAME_MODES[mode];
+
+// Difficulty colors and labels
+const DIFFICULTY_COLORS: Record<string, string> = {
+  easy: 'green',
+  medium: 'red',
+  hard: 'yellow',
+  mix: 'purple'
+} as const;
+
+const DIFFICULTY_LABELS: Record<string, string> = {
+  easy: 'Mudah',
+  medium: 'Sedang',
+  hard: 'Sulit',
+  mix: 'Campuran'
+} as const;
+
+// Badge definitions for Sandi module
+const SANDI_BADGES: Record<string, Badge> = {
+  sandi_novice: {
+    id: 'sandi_novice',
+    name: 'Pemecah Kode',
+    description: 'Selesaikan 1 kuis Sandi',
+    icon: '🔐',
+    category: 'Sandi',
+    rarity: 'common'
+  },
+  sandi_master: {
+    id: 'sandi_master',
+    name: 'Ahli Sandi',
+    description: 'Selesaikan kuis Sandi dengan skor 100%',
+    icon: '🔓',
+    category: 'Sandi',
+    rarity: 'rare'
+  }
+} as const;
+
+// State for quiz data
+let quizData: SandiQuizData | null = null;
+let questions: SandiQuestion[] = [];
+let quizMetadata: Partial<SandiQuizData> = {};
+let morseMap: Record<string, string> = {};
+let helpContent: { title: string; content: string } | null = null;
+
+// Load Sandi quiz data
+try {
+  const sandiQuiz: SandiQuizData = await import(`../data/quizzes/${quizId}.json`).then(m => m.default);
+  quizData = sandiQuiz;
+  questions = sandiQuiz.questions || [];
+  quizMetadata = { ...quizMetadata, ...sandiQuiz };
+  morseMap = sandiQuiz.morseMap || {};
+  helpContent = sandiQuiz.helpContent || null;
+} catch (e: unknown) {
+  console.error('Failed to load Sandi quiz data:', quizId, e);
+  // Fallback empty data
+  questions = [];
+  quizMetadata = {
+    id: quizId,
+    title: 'Sandi (Pecah Sandi)',
+    description: 'Latihan sandi pramuka',
+    category: 'Komunikasi & Isyarat',
+    difficulty: 'hard',
+    xpPerQuestion: 20,
+    totalQuestions: 12,
+    color: 'red',
+    icon: '🔐',
+    hasAudio: false,
+    hasVisual: true
+  };
+  morseMap = {
+    'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+    'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+    'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+    'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+    'Y': '-.--', 'Z': '--..'
+  };
+}
+
+// Shuffle questions and limit to totalQuestions
+function getShuffledQuestions(questionsPool: SandiQuestion[], count: number): SandiQuestion[] {
+  const shuffled = [...questionsPool].sort(() => 0.5 - Math.random());
+  return shuffled.slice(0, Math.min(count, shuffled.length));
+}
+
+const selectedQuestions: SandiQuestion[] = getShuffledQuestions(questions, totalQuestions);
+const xpPerQuestion: number = quizMetadata.xpPerQuestion || 20;
+const difficulty: string = quizMetadata.difficulty || 'hard';
+const quizColor: string = quizMetadata.color || 'red';
+const quizIcon: string = quizMetadata.icon || '🔐';
+const quizCategory: string = quizMetadata.category || 'Komunikasi & Isyarat';
+const hasAudio: boolean = quizMetadata.hasAudio || false;
+const hasVisual: boolean = quizMetadata.hasVisual || true;
+
+// Calculate XP multiplier based on mode
+const xpMultiplier: number = currentMode.xpMultiplier;
+
+// Helper function to build class names
+function buildClass(baseClass: string, modifier: string): string {
+  return baseClass + ' ' + modifier;
+}
+
+// Decode AN cipher (Caesar cipher with shift 13)
+function decodeAN(text: string): string {
+  const anPairs: Record<string, string> = {
+    'A': 'N', 'B': 'O', 'C': 'P', 'D': 'Q', 'E': 'R', 'F': 'S', 'G': 'T',
+    'H': 'U', 'I': 'V', 'J': 'W', 'K': 'X', 'L': 'Y', 'M': 'Z',
+    'N': 'A', 'O': 'B', 'P': 'C', 'Q': 'D', 'R': 'E', 'S': 'F', 'T': 'G',
+    'U': 'H', 'V': 'I', 'W': 'J', 'X': 'K', 'Y': 'L', 'Z': 'M'
+  };
+  return text.split('').map(char => anPairs[char.toUpperCase()] || char).join('');
+}
+
+// Decode AZ cipher (Atbash - reverse alphabet)
+function decodeAZ(text: string): string {
+  const azPairs: Record<string, string> = {
+    'A': 'Z', 'B': 'Y', 'C': 'X', 'D': 'W', 'E': 'V', 'F': 'U', 'G': 'T',
+    'H': 'S', 'I': 'R', 'J': 'Q', 'K': 'P', 'L': 'O', 'M': 'N',
+    'N': 'M', 'O': 'L', 'P': 'K', 'Q': 'J', 'R': 'I', 'S': 'H',
+    'T': 'G', 'U': 'F', 'V': 'E', 'W': 'D', 'X': 'C', 'Y': 'B', 'Z': 'A'
+  };
+  return text.split('').map(char => azPairs[char.toUpperCase()] || char).join('');
+}
+
+// Decode Koordinat (Merah Putih)
+function decodeKoordinat(code: string): string {
+  const rows = ['M', 'E', 'R', 'A', 'H'];
+  const cols = ['P', 'U', 'T', 'I', 'H'];
+  const grid = [
+    ['A', 'B', 'C', 'D', 'E'],
+    ['F', 'G', 'H', 'I', 'J'],
+    ['K', 'L', 'M', 'N', 'O'],
+    ['P', 'Q', 'R', 'S', 'T'],
+    ['U', 'V', 'W', 'X', 'Y/Z']
+  ];
+  
+  return code.split(',').map(pair => {
+    const [row, col] = pair.trim().split('').map(s => s.toUpperCase());
+    const rowIdx = rows.indexOf(row);
+    const colIdx = cols.indexOf(col);
+    if (rowIdx >= 0 && colIdx >= 0 && grid[rowIdx] && grid[rowIdx][colIdx]) {
+      return grid[rowIdx][colIdx];
+    }
+    return '?';
+  }).join('');
+}
+
+// Generate Sandi Kotak I SVG
+function generateSandiKotakSVG(char: string): string {
+  const c = char.toUpperCase();
+  const cells: Record<string, { border: string; dot: boolean } | { shape: string; dot: boolean }> = {
+    'A': { border: 'RB', dot: false }, 'B': { border: 'RB', dot: true },
+    'C': { border: 'LRB', dot: false }, 'D': { border: 'LRB', dot: true },
+    'E': { border: 'LB', dot: false }, 'F': { border: 'LB', dot: true },
+    'G': { border: 'TRB', dot: false }, 'H': { border: 'TRB', dot: true },
+    'I': { border: 'TLRB', dot: false }, 'J': { border: 'TLRB', dot: true },
+    'K': { border: 'TLB', dot: false }, 'L': { border: 'TLB', dot: true },
+    'M': { border: 'TR', dot: false }, 'N': { border: 'TR', dot: true },
+    'O': { border: 'TLR', dot: false }, 'P': { border: 'TLR', dot: true },
+    'Q': { border: 'TL', dot: false }, 'R': { border: 'TL', dot: true },
+    'S': { shape: 'top', dot: false }, 'T': { shape: 'top', dot: true },
+    'U': { shape: 'left', dot: false }, 'V': { shape: 'left', dot: true },
+    'W': { shape: 'bottom', dot: false }, 'X': { shape: 'bottom', dot: true },
+    'Y': { shape: 'right', dot: false }, 'Z': { shape: 'right', dot: true }
+  };
+
+  const info = cells[c as keyof typeof cells];
+  if (!info) return `<span style="font-size: 1.2rem; color: var(--color-text-muted);">${char}</span>`;
+
+  let path = '';
+  let dotSvg = '';
+  const x1 = 5, y1 = 5, x2 = 35, y2 = 35;
+
+  if ('border' in info) {
+    const b = info.border;
+    if (b.includes('T')) path += `M ${x1} ${y1} L ${x2} ${y1} `;
+    if (b.includes('B')) path += `M ${x1} ${y2} L ${x2} ${y2} `;
+    if (b.includes('L')) path += `M ${x1} ${y1} L ${x1} ${y2} `;
+    if (b.includes('R')) path += `M ${x2} ${y1} L ${x2} ${y2} `;
+    if (info.dot) dotSvg = `<circle cx="20" cy="20" r="3" fill="var(--color-gold)"/>`;
+  } else if ('shape' in info) {
+    const s = info.shape;
+    if (s === 'top') {
+      path += `M ${x1} ${y1} L 20 20 L ${x2} ${y1}`;
+      if (info.dot) dotSvg = `<circle cx="20" cy="12" r="3" fill="var(--color-gold)"/>`;
+    } else if (s === 'left') {
+      path += `M ${x1} ${y1} L 20 20 L ${x1} ${y2}`;
+      if (info.dot) dotSvg = `<circle cx="12" cy="20" r="3" fill="var(--color-gold)"/>`;
+    } else if (s === 'bottom') {
+      path += `M ${x1} ${y2} L 20 20 L ${x2} ${y2}`;
+      if (info.dot) dotSvg = `<circle cx="20" cy="28" r="3" fill="var(--color-gold)"/>`;
+    } else if (s === 'right') {
+      path += `M ${x2} ${y1} L 20 20 L ${x2} ${y2}`;
+      if (info.dot) dotSvg = `<circle cx="28" cy="20" r="3" fill="var(--color-gold)"/>`;
+    }
+  }
+
+  return `
+    <svg width="40" height="40" class="sandi-kotak-svg" style="display:inline-block; margin: 0 4px; vertical-align: middle;">
+      <path d="${path}" stroke="var(--color-text)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      ${dotSvg}
+    </svg>
+  `;
+}
+
+// Generate Sandi Rumput SVG
+function generateSandiRumputSVG(word: string): string {
+  const morseSequence: string[] = [];
+  for (const char of word.toUpperCase()) {
+    if (morseMap[char]) morseSequence.push(morseMap[char]);
+  }
+  const combinedMorse = morseSequence.join(' ');
+  let x = 10;
+  let path = `M 10 70 `;
+
+  for (const symbol of combinedMorse) {
+    if (symbol === '.') {
+      path += `L ${x + 5} 45 L ${x + 10} 70 `;
+      x += 10;
+    } else if (symbol === '-') {
+      path += `L ${x + 8} 15 L ${x + 16} 70 `;
+      x += 16;
+    } else if (symbol === ' ') {
+      path += `L ${x + 8} 70 `;
+      x += 8;
+    }
+  }
+
+  return `
+    <svg width="100%" height="90" viewBox="0 0 ${x + 15} 80" preserveAspectRatio="xMidYMid meet" class="sandi-rumput-svg">
+      <line x1="5" y1="70" x2="${x + 10}" y2="70" stroke="rgba(255, 255, 255, 0.15)" stroke-width="2" />
+      <path d="${path}" stroke="var(--color-success)" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  `;
+}
+
+// Render sandi visual based on type
+function renderSandiVisual(question: SandiQuestion): string {
+  switch (question.type) {
+    case 'kotak1':
+      return question.code.split('').map(c => generateSandiKotakSVG(c)).join('');
+    case 'rumput':
+      return generateSandiRumputSVG(question.code);
+    case 'an':
+      return `<div class="sandi-text-display">${question.code}</div>`;
+    case 'az':
+      return `<div class="sandi-text-display">${question.code}</div>`;
+    case 'koordinat':
+      return `<div class="sandi-text-display">${question.code}</div>`;
+    default:
+      return `<div class="sandi-text-display">${question.code}</div>`;
+  }
+}
+---
+
+<div class="sandi-quiz-container" data-quiz-id={quizId} data-level={level} data-mode={mode}>
+  <header class="sandi-quiz-header glass-card">
+    <a href="/" class="btn-back">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <line x1="19" y1="12" x2="5" y2="12"/>
+        <polyline points="12 19 5 12 12 5"/>
+      </svg>
+      Kembali ke Dasbor
+    </a>
+    <div class="sandi-quiz-title-area">
+      <h2>{quizMetadata.title || 'Kuis Sandi'}</h2>
+      <span class={buildClass('quiz-difficulty', DIFFICULTY_COLORS[difficulty] || 'hard')}>
+        {DIFFICULTY_LABELS[difficulty] || 'Sulit'}
+      </span>
+    </div>
+  </header>
+
+  <div class="sandi-quiz-layout" id="sandi-quiz-layout">
+    <div class="sandi-main-card glass-card">
+      <div class="progress-tracker">
+        <span id="sandi-question-number">Soal 1 dari {totalQuestions}</span>
+        <div class="progress-bar-outer">
+          <div id="sandi-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+        </div>
+      </div>
+
+      {mode === 'time_attack' && (
+        <div class="mode-display timer-display">
+          <span class="mode-icon">⏱️</span>
+          <span id="sandi-timer">{currentMode.timeLimit || 300}</span> detik
+        </div>
+      )}
+      
+      {mode === 'no_mistake' && (
+        <div class="mode-display lives-display">
+          <span class="mode-icon">❤️</span>
+          <span id="sandi-lives">{currentMode.lives || 1}</span>
+        </div>
+      )}
+
+      <!-- Sandi Display Screen -->
+      <div class="stimulus-display">
+        <div id="sandi-visualizer" class="sandi-visualizer">
+          {selectedQuestions[0] && renderSandiVisual(selectedQuestions[0])}
+        </div>
+        <div id="sandi-text-display" class="sandi-text-display"></div>
+      </div>
+
+      <!-- Question Prompt -->
+      <div class="question-text-area">
+        <h3 id="sandi-question-prompt">{selectedQuestions[0]?.question || 'Memuat soal...'}</h3>
+      </div>
+
+      <!-- Options Grid -->
+      <div class="flex flex-col gap-2" id="sandi-options-container"></div>
+
+      <!-- Education Card -->
+      <div class="education-card" id="sandi-education-card" style="display: none;">
+        <div class="edu-header">
+          <span class="edu-icon">🔑</span>
+          <span class="edu-label">Cara Memecahkan Sandi</span>
+        </div>
+        <p id="sandi-education-text"></p>
+      </div>
+
+      <!-- Actions -->
+      <div class="action-footer">
+        <button id="btn-sandi-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+      </div>
+    </div>
+
+    <!-- Sandi Quick Reference -->
+    {helpContent && (
+      <div class="sandi-help-card glass-card" id="sandi-help-sidebar">
+        <h3 id="sandi-help-sidebar-title">{helpContent.title}</h3>
+        <div class="help-content-area" id="sandi-help-sidebar-content" set:html={helpContent.content}></div>
+        
+        <div class="sandi-reference-tabs">
+          <div class="sandi-tabs">
+            <button class="tab-btn active" data-tab="tab-kotak" id="btn-tab-kotak">Sandi Kotak</button>
+            <button class="tab-btn" data-tab="tab-an-az" id="btn-tab-an">AN / AZ</button>
+            <button class="tab-btn" data-tab="tab-merahputih" id="btn-tab-koordinat">Merah Putih</button>
+          </div>
+          
+          <div class="tab-content active" id="tab-kotak">
+            <p class="help-desc">Sandi Kotak I: Grid 3x3 dan bentuk silang (X). Huruf kedua diberi tanda titik.</p>
+            <div class="grid-explanation">
+              <div class="grid-ex-row">
+                <span>A / B •</span><span>C / D •</span><span>E / F •</span>
+              </div>
+              <div class="grid-ex-row">
+                <span>G / H •</span><span>I / J •</span><span>K / L •</span>
+              </div>
+              <div class="grid-ex-row">
+                <span>M / N •</span><span>O / P •</span><span>Q / R •</span>
+              </div>
+            </div>
+            <div style="margin-top: 0.5rem;">
+              Silang: <strong>S/T</strong> (Atas), <strong>U/V</strong> (Kiri), <strong>W/X</strong> (Bawah), <strong>Y/Z</strong> (Kanan)
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-an-az">
+            <p class="help-desc"><strong>Sandi AN</strong>: A berpasangan dengan N, B dengan O, dst (geser 13 huruf).</p>
+            <div class="sandi-pair-list">
+              A-N | B-O | C-P | D-Q | E-R | F-S | G-T | H-U | I-V | J-W | K-X | L-Y | M-Z
+            </div>
+            <p class="help-desc" style="margin-top:0.75rem;"><strong>Sandi AZ</strong>: Huruf dibalik (A-Z, B-Y, C-X, dst).</p>
+            <div class="sandi-pair-list">
+              A-Z | B-Y | C-X | D-W | E-V | F-U | G-T | H-S | I-R | J-Q | K-P | L-O | M-N
+            </div>
+          </div>
+
+          <div class="tab-content" id="tab-merahputih">
+            <p class="help-desc"><strong>Sandi Koordinat (Merah Putih)</strong>: Baris = M-E-R-A-H, Kolom = P-U-T-I-H.</p>
+            <table class="merahputih-table">
+              <thead>
+                <tr><th></th><th><strong>P</strong></th><th><strong>U</strong></th><th><strong>T</strong></th><th><strong>I</strong></th><th><strong>H</strong></th></tr>
+              </thead>
+              <tbody>
+                <tr><th><strong>M</strong></th><td>A</td><td>B</td><td>C</td><td>D</td><td>E</td></tr>
+                <tr><th><strong>E</strong></th><td>F</td><td>G</td><td>H</td><td>I</td><td>J</td></tr>
+                <tr><th><strong>R</strong></th><td>K</td><td>L</td><td>M</td><td>N</td><td>O</td></tr>
+                <tr><th><strong>A</strong></th><td>P</td><td>Q</td><td>R</td><td>S</td><td>T</td></tr>
+                <tr><th><strong>H</strong></th><td>U</td><td>V</td><td>W</td><td>X</td><td>Y/Z</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    )}
+  </div>
+
+  <!-- Result Overlay -->
+  <div class="result-overlay" id="sandi-result-overlay" style="display: none;">
+    <div class="result-card glass-card">
+      <div class="result-emoji" id="sandi-result-emoji">🏆</div>
+      <h2>Kuis Selesai!</h2>
+      <p class="result-summary" id="sandi-result-text"></p>
+      
+      <div class="result-stats-details">
+        <div class="detail-item">
+          <span class="label">XP Diperoleh</span>
+          <span class="value score-xp" id="sandi-result-xp">+0 XP</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Skor Akhir</span>
+          <span class="value" id="sandi-result-score">0/100</span>
+        </div>
+        {mode === 'time_attack' && (
+          <div class="detail-item">
+            <span class="label">Waktu</span>
+            <span class="value" id="sandi-result-time">0 detik</span>
+          </div>
+        )}
+      </div>
+
+      <div class="unlocked-badges-container" id="sandi-unlocked-badges" style="display: none;">
+        <h3>🎖️ Lencana Baru Terbuka!</h3>
+        <div class="unlocked-badges-list" id="sandi-badges-list-el"></div>
+      </div>
+
+      <div class="result-actions">
+        <button id="btn-sandi-restart" class="btn btn-primary">Ulangi Kuis</button>
+        <a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  .sandi-quiz-container { max-width: 1000px; margin: 0 auto; padding: 2rem 1.5rem; display: flex; flex-direction: column; gap: 2rem; }
+  .sandi-quiz-header { padding: 1.5rem 2rem; display: flex; flex-direction: column; gap: 0.75rem; }
+  .btn-back { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--color-text-muted); text-decoration: none; font-size: 0.9rem; font-weight: 500; width: max-content; transition: color var(--transition-fast); }
+  .btn-back:hover { color: var(--color-gold); }
+  .btn-back svg { width: 16px; height: 16px; }
+  .sandi-quiz-title-area { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .sandi-quiz-title-area h2 { font-size: 1.5rem; font-weight: 800; color: var(--color-text); margin: 0; }
+  .quiz-difficulty { font-size: 0.75rem; font-weight: 700; padding: 0.3rem 0.75rem; border-radius: 4px; text-transform: uppercase; }
+  .quiz-difficulty.easy { background: rgba(43, 112, 76, 0.12); color: #62c370; border: 1px solid rgba(43, 112, 76, 0.25); }
+  .quiz-difficulty.medium { background: rgba(212, 163, 43, 0.1); color: var(--color-gold); border: 1px solid rgba(212, 163, 43, 0.25); }
+  .quiz-difficulty.hard { background: rgba(185, 59, 34, 0.1); color: #e56b55; border: 1px solid rgba(185, 59, 34, 0.25); }
+  
+  .sandi-quiz-layout { display: grid; grid-template-columns: 2.2fr 1fr; gap: 2rem; align-items: start; }
+  @media (max-width: 900px) { .sandi-quiz-layout { grid-template-columns: 1fr; } }
+  
+  .sandi-main-card { padding: 2.5rem; display: flex; flex-direction: column; gap: 2rem; }
+  .progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+  .progress-tracker span { font-size: 0.85rem; color: var(--color-text-muted); font-weight: 600; }
+  .progress-bar-outer { height: 6px; background: rgba(185, 59, 34, 0.1); border-radius: 50px; overflow: hidden; }
+  .progress-bar-inner { height: 100%; background: linear-gradient(90deg, #ef4444, #f87171); border-radius: 50px; transition: width var(--transition-normal); }
+  
+  .mode-display { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem; background: var(--color-bg); border-radius: 8px; font-size: 0.9rem; font-weight: 600; width: max-content; }
+  
+  .stimulus-display { background: rgba(185, 59, 34, 0.04); border: 1px solid var(--color-border); border-radius: 12px; padding: 1.5rem; display: flex; flex-direction: column; align-items: center; gap: 1rem; min-height: 150px; justify-content: center; }
+  .sandi-visualizer { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 0.5rem; min-height: 80px; }
+  .sandi-text-display { font-family: 'Courier New', monospace; font-size: 1.5rem; letter-spacing: 0.25rem; color: var(--color-text); text-align: center; word-break: break-word; padding: 1rem; }
+  .sandi-kotak-svg { vertical-align: middle; }
+  .sandi-rumput-svg { width: 100%; min-width: 200px; }
+  
+  .question-text-area h3 { font-size: 1.15rem; font-weight: 600; color: var(--color-text); line-height: 1.4; }
+
+  /* Options */
+  .opt-btn { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border: 2px solid var(--color-border); border-radius: 10px; background: var(--color-bg); cursor: pointer; transition: all var(--transition-normal); text-align: left; position: relative; overflow: hidden; }
+  .opt-btn:hover:not(.is-answered) { border-color: var(--color-gold); box-shadow: 0 4px 12px rgba(178, 131, 27, 0.2); }
+  .opt-btn.is-selected { border-color: var(--color-gold); background: rgba(178, 131, 27, 0.08); }
+  .opt-btn.is-correct { border-color: var(--color-success); background: rgba(43, 112, 76, 0.1); }
+  .opt-btn.is-incorrect { border-color: var(--color-danger); background: rgba(185, 59, 34, 0.1); }
+  .opt-btn.is-dimmed { opacity: 0.5; }
+  .opt-btn.is-answered { cursor: not-allowed; }
+  .opt-letter { font-size: 1.1rem; font-weight: 700; color: var(--color-text-muted); width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; border-radius: 50%; background: var(--color-border); flex-shrink: 0; }
+  .opt-btn.is-selected .opt-letter, .opt-btn.is-correct .opt-letter, .opt-btn.is-incorrect .opt-letter { color: white; }
+  .opt-btn.is-selected .opt-letter { background: var(--color-gold); }
+  .opt-btn.is-correct .opt-letter { background: var(--color-success); }
+  .opt-btn.is-incorrect .opt-letter { background: var(--color-danger); }
+  .opt-text { flex: 1; font-size: 0.95rem; color: var(--color-text); line-height: 1.4; }
+  .opt-indicator { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; border-radius: 50%; background: var(--color-bg); position: relative; }
+  .opt-radio { width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--color-border); }
+  .opt-btn.is-selected .opt-radio { border-color: var(--color-gold); background: var(--color-gold); }
+  .opt-icon { width: 16px; height: 16px; position: absolute; display: none; }
+  .opt-btn.is-correct .icon-check { display: block; }
+  .opt-btn.is-incorrect .icon-cross { display: block; }
+
+  /* Education Card */
+  .education-card { border-radius: var(--radius-md); padding: 1rem 1.1rem; display: flex; flex-direction: column; gap: 0.5rem; animation: slide-in 0.2s ease; }
+  .education-card.correct { background: rgba(35, 108, 50, 0.07); border: 1px solid rgba(35, 108, 50, 0.2); }
+  .education-card.incorrect { background: rgba(165, 48, 26, 0.06); border: 1px solid rgba(165, 48, 26, 0.18); }
+  @keyframes slide-in { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+  .edu-header { display: flex; align-items: center; gap: 0.45rem; }
+  .edu-icon { font-size: 1rem; }
+  .edu-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--color-danger-light); }
+  .education-card.incorrect .edu-label { color: var(--color-danger); }
+  #sandi-education-text { font-size: 0.85rem; color: var(--color-text); line-height: 1.55; }
+  
+  .action-footer { display: flex; justify-content: flex-end; margin-top: 1rem; }
+  #btn-sandi-submit-answer { padding: 0.9rem 2rem; border-radius: 8px; }
+
+  /* Help Card Sidebar */
+  .sandi-help-card { padding: 1.75rem; display: flex; flex-direction: column; gap: 1.25rem; }
+  .sandi-help-card h3 { font-size: 1.15rem; font-weight: 700; color: var(--color-text); }
+  .help-content-area { font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.5; }
+  .help-content-area h4 { color: var(--color-text); margin: 0 0 0.5rem 0; }
+  .help-content-area p { margin: 0 0 0.75rem 0; }
+  .help-content-area strong { color: var(--color-text); }
+  .help-content-area ul { margin: 0 0 0.75rem 0; padding-left: 1rem; }
+  .help-content-area li { margin: 0.25rem 0; }
+  
+  .sandi-reference-tabs { margin-top: 1rem; }
+  .sandi-tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid var(--color-border); }
+  .tab-btn { padding: 0.5rem 1rem; background: transparent; border: none; border-radius: 6px 6px 0 0; color: var(--color-text-muted); cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: all var(--transition-fast); }
+  .tab-btn:hover { color: var(--color-text); background: var(--color-bg); }
+  .tab-btn.active { color: var(--color-danger); border: 1px solid var(--color-border); border-bottom: 2px solid var(--color-danger); }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; animation: fadeIn 0.2s ease; }
+  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  
+  .help-desc { font-size: 0.85rem; color: var(--color-text-muted); line-height: 1.4; margin: 0 0 0.75rem 0; }
+  .help-desc strong { color: var(--color-text); }
+  
+  .grid-explanation { display: flex; flex-direction: column; gap: 0.25rem; margin: 0.5rem 0; }
+  .grid-ex-row { display: flex; gap: 1rem; justify-content: center; }
+  .grid-ex-row span { font-size: 0.85rem; color: var(--color-text-muted); font-family: 'Courier New', monospace; }
+  
+  .sandi-pair-list { font-size: 0.85rem; color: var(--color-text-muted); text-align: center; letter-spacing: 0.5px; word-break: break-all; margin: 0.5rem 0; }
+  
+  .merahputih-table { width: 100%; border-collapse: collapse; margin: 0.5rem 0; }
+  .merahputih-table th, .merahputih-table td { padding: 0.35rem 0.5rem; text-align: center; border: 1px solid var(--color-border); font-size: 0.8rem; }
+  .merahputih-table th { background: rgba(185, 59, 34, 0.08); color: var(--color-danger-light); }
+  .merahputih-table td { color: var(--color-text-muted); }
+  .merahputih-table strong { color: var(--color-text); }
+
+  /* Result Overlay */
+  .result-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(15, 7, 7, 0.85); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); display: flex; align-items: center; justify-content: center; z-index: 1000; padding: 1.5rem; }
+  .result-card { width: 100%; max-width: 550px; padding: 3rem 2.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 1.5rem; animation: scale-up 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+  .result-emoji { font-size: 4rem; }
+  .result-card h2 { font-size: 2rem; font-weight: 800; color: #ffffff; }
+  .result-summary { font-size: 1.05rem; color: var(--color-text-muted); line-height: 1.5; }
+  .result-stats-details { display: flex; width: 100%; gap: 1.5rem; margin: 0.5rem 0; }
+  .detail-item { flex: 1; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.1); padding: 1.25rem; border-radius: 12px; display: flex; flex-direction: column; gap: 0.25rem; }
+  .detail-item .label { font-size: 0.8rem; color: var(--color-text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: 0.5px; }
+  .detail-item .value { font-size: 1.6rem; font-weight: 800; color: white; }
+  .detail-item .value.score-xp { color: var(--color-gold); }
+  .unlocked-badges-container { width: 100%; background: rgba(185, 59, 34, 0.05); border: 1px solid rgba(185, 59, 34, 0.2); border-radius: 12px; padding: 1.25rem; text-align: left; }
+  .unlocked-badges-container h3 { font-size: 1rem; font-weight: 700; color: var(--color-danger-light); margin-bottom: 0.75rem; text-align: center; }
+  .unlocked-badges-list { display: flex; flex-direction: column; gap: 0.5rem; }
+  .unlocked-badge-item { font-size: 0.9rem; color: var(--color-text); display: flex; align-items: center; gap: 0.5rem; }
+  .unlocked-badge-item .u-icon { font-size: 1.25rem; }
+  .result-actions { display: flex; gap: 1rem; width: 100%; margin-top: 1rem; }
+  .result-actions button, .result-actions a { flex: 1; }
+  
+  @media (max-width: 768px) {
+    .sandi-quiz-layout { grid-template-columns: 1fr; }
+    .sandi-main-card { padding: 1.5rem; }
+    .sandi-tabs { overflow-x: auto; flex-wrap: nowrap; }
+  }
+  
+  @keyframes scale-up { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+  
+  .glass-card { background: var(--color-glass); backdrop-filter: blur(10px); border: 1px solid var(--color-border); border-radius: 16px; }
+</style>
+
+<script>
+  // Type annotations for state
+  let currentQuestions: SandiQuestion[] = selectedQuestions;
+  let currentQuestionIndex: number = 0;
+  let selectedOptionIndex: number | null = null;
+  let correctAnswersCount: number = 0;
+  let timeLeft: number = currentMode.timeLimit || 0;
+  let lives: number = currentMode.lives || Infinity;
+  let startTime: number = 0;
+  let timer: ReturnType<typeof setInterval> | null = null;
+
+  // DOM Elements with type annotations
+  const sandiQuizLayout: HTMLElement | null = document.getElementById('sandi-quiz-layout');
+  const sandiQuestionPrompt: HTMLElement | null = document.getElementById('sandi-question-prompt');
+  const sandiVisualizer: HTMLElement | null = document.getElementById('sandi-visualizer');
+  const sandiOptionsContainer: HTMLElement | null = document.getElementById('sandi-options-container');
+  const sandiQuestionNumber: HTMLElement | null = document.getElementById('sandi-question-number');
+  const sandiProgressBar: HTMLElement | null = document.getElementById('sandi-progress-bar');
+  const sandiSubmitBtn: HTMLButtonElement | null = document.getElementById('btn-sandi-submit-answer') as HTMLButtonElement | null;
+  const sandiEduCard: HTMLElement | null = document.getElementById('sandi-education-card');
+  const sandiEduText: HTMLElement | null = document.getElementById('sandi-education-text');
+  const sandiResultOverlay: HTMLElement | null = document.getElementById('sandi-result-overlay');
+  const sandiResultText: HTMLElement | null = document.getElementById('sandi-result-text');
+  const sandiResultXp: HTMLElement | null = document.getElementById('sandi-result-xp');
+  const sandiResultScore: HTMLElement | null = document.getElementById('sandi-result-score');
+  const sandiResultEmoji: HTMLElement | null = document.getElementById('sandi-result-emoji');
+  const sandiResultTimer: HTMLElement | null = document.getElementById('sandi-timer');
+  const sandiResultLives: HTMLElement | null = document.getElementById('sandi-lives');
+  const sandiResultTime: HTMLElement | null = document.getElementById('sandi-result-time');
+  const sandiUnlockedBadges: HTMLElement | null = document.getElementById('sandi-unlocked-badges');
+  const sandiBadgesListEl: HTMLElement | null = document.getElementById('sandi-badges-list-el');
+  const sandiRestartBtn: HTMLButtonElement | null = document.getElementById('btn-sandi-restart') as HTMLButtonElement | null;
+
+  // Tab elements
+  const tabButtons: NodeListOf<HTMLButtonElement> | null = document.querySelectorAll('.tab-btn');
+  const tabContents: NodeListOf<HTMLElement> | null = document.querySelectorAll('.tab-content');
+
+  // Server-side render sandi visual
+  function serverRenderSandiVisual(question: SandiQuestion): string {
+    return renderSandiVisual(question);
+  }
+
+  // Render question
+  function renderQuestion(): void {
+    const question: SandiQuestion | undefined = currentQuestions[currentQuestionIndex];
+    
+    if (!question) return;
+
+    // Update header progress
+    if (sandiQuestionNumber) {
+      sandiQuestionNumber.textContent = `Soal ${currentQuestionIndex + 1} dari ${currentQuestions.length}`;
+    }
+    if (sandiProgressBar) {
+      sandiProgressBar.style.width = `${((currentQuestionIndex + 1) / currentQuestions.length) * 100}%`;
+    }
+
+    if (sandiQuestionPrompt) {
+      sandiQuestionPrompt.textContent = question.question;
+    }
+
+    // Render sandi visual
+    if (sandiVisualizer) {
+      sandiVisualizer.innerHTML = renderSandiVisual(question);
+    }
+
+    // Render options
+    if (sandiOptionsContainer) {
+      sandiOptionsContainer.innerHTML = '';
+      question.options.forEach((option: string, index: number) => {
+        const optionBtn: HTMLButtonElement = document.createElement('button');
+        optionBtn.className = 'opt-btn';
+        optionBtn.style.animationDelay = `${index * 0.06}s`;
+        optionBtn.innerHTML = `
+          <span class="opt-letter">${String.fromCharCode(65 + index)}</span>
+          <span class="opt-text">${option}</span>
+          <span class="opt-indicator">
+            <span class="opt-radio"></span>
+            <svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+            <svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
+            </svg>
+          </span>
+        `;
+        optionBtn.addEventListener('click', () => selectOption(index));
+        sandiOptionsContainer.appendChild(optionBtn);
+      });
+    }
+
+    if (sandiEduCard) {
+      sandiEduCard.style.display = 'none';
+      if (sandiEduCard.classList.contains('correct')) {
+        sandiEduCard.classList.remove('correct');
+      }
+      if (sandiEduCard.classList.contains('incorrect')) {
+        sandiEduCard.classList.remove('incorrect');
+      }
+    }
+    
+    selectedOptionIndex = null;
+    if (sandiSubmitBtn) {
+      sandiSubmitBtn.disabled = true;
+      sandiSubmitBtn.textContent = 'Konfirmasi Jawaban';
+    }
+  }
+
+  // Select option
+  function selectOption(index: number): void {
+    if (!sandiSubmitBtn) return;
+    if (sandiSubmitBtn.textContent === 'Soal Berikutnya' || sandiSubmitBtn.textContent === 'Lihat Hasil') return;
+    selectedOptionIndex = index;
+    document.querySelectorAll('.opt-btn').forEach((btn: Element, idx: number) => {
+      btn.classList.toggle('is-selected', idx === index);
+    });
+    if (sandiSubmitBtn) {
+      sandiSubmitBtn.disabled = false;
+    }
+  }
+
+  // Submit answer
+  function submitAnswer(): void {
+    const question: SandiQuestion | undefined = currentQuestions[currentQuestionIndex];
+    if (!question || !sandiSubmitBtn) return;
+
+    if (sandiSubmitBtn.textContent === 'Soal Berikutnya' || sandiSubmitBtn.textContent === 'Lihat Hasil') {
+      nextQuestion();
+      return;
+    }
+
+    const isCorrect: boolean = selectedOptionIndex !== null && question.options[selectedOptionIndex] === question.correctAnswer;
+
+    document.querySelectorAll('.opt-btn').forEach((btn: Element, idx: number) => {
+      btn.classList.add('is-answered');
+      btn.classList.remove('is-selected');
+      if (question.options[idx] === question.correctAnswer) {
+        btn.classList.add('is-correct');
+      } else if (idx === selectedOptionIndex) {
+        btn.classList.add('is-incorrect');
+      } else {
+        btn.classList.add('is-dimmed');
+      }
+    });
+
+    if (isCorrect) correctAnswersCount++;
+
+    if (!isCorrect && mode === 'no_mistake') {
+      lives--;
+      if (sandiResultLives) sandiResultLives.textContent = lives.toString();
+      if (lives <= 0) {
+        endGame();
+        return;
+      }
+    }
+
+    if (sandiEduCard && sandiEduText && question.explanation) {
+      sandiEduText.textContent = question.explanation;
+      sandiEduCard.style.display = 'flex';
+      sandiEduCard.classList.add(isCorrect ? 'correct' : 'incorrect');
+    }
+
+    if (currentQuestionIndex === currentQuestions.length - 1) {
+      if (sandiSubmitBtn) sandiSubmitBtn.textContent = 'Lihat Hasil';
+    } else {
+      if (sandiSubmitBtn) sandiSubmitBtn.textContent = 'Soal Berikutnya';
+    }
+  }
+
+  // Next question or show results
+  function nextQuestion(): void {
+    if (currentQuestionIndex < currentQuestions.length - 1) {
+      currentQuestionIndex++;
+      renderQuestion();
+    } else {
+      showQuizResults();
+    }
+  }
+
+  // Timer functions
+  function startTimer(): void {
+    if (!currentMode.timeLimit || !sandiResultTimer) return;
+    timeLeft = currentMode.timeLimit;
+    startTime = Date.now();
+    timer = setInterval(() => {
+      timeLeft--;
+      if (sandiResultTimer) sandiResultTimer.textContent = timeLeft.toString();
+      if (timeLeft <= 0) endGame();
+    }, 1000);
+  }
+
+  function stopTimer(): void {
+    if (timer) {
+      clearInterval(timer);
+      timer = null;
+    }
+  }
+
+  // End game
+  function endGame(): void {
+    stopTimer();
+    showQuizResults();
+  }
+
+  // Show results
+  function showQuizResults(): void {
+    const score: number = correctAnswersCount;
+    const total: number = currentQuestions.length;
+    const xpGained: number = Math.round(score * xpPerQuestion * xpMultiplier);
+    const scorePercent: number = Math.round((score / total) * 100);
+    const timeTaken: number = currentMode.timeLimit ? (currentMode.timeLimit - timeLeft) : Math.floor((Date.now() - startTime) / 1000);
+
+    if (sandiResultText) {
+      sandiResultText.textContent = `Anda berhasil menjawab ${score} dari ${total} soal dengan benar.`;
+    }
+    if (sandiResultXp) sandiResultXp.textContent = `+${xpGained} XP`;
+    if (sandiResultScore) sandiResultScore.textContent = `${scorePercent}/100`;
+    if (sandiResultEmoji) {
+      if (scorePercent === 100) sandiResultEmoji.textContent = '👑';
+      else if (scorePercent >= 70) sandiResultEmoji.textContent = '🏆';
+      else sandiResultEmoji.textContent = '🧭';
+    }
+    if (sandiResultTime && mode === 'time_attack') sandiResultTime.textContent = `${timeTaken} detik`;
+
+    // Check for badges
+    let newlyUnlocked: Badge[] = [];
+    if (scorePercent >= 70) {
+      const badge: Badge | undefined = SANDI_BADGES.sandi_novice;
+      if (badge) {
+        const userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+        if (!userBadges.includes(badge.id)) newlyUnlocked.push(badge);
+      }
+    }
+    if (scorePercent === 100) {
+      const badge: Badge | undefined = SANDI_BADGES.sandi_master;
+      if (badge) {
+        const userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+        if (!userBadges.includes(badge.id)) newlyUnlocked.push(badge);
+      }
+    }
+
+    // Display badges
+    if (sandiBadgesListEl && sandiUnlockedBadges) {
+      if (newlyUnlocked.length > 0) {
+        sandiBadgesListEl.innerHTML = '';
+        newlyUnlocked.forEach((b: Badge) => {
+          const item: HTMLDivElement = document.createElement('div');
+          item.className = 'unlocked-badge-item';
+          item.innerHTML = `<span class="u-icon">${b.icon}</span> <strong>${b.name}</strong> - ${b.description}`;
+          sandiBadgesListEl.appendChild(item);
+        });
+        sandiUnlockedBadges.style.display = 'block';
+      } else {
+        sandiUnlockedBadges.style.display = 'none';
+      }
+    }
+
+    updateUserStats(score, xpGained, newlyUnlocked, level);
+    if (sandiResultOverlay) sandiResultOverlay.style.display = 'flex';
+  }
+
+  // Update user stats
+  function updateUserStats(score: number, xpGained: number, badges: Badge[], level?: string): void {
+    const total: number = currentQuestions.length;
+    const scorePercent: number = Math.round((score / total) * 100);
+    let oldXp: number = parseInt(localStorage.getItem('scout_xp') || '0');
+    let newXp: number = oldXp + xpGained;
+    localStorage.setItem('scout_xp', newXp.toString());
+    let userBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+    badges.forEach((b: Badge) => {
+      if (!userBadges.includes(b.id)) userBadges.push(b.id);
+    });
+    localStorage.setItem('scout_badges', JSON.stringify(userBadges));
+    let streak: number = parseInt(localStorage.getItem('scout_streak') || '0');
+    if (scorePercent >= 70) streak++;
+    else streak = 0;
+    localStorage.setItem('scout_streak', streak.toString());
+    localStorage.setItem('scout_last_visit', new Date().toISOString());
+    window.dispatchEvent(new Event('statsUpdated'));
+  }
+
+  // Tab switching
+  function initTabs(): void {
+    if (!tabButtons || !tabContents) return;
+    
+    tabButtons.forEach((btn: HTMLButtonElement) => {
+      btn.addEventListener('click', () => {
+        const targetTab: string = btn.getAttribute('data-tab') || '';
+        
+        // Update active button
+        tabButtons.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        
+        // Update active content
+        tabContents.forEach(content => {
+          if (content.id === targetTab) {
+            content.classList.add('active');
+          } else {
+            content.classList.remove('active');
+          }
+        });
+      });
+    });
+  }
+
+  // Initialize quiz
+  function initQuiz(): void {
+    currentQuestions = getShuffledQuestions(questions as SandiQuestion[], totalQuestions);
+    
+    if (mode === 'time_attack') {
+      startTimer();
+    }
+    renderQuestion();
+    initTabs();
+  }
+
+  // Event listeners
+  if (sandiSubmitBtn) {
+    sandiSubmitBtn.addEventListener('click', submitAnswer);
+  }
+  
+  if (sandiRestartBtn) {
+    sandiRestartBtn.addEventListener('click', () => {
+      currentQuestionIndex = 0;
+      correctAnswersCount = 0;
+      selectedOptionIndex = null;
+      if (mode === 'time_attack') {
+        timeLeft = currentMode.timeLimit || 0;
+        if (sandiResultTimer) sandiResultTimer.textContent = timeLeft.toString();
+        startTimer();
+      }
+      if (mode === 'no_mistake') {
+        lives = currentMode.lives || Infinity;
+        if (sandiResultLives) sandiResultLives.textContent = lives.toString();
+      }
+      if (sandiResultOverlay) sandiResultOverlay.style.display = 'none';
+      currentQuestions = getShuffledQuestions(questions as SandiQuestion[], totalQuestions);
+      renderQuestion();
+    });
+  }
+
+  document.addEventListener('DOMContentLoaded', initQuiz);
+  window.addEventListener('beforeunload', () => {
+    stopTimer();
+  });
+</script>

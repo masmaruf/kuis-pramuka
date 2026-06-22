@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <!-- Full bleed green bg for maskable (safe zone = center 80%) -->
+  <rect width="512" height="512" fill="#1b4d32"/>
+  <!-- Logo scaled down to fit safe zone (51px margin each side → 410x410 at center) -->
+  <path d="M256 110L138 390h236L256 110Z" fill="none" stroke="#d4a32b" stroke-width="22" stroke-linejoin="round"/>
+  <circle cx="256" cy="298" r="40" fill="none" stroke="#d4a32b" stroke-width="20"/>
+  <line x1="256" y1="198" x2="256" y2="258" stroke="#d4a32b" stroke-width="20" stroke-linecap="round"/>
+</svg>

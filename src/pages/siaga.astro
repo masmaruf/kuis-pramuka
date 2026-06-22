@@ -1,0 +1,761 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Pramuka Siaga — UU, AD/ART & Jukran" description="Latihan soal Pramuka Siaga berdasarkan UU No.12/2010, AD/ART Gerakan Pramuka 2012, dan Jukran PP SKU SK 088/1974: Dwisatya, Dwidarma, SKU Mula-Bantu-Tata, dan satuan Siaga.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Pramuka Siaga</h2>
+				<span class="quiz-difficulty siaga">UU · AD/ART · Jukran</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<!-- Main Quiz Card -->
+			<div class="quiz-main-card glass-card">
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+					</div>
+				</div>
+
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">🟢 Pramuka Siaga</span>
+				</div>
+
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+
+				<div class="education-card" id="education-card" style="display: none;">
+					<div class="edu-header">
+						<span class="edu-icon">📖</span>
+						<span class="edu-label">Penjelasan &amp; Sumber</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<!-- Reference Sidebar -->
+			<div class="quiz-help-card glass-card">
+				<h3>Dwisatya Pramuka Siaga</h3>
+				<p class="help-subtitle">Janji anggota Siaga · AD Pasal 12</p>
+				<div class="oath-box">
+					<p class="oath-title">Demi kehormatanku aku berjanji akan bersungguh-sungguh:</p>
+					<ol class="oath-list">
+						<li>Menjalankan kewajibanku terhadap Tuhan, Negara Kesatuan Republik Indonesia <em>dan menurut aturan keluarga.</em></li>
+						<li>Setiap hari berbuat kebaikan.</li>
+					</ol>
+				</div>
+
+				<div class="help-divider"></div>
+
+				<h3>Dwidarma Pramuka Siaga</h3>
+				<p class="help-subtitle">Ketentuan moral Siaga · AD Pasal 12</p>
+				<div class="oath-box">
+					<ol class="oath-list">
+						<li>Siaga itu patuh pada ayah dan ibunya.</li>
+						<li>Siaga itu berani dan tidak putus asa.</li>
+					</ol>
+				</div>
+
+				<div class="help-divider"></div>
+
+				<h3>SKU Siaga — 3 Tingkat</h3>
+				<p class="help-subtitle">Jukran PP SKU · SK 088/1974</p>
+				<div class="sku-table">
+					<div class="sku-row header">
+						<span>Tingkat</span><span>Syarat Latihan</span>
+					</div>
+					<div class="sku-row">
+						<span class="sku-badge mula">Mula</span>
+						<span>6× berturut-turut</span>
+					</div>
+					<div class="sku-row">
+						<span class="sku-badge bantu">Bantu</span>
+						<span>10× sebagai Mula</span>
+					</div>
+					<div class="sku-row">
+						<span class="sku-badge tata">Tata</span>
+						<span>10× sebagai Bantu + 1 TKK</span>
+					</div>
+				</div>
+
+				<div class="help-divider"></div>
+
+				<h3>Satuan Pramuka Siaga</h3>
+				<div class="fact-box">
+					<div class="fact-row"><span class="fact-key">Usia</span><span class="fact-val">7–10 tahun</span></div>
+					<div class="fact-row"><span class="fact-key">Satuan kecil</span><span class="fact-val">Barung</span></div>
+					<div class="fact-row"><span class="fact-key">Satuan besar</span><span class="fact-val">Perindukan</span></div>
+					<div class="fact-row"><span class="fact-key">Pembina putra</span><span class="fact-val">Yanda</span></div>
+					<div class="fact-row"><span class="fact-key">Pembina putri</span><span class="fact-val">Bunda</span></div>
+					<div class="fact-row"><span class="fact-key">Pasal AD</span><span class="fact-val">Ps. 12, 14, 15, 29</span></div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Result Overlay -->
+		<div class="result-overlay" id="result-overlay" style="display: none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text">Anda menjawab soal dengan baik.</p>
+				<div class="result-stats-details">
+					<div class="detail-item">
+						<span class="label">XP Diperoleh</span>
+						<span class="value score-xp" id="result-xp">+100 XP</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Skor Akhir</span>
+						<span class="value" id="result-score">100/100</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Jawaban Benar</span>
+						<span class="value" id="result-correct">10/10</span>
+					</div>
+				</div>
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display: none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	// ─── Bank Soal Pramuka Siaga — UU, AD/ART, Jukran (30 soal) ────────────────
+
+	interface Question {
+		kategori: string;
+		q: string;
+		options: string[];
+		correct: string;
+		edu: string;
+	}
+
+	const QUESTIONS_POOL: Question[] = [
+
+		// ── Dasar Hukum & Regulasi ───────────────────────────────────────────────
+		{
+			kategori: "Dasar Hukum",
+			q: "Berdasarkan AD Gerakan Pramuka (Munaslub 2012) Pasal 14, jenjang pendidikan kepramukaan yang pertama (paling dasar) adalah...",
+			options: ["Penggalang", "Pandega", "Siaga", "Penegak"],
+			correct: "Siaga",
+			edu: "AD Pasal 14 menyebutkan: 'Jenjang pendidikan kepramukaan terdiri atas jenjang pendidikan: a. siaga; b. penggalang; c. penegak; dan d. pandega.' Urutan ini mencerminkan tingkatan usia dari termuda (Siaga, 7–10 tahun) hingga tertua (Pandega, 21–25 tahun). Siaga menjadi jenjang pertama karena merupakan pintu masuk pendidikan kepramukaan bagi anak usia sekolah dasar."
+		},
+		{
+			kategori: "Dasar Hukum",
+			q: "Berdasarkan AD Pasal 29 ayat 2, gugus depan lengkap terdiri atas empat satuan. Satuan untuk Pramuka Siaga disebut...",
+			options: ["Pasukan Siaga", "Perindukan Siaga", "Regu Siaga", "Ambalan Siaga"],
+			correct: "Perindukan Siaga",
+			edu: "AD Pasal 29 ayat (2) menyebutkan: 'Gugus depan lengkap terdiri atas: a. perindukan siaga; b. pasukan penggalang; c. ambalan penegak; dan d. racana pandega.' Setiap satuan memiliki nama kiasan yang berbeda — perindukan (Siaga), pasukan (Penggalang), ambalan (Penegak), dan racana (Pandega). Nama-nama ini bersumber dari kiasan dasar perjuangan bangsa."
+		},
+		{
+			kategori: "Dasar Hukum",
+			q: "Petunjuk Penyelenggaraan (Jukran) SKU yang mengatur tingkatan Siaga Mula, Bantu, dan Tata ditetapkan melalui...",
+			options: [
+				"SK Kwarnas No. 6 Tahun 1963",
+				"SK Kwarnas No. 088 Tahun 1974",
+				"SK Kwarnas No. 199 Tahun 2011",
+				"Keppres No. 238 Tahun 1961"
+			],
+			correct: "SK Kwarnas No. 088 Tahun 1974",
+			edu: "Petunjuk Penyelenggaraan Syarat Kecakapan Umum (PP SKU) ditetapkan melalui Keputusan Kwartir Nasional Gerakan Pramuka Nomor 088 Tahun 1974 tanggal 24 Oktober 1974. SK ini mencabut SK No. 6/1963 yang sudah tidak sesuai perkembangan. Jukran ini mengatur secara rinci syarat-syarat SKU untuk semua golongan: Siaga (3 tingkat), Penggalang (3 tingkat), Penegak (2 tingkat), dan Pandega (1 tingkat)."
+		},
+		{
+			kategori: "Dasar Hukum",
+			q: "Menurut AD Pasal 15, Pramuka Siaga termasuk dalam kategori anggota Gerakan Pramuka sebagai...",
+			options: ["Anggota kehormatan", "Anggota dewasa", "Peserta didik", "Anggota tamu"],
+			correct: "Peserta didik",
+			edu: "AD Pasal 15 ayat (2) menyebutkan: 'Peserta didik terdiri dari: a. Pramuka Siaga; b. Pramuka Penggalang; c. Pramuka Penegak; dan d. Pramuka Pandega.' Selain peserta didik, anggota GP juga terdiri dari anggota dewasa (tenaga pendidik, andalan, dll.) dan anggota kehormatan. Peserta didik berusia 7–25 tahun sesuai AD Pasal 25."
+		},
+		{
+			kategori: "Dasar Hukum",
+			q: "Berdasarkan AD Pasal 26, siapakah yang berkedudukan sebagai Pramuka Utama dalam Gerakan Pramuka?",
+			options: [
+				"Ketua Kwartir Nasional terpilih",
+				"Ketua Majelis Pembimbing Nasional",
+				"Kepala Negara Republik Indonesia",
+				"Menteri Pendidikan dan Kebudayaan"
+			],
+			correct: "Kepala Negara Republik Indonesia",
+			edu: "AD Pasal 26 menyebutkan secara tegas: 'Kepala Negara Republik Indonesia adalah Pramuka Utama.' Ini berarti Presiden RI berkedudukan sebagai Pramuka Utama — pemimpin kehormatan tertinggi Gerakan Pramuka. Ketua Majelis Pembimbing Nasional juga dijabat oleh Presiden RI (AD Pasal 36 ayat 4a), sehingga Presiden menjadi pelindung sekaligus pramuka utama gerakan ini."
+		},
+		{
+			kategori: "Dasar Hukum",
+			q: "Tujuan SKU menurut Jukran PP SKU (SK 088/1974) Poin 3 adalah...",
+			options: [
+				"Mewajibkan setiap pramuka untuk mengikuti ujian resmi",
+				"Merangsang dan mendorong para pramuka untuk giat meningkatkan kecakapan yang berguna bagi kehidupan dan kebaktian kepada masyarakat",
+				"Menentukan golongan usia pramuka secara resmi",
+				"Memberikan tanda penghargaan kepada pramuka berprestasi"
+			],
+			correct: "Merangsang dan mendorong para pramuka untuk giat meningkatkan kecakapan yang berguna bagi kehidupan dan kebaktian kepada masyarakat",
+			edu: "Jukran PP SKU (SK 088/1974) Poin 3 menyebutkan: 'Tujuan SKU adalah merangsang dan mendorong para Pramuka untuk giat berusaha meningkatkan berbagai kecakapan yang berguna bagi kehidupannya dan bagi kebaktiannya kepada masyarakat.' SKU bukan sekadar ujian, melainkan alat motivasi agar pramuka terus berkembang. Tanda kecakapan yang diberikan setelah lulus SKU merupakan pengakuan atas kompetensi yang dicapai (AD Pasal 24)."
+		},
+
+		// ── Kode Kehormatan Siaga ────────────────────────────────────────────────
+		{
+			kategori: "Kode Kehormatan",
+			q: "Berdasarkan AD Gerakan Pramuka Pasal 12 ayat 5, kode kehormatan Pramuka Siaga berupa janji disebut...",
+			options: ["Trisatya", "Dwisatya", "Pancasatya", "Ikrar Siaga"],
+			correct: "Dwisatya",
+			edu: "AD Pasal 12 ayat (5a) menyebutkan: 'Kode kehormatan Pramuka siaga terdiri atas Dwisatya dan Dwidarma Pramuka.' Awalan 'Dwi' berarti dua — Dwisatya berarti janji yang terdiri dari dua butir ikrar, sedangkan Dwidarma berarti ketentuan moral yang terdiri dari dua darma. Ini berbeda dari Penggalang/Penegak yang menggunakan Trisatya (tiga butir) dan Dasadarma (sepuluh darma)."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Isi butir PERTAMA dari Dwisatya yang diucapkan Pramuka Siaga adalah...",
+			options: [
+				"Setiap hari berbuat kebaikan",
+				"Menjalankan kewajibanku terhadap Tuhan, Negara Kesatuan Republik Indonesia dan menurut aturan keluarga",
+				"Menolong sesama hidup dan mempersiapkan diri membangun masyarakat",
+				"Mengamalkan Pancasila dengan sepenuh hati"
+			],
+			correct: "Menjalankan kewajibanku terhadap Tuhan, Negara Kesatuan Republik Indonesia dan menurut aturan keluarga",
+			edu: "Dwisatya berbunyi: 'Demi kehormatanku aku berjanji akan bersungguh-sungguh: (1) Menjalankan kewajibanku terhadap Tuhan, Negara Kesatuan Republik Indonesia dan menurut aturan keluarga. (2) Setiap hari berbuat kebaikan.' Butir pertama mencakup kewajiban vertikal (kepada Tuhan), kewajiban kebangsaan (terhadap NKRI), dan kewajiban keluarga. Frasa 'menurut aturan keluarga' — bukan 'mengamalkan Pancasila' — adalah khas Dwisatya, karena Siaga masih anak-anak yang berpusat pada keluarga."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Isi butir KEDUA dari Dwisatya Pramuka Siaga adalah...",
+			options: [
+				"Menepati Dwidarma dengan sepenuh hati",
+				"Menolong sesama hidup",
+				"Setiap hari berbuat kebaikan",
+				"Mengikuti latihan Perindukan dengan rajin"
+			],
+			correct: "Setiap hari berbuat kebaikan",
+			edu: "Butir kedua Dwisatya adalah 'Setiap hari berbuat kebaikan.' Kalimat ini sederhana namun sangat bermakna — menanamkan kebiasaan berbuat baik setiap hari sebagai nilai utama. Ini sesuai dengan usia Siaga (7–10 tahun) yang masih dalam tahap pembentukan karakter dasar. Bandingkan dengan Trisatya Penggalang yang lebih kompleks: menolong sesama, mempersiapkan diri membangun masyarakat, dan menepati Dasadarma."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Dwidarma PERTAMA Pramuka Siaga berbunyi...",
+			options: [
+				"Siaga itu berani dan tidak putus asa",
+				"Siaga itu rajin dan giat mengikuti latihan",
+				"Siaga itu patuh pada ayah dan ibunya",
+				"Siaga itu hemat, cermat, dan bersahaja"
+			],
+			correct: "Siaga itu patuh pada ayah dan ibunya",
+			edu: "Dwidarma pertama berbunyi: 'Siaga itu patuh pada ayah dan ibunya.' Darma ini menekankan nilai kepatuhan kepada orang tua sebagai pondasi moral anak usia 7–10 tahun. Ini selaras dengan butir pertama Dwisatya yang menyebutkan 'menurut aturan keluarga.' Filosofinya: seorang yang belum bisa menghormati orang tuanya sendiri belum siap untuk mengabdi kepada masyarakat dan bangsa."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Dwidarma KEDUA Pramuka Siaga berbunyi...",
+			options: [
+				"Siaga itu disiplin, berani, dan setia",
+				"Siaga itu berani dan tidak putus asa",
+				"Siaga itu rajin, terampil, dan gembira",
+				"Siaga itu suci dalam pikiran, perkataan, dan perbuatan"
+			],
+			correct: "Siaga itu berani dan tidak putus asa",
+			edu: "Dwidarma kedua berbunyi: 'Siaga itu berani dan tidak putus asa.' Darma ini menanamkan keberanian dan keteguhan hati — karakter penting bagi anak usia Siaga yang sedang membentuk kepribadian. Perhatikan bahwa Dwidarma sangat ringkas (hanya 2 darma) dibanding Dasadarma Penggalang/Penegak (10 darma), karena disesuaikan dengan kemampuan pemahaman anak usia 7–10 tahun."
+		},
+		{
+			kategori: "Kode Kehormatan",
+			q: "Perbedaan kode kehormatan Pramuka Siaga dengan Pramuka Penggalang adalah...",
+			options: [
+				"Siaga menggunakan Trisatya, Penggalang menggunakan Dwisatya",
+				"Siaga menggunakan Dwisatya & Dwidarma, Penggalang menggunakan Trisatya & Dasadarma",
+				"Keduanya menggunakan Trisatya tetapi Dasadarma berbeda",
+				"Siaga belum memiliki kode kehormatan karena masih terlalu muda"
+			],
+			correct: "Siaga menggunakan Dwisatya & Dwidarma, Penggalang menggunakan Trisatya & Dasadarma",
+			edu: "AD Pasal 12 ayat (5) menetapkan kode kehormatan berbeda untuk tiap golongan: (a) Siaga: Dwisatya + Dwidarma; (b) Penggalang: Trisatya + Dasadarma; (c) Penegak, Pandega & anggota dewasa: Trisatya + Dasadarma (isi Trisatya sedikit berbeda: 'ikut serta membangun masyarakat' untuk Penegak/Pandega vs 'mempersiapkan diri membangun masyarakat' untuk Penggalang). Perbedaan ini disesuaikan dengan usia dan tingkat perkembangan jiwa serta jasmani masing-masing golongan."
+		},
+
+		// ── Satuan & Organisasi Siaga ────────────────────────────────────────────
+		{
+			kategori: "Satuan Siaga",
+			q: "Satuan terkecil dalam golongan Pramuka Siaga yang terdiri atas beberapa orang Siaga disebut...",
+			options: ["Regu", "Barung", "Sangga", "Umpi"],
+			correct: "Barung",
+			edu: "Satuan terkecil Pramuka Siaga disebut Barung, dipimpin oleh Ketua Barung (Pinrung — Pemimpin Barung). Nama 'barung' adalah kiasan dari budaya dan bahasa lokal Indonesia. Beberapa Barung bergabung membentuk Perindukan. Bandingkan: Penggalang → Regu + Pasukan; Penegak → Sangga + Ambalan; Pandega → Reka + Racana. Nama-nama kiasan ini merupakan bagian dari Kiasan Dasar kepramukaan (AD Pasal 10)."
+		},
+		{
+			kategori: "Satuan Siaga",
+			q: "Beberapa Barung bergabung membentuk satuan besar Pramuka Siaga yang disebut...",
+			options: ["Pasukan", "Gugus Depan", "Perindukan", "Ambalan"],
+			correct: "Perindukan",
+			edu: "Beberapa Barung (satuan kecil) bergabung membentuk Perindukan (satuan besar). Ini sesuai AD Pasal 29 yang menyebut 'perindukan siaga' sebagai salah satu satuan dalam gugus depan lengkap. Perindukan dikoordinir oleh Pembina Siaga (Yanda/Bunda) dan Pembantu Pembina Siaga (Ayah/Ibu). Perindukan lengkap biasanya memiliki 3–5 Barung."
+		},
+		{
+			kategori: "Satuan Siaga",
+			q: "Pembina Pramuka Siaga putra dalam kegiatan latihan biasanya dipanggil dengan sebutan kiasan...",
+			options: ["Kak", "Pak", "Yanda", "Abang"],
+			correct: "Yanda",
+			edu: "Pembina Siaga putra dipanggil 'Yanda' — kiasan dari 'Ayahanda' (ayah tercinta). Ini adalah bagian dari Kiasan Dasar Siaga yang menggunakan atmosfer keluarga: Pembina putra = Yanda (ayah), Pembina putri = Bunda (ibu), Pembantu Pembina putra = Ayah, Pembantu Pembina putri = Ibu. Penggunaan kiasan ini membuat anak-anak Siaga merasa nyaman seperti dalam lingkungan keluarga sendiri."
+		},
+		{
+			kategori: "Satuan Siaga",
+			q: "Pembina Pramuka Siaga putri biasanya dipanggil dengan sebutan kiasan...",
+			options: ["Kak", "Bu", "Kakanda", "Bunda"],
+			correct: "Bunda",
+			edu: "Pembina Siaga putri dipanggil 'Bunda' — kiasan dari 'Ibunda' (ibu tercinta). Kiasan keluarga ini (Yanda/Bunda) sengaja dipilih untuk menciptakan suasana hangat dan akrab bagi anak-anak usia 7–10 tahun yang masih sangat dekat dengan lingkungan keluarga. Ini berbeda dari Pembina Penggalang/Penegak yang menggunakan sapaan 'Kakak'."
+		},
+		{
+			kategori: "Satuan Siaga",
+			q: "Batasan usia Pramuka Siaga berdasarkan ketentuan kepramukaan yang berlaku adalah...",
+			options: ["5–7 tahun", "7–10 tahun", "10–12 tahun", "7–12 tahun"],
+			correct: "7–10 tahun",
+			edu: "Pramuka Siaga adalah peserta didik berusia 7–10 tahun. Batasan ini dirancang sesuai tahapan tumbuh kembang anak: (1) 7 tahun — anak mulai masuk sekolah dasar dan siap belajar dalam kelompok; (2) 10 tahun — batas atas Siaga sebelum naik ke Penggalang (11–15 tahun). UU No.12/2010 menyebut peserta didik berusia 7–25 tahun secara keseluruhan, sementara masing-masing jenjang memiliki batasan usia spesifik berdasarkan Jukran."
+		},
+		{
+			kategori: "Satuan Siaga",
+			q: "Seorang anak berusia 8 tahun mendaftar ke gugus depan. Berdasarkan usia, ia akan ditempatkan di satuan...",
+			options: [
+				"Perindukan Siaga — karena berusia 7–10 tahun",
+				"Pasukan Penggalang — karena sudah sekolah dasar",
+				"Ambalan Penegak — karena sudah remaja",
+				"Boleh memilih satuan sendiri sesuai keinginan"
+			],
+			correct: "Perindukan Siaga — karena berusia 7–10 tahun",
+			edu: "Anak berusia 8 tahun termasuk rentang usia Siaga (7–10 tahun), sehingga ditempatkan di Perindukan Siaga. Penempatan berdasarkan usia ini bukan sekadar administratif, melainkan pedagogis — program kepramukaan dirancang sesuai tahap perkembangan kognitif dan emosional anak. Bila anak berusia 8 tahun ingin mengikuti kegiatan Penggalang, ia perlu menunggu hingga berusia 11 tahun."
+		},
+
+		// ── SKU Siaga ────────────────────────────────────────────────────────────
+		{
+			kategori: "SKU Siaga",
+			q: "Menurut Jukran PP SKU (SK 088/1974) Poin 5, SKU Pramuka Siaga terdiri atas berapa tingkat?",
+			options: ["2 tingkat", "3 tingkat", "4 tingkat", "5 tingkat"],
+			correct: "3 tingkat",
+			edu: "Jukran PP SKU Poin 5 menyebutkan: 'SKU untuk Pramuka golongan Siaga, terdiri atas 3 tingkat, yaitu: a. Tingkat Siaga Mula. b. Tingkat Siaga Bantu. c. Tingkat Siaga Tata.' Untuk perbandingan: Penggalang juga 3 tingkat (Ramu, Rakit, Terap), Penegak 2 tingkat (Bantara, Laksana), dan Pandega 1 tingkat. Total ada 9 tingkat SKU di seluruh jenjang kepramukaan."
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Urutan tingkatan SKU Pramuka Siaga dari yang TERENDAH ke yang TERTINGGI adalah...",
+			options: [
+				"Mula – Bantu – Tata",
+				"Bantu – Mula – Tata",
+				"Tata – Bantu – Mula",
+				"Mula – Tata – Bantu"
+			],
+			correct: "Mula – Bantu – Tata",
+			edu: "Urutan SKU Siaga dari terendah ke tertinggi adalah: Mula → Bantu → Tata. Nama-nama ini mengandung makna kiasan yang progresif: 'Mula' berarti awal/permulaan, 'Bantu' berarti sudah bisa membantu, dan 'Tata' berarti sudah bisa menata/mengatur diri dan lingkungannya. Setiap tingkat memiliki syarat-syarat yang semakin meningkat sesuai perkembangan kemampuan anak."
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Untuk mencapai tingkat Siaga Mula, calon Siaga harus mengikuti latihan Perindukan sekurang-kurangnya berapa kali berturut-turut?",
+			options: ["3 kali berturut-turut", "5 kali berturut-turut", "6 kali berturut-turut", "10 kali berturut-turut"],
+			correct: "6 kali berturut-turut",
+			edu: "Jukran PP SKU Poin 9 syarat ke-1 menyebutkan: 'Rajin dan giat mengikuti latihan Perindukan Siaga, sekurang-kurangnya 6 kali latihan berturut-turut.' Syarat 6 kali berturut-turut (bukan sekadar 6 kali total) memastikan calon Siaga memiliki komitmen dan kedisiplinan menghadiri latihan secara konsisten — bukan hanya sesekali datang. Ini menjadi fondasi pembentukan karakter disiplin sejak dini."
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Selain rajin mengikuti latihan, syarat utama yang harus dipenuhi calon Siaga untuk mencapai tingkat Mula adalah...",
+			options: [
+				"Hafal dan mengerti isi Dwidarma dan Dwisatya",
+				"Bisa berbaris dengan baik",
+				"Memiliki 1 Tanda Kecakapan Khusus",
+				"Hafal Trisatya dan Dasadarma"
+			],
+			correct: "Hafal dan mengerti isi Dwidarma dan Dwisatya",
+			edu: "Jukran PP SKU Poin 9 syarat ke-2 menyebutkan: 'Hafal dan mengerti isi Dwi Darma dan Dwi Satya.' Ini adalah syarat fundamental — sebelum seorang Siaga mendapat pengakuan tingkat Mula, ia harus sudah memahami janji (Dwisatya) dan ketentuan moral (Dwidarma) yang akan menjadi pedoman hidupnya. Pemahaman bukan sekadar hafalan, tetapi mengerti maknanya."
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Untuk naik tingkat dari Siaga Mula ke Siaga Bantu, seorang Pramuka harus mengikuti latihan Perindukan sebagai Siaga Mula sekurang-kurangnya...",
+			options: ["6 kali", "8 kali", "10 kali", "12 kali"],
+			correct: "10 kali",
+			edu: "Jukran PP SKU Poin 10 syarat ke-1 menyebutkan: 'Rajin dan giat mengikuti latihan Perindukan sebagai Siaga Mula, sekurang-kurangnya 10 kali latihan.' Syarat ini lebih berat dari Mula (6 kali berturut-turut) karena Siaga Bantu sudah memiliki pengalaman dan diharapkan lebih konsisten. Kata 'sebagai Siaga Mula' berarti 10 kali latihan tersebut dihitung sejak mendapat tingkat Mula, bukan sejak awal bergabung."
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Syarat SKU Siaga Bantu yang berkaitan dengan kecakapan navigasi dasar adalah...",
+			options: [
+				"Bisa membaca kompas dan menentukan azimuth",
+				"Dapat menunjuk sedikitnya 4 mata angin",
+				"Tahu 8 arah mata angin beserta derajatnya",
+				"Bisa menentukan posisi Bintang Utara di malam hari"
+			],
+			correct: "Dapat menunjuk sedikitnya 4 mata angin",
+			edu: "Jukran PP SKU Poin 10 syarat ke-9 menyebutkan: 'Dapat menunjuk sedikitnya 4 mata angin.' Syarat ini sederhana tapi bermakna — anak usia 7–10 tahun dikenalkan pada orientasi arah dasar (Utara, Selatan, Timur, Barat) sebelum mempelajari kompas yang lebih kompleks. Bandingkan dengan SKU Penggalang Ramu yang sudah harus 'Dapat menunjuk sedikitnya 8 arah mata angin dan dapat menggunakan kompas.'"
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Syarat kecakapan tali-temali yang harus dikuasai untuk mencapai tingkat Siaga Bantu adalah...",
+			options: [
+				"Simpul mati, simpul hidup, simpul anyam, simpul tiang, dan simpul pangkal",
+				"Simpul mati, simpul anyam, dan simpul pangkal",
+				"Hanya simpul mati dan simpul anyam",
+				"Semua jenis simpul dasar kepramukaan"
+			],
+			correct: "Simpul mati, simpul anyam, dan simpul pangkal",
+			edu: "Jukran PP SKU Poin 10 syarat ke-11 menyebutkan: 'Dapat membuat dan menggunakan simpul mati, simpul anyam, dan simpul pangkal.' Tiga simpul dasar ini dipilih karena paling sering digunakan dan tidak terlalu sulit untuk anak usia 7–10 tahun. Bandingkan dengan SKU Penggalang Ramu yang harus menguasai 6 simpul: mati, hidup, anyam, tiang, pangkal, dan menyusuk tali."
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Salah satu syarat khusus yang HANYA ada di tingkat Siaga Tata (tidak di Mula maupun Bantu) adalah...",
+			options: [
+				"Dapat memberi salam Pramuka",
+				"Hafal Pancasila",
+				"Memiliki sedikitnya satu Tanda Kecakapan Khusus (TKK)",
+				"Memiliki buku tabungan"
+			],
+			correct: "Memiliki sedikitnya satu Tanda Kecakapan Khusus (TKK)",
+			edu: "Jukran PP SKU Poin 11 syarat ke-19 menyebutkan: 'Memiliki sedikitnya satu Tanda Kecakapan Khusus.' Ini syarat yang hanya ada di tingkat Tata — menandakan bahwa Siaga Tata sudah mampu mengembangkan minat dan kecakapan khusus di bidang tertentu (memasak, menabung, pertolongan pertama, dll.). TKK menjadi bukti bahwa pramuka tidak hanya menguasai kecakapan umum tetapi juga kecakapan spesifik sesuai bakatnya."
+		},
+		{
+			kategori: "SKU Siaga",
+			q: "Untuk mencapai tingkat Siaga Tata, seorang Siaga Bantu harus mengikuti latihan Perindukan sekurang-kurangnya...",
+			options: ["6 kali", "8 kali", "10 kali", "15 kali"],
+			correct: "10 kali",
+			edu: "Jukran PP SKU Poin 11 syarat ke-1 menyebutkan: 'Rajin dan giat mengikuti latihan Perindukan sebagai Siaga Bantu, sekurang-kurangnya 10 kali latihan.' Sama dengan syarat Bantu (10 kali), namun dihitung mulai dari mendapat tingkat Bantu. Tiga tingkat SKU Siaga memiliki syarat latihan berturut: Mula (6 kali berturut) → Bantu (10 kali) → Tata (10 kali + 1 TKK)."
+		},
+
+		// ── Perbandingan & Konteks ───────────────────────────────────────────────
+		{
+			kategori: "Perbandingan SKU",
+			q: "Berbeda dari Siaga yang memiliki 3 tingkat, SKU Pramuka Penegak terdiri atas berapa tingkat?",
+			options: ["1 tingkat", "2 tingkat", "3 tingkat", "4 tingkat"],
+			correct: "2 tingkat",
+			edu: "Jukran PP SKU Poin 7 menyebutkan: 'SKU untuk Pramuka golongan Penegak, terdiri atas 2 tingkat, yaitu: a. Tingkat Penegak Bantara. b. Tingkat Penegak Laksana.' Ringkasan SKU semua golongan: Siaga = 3 tingkat (Mula, Bantu, Tata); Penggalang = 3 tingkat (Ramu, Rakit, Terap); Penegak = 2 tingkat (Bantara, Laksana); Pandega = 1 tingkat (Pandega). Pandega memiliki tingkat tunggal yang paling komprehensif."
+		},
+		{
+			kategori: "Perbandingan SKU",
+			q: "Tingkatan SKU Pramuka Penggalang dari yang terendah ke yang tertinggi adalah...",
+			options: [
+				"Mula – Bantu – Tata",
+				"Bantara – Laksana",
+				"Ramu – Rakit – Terap",
+				"Muda – Madya – Utama"
+			],
+			correct: "Ramu – Rakit – Terap",
+			edu: "Jukran PP SKU Poin 6 menyebutkan: 'SKU untuk Pramuka golongan Penggalang, terdiri atas 3 tingkat, yaitu: a. Tingkat Penggalang Ramu. b. Tingkat Penggalang Rakit. c. Tingkat Penggalang Terap.' Nama kiasan ini bermakna: Ramu (mengumpulkan/merakit bahan dasar), Rakit (merakit menjadi sesuatu), Terap (menerapkan/mengaplikasikan). Berbeda dari Siaga (Mula-Bantu-Tata) yang lebih sederhana."
+		},
+		{
+			kategori: "Perbandingan SKU",
+			q: "Berdasarkan AD Pasal 12, apa yang SAMA antara kode kehormatan Penegak dan Pandega (dewasa) dibanding Penggalang?",
+			options: [
+				"Keduanya menggunakan Dwisatya",
+				"Sama-sama menggunakan Trisatya dan Dasadarma, tetapi isi Trisatya-nya berbeda",
+				"Sama persis — tidak ada perbedaan",
+				"Penegak dan Pandega tidak memiliki kode kehormatan resmi"
+			],
+			correct: "Sama-sama menggunakan Trisatya dan Dasadarma, tetapi isi Trisatya-nya berbeda",
+			edu: "AD Pasal 12 ayat (5b dan c) menyebutkan bahwa Penggalang, Penegak, Pandega, dan anggota dewasa sama-sama menggunakan Trisatya + Dasadarma. Perbedaannya ada pada satu frasa di butir kedua Trisatya: Penggalang = 'mempersiapkan diri membangun masyarakat', sedangkan Penegak/Pandega/dewasa = 'ikut serta membangun masyarakat.' Perbedaan ini mencerminkan tingkat kesiapan — Penggalang masih 'mempersiapkan diri', sementara Penegak ke atas sudah aktif 'ikut serta'."
+		},
+
+		// ── Atribut & Ketentuan AD/ART ───────────────────────────────────────────
+		{
+			kategori: "Atribut Pramuka",
+			q: "Berdasarkan AD Pasal 51, lagu himne resmi Gerakan Pramuka berjudul...",
+			options: [
+				"'Jayalah Pramuka' ciptaan Munatsir Amin",
+				"'Satya Darma Pramuka' ciptaan Husein Mutahar",
+				"'Hymne Pramuka' ciptaan WR Supratman",
+				"'Pramuka Indonesia' ciptaan Ismail Marzuki"
+			],
+			correct: "'Satya Darma Pramuka' ciptaan Husein Mutahar",
+			edu: "AD Pasal 51 menyebutkan: '1. Himne Gerakan Pramuka adalah lagu Satya Darma Pramuka yang diciptakan oleh Husein Mutahar. 2. Mars Gerakan Pramuka adalah lagu Jayalah Pramuka yang diciptakan oleh Munatsir Amin.' Husein Mutahar adalah tokoh penting kepramukaan Indonesia, juga dikenal sebagai pencipta tradisi 'Pasukan Pengibaran Bendera Pusaka' (Paskibraka) dan lagu 'Syukur'. Dalam upacara Pramuka, Satya Darma Pramuka dinyanyikan sebagai himne resmi."
+		},
+		{
+			kategori: "Atribut Pramuka",
+			q: "Menurut AD Pasal 48 dan 49, lambang dan bendera resmi Gerakan Pramuka adalah...",
+			options: [
+				"Lambang: Bintang Lima; Bendera: Merah-Putih",
+				"Lambang: Tunas Kelapa; Bendera: putih dengan lambang Pramuka merah di tengah",
+				"Lambang: Tunas Kelapa; Bendera: hijau dengan lambang Pramuka kuning di tengah",
+				"Lambang: Garuda; Bendera: putih dengan Garuda di tengah"
+			],
+			correct: "Lambang: Tunas Kelapa; Bendera: putih dengan lambang Pramuka merah di tengah",
+			edu: "AD Pasal 48 menyebutkan: 'Lambang Gerakan Pramuka adalah tunas kelapa.' AD Pasal 49 menyebutkan: 'Bendera Gerakan Pramuka berbentuk empat persegi panjang, berukuran tiga banding dua, warna dasar putih dengan lambang Gerakan Pramuka di tengah berwarna merah, di atas dan di bawah lambang Gerakan Pramuka terdapat garis merah sepanjang panjang bendera dan di sisi tiang terdapat garis merah sepanjang lebar bendera.'"
+		},
+		{
+			kategori: "Atribut Pramuka",
+			q: "Menurut AD Pasal 45, Musyawarah Gerakan Pramuka di tingkat Nasional diselenggarakan setiap...",
+			options: ["3 tahun sekali", "4 tahun sekali", "5 tahun sekali", "Setiap tahun"],
+			correct: "5 tahun sekali",
+			edu: "AD Pasal 45 menyebutkan: '(2) Musyawarah Gerakan Pramuka di tingkat nasional diselenggarakan 5 (lima) tahun sekali. (3) Musyawarah Gerakan Pramuka di tingkat daerah diselenggarakan 5 (lima) tahun sekali. (4) Musyawarah Gerakan Pramuka di tingkat cabang diselenggarakan 5 (lima) tahun sekali. (5) Musyawarah Gerakan Pramuka di tingkat ranting dan gugus depan diselenggarakan 3 (tiga) tahun sekali.' Musyawarah Nasional 5 tahunan inilah yang memilih Ketua Kwartir Nasional dan menetapkan AD/ART."
+		},
+		{
+			kategori: "Atribut Pramuka",
+			q: "Berdasarkan AD Pasal 6, sifat Gerakan Pramuka sebagai organisasi yang benar adalah...",
+			options: [
+				"Wajib bagi seluruh pelajar Indonesia, terikat dengan pemerintah",
+				"Sukarela, mandiri, tidak membedakan suku/ras/golongan/agama, dan bukan organisasi sosial-politik",
+				"Setengah wajib bagi pelajar SD–SMA, dikendalikan Kementerian Pendidikan",
+				"Terbuka hanya bagi WNI yang beragama tertentu"
+			],
+			correct: "Sukarela, mandiri, tidak membedakan suku/ras/golongan/agama, dan bukan organisasi sosial-politik",
+			edu: "AD Pasal 6 menyebutkan: '(1) Gerakan Pramuka adalah organisasi pendidikan yang keanggotaannya bersifat sukarela, mandiri, tidak membedakan suku, ras, golongan, dan agama. (2) Gerakan Pramuka bukan organisasi sosial-politik, bukan bagian dari salah-satu organisasi sosial-politik dan tidak menjalankan kegiatan politik praktis. (3) Gerakan Pramuka menjamin kemerdekaan tiap-tiap anggotanya untuk memeluk agama dan kepercayaan masing-masing.' Sifat sukarela ini penting — tidak ada paksaan untuk bergabung."
+		},
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id: 'siaga_novice', name: 'Pandu Siaga',    icon: '🟢' },
+		{ id: 'siaga_master', name: 'Ahli Siaga',     icon: '⭐' },
+	];
+
+	let questions: Question[] = [];
+	let currentIndex = 0;
+	let selectedAnswer = '';
+	let score = 0;
+	let totalXpEarned = 0;
+
+	function shuffle<T>(arr: T[]): T[] {
+		return [...arr].sort(() => Math.random() - 0.5);
+	}
+
+	function getEl<T extends HTMLElement>(id: string) {
+		return document.getElementById(id) as T | null;
+	}
+
+	function startQuiz() {
+		questions = shuffle(QUESTIONS_POOL).slice(0, QUESTIONS_PER_SESSION);
+		currentIndex = 0; score = 0; totalXpEarned = 0; selectedAnswer = '';
+		renderQuestion();
+	}
+
+	function renderQuestion() {
+		const q = questions[currentIndex];
+		const num = currentIndex + 1;
+		const pct = (num / QUESTIONS_PER_SESSION) * 100;
+		getEl('question-number')!.textContent = `Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent = `${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width = `${pct}%`;
+		const catEl = getEl('question-category');
+		if (catEl) catEl.innerHTML = `<span class="cat-pill">🟢 ${q.kategori}</span>`;
+		getEl('question-prompt')!.textContent = q.q;
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		if (eduCard) eduCard.style.display = 'none';
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Konfirmasi Jawaban'; submitBtn.onclick = submitAnswer; }
+		const hint = getEl('answer-hint');
+		if (hint) { hint.textContent = 'Pilih salah satu jawaban di atas'; hint.className = 'answer-hint'; }
+		selectedAnswer = '';
+		renderOptions(q);
+	}
+
+	function renderOptions(q: Question) {
+		const container = getEl<HTMLDivElement>('options-container');
+		if (!container) return;
+		const shuffledOpts = shuffle(q.options);
+		container.innerHTML = shuffledOpts.map((opt, i) => {
+			const letter = String.fromCharCode(65 + i);
+			return `
+			<button class="opt-btn" data-answer="${opt.replace(/"/g, '&quot;')}" style="animation-delay:${i * 0.07}s">
+				<span class="opt-letter">${letter}</span>
+				<span class="opt-text">${opt}</span>
+				<span class="opt-indicator">
+					<span class="opt-radio"></span>
+					<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span>
+			</button>`;
+		}).join('');
+		container.querySelectorAll('.opt-btn').forEach((btn, i) => {
+			btn.addEventListener('click', () => {
+				container.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');
+				selectedAnswer = (btn as HTMLElement).dataset.answer || '';
+				const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+				if (submitBtn) submitBtn.disabled = false;
+				const hint = getEl('answer-hint');
+				if (hint) { hint.textContent = `Jawaban ${String.fromCharCode(65 + i)} dipilih — klik Konfirmasi untuk lanjut`; hint.className = 'answer-hint chosen'; }
+			});
+		});
+	}
+
+	function submitAnswer() {
+		const q = questions[currentIndex];
+		const isCorrect = selectedAnswer === q.correct;
+		if (isCorrect) { score++; totalXpEarned += XP_PER_CORRECT; }
+		const container = getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn => {
+			const el = btn as HTMLElement; const ans = el.dataset.answer || '';
+			el.classList.add('is-answered'); el.classList.remove('is-selected');
+			if (ans === q.correct) el.classList.add('is-correct');
+			else if (ans === selectedAnswer && !isCorrect) el.classList.add('is-incorrect');
+			else el.classList.add('is-dimmed');
+		});
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		const eduText = getEl('education-text');
+		if (eduCard && eduText) { eduText.textContent = q.edu; eduCard.style.display = 'flex'; eduCard.className = `education-card ${isCorrect ? 'correct' : 'incorrect'}`; }
+		const hint = getEl('answer-hint');
+		if (hint) { hint.textContent = isCorrect ? '✓ Jawaban benar!' : '✗ Jawaban salah — lihat penjelasan di bawah.'; hint.className = `answer-hint ${isCorrect ? 'correct-hint' : 'wrong-hint'}`; }
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) { submitBtn.textContent = currentIndex < QUESTIONS_PER_SESSION - 1 ? 'Soal Berikutnya →' : 'Lihat Hasil'; submitBtn.disabled = false; submitBtn.onclick = nextQuestion; }
+	}
+
+	function nextQuestion() {
+		currentIndex++;
+		if (currentIndex < QUESTIONS_PER_SESSION) { renderQuestion(); const sb = getEl<HTMLButtonElement>('btn-submit-answer'); if (sb) sb.onclick = submitAnswer; }
+		else showResult();
+	}
+
+	function showResult() {
+		const pct = Math.round((score / QUESTIONS_PER_SESSION) * 100);
+		const currentXp = parseInt(localStorage.getItem('scout_xp') || '0');
+		localStorage.setItem('scout_xp', (currentXp + totalXpEarned).toString());
+		const earnedBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+		const newlyUnlocked: typeof BADGES_FOR_THIS_QUIZ = [];
+		if (!earnedBadges.includes('siaga_novice')) { earnedBadges.push('siaga_novice'); newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]); }
+		if (pct === 100 && !earnedBadges.includes('siaga_master')) { earnedBadges.push('siaga_master'); newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]); }
+		const totalXpNow = parseInt(localStorage.getItem('scout_xp') || '0');
+		if (totalXpNow >= 500 && !earnedBadges.includes('scout_master')) earnedBadges.push('scout_master');
+		localStorage.setItem('scout_badges', JSON.stringify(earnedBadges));
+		const emoji = pct === 100 ? '🏆' : pct >= 80 ? '⭐' : pct >= 60 ? '👍' : '📚';
+		getEl('result-emoji')!.textContent = emoji;
+		getEl('result-title')!.textContent = pct === 100 ? 'Sempurna! Ahli Siaga!' : pct >= 80 ? 'Bagus Sekali!' : pct >= 60 ? 'Cukup Baik!' : 'Terus Belajar!';
+		getEl('result-text')!.textContent = `Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct >= 80 ? 'Kamu menguasai ketentuan Pramuka Siaga dengan sangat baik!' : 'Pelajari kembali Dwisatya, Dwidarma, SKU Siaga, serta pasal-pasal AD/ART yang mengatur golongan Siaga.'}`;
+		getEl('result-xp')!.textContent = `+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent = `${pct}/100`;
+		getEl('result-correct')!.textContent = `${score}/${QUESTIONS_PER_SESSION}`;
+		if (newlyUnlocked.length > 0) {
+			const bc = getEl<HTMLDivElement>('unlocked-badges'); const bl = getEl('badges-list-el');
+			if (bc && bl) { bl.innerHTML = newlyUnlocked.map(b => `<div class="new-badge-item"><span class="new-badge-icon">${b.icon}</span><span class="new-badge-name">${b.name}</span></div>`).join(''); bc.style.display = 'block'; }
+		}
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'flex';
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click', submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click', () => {
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'none';
+		startQuiz();
+	});
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container { display: flex; flex-direction: column; gap: 1.5rem; }
+
+	.quiz-header { display: flex; align-items: center; gap: 1.5rem; padding: 1.25rem 1.75rem; flex-wrap: wrap; }
+
+	.btn-back { display: flex; align-items: center; gap: 0.45rem; color: var(--color-text-muted); text-decoration: none; font-size: 0.88rem; font-weight: 500; white-space: nowrap; transition: color var(--transition-fast); }
+	.btn-back:hover { color: var(--color-gold); }
+	.btn-back svg { width: 16px; height: 16px; }
+
+	.quiz-title-area { display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap; }
+	.quiz-title-area h2 { font-size: 1.25rem; font-weight: 700; color: var(--color-text); }
+
+	.quiz-difficulty { font-size: 0.72rem; font-weight: 700; padding: 0.25rem 0.65rem; border-radius: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+	.quiz-difficulty.siaga { background: rgba(35,108,50,0.1); color: #236c32; border: 1px solid rgba(35,108,50,0.22); }
+
+	.quiz-layout { display: grid; grid-template-columns: 1fr 300px; gap: 1.5rem; align-items: start; }
+
+	.quiz-main-card { padding: 2rem; display: flex; flex-direction: column; gap: 1.5rem; }
+
+	.progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+	.progress-label { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; color: var(--color-text-muted); font-weight: 500; }
+	.pct-label { font-weight: 700; color: var(--color-primary-light); }
+	.progress-bar-outer { height: 6px; background: var(--color-border); border-radius: var(--radius-full); overflow: hidden; }
+	.progress-bar-inner { height: 100%; background: linear-gradient(90deg, var(--color-success), var(--color-gold)); border-radius: var(--radius-full); transition: width 0.4s ease; }
+
+	.question-category { display: flex; }
+	.cat-pill { background: rgba(35,108,50,0.08); color: #236c32; border: 1px solid rgba(35,108,50,0.2); padding: 0.28rem 0.75rem; border-radius: var(--radius-full); font-size: 0.75rem; font-weight: 700; }
+
+	.question-text-area h3 { font-size: 1.1rem; font-weight: 700; color: var(--color-text); line-height: 1.55; }
+
+	/* Options */
+	.opt-btn { width: 100%; display: flex; align-items: center; gap: 0.85rem; padding: 0.9rem 1.1rem; background: var(--color-bg); border: 1.5px solid var(--color-border); border-radius: var(--radius-md); cursor: pointer; text-align: left; transition: all var(--transition-fast); animation: fadeSlideIn 0.25s ease both; }
+	@keyframes fadeSlideIn { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+	.opt-btn:hover:not(.is-answered) { border-color: rgba(35,108,50,0.35); background: rgba(35,108,50,0.04); }
+	.opt-btn.is-selected { border-color: rgba(35,108,50,0.5); background: rgba(35,108,50,0.06); }
+	.opt-letter { width: 28px; height: 28px; border-radius: 50%; background: var(--color-surface-solid); border: 1px solid var(--color-border); display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: var(--color-text-muted); flex-shrink: 0; }
+	.opt-text { flex: 1; font-size: 0.9rem; color: var(--color-text); line-height: 1.45; }
+	.opt-indicator { width: 24px; height: 24px; position: relative; flex-shrink: 0; }
+	.opt-radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--color-border); position: absolute; top: 3px; left: 3px; transition: all var(--transition-fast); }
+	.opt-btn.is-selected .opt-radio { border-color: #236c32; background: rgba(35,108,50,0.15); }
+	.opt-icon { width: 24px; height: 24px; position: absolute; top: 0; left: 0; display: none; }
+	.opt-btn.is-correct .opt-radio, .opt-btn.is-incorrect .opt-radio { display: none; }
+	.opt-btn.is-correct .icon-check { display: block; }
+	.opt-btn.is-incorrect .icon-cross { display: block; }
+	.opt-btn.is-correct  { border-color: rgba(35,108,50,0.5);  background: rgba(35,108,50,0.08);  pointer-events: none; }
+	.opt-btn.is-incorrect{ border-color: rgba(185,59,34,0.5);  background: rgba(185,59,34,0.08);  pointer-events: none; }
+	.opt-btn.is-dimmed   { opacity: 0.45; pointer-events: none; }
+
+	/* Education card */
+	.education-card { display: flex; flex-direction: column; gap: 0.6rem; padding: 1rem 1.15rem; border-radius: var(--radius-md); border: 1px solid var(--color-border); background: var(--color-surface-solid); }
+	.education-card.correct { border-color: rgba(35,108,50,0.3); background: rgba(35,108,50,0.05); }
+	.education-card.incorrect { border-color: rgba(185,59,34,0.3); background: rgba(185,59,34,0.05); }
+	.edu-header { display: flex; align-items: center; gap: 0.5rem; }
+	.edu-icon { font-size: 1rem; }
+	.edu-label { font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-muted); }
+	#education-text { font-size: 0.85rem; line-height: 1.6; color: var(--color-text-muted); }
+
+	/* Action footer */
+	.action-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding-top: 0.5rem; border-top: 1px solid var(--color-border); }
+	.answer-hint { font-size: 0.82rem; color: var(--color-text-faint); }
+	.answer-hint.chosen { color: var(--color-text-muted); }
+	.answer-hint.correct-hint { color: #236c32; font-weight: 600; }
+	.answer-hint.wrong-hint   { color: #a5301a; font-weight: 600; }
+
+	/* Sidebar */
+	.quiz-help-card { padding: 1.5rem; display: flex; flex-direction: column; gap: 0.85rem; position: sticky; top: 1.5rem; }
+	.quiz-help-card h3 { font-size: 0.95rem; font-weight: 700; color: var(--color-text); }
+	.help-subtitle { font-size: 0.78rem; color: var(--color-text-faint); margin-top: -0.5rem; }
+	.help-divider { height: 1px; background: var(--color-border); margin: 0.25rem 0; }
+
+	.oath-box { background: rgba(35,108,50,0.04); border: 1px solid rgba(35,108,50,0.15); border-radius: var(--radius-sm); padding: 0.75rem 1rem; }
+	.oath-title { font-size: 0.78rem; color: var(--color-text-muted); font-style: italic; margin-bottom: 0.4rem; line-height: 1.4; }
+	.oath-list { padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.35rem; }
+	.oath-list li { font-size: 0.8rem; color: var(--color-text); line-height: 1.4; }
+
+	.sku-table { display: flex; flex-direction: column; gap: 0.2rem; }
+	.sku-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; padding: 0.35rem 0; border-bottom: 1px solid var(--color-border); }
+	.sku-row:last-child { border-bottom: none; }
+	.sku-row.header { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; color: var(--color-text-faint); padding-bottom: 0.4rem; }
+	.sku-badge { font-size: 0.75rem; font-weight: 700; padding: 0.15rem 0.5rem; border-radius: 4px; }
+	.sku-badge.mula  { background: rgba(35,108,50,0.1);  color: #236c32;  border: 1px solid rgba(35,108,50,0.2); }
+	.sku-badge.bantu { background: rgba(212,163,43,0.1); color: #a07010;  border: 1px solid rgba(212,163,43,0.2); }
+	.sku-badge.tata  { background: rgba(185,59,34,0.09); color: #c0513c;  border: 1px solid rgba(185,59,34,0.18); }
+
+	.fact-box { display: flex; flex-direction: column; gap: 0.2rem; }
+	.fact-row { display: flex; justify-content: space-between; align-items: center; font-size: 0.8rem; padding: 0.3rem 0; border-bottom: 1px solid var(--color-border); }
+	.fact-row:last-child { border-bottom: none; }
+	.fact-key { color: var(--color-text-muted); }
+	.fact-val { font-weight: 700; color: var(--color-text); font-size: 0.78rem; }
+
+	/* Result overlay */
+	.result-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.55); display: flex; align-items: center; justify-content: center; z-index: 200; padding: 1rem; }
+	.result-card { width: 100%; max-width: 480px; padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; gap: 1.25rem; text-align: center; }
+	.result-emoji { font-size: 3rem; }
+	.result-card h2 { font-size: 1.6rem; font-weight: 800; color: var(--color-text); }
+	.result-summary { font-size: 0.9rem; color: var(--color-text-muted); line-height: 1.55; }
+	.result-stats-details { display: flex; gap: 1.5rem; flex-wrap: wrap; justify-content: center; width: 100%; padding: 1.25rem; border-radius: var(--radius-md); background: var(--color-surface-solid); border: 1px solid var(--color-border); }
+	.detail-item { display: flex; flex-direction: column; align-items: center; gap: 0.2rem; }
+	.detail-item .label { font-size: 0.72rem; color: var(--color-text-faint); text-transform: uppercase; letter-spacing: 0.5px; }
+	.detail-item .value { font-size: 1.25rem; font-weight: 800; color: var(--color-text); }
+	.score-xp { color: var(--color-gold); }
+	.unlocked-badges-container { width: 100%; padding: 1rem; border-radius: var(--radius-md); background: rgba(212,163,43,0.06); border: 1px solid rgba(212,163,43,0.2); }
+	.unlocked-badges-container h3 { font-size: 0.9rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--color-text); }
+	.unlocked-badges-list { display: flex; flex-wrap: wrap; gap: 0.5rem; justify-content: center; }
+	.new-badge-item { display: flex; align-items: center; gap: 0.5rem; padding: 0.4rem 0.85rem; border-radius: var(--radius-full); background: rgba(212,163,43,0.1); border: 1px solid rgba(212,163,43,0.25); }
+	.new-badge-icon { font-size: 1.1rem; }
+	.new-badge-name { font-size: 0.8rem; font-weight: 700; color: var(--color-text); }
+	.result-actions { display: flex; gap: 0.75rem; flex-wrap: wrap; justify-content: center; }
+
+	@media (max-width: 900px) { .quiz-layout { grid-template-columns: 1fr; } .quiz-help-card { position: static; } }
+	@media (max-width: 600px) { .quiz-main-card { padding: 1.25rem; } .quiz-header { padding: 1rem 1.25rem; } }
+</style>

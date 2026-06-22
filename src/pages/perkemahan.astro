@@ -1,0 +1,325 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Perkemahan Pramuka" description="Latihan teknik berkemah pramuka: mendirikan tenda, bivak, api unggun, sanitasi lapangan, survival, sinyal darurat, dan etika Leave No Trace.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Perkemahan</h2>
+				<span class="quiz-difficulty medium">Teknik Berkemah &amp; Survival</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<div class="quiz-main-card glass-card">
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width:10%"></div>
+					</div>
+				</div>
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">⛺ Perkemahan</span>
+				</div>
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+				<div class="education-card" id="education-card" style="display:none;">
+					<div class="edu-header">
+						<span class="edu-icon">⛺</span>
+						<span class="edu-label">Penjelasan</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<div class="quiz-help-card glass-card">
+				<h3>🏕️ Referensi Cepat</h3>
+				<p class="help-subtitle">Teknik dasar berkemah &amp; keselamatan di alam terbuka</p>
+
+				<div class="camp-section">
+					<div class="camp-title">10 Perlengkapan Wajib</div>
+					<div class="camp-item"><span class="camp-key">Navigasi</span><span class="camp-val">Peta topografi + kompas</span></div>
+					<div class="camp-item"><span class="camp-key">Penerangan</span><span class="camp-val">Senter + baterai cadangan</span></div>
+					<div class="camp-item"><span class="camp-key">P3K</span><span class="camp-val">Kotak pertolongan pertama</span></div>
+					<div class="camp-item"><span class="camp-key">Perlindungan</span><span class="camp-val">Tenda / flysheet darurat</span></div>
+					<div class="camp-item"><span class="camp-key">Api</span><span class="camp-val">Korek api + pemantik</span></div>
+					<div class="camp-item"><span class="camp-key">Air</span><span class="camp-val">Botol + tablet purifikasi</span></div>
+					<div class="camp-item"><span class="camp-key">Makanan</span><span class="camp-val">Cadangan untuk darurat</span></div>
+					<div class="camp-item"><span class="camp-key">Pakaian</span><span class="camp-val">Hangat + jas hujan</span></div>
+					<div class="camp-item"><span class="camp-key">Pisau</span><span class="camp-val">Pisau serbaguna / parang</span></div>
+					<div class="camp-item"><span class="camp-key">Sinyal</span><span class="camp-val">Peluit 3 tiupan = SOS</span></div>
+				</div>
+
+				<div class="camp-section">
+					<div class="camp-title">Susunan Api Unggun</div>
+					<div class="camp-item"><span class="camp-key">Log Cabin</span><span class="camp-val">Api stabil &amp; tahan lama</span></div>
+					<div class="camp-item"><span class="camp-key">Piramida</span><span class="camp-val">Panas cepat &amp; besar</span></div>
+					<div class="camp-item"><span class="camp-key">Bintang</span><span class="camp-val">Hemat kayu, terkendali</span></div>
+					<div class="camp-item"><span class="camp-key">Sumbu</span><span class="camp-val">Api panjang &amp; terarah</span></div>
+				</div>
+
+				<div class="camp-section">
+					<div class="camp-title">Prosedur STOP (Tersesat)</div>
+					<div class="camp-item"><span class="camp-key">S – Stop</span><span class="camp-val">Berhenti &amp; tenang</span></div>
+					<div class="camp-item"><span class="camp-key">T – Think</span><span class="camp-val">Pikirkan situasi</span></div>
+					<div class="camp-item"><span class="camp-key">O – Observe</span><span class="camp-val">Amati lingkungan</span></div>
+					<div class="camp-item"><span class="camp-key">P – Plan</span><span class="camp-val">Rencanakan tindakan</span></div>
+				</div>
+
+				<div class="camp-section">
+					<div class="camp-title">Sinyal Darurat Internasional</div>
+					<div class="camp-item"><span class="camp-key">SOS Morse</span><span class="camp-val">··· ─── ···</span></div>
+					<div class="camp-item"><span class="camp-key">Peluit</span><span class="camp-val">3 tiupan panjang</span></div>
+					<div class="camp-item"><span class="camp-key">Cahaya</span><span class="camp-val">3 kilatan panjang</span></div>
+					<div class="camp-item"><span class="camp-key">Interval</span><span class="camp-val">Jeda 1 menit, ulangi</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="result-overlay" id="result-overlay" style="display:none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text"></p>
+				<div class="result-stats-details">
+					<div class="detail-item"><span class="label">XP Diperoleh</span><span class="value score-xp" id="result-xp">+0 XP</span></div>
+					<div class="detail-item"><span class="label">Skor Akhir</span><span class="value" id="result-score">0/100</span></div>
+					<div class="detail-item"><span class="label">Jawaban Benar</span><span class="value" id="result-correct">0/10</span></div>
+				</div>
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display:none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	interface Question { kategori:string; q:string; options:string[]; correct:string; edu:string; }
+
+	const QUESTIONS_POOL: Question[] = [
+		{ kategori:"Jenis Tenda", q:"Jenis tenda yang berbentuk kubah setengah bola dan didirikan menggunakan rangka fiberglas melengkung disebut...", options:["Tenda dome","Tenda A-frame","Tenda tunnel","Tenda flysheet"], correct:"Tenda dome", edu:"Tenda dome (kubah) menggunakan dua atau lebih tiang fiberglas yang melengkung menyilang sehingga membentuk kubah setengah bola yang stabil dan tahan angin." },
+		{ kategori:"Jenis Tenda", q:"Lapisan terluar tenda yang terbuat dari bahan kedap air untuk melindungi dari hujan dan angin disebut...", options:["Flysheet","Inner tent","Groundsheet","Vestibule"], correct:"Flysheet", edu:"Flysheet adalah lapisan terluar tenda yang kedap air, berfungsi sebagai pelindung utama dari hujan, angin, dan embun. Inner tent adalah lapisan dalam untuk tidur." },
+		{ kategori:"Mendirikan Tenda", q:"Arah ideal untuk pintu tenda agar terhindar dari terpaan angin kencang adalah...", options:["Membelakangi arah datangnya angin","Menghadap arah datangnya angin","Selalu menghadap ke timur","Selalu menghadap ke barat"], correct:"Membelakangi arah datangnya angin", edu:"Pintu tenda sebaiknya membelakangi arah datangnya angin agar udara tidak langsung masuk dan konstruksi tenda lebih stabil serta hangat di malam hari." },
+		{ kategori:"Mendirikan Tenda", q:"Lokasi ideal untuk mendirikan tenda saat berkemah adalah...", options:["Tanah datar, terlindung angin, tidak di bawah pohon mati, dan jauh dari cekungan banjir","Di atas bukit terbuka agar pemandangan bagus","Di bawah pohon besar agar teduh sepanjang hari","Di tepi sungai agar mudah mengambil air"], correct:"Tanah datar, terlindung angin, tidak di bawah pohon mati, dan jauh dari cekungan banjir", edu:"Lokasi ideal tenda: tanah datar (drainase baik), terlindung angin alami, hindari pohon tinggi/mati yang bisa roboh, tidak di cekungan rawan banjir, minimal 50 meter dari sumber air." },
+		{ kategori:"Bivak", q:"Tempat tinggal sementara darurat yang dibuat dari bahan-bahan alam sekitar tanpa peralatan khusus disebut...", options:["Bivak alam","Bivak taktis","Bivak permanen","Bivak sintetis"], correct:"Bivak alam", edu:"Bivak alam (natural shelter) dibuat dari bahan yang tersedia di sekitar (daun, ranting, batang pohon). Berbeda dari bivak taktis yang menggunakan flysheet atau tenda militer." },
+		{ kategori:"Bivak", q:"Bahan alami yang paling efektif digunakan sebagai atap bivak darurat di hutan tropis adalah...", options:["Daun lebar yang disusun tumpang tindih dari bawah ke atas","Ranting-ranting kering yang dijalin rapat","Lumut basah yang dipadatkan","Tanah liat yang dibentuk menjadi atap"], correct:"Daun lebar yang disusun tumpang tindih dari bawah ke atas", edu:"Daun-daun lebar (kelapa, pisang, palem) disusun tumpang tindih seperti genteng — dari bawah ke atas — sehingga air hujan mengalir ke bawah tanpa meresap ke dalam bivak." },
+		{ kategori:"Mendirikan Tenda", q:"Fungsi utama parit pengering (draining channel) yang dibuat mengelilingi tenda adalah...", options:["Mengalirkan air hujan agar tidak menggenang di bawah tenda","Sebagai batas wilayah tenda","Mencegah binatang masuk ke area tenda","Penanda lokasi tenda di malam hari"], correct:"Mengalirkan air hujan agar tidak menggenang di bawah tenda", edu:"Parit pengering dialirkan dari sisi atas mengelilingi tenda menuju arah bawah lereng sehingga air hujan dari atap tenda langsung dialirkan menjauhi tenda dan tidak menggenangi lantai tidur." },
+		{ kategori:"Api Unggun", q:"Susunan api unggun dengan kayu-kayu yang ditumpuk saling melintang seperti bangunan kabin disebut...", options:["Log cabin","Piramida","Bintang","Sumbu"], correct:"Log cabin", edu:"Susunan log cabin dibuat dengan menumpuk kayu secara berselang-seling tegak lurus, menghasilkan api yang stabil, lama tahan, dan panasnya merata — cocok untuk memasak dan penghangat malam." },
+		{ kategori:"Api Unggun", q:"Susunan api unggun dengan kayu-kayu panjang yang ujungnya bertemu di satu titik api disebut...", options:["Bintang","Log cabin","Piramida","Kotak"], correct:"Bintang", edu:"Susunan bintang menggunakan 4-6 batang kayu panjang yang ujungnya diarahkan ke pusat api. Saat kayu terbakar, dorong lebih ke dalam agar api tetap menyala. Hemat kayu dan mudah dikendalikan." },
+		{ kategori:"Api Unggun", q:"Yang harus dilakukan dengan sisa api unggun sebelum meninggalkan area perkemahan adalah...", options:["Disiram air hingga benar-benar padam dingin, kemudian abunya dikubur","Dibiarkan padam dengan sendirinya","Ditutup dengan tanah tebal saja","Dipindahkan ke lokasi lain yang lebih aman"], correct:"Disiram air hingga benar-benar padam dingin, kemudian abunya dikubur", edu:"Api unggun harus disiram air → diaduk → disiram lagi hingga benar-benar dingin saat disentuh. Tidak boleh ada bara tersisa. Abunya kemudian dikubur untuk keamanan dan estetika lingkungan." },
+		{ kategori:"Air & Sanitasi", q:"Cara paling sederhana dan efektif memurnikan air minum di alam terbuka adalah...", options:["Memasak/merebus air hingga mendidih minimal 1 menit","Menyaring dengan kain saja","Menyimpan dalam wadah tertutup selama semalam","Menambahkan daun pandan ke dalam air"], correct:"Memasak/merebus air hingga mendidih minimal 1 menit", edu:"Merebus air hingga mendidih (100°C) selama minimal 1 menit sudah cukup untuk membunuh bakteri, virus, dan sebagian besar patogen berbahaya tanpa alat khusus." },
+		{ kategori:"Air & Sanitasi", q:"Lubang sampah di area perkemahan sebaiknya ditempatkan di...", options:["Bawah angin dari tenda dan jauh dari sumber air","Tengah-tengah area perkemahan","Di sebelah dapur agar mudah membuang","Di atas angin agar bau cepat menghilang"], correct:"Bawah angin dari tenda dan jauh dari sumber air", edu:"Lubang sampah ditempatkan di bawah angin (downwind) agar bau tidak mengganggu area tenda, dan jauh dari sumber air agar tidak mencemari lingkungan sekitar perkemahan." },
+		{ kategori:"Air & Sanitasi", q:"Cara membuat jamban darurat (cat hole) yang benar saat berkemah di alam adalah...", options:["Gali lubang sedalam 15-20 cm, minimal 50 m dari sumber air; tutup kembali setelah digunakan","Gunakan tepi sungai terdekat agar mudah dibersihkan","Buat lubang sedalam 1 meter agar terurai cepat","Tidak perlu, cukup gunakan dedaunan saja"], correct:"Gali lubang sedalam 15-20 cm, minimal 50 m dari sumber air; tutup kembali setelah digunakan", edu:"Cat hole digali sedalam 15-20 cm (zona biologis aktif tanah), minimal 50 m dari air, jalur, dan tenda. Tutup rapat dengan tanah setelah digunakan untuk mencegah kontaminasi." },
+		{ kategori:"Survival", q:"Singkatan 'STOP' dalam prosedur survival saat tersesat kepanjangannya adalah...", options:["Stop, Think, Observe, Plan","Survive, Treat, Orient, Proceed","Stay, Talk, Organize, Protect","Signal, Track, Observe, Proceed"], correct:"Stop, Think, Observe, Plan", edu:"STOP: Stop (berhenti dan tenangkan diri), Think (berpikir jernih tentang situasi), Observe (amati lingkungan dan catat tanda-tanda arah), Plan (rencanakan tindakan selanjutnya dengan cermat)." },
+		{ kategori:"Survival", q:"Tanda SOS yang benar dalam kode Morse internasional adalah...", options:["··· ─── ···","─── ··· ─","··· ─ ···","─ ··· ─"], correct:"··· ─── ···", edu:"SOS dalam Morse: S = ··· (3 titik), O = ─── (3 garis), S = ··· (3 titik). Sinyal darurat internasional yang mudah diingat dan diakui seluruh dunia oleh tim SAR." },
+		{ kategori:"Navigasi Alam", q:"Metode menentukan arah timur-barat menggunakan bayangan tongkat pada siang hari adalah...", options:["Tandai ujung bayangan (A), tunggu 15-20 menit, tandai lagi (B); garis A ke B menunjuk ke timur","Bayangan tengah hari selalu menunjuk ke utara","Bayangan pagi hari selalu menunjuk ke barat","Panjang bayangan menunjukkan derajat arah"], correct:"Tandai ujung bayangan (A), tunggu 15-20 menit, tandai lagi (B); garis A ke B menunjuk ke timur", edu:"Metode bayangan tongkat: tancapkan tongkat → tandai ujung bayangan (A) → tunggu 15-20 menit → tandai ujung bayangan baru (B). Garis A→B = arah Timur. Berlaku di seluruh permukaan bumi." },
+		{ kategori:"Survival", q:"Tanaman yang dapat dimanfaatkan airnya sebagai sumber minum darurat di hutan tropis adalah...", options:["Bambu muda","Pohon jati","Pohon mahoni","Pohon cemara gunung"], correct:"Bambu muda", edu:"Bambu muda yang dipotong pada buku-bukunya dapat menghasilkan air yang dapat diminum dalam kondisi darurat. Rotan juga menjadi alternatif yang umum di hutan tropis Indonesia." },
+		{ kategori:"Peralatan", q:"Perlengkapan wajib yang harus selalu dibawa dalam kegiatan pendakian atau perkemahan meliputi...", options:["P3K, peta, kompas, senter, tenda/flysheet, air, dan makanan darurat","Telepon genggam dan power bank saja","Buku catatan dan alat tulis","Pakaian ganti saja"], correct:"P3K, peta, kompas, senter, tenda/flysheet, air, dan makanan darurat", edu:"'Ten Essentials' perkemahan: navigasi (peta+kompas), penerangan, P3K, perlindungan darurat, pemantik, pisau serbaguna, air, makanan, pakaian hangat, dan alat sinyal/komunikasi." },
+		{ kategori:"Peralatan", q:"Teknik memuat ransel yang benar untuk perjalanan panjang agar keseimbangan tubuh terjaga adalah...", options:["Beban terberat paling dekat punggung di posisi tengah-atas ransel","Beban terberat di bagian paling bawah ransel","Semua beban dikumpulkan di bagian atas ransel","Beban berat di bagian luar agar mudah dijangkau"], correct:"Beban terberat paling dekat punggung di posisi tengah-atas ransel", edu:"Beban terberat di dekat punggung (tengah-atas) menjaga pusat gravitasi di atas pinggul sehingga tidak menarik tubuh ke belakang. Ini mengurangi kelelahan pada bahu dan punggung bawah." },
+		{ kategori:"Keselamatan", q:"Kondisi hipotermia paling sering terjadi saat perkemahan akibat...", options:["Pakaian basah kuyup ditambah terpapar angin dalam kondisi suhu rendah","Kurang tidur saja","Terlalu banyak makan makanan panas","Berjalan terlalu jauh hingga kelelahan otot"], correct:"Pakaian basah kuyup ditambah terpapar angin dalam kondisi suhu rendah", edu:"Hipotermia (suhu inti tubuh <35°C) dipercepat oleh kombinasi basah + angin (wind chill) + suhu rendah. Pakaian basah kehilangan 90% nilai insulasinya — segera ganti pakaian basah." },
+		{ kategori:"Etika Alam", q:"Prinsip 'Leave No Trace' (LNT) dalam kegiatan alam bebas mengharuskan pramuka untuk...", options:["Meninggalkan alam dalam kondisi sama atau lebih baik dari sebelum kedatangan","Membawa batu dan tanaman unik sebagai kenang-kenangan","Membuat api unggun sebesar mungkin untuk suasana","Menebang pohon kecil untuk keperluan bivak dan tiang tenda"], correct:"Meninggalkan alam dalam kondisi sama atau lebih baik dari sebelum kedatangan", edu:"Leave No Trace (LNT): jangan tinggalkan sampah, jangan ganggu tanaman/hewan, minimalkan bekas api, hormati pengguna lain, dan patuhi aturan area perkemahan demi kelestarian." },
+		{ kategori:"Air & Sanitasi", q:"Cara terbaik membuang sampah organik sisa makanan di area perkemahan yang jauh dari fasilitas adalah...", options:["Dikubur dalam lubang minimal 15 cm, jauh dari tenda dan sumber air","Ditinggalkan di permukaan tanah agar terurai alami","Dibakar bersama semua jenis sampah","Dibuang ke aliran sungai terdekat"], correct:"Dikubur dalam lubang minimal 15 cm, jauh dari tenda dan sumber air", edu:"Sampah organik dikubur ≥15 cm (zona biologis aktif tanah), minimal 50 meter dari air, jalur, dan tenda. Plastik dan non-organik wajib dibawa pulang — tidak bisa terurai di alam." },
+		{ kategori:"Keselamatan", q:"Posisi tidur yang disarankan di dalam tenda saat udara dingin adalah...", options:["Kepala menjauh dari pintu tenda, posisi kepala sedikit lebih tinggi dari kaki","Kaki diarahkan ke pintu tenda","Posisi melintang di tengah tenda","Posisi tidak berpengaruh pada kehangatan"], correct:"Kepala menjauh dari pintu tenda, posisi kepala sedikit lebih tinggi dari kaki", edu:"Kepala menjauh dari pintu meminimalkan paparan angin dingin yang masuk. Posisi kepala sedikit lebih tinggi membantu sirkulasi tubuh dan mengurangi penumpukan cairan di kepala." },
+		{ kategori:"Kegiatan Pramuka", q:"Pertemuan besar Pramuka Penggalang tingkat nasional yang diadakan setiap 5 tahun disebut...", options:["Jambore Nasional","Raimuna Nasional","Perkemahan Wirakarya","Musyawarah Nasional"], correct:"Jambore Nasional", edu:"Jambore Nasional adalah pertemuan besar Pramuka Penggalang tingkat nasional yang diadakan setiap 5 tahun oleh Kwartir Nasional Gerakan Pramuka Indonesia." },
+		{ kategori:"Kegiatan Pramuka", q:"Pertemuan besar Pramuka Penegak dan Pandega tingkat nasional disebut...", options:["Raimuna Nasional","Jambore Nasional","Perkemahan Wirakarya Nasional","Musyawarah Pandega Nasional"], correct:"Raimuna Nasional", edu:"Raimuna adalah kegiatan pertemuan Pramuka Penegak dan Pandega. Tingkat nasional disebut Raimuna Nasional, diadakan setiap 5 tahun sekali oleh Kwartir Nasional Gerakan Pramuka." },
+		{ kategori:"Perkemahan Pramuka", q:"Dalam konteks perkemahan Pramuka, 'tapak kemah' merujuk pada...", options:["Area yang dialokasikan untuk satu regu atau kelompok berkemah","Jalur pendakian menuju lokasi kemah","Tempat upacara di area perkemahan","Jalan setapak menuju sumber air"], correct:"Area yang dialokasikan untuk satu regu atau kelompok berkemah", edu:"Tapak kemah adalah area/lahan yang ditetapkan untuk satu regu atau kelompok mendirikan tenda dan melaksanakan kegiatan. Setiap tapak biasanya memiliki nomor dan batas yang jelas." },
+		{ kategori:"Keselamatan", q:"Tindakan pertama yang benar jika ada anggota regu yang hilang/tersesat saat berkemah adalah...", options:["Segera laporkan ke pembina/panitia, jangan panik, catat waktu dan lokasi terakhir diketahui","Langsung masuk hutan mencari sendiri tanpa lapor","Tunggu sampai malam baru mulai mencari","Lanjutkan kegiatan dan tunggu dia kembali sendiri"], correct:"Segera laporkan ke pembina/panitia, jangan panik, catat waktu dan lokasi terakhir diketahui", edu:"Protokol orang hilang: Laporkan segera ke pembina/panitia → Jangan panik → Catat waktu & lokasi terakhir → Atur pencarian sistematis → Hubungi SAR bila tidak ditemukan dalam 30 menit." },
+		{ kategori:"Survival", q:"Cara paling efektif memanggil pertolongan menggunakan peluit di alam bebas adalah...", options:["Tiga tiupan panjang, jeda 1 menit, ulangi","Satu tiupan panjang terus-menerus tanpa henti","Dua tiupan pendek bergantian cepat","Empat tiupan pendek-panjang-pendek"], correct:"Tiga tiupan panjang, jeda 1 menit, ulangi", edu:"Sinyal darurat peluit internasional: 3 tiupan panjang → jeda 1 menit → ulangi. Selaras dengan sinyal SOS dan diakui secara universal oleh tim SAR di seluruh dunia." },
+		{ kategori:"Etika Alam", q:"Yang dilarang dilakukan di area sumber air (sungai/danau) saat berkemah adalah...", options:["Membuang sabun dan detergen langsung ke badan air","Mengambil air untuk dimasak lebih jauh dari tepi","Mengamati ekosistem dan kehidupan air","Memancing di area yang diperbolehkan"], correct:"Membuang sabun dan detergen langsung ke badan air", edu:"Sabun mengandung fosfat dan detergen yang mencemari ekosistem perairan. Gunakan sabun biodegradable dan mandi/cuci minimal 60 meter dari sumber air, tidak langsung di tepi air." },
+		{ kategori:"Peralatan", q:"Cara paling aman melindungi makanan dari gangguan hewan liar saat berkemah di hutan adalah...", options:["Gantung kantong makanan di tali antara dua pohon, minimal 3-4 meter di atas tanah, jauh dari tenda","Simpan semua makanan di dalam tenda agar lebih terjaga","Kubur semua makanan dalam tanah sedalam 50 cm","Biarkan makanan di atas meja piknik terbuka"], correct:"Gantung kantong makanan di tali antara dua pohon, minimal 3-4 meter di atas tanah, jauh dari tenda", edu:"Teknik 'bear hang': gantung kantong makanan minimal 3-4 meter dari tanah dan 1-2 meter dari batang pohon, jauh dari tenda. Ini mencegah hewan liar (babi hutan, tikus) mengakses perbekalan." },
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id:'kemah_novice', name:'Pendaki Muda', icon:'⛺' },
+		{ id:'kemah_master', name:'Ahli Perkemahan', icon:'🏕️' },
+	];
+
+	let questions:Question[]=[], currentIndex=0, selectedAnswer='', score=0, totalXpEarned=0;
+
+	function shuffle<T>(arr:T[]):T[]{return [...arr].sort(()=>Math.random()-.5);}
+	function getEl<T extends HTMLElement>(id:string){return document.getElementById(id) as T|null;}
+
+	function startQuiz(){questions=shuffle(QUESTIONS_POOL).slice(0,QUESTIONS_PER_SESSION);currentIndex=0;score=0;totalXpEarned=0;selectedAnswer='';renderQuestion();}
+
+	function renderQuestion(){
+		const q=questions[currentIndex],num=currentIndex+1,pct=(num/QUESTIONS_PER_SESSION)*100;
+		getEl('question-number')!.textContent=`Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent=`${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width=`${pct}%`;
+		const catEl=getEl('question-category');if(catEl)catEl.innerHTML=`<span class="cat-pill">⛺ ${q.kategori}</span>`;
+		getEl('question-prompt')!.textContent=q.q;
+		const eduCard=getEl<HTMLDivElement>('education-card');if(eduCard)eduCard.style.display='none';
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Konfirmasi Jawaban';submitBtn.onclick=submitAnswer;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent='Pilih salah satu jawaban di atas';hint.className='answer-hint';}
+		selectedAnswer='';renderOptions(q);
+	}
+
+	function renderOptions(q:Question){
+		const container=getEl<HTMLDivElement>('options-container');if(!container)return;
+		container.innerHTML=shuffle(q.options).map((opt,i)=>{
+			const letter=String.fromCharCode(65+i);
+			return `<button class="opt-btn" data-answer="${opt.replace(/"/g,'&quot;')}" style="animation-delay:${i*.07}s">
+				<span class="opt-letter">${letter}</span><span class="opt-text">${opt}</span>
+				<span class="opt-indicator"><span class="opt-radio"></span>
+				<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span></button>`;
+		}).join('');
+		container.querySelectorAll('.opt-btn').forEach((btn,i)=>{
+			btn.addEventListener('click',()=>{
+				container.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');selectedAnswer=(btn as HTMLElement).dataset.answer||'';
+				const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.disabled=false;
+				const h=getEl('answer-hint');if(h){h.textContent=`Jawaban ${String.fromCharCode(65+i)} dipilih — klik Konfirmasi untuk lanjut`;h.className='answer-hint chosen';}
+			});
+		});
+	}
+
+	function submitAnswer(){
+		const q=questions[currentIndex],isCorrect=selectedAnswer===q.correct;
+		if(isCorrect){score++;totalXpEarned+=XP_PER_CORRECT;}
+		const container=getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn=>{
+			const el=btn as HTMLElement,ans=el.dataset.answer||'';
+			el.classList.add('is-answered');el.classList.remove('is-selected');
+			if(ans===q.correct)el.classList.add('is-correct');
+			else if(ans===selectedAnswer&&!isCorrect)el.classList.add('is-incorrect');
+			else el.classList.add('is-dimmed');
+		});
+		const eduCard=getEl<HTMLDivElement>('education-card'),eduText=getEl('education-text');
+		if(eduCard&&eduText){eduText.textContent=q.edu;eduCard.style.display='flex';eduCard.className=`education-card ${isCorrect?'correct':'incorrect'}`;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent=isCorrect?'✓ Jawaban benar!':'✗ Jawaban salah — lihat penjelasan di bawah.';hint.className=`answer-hint ${isCorrect?'correct-hint':'wrong-hint'}`;}
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.textContent=currentIndex<QUESTIONS_PER_SESSION-1?'Soal Berikutnya →':'Lihat Hasil';submitBtn.disabled=false;submitBtn.onclick=nextQuestion;}
+	}
+
+	function nextQuestion(){
+		currentIndex++;
+		if(currentIndex<QUESTIONS_PER_SESSION){renderQuestion();const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.onclick=submitAnswer;}
+		else showResult();
+	}
+
+	function showResult(){
+		const pct=Math.round((score/QUESTIONS_PER_SESSION)*100);
+		const currentXp=parseInt(localStorage.getItem('scout_xp')||'0');
+		localStorage.setItem('scout_xp',(currentXp+totalXpEarned).toString());
+		const earnedBadges:string[]=JSON.parse(localStorage.getItem('scout_badges')||'[]');
+		const newlyUnlocked:typeof BADGES_FOR_THIS_QUIZ=[];
+		if(!earnedBadges.includes('kemah_novice')){earnedBadges.push('kemah_novice');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);}
+		if(pct===100&&!earnedBadges.includes('kemah_master')){earnedBadges.push('kemah_master');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);}
+		if(parseInt(localStorage.getItem('scout_xp')||'0')>=500&&!earnedBadges.includes('scout_master'))earnedBadges.push('scout_master');
+		localStorage.setItem('scout_badges',JSON.stringify(earnedBadges));
+		getEl('result-emoji')!.textContent=pct===100?'🏆':pct>=80?'⭐':pct>=60?'👍':'📚';
+		const t=getEl('result-title');if(t)t.textContent=pct===100?'Sempurna! Ahli Perkemahan!':pct>=80?'Bagus Sekali!':pct>=60?'Cukup Baik!':'Terus Belajar!';
+		getEl('result-text')!.textContent=`Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct>=80?'Kamu menguasai teknik perkemahan dengan baik!':'Pelajari kembali teknik mendirikan tenda, survival, dan keselamatan berkemah.'}`;
+		getEl('result-xp')!.textContent=`+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent=`${pct}/100`;
+		getEl('result-correct')!.textContent=`${score}/${QUESTIONS_PER_SESSION}`;
+		if(newlyUnlocked.length>0){
+			const bc=getEl<HTMLDivElement>('unlocked-badges'),bl=getEl('badges-list-el');
+			if(bc&&bl){bl.innerHTML=newlyUnlocked.map(b=>`<div class="new-badge-item"><span class="new-badge-icon">${b.icon}</span><span class="new-badge-name">${b.name}</span></div>`).join('');bc.style.display='block';}
+		}
+		const overlay=getEl<HTMLDivElement>('result-overlay');if(overlay)overlay.style.display='flex';
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click',submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click',()=>{const o=getEl<HTMLDivElement>('result-overlay');if(o)o.style.display='none';startQuiz();});
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container{display:flex;flex-direction:column;gap:1.5rem}
+	.quiz-header{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 1.75rem;flex-wrap:wrap}
+	.btn-back{display:flex;align-items:center;gap:.45rem;color:var(--color-text-muted);text-decoration:none;font-size:.88rem;font-weight:500;white-space:nowrap;transition:color var(--transition-fast)}
+	.btn-back:hover{color:var(--color-gold)}.btn-back svg{width:15px;height:15px}
+	.quiz-title-area{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;flex:1}
+	.quiz-title-area h2{font-size:1.4rem;font-weight:800;color:var(--color-text)}
+	.quiz-difficulty{font-size:.72rem;font-weight:700;padding:.28rem .75rem;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+	.quiz-difficulty.medium{background:rgba(139,107,42,.1);color:#7c5d1a;border:1px solid rgba(139,107,42,.2)}
+	.quiz-layout{display:grid;grid-template-columns:1.9fr 1fr;gap:1.5rem;align-items:start}
+	.quiz-main-card{padding:2rem;display:flex;flex-direction:column;gap:1.75rem}
+	.progress-tracker{display:flex;flex-direction:column;gap:.5rem}
+	.progress-label{display:flex;justify-content:space-between;align-items:center}
+	.progress-label span{font-size:.82rem;font-weight:600;color:var(--color-text-muted)}
+	.pct-label{color:#7c5d1a!important}
+	.progress-bar-outer{height:6px;background:rgba(139,107,42,.1);border-radius:var(--radius-full);overflow:hidden}
+	.progress-bar-inner{height:100%;background:linear-gradient(90deg,#7c5d1a,#c4952c);border-radius:var(--radius-full);transition:width var(--transition-normal)}
+	.cat-pill{display:inline-flex;align-items:center;gap:.35rem;background:rgba(139,107,42,.07);color:#7c5d1a;border:1px solid rgba(139,107,42,.18);padding:.28rem .75rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:600}
+	.question-text-area h3{font-size:1.1rem;font-weight:700;color:var(--color-text);line-height:1.55}
+	.education-card{border-radius:var(--radius-md);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;animation:slide-in .2s ease}
+	.education-card.correct{background:rgba(35,108,50,.07);border:1px solid rgba(35,108,50,.2)}
+	.education-card.incorrect{background:rgba(165,48,26,.06);border:1px solid rgba(165,48,26,.18)}
+	@keyframes slide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+	.edu-header{display:flex;align-items:center;gap:.45rem}
+	.edu-icon{font-size:1rem}
+	.edu-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#7c5d1a}
+	.education-card.incorrect .edu-label{color:var(--color-danger)}
+	#education-text{font-size:.85rem;color:var(--color-text);line-height:1.55}
+	.action-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:.5rem;border-top:1px solid var(--color-border)}
+	.answer-hint{font-size:.8rem;color:var(--color-text-faint);font-style:italic}
+	.answer-hint.chosen{color:#7c5d1a;font-style:normal;font-weight:600}
+	.answer-hint.correct-hint{color:var(--color-success);font-style:normal;font-weight:600}
+	.answer-hint.wrong-hint{color:var(--color-danger,#c0392b);font-style:normal;font-weight:600}
+	#btn-submit-answer{padding:.8rem 2rem;border-radius:var(--radius-sm);font-size:.95rem;transition:all var(--transition-fast)}
+	#btn-submit-answer:not(:disabled){box-shadow:0 4px 14px rgba(178,131,27,.3)}
+	#btn-submit-answer:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(178,131,27,.4)}
+
+	.quiz-help-card{padding:1.5rem;display:flex;flex-direction:column;gap:.85rem}
+	.quiz-help-card h3{font-size:1.05rem;font-weight:700;color:var(--color-text)}
+	.help-subtitle{font-size:.78rem;color:var(--color-text-muted);line-height:1.4;margin-top:-.5rem}
+	.camp-section{display:flex;flex-direction:column;gap:.25rem}
+	.camp-title{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#7c5d1a;padding:.2rem 0;border-bottom:1px solid var(--color-border);margin-bottom:.1rem}
+	.camp-item{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;padding:.2rem .5rem;border-radius:4px;background:var(--color-bg);border:1px solid var(--color-border)}
+	.camp-key{font-size:.72rem;font-weight:700;color:var(--color-text);flex-shrink:0}
+	.camp-val{font-size:.68rem;color:var(--color-text-muted);text-align:right}
+
+	.result-overlay{position:fixed;inset:0;background:rgba(10,25,16,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1.5rem}
+	.result-card{width:100%;max-width:520px;padding:2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.25rem;animation:pop-in .3s cubic-bezier(.34,1.56,.64,1)}
+	@keyframes pop-in{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+	.result-emoji{font-size:3.5rem;line-height:1}
+	.result-card h2{font-size:1.75rem;font-weight:800;color:#f0f5f2}
+	.result-summary{font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.55}
+	.result-stats-details{display:flex;width:100%;gap:.85rem}
+	.detail-item{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:1rem;border-radius:var(--radius-md);display:flex;flex-direction:column;gap:.25rem}
+	.detail-item .label{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:600;letter-spacing:.5px}
+	.detail-item .value{font-size:1.4rem;font-weight:800;color:#f0f5f2}
+	.detail-item .value.score-xp{color:var(--color-gold-light)}
+	.unlocked-badges-container{width:100%;background:rgba(212,163,43,.06);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-md);padding:1rem;text-align:left}
+	.unlocked-badges-container h3{font-size:.9rem;font-weight:700;color:var(--color-gold-light);margin-bottom:.65rem}
+	.unlocked-badges-list{display:flex;gap:.75rem;flex-wrap:wrap}
+	.new-badge-item{display:flex;align-items:center;gap:.5rem;background:rgba(212,163,43,.1);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-sm);padding:.4rem .75rem}
+	.new-badge-icon{font-size:1.1rem}
+	.new-badge-name{font-size:.82rem;font-weight:700;color:var(--color-gold-light)}
+	.result-actions{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:center;width:100%}
+	.result-actions .btn{flex:1;min-width:140px}
+
+	@media(max-width:900px){.quiz-layout{grid-template-columns:1fr}.quiz-help-card{order:-1}.camp-section{display:grid;grid-template-columns:repeat(2,1fr)}.camp-title{grid-column:1/-1}}
+	@media(max-width:600px){.quiz-main-card{padding:1.25rem}.quiz-header{padding:1rem}.camp-section{grid-template-columns:1fr}.result-stats-details{flex-wrap:wrap}.detail-item{flex-basis:calc(50% - .4rem)}}
+</style>

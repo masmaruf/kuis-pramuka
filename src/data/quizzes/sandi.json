@@ -1,0 +1,167 @@
+{
+  "id": "sandi",
+  "title": "Sandi (Pecah Sandi)",
+  "description": "Latihan sandi pramuka: pecahkan Sandi Kotak, AN/AZ, Koordinat Merah Putih, dan Sandi Rumput.",
+  "category": "Komunikasi & Isyarat",
+  "group": "Komunikasi & Isyarat",
+  "difficulty": "hard",
+  "xpPerQuestion": 20,
+  "totalQuestions": 12,
+  "color": "red",
+  "icon": "🔐",
+  "hasAudio": false,
+  "hasVisual": true,
+  "helpContent": {
+    "title": "Lembar Bantuan Sandi",
+    "content": "<h4>Jenis-Jenis Sandi Pramuka</h4><ul><li><strong>Sandi Kotak I</strong>: Grid 3x3 dan bentuk silang (X). Huruf kedua diberi tanda titik.</li><li><strong>Sandi AN</strong>: A berpasangan dengan N, B dengan O, dst (geser 13 huruf).</li><li><strong>Sandi AZ (Atbash)</strong>: Huruf dibalik (A-Z, B-Y, C-X, dst).</li><li><strong>Sandi Koordinat</strong>: Baris = M-E-R-A-H, Kolom = P-U-T-I-H.</li><li><strong>Sandi Rumput</strong>: Gambar huruf seperti batang rumput.</li></ul>"
+  },
+  "morseMap": {
+    "A": ".-", "B": "-...", "C": "-.-.", "D": "-..", "E": ".", "F": "..-.",
+    "G": "--.", "H": "....", "I": "..", "J": ".---", "K": "-.-", "L": ".-..",
+    "M": "--", "N": "-.", "O": "---", "P": ".--.", "Q": "--.-", "R": ".-.",
+    "S": "...", "T": "-", "U": "..-", "V": "...-", "W": ".--", "X": "-..-",
+    "Y": "-.--", "Z": "--.."
+  },
+  "questions": [
+    {
+      "id": "sandi_001",
+      "type": "kotak1",
+      "question": "Pecahkan sandi Sandi Kotak di atas:",
+      "value": "SIAGA",
+      "code": "SIAGA",
+      "correctAnswer": "SIAGA",
+      "options": ["SIAGA", "SANGGA", "SIGAP", "SEHAT"],
+      "explanation": "Sandi Kotak I menggunakan grid 3x3. Setiap huruf kedua dalam satu kotak diberi titik di tengah. Perhatikan ada atau tidaknya titik."
+    },
+    {
+      "id": "sandi_002",
+      "type": "kotak1",
+      "question": "Pecahkan sandi Sandi Kotak di atas:",
+      "value": "GUDAP",
+      "code": "GUDAP",
+      "correctAnswer": "GUDAP",
+      "options": ["GUDAP", "GUDEP", "GARUDA", "GERAK"],
+      "explanation": "Sandi Kotak I: G ada di baris kedua kolom pertama, D ada di baris pertama kolom keempat. Perhatikan tanda titik untuk membedakan huruf."
+    },
+    {
+      "id": "sandi_003",
+      "type": "rumput",
+      "question": "Pecahkan sandi Sandi Rumput di atas:",
+      "value": "PRAMUKA",
+      "code": "PRAMUKA",
+      "correctAnswer": "PRAMUKA",
+      "options": ["PRAMUKA", "PRAMUDI", "PRAMA", "PEMBINA"],
+      "explanation": "Sandi Rumput: urutan kolom menentukan huruf. Posisi rumput menentukan huruf pertama atau kedua dalam pasangan."
+    },
+    {
+      "id": "sandi_004",
+      "type": "an",
+      "question": "Pecahkan Sandi AN berikut: CENZHXN",
+      "value": "PRAMUKA",
+      "code": "CENZHXN",
+      "correctAnswer": "PRAMUKA",
+      "options": ["PRAMUKA", "PEMBINA", "PANCASILA", "PATRIOT"],
+      "explanation": "Sandi AN: geser 13 huruf. C to P, E to R, N to A, Z to M, H to U, X to K, N to A = PRAMUKA."
+    },
+    {
+      "id": "sandi_005",
+      "type": "an",
+      "question": "Pecahkan Sandi AN berikut: Fvntn",
+      "value": "Siaga",
+      "code": "Fvntn",
+      "correctAnswer": "Siaga",
+      "options": ["Siaga", "Siswa", "Sandi", "Sore"],
+      "explanation": "Sandi AN: F to S, v to i, n to a, t to g, n to a = Siaga. Ingat: setiap huruf diganti dengan pasangannya 13 posisi."
+    },
+    {
+      "id": "sandi_006",
+      "type": "az",
+      "question": "Pecahkan Sandi AZ berikut: KIVNFPZ",
+      "value": "PRAMUKA",
+      "code": "KIVNFPZ",
+      "correctAnswer": "PRAMUKA",
+      "options": ["PRAMUKA", "PANITIA", "PENGGALANG", "PENEGAK"],
+      "explanation": "Sandi AZ (Atbash): cerminkan alfabet. K to P, I to R, V to E, N to M, F to U, P to K, Z to A = PRAMUKA."
+    },
+    {
+      "id": "sandi_007",
+      "type": "az",
+      "question": "Pecahkan Sandi AZ berikut: HVIZTZ",
+      "value": "SIAGA",
+      "code": "HVIZTZ",
+      "correctAnswer": "SIAGA",
+      "options": ["SIAGA", "SANGGA", "SIGAP", "SEHAT"],
+      "explanation": "Sandi AZ: H to S, V to E, I to R, Z to A, T to G, Z to A = SIAGA. Ada huruf yang diulang sebagai pengecoh."
+    },
+    {
+      "id": "sandi_008",
+      "type": "koordinat",
+      "question": "Terjemahkan Sandi Koordinat berikut: AP, AT, MT, MP, HT",
+      "value": "TUNAS",
+      "code": "AP,AT,MT,MP,HT",
+      "correctAnswer": "TUNAS",
+      "options": ["TUNAS", "TUGAS", "TULIS", "TANAH"],
+      "explanation": "Sandi Koordinat: AP=T (baris A, kolom P=T), AT=U (baris A, kolom T=U), MT=N (baris M, kolom T=N), MP=A (baris M, kolom P=A), HT=S (baris H, kolom T=S) = TUNAS."
+    },
+    {
+      "id": "sandi_009",
+      "type": "koordinat",
+      "question": "Terjemahkan Sandi Koordinat berikut: AP, AM, MP, MT, UI, EP, MP",
+      "value": "PRAMUKA",
+      "code": "AP,AM,MP,MT,UI,EP,MP",
+      "correctAnswer": "PRAMUKA",
+      "options": ["PRAMUKA", "PEMBINA", "PANITIA", "PATRIOT"],
+      "explanation": "Sandi Koordinat: AP=P, AM=R, MP=A, MT=M, UI=K, EP=U, MP=A = PRAMUKA."
+    },
+    {
+      "id": "sandi_010",
+      "type": "kotak1",
+      "question": "Pecahkan sandi Sandi Kotak di atas:",
+      "value": "KEMAH",
+      "code": "KEMAH",
+      "correctAnswer": "KEMAH",
+      "options": ["KEMAH", "KELAS", "KAWAN", "KABAR"],
+      "explanation": "Sandi Kotak I: K ada di baris ke-2 kolom ke-2, E di baris pertama kolom ke-2. Ingat prinsip: tanda titik membedakan dua huruf."
+    },
+    {
+      "id": "sandi_011",
+      "type": "rumput",
+      "question": "Pecahkan sandi Sandi Rumput di atas:",
+      "value": "TUNAS",
+      "code": "TUNAS",
+      "correctAnswer": "TUNAS",
+      "options": ["TUNAS", "TUGAS", "TUMBUH", "TULIS"],
+      "explanation": "Sandi Rumput: T-U (kolom 10), N-A (kolom 7). Ingat: pasangkan alfabet dua-dua (A-B, C-D, dst)."
+    },
+    {
+      "id": "sandi_012",
+      "type": "kotak1",
+      "question": "Pecahkan sandi Sandi Kotak di atas:",
+      "value": "KEMAH",
+      "code": "KEMAH",
+      "correctAnswer": "KEMAH",
+      "options": ["KEMAH", "KELAS", "KAWAN", "KABAR"],
+      "explanation": "Sandi Kotak I: K ada di kotak dengan sisi kanan dan bawah, E di kotak dengan sisi kiri, atas, dan bawah."
+    }
+  ],
+  "badges": {
+    "sandi_novice": {
+      "id": "sandi_novice",
+      "name": "Pemecah Kode",
+      "description": "Selesaikan 1 kuis Sandi",
+      "icon": "🔐",
+      "category": "Sandi",
+      "rarity": "common",
+      "xpRequired": 20
+    },
+    "sandi_master": {
+      "id": "sandi_master",
+      "name": "Ahli Sandi",
+      "description": "Selesaikan kuis Sandi dengan skor 100%",
+      "icon": "🔓",
+      "category": "Sandi",
+      "rarity": "rare",
+      "xpRequired": 240
+    }
+  }
+}

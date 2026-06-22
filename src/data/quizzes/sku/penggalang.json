@@ -1,0 +1,88 @@
+{
+  "id": "sku_penggalang",
+  "title": "SKU Penggalang",
+  "description": "Latihan Syarat Kecakapan Umum (SKU) untuk Pramuka Penggalang (usia 11-15 tahun). Meliputi Trisatya, Dasa Darma, tali-temali, P3K dasar, kompas, dan morse.",
+  "category": "Pengetahuan Umum",
+  "group": "SKU & Pengetahuan",
+  "difficulty": "medium",
+  "xpPerQuestion": 15,
+  "totalQuestions": 10,
+  "color": "red",
+  "icon": "🔴",
+  "helpContent": {
+    "title": "Tuntunan Penggalang",
+    "content": "<h4>⚜️ Tuntunan Penggalang</h4><p><strong>Trisatya Penggalang</strong>:<br>Demi kehormatanku aku berjanji akan bersungguh-sungguh menjalankan kewajibanku terhadap Tuhan Yang Maha Esa, Negara Kesatuan Republik Indonesia, mengamalkan Pancasila, menolong sesama hidup, mempersiapkan diri membangun masyarakat, serta menepati Dasadarma.</p><br><p><strong>Simpul Utama</strong>:<br>- <em>Mati</em>: Sambung 2 tali sama besar, kering.<br>- <em>Pangkal</em>: Awal/akhir ikatan tiang.<br>- <em>Jangkar</em>: Membuat tandu / mengikat jangkar.</p>"
+  },
+  "questions": [
+    {
+      "id": "sku_penggalang_001",
+      "question": "Apa sebutan janji Pramuka untuk golongan Penggalang ke atas?",
+      "options": ["Trisatya", "Dwisatya", "Dwidarma", "Dasadarma"],
+      "correctAnswer": "Trisatya",
+      "explanation": "Trisatya adalah tiga janji/setia yang diucapkan oleh Pramuka Penggalang, Penegak, Pandega, dan Anggota Dewasa."
+    },
+    {
+      "id": "sku_penggalang_002",
+      "question": "Dasa Darma Pramuka terdiri dari berapa ketentuan moral?",
+      "options": ["10", "5", "8", "12"],
+      "correctAnswer": "10",
+      "explanation": "Dasa Darma berarti 'Sepuluh Ketentuan Moral/Tuntunan Tingkah Laku' yang wajib dipahami dan diamalkan dalam kehidupan sehari-hari."
+    },
+    {
+      "id": "sku_penggalang_003",
+      "question": "Simpul apa yang digunakan untuk menyambung dua tali yang sama besar dalam keadaan kering?",
+      "options": ["Simpul Mati", "Simpul Pangkal", "Simpul Laso", "Simpul Jangkar"],
+      "correctAnswer": "Simpul Mati",
+      "explanation": "Simpul mati (reef knot) berfungsi untuk menyambung dua utas tali yang sama besar dan dalam keadaan kering karena mudah untuk dilepas kembali."
+    },
+    {
+      "id": "sku_penggalang_004",
+      "question": "Simpul yang digunakan untuk mengawali dan mengakhiri suatu ikatan tali pada tiang kayu disebut...",
+      "options": ["Simpul Pangkal", "Simpul Jangkar", "Simpul Mati", "Simpul Kembar"],
+      "correctAnswer": "Simpul Pangkal",
+      "explanation": "Simpul pangkal (clove hitch) adalah simpul awal yang sangat krusial dalam pembuatan pionering (tandu, tiang bendera) sebelum memulai ikatan silang atau palang."
+    },
+    {
+      "id": "sku_penggalang_005",
+      "question": "Berapa derajat sudut kompas untuk arah mata angin Barat Laut?",
+      "options": ["315°", "225°", "135°", "45°"],
+      "correctAnswer": "315°",
+      "explanation": "Arah kompas dimulai dari Utara (0°). Timur = 90°, Selatan = 180°, Barat = 270°, dan Barat Laut terletak di tengah-tengah Barat dan Utara yaitu 315°."
+    },
+    {
+      "id": "sku_penggalang_006",
+      "question": "Satuan terkecil Pramuka Penggalang yang beranggotakan 6-8 orang dinamakan...",
+      "options": ["Regu", "Barung", "Sangga", "Kridha"],
+      "correctAnswer": "Regu",
+      "explanation": "Regu dipimpin oleh Pemimpin Regu (Pinru) dan dinamai menggunakan nama hewan (untuk putra) dan nama bunga (untuk putri)."
+    },
+    {
+      "id": "sku_penggalang_007",
+      "question": "Tingkatan tanda kecakapan umum (TKU) pertama bagi Pramuka Penggalang adalah...",
+      "options": ["Penggalang Ramu", "Penggalang Rakit", "Penggalang Terap", "Penggalang Mula"],
+      "correctAnswer": "Penggalang Ramu",
+      "explanation": "Urutan TKU tingkat Penggalang dimulai dari Penggalang Ramu, Penggalang Rakit, dan diakhiri Penggalang Terap."
+    },
+    {
+      "id": "sku_penggalang_008",
+      "question": "Tandu darurat P3K biasanya dirancang menggunakan ikatan tali dan tiang sebanyak...",
+      "options": ["2 tiang panjang & 2 tiang pendek", "2 tiang panjang & 3 tiang pendek", "4 tiang panjang", "1 tiang panjang & 4 tiang pendek"],
+      "correctAnswer": "2 tiang panjang & 2 tiang pendek",
+      "explanation": "Tandu darurat standar pramuka menggunakan dua tiang utama bambu (sekitar 2 meter) dan dua tiang kayu penyangga melintang (sekitar 60 cm) yang dirakit menggunakan ikatan palang."
+    },
+    {
+      "id": "sku_penggalang_009",
+      "question": "Alat P3K yang digunakan untuk menyangga lengan yang patah atau cedera tulang selangka adalah...",
+      "options": ["Mitela (Kain Segitiga)", "Kasa Steril", "Plester Cepat", "Pita Pembalut"],
+      "correctAnswer": "Mitela (Kain Segitiga)",
+      "explanation": "Mitela adalah pembalut segitiga serbaguna. Salah satu fungsi utamanya adalah sebagai penyangga lengan/tangan (sling) yang cedera."
+    },
+    {
+      "id": "sku_penggalang_010",
+      "question": "Upacara Pramuka Penggalang menggunakan formasi barisan berbentuk...",
+      "options": ["Angkare (Tapal Kuda)", "Lingkaran", "Bersaf", "Kolom"],
+      "correctAnswer": "Angkare (Tapal Kuda)",
+      "explanation": "Formasi Angkare melambangkan transisi usia Penggalang yang mulai beranjak dewasa, di mana interaksi antaranggota lebih terbuka namun tetap terarah."
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "id": "sku_siaga",
+  "title": "SKU Siaga",
+  "description": "Latihan Syarat Kecakapan Umum (SKU) untuk Pramuka Siaga (usia 7-10 tahun). Meliputi Dwisatya, Dwidarma, tanda pengenal, dan dasar kepramukaan.",
+  "category": "Pengetahuan Umum",
+  "group": "SKU & Pengetahuan",
+  "difficulty": "easy",
+  "xpPerQuestion": 10,
+  "totalQuestions": 10,
+  "color": "green",
+  "icon": "🟢",
+  "helpContent": {
+    "title": "Dasasila Siaga",
+    "content": "<h4>⚜️ Dasasila Siaga</h4><p><strong>Dwisatya</strong>:<br>Demi kehormatanku aku berjanji akan bersungguh-sungguh:<br>1. Menjalankan kewajibanku terhadap Tuhan Yang Maha Esa, Negara Kesatuan Republik Indonesia dan menurut aturan keluarga.<br>2. Setiap hari berbuat kebaikan.</p><br><p><strong>Dwidarma</strong>:<br>1. Siaga berbakti kepada ayah bundanya.<br>2. Siaga berani dan tidak putus asa.</p>"
+  },
+  "questions": [
+    {
+      "id": "sku_siaga_001",
+      "question": "Apa sebutan untuk janji/setia Pramuka Siaga?",
+      "options": ["Dwisatya", "Dwidarma", "Trisatya", "Dasadarma"],
+      "correctAnswer": "Dwisatya",
+      "explanation": "Dwisatya merupakan janji setia bagi golongan Pramuka Siaga. Isinya berfokus pada kepatuhan kepada Tuhan, Pancasila, keluarga, dan berbuat kebajikan setiap hari."
+    },
+    {
+      "id": "sku_siaga_002",
+      "question": "Lambang Gerakan Pramuka Indonesia adalah...",
+      "options": ["Tunas Kelapa", "Burung Garuda", "Bintang Emas", "Pohon Beringin"],
+      "correctAnswer": "Tunas Kelapa",
+      "explanation": "Tunas Kelapa diciptakan oleh Sunardjo Atmodipuro. Lambang ini melambangkan bahwa setiap anggota Pramuka merupakan cikal bakal penerus bangsa yang serbaguna dan kokoh."
+    },
+    {
+      "id": "sku_siaga_003",
+      "question": "Berapa batas usia untuk anggota Pramuka Siaga?",
+      "options": ["7 - 10 tahun", "11 - 15 tahun", "16 - 20 tahun", "21 - 25 tahun"],
+      "correctAnswer": "7 - 10 tahun",
+      "explanation": "Golongan Siaga mewadahi anak-anak berusia 7 hingga 10 tahun. Golongan berikutnya adalah Penggalang (11-15 tahun)."
+    },
+    {
+      "id": "sku_siaga_004",
+      "question": "Kode moral atau ketentuan moral Pramuka Siaga disebut...",
+      "options": ["Dwidarma", "Dwisatya", "Trisatya", "Dasadarma"],
+      "correctAnswer": "Dwidarma",
+      "explanation": "Dwidarma adalah dua ketentuan moral bagi Siaga: (1) Siaga berbakti kepada ayah bundanya, dan (2) Siaga berani dan tidak putus asa."
+    },
+    {
+      "id": "sku_siaga_005",
+      "question": "Satuan terkecil dalam golongan Pramuka Siaga dinamakan...",
+      "options": ["Barung", "Sangga", "Regu", "Racana"],
+      "correctAnswer": "Barung",
+      "explanation": "Barung adalah satuan terkecil Siaga yang beranggotakan 6-8 orang. Kumpulan dari beberapa Barung membentuk perindukan."
+    },
+    {
+      "id": "sku_siaga_006",
+      "question": "Warna pakaian seragam Pramuka secara umum didominasi oleh warna...",
+      "options": ["Cokelat", "Hijau", "Merah", "Biru"],
+      "correctAnswer": "Cokelat",
+      "explanation": "Warna cokelat tua dan cokelat muda melambangkan warna tanah air Indonesia dan warna pakaian pejuang kemerdekaan masa lalu."
+    },
+    {
+      "id": "sku_siaga_007",
+      "question": "Siapakah pemimpin Barung Utama dalam Pramuka Siaga?",
+      "options": ["Sulung", "Pratama", "Pinsa", "Pradana"],
+      "correctAnswer": "Sulung",
+      "explanation": "Pemimpin Barung Utama disebut Sulung. Ia memimpin upacara perindukan Siaga."
+    },
+    {
+      "id": "sku_siaga_008",
+      "question": "Tanda Kecakapan Umum (TKU) tertinggi bagi Pramuka Siaga adalah...",
+      "options": ["Siaga Tata", "Siaga Mula", "Siaga Bantu", "Siaga Garuda"],
+      "correctAnswer": "Siaga Tata",
+      "explanation": "Tingkatan TKU Siaga berturut-turut adalah Siaga Mula, Siaga Bantu, dan tingkat tertinggi adalah Siaga Tata."
+    },
+    {
+      "id": "sku_siaga_009",
+      "question": "Dua arah mata angin utama yang saling berlawanan secara vertikal adalah...",
+      "options": ["Utara dan Selatan", "Timur dan Barat", "Barat Daya dan Timur Laut", "Tenggara dan Barat Laut"],
+      "correctAnswer": "Utara dan Selatan",
+      "explanation": "Arah vertikal pada kompas melambangkan poros Utara (0°/360°) dan Selatan (180°)."
+    },
+    {
+      "id": "sku_siaga_010",
+      "question": "Upacara pembukaan latihan Pramuka Siaga berbentuk...",
+      "options": ["Lingkaran", "Angkare", "Setengah Lingkaran", "Barisan Bersaf"],
+      "correctAnswer": "Lingkaran",
+      "explanation": "Bentuk upacara lingkaran melambangkan bahwa hubungan Pembina/Ayahanda/Bundanda dengan Siaga sangat erat, penuh kasih sayang, dan terpusat."
+    }
+  ]
+}

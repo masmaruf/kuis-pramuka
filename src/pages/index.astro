@@ -1,17 +1,1113 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Kuis Pramuka Interaktif" description="Latihan kepramukaan online: Morse, Semaphore, Sandi, SKU, Kompas, P3K, Simpul, Dasa Darma, dan 16 modul lainnya. Gratis, offline, kumpulkan XP dan lencana.">
+	<div class="dashboard">
+
+		<!-- Hero Section -->
+		<section class="hero glass-card">
+			<div class="hero-content">
+				<span class="hero-tag">Gugus Depan Online</span>
+				<h1 id="hero-heading">Siap Menguji Kemampuan Kepramukaanmu?</h1>
+				<p>Asah kemampuan Morse, Semaphore, Sandi, dan SKU dalam kuis interaktif yang seru. Kumpulkan XP, naikkan level, dan raih Lencana Pandu Tertinggi!</p>
+				<div class="hero-actions">
+					<a href="#kategori-kuis" class="btn btn-gold">Mulai Petualangan 🧭</a>
+					<button id="btn-reset-data" class="btn btn-secondary">Reset Progres</button>
+				</div>
+			</div>
+			<div class="hero-deco">
+				<svg viewBox="0 0 100 100" class="compass-svg">
+					<circle cx="50" cy="50" r="45" stroke="var(--color-gold)" stroke-width="1.5" fill="none" stroke-dasharray="3 3"/>
+					<circle cx="50" cy="50" r="37" stroke="var(--color-primary-light)" stroke-width="1" fill="none" opacity="0.4"/>
+					<line x1="50" y1="10" x2="50" y2="90" stroke="var(--color-primary-light)" stroke-width="0.8" opacity="0.3"/>
+					<line x1="10" y1="50" x2="90" y2="50" stroke="var(--color-primary-light)" stroke-width="0.8" opacity="0.3"/>
+					<path d="M50 14 L54 50 L50 86 L46 50 Z" fill="var(--color-gold)" opacity="0.9"/>
+					<path d="M50 14 L50 50 L46 50 Z" fill="var(--color-gold-light)"/>
+					<path d="M14 50 L50 54 L86 50 L50 46 Z" fill="var(--color-primary-light)" opacity="0.7"/>
+					<circle cx="50" cy="50" r="4" fill="var(--color-bg)" stroke="var(--color-gold)" stroke-width="2"/>
+					<text x="50" y="8" text-anchor="middle" font-size="6" fill="var(--color-primary-light)" opacity="0.5" font-family="Outfit">U</text>
+					<text x="50" y="97" text-anchor="middle" font-size="6" fill="var(--color-primary-light)" opacity="0.5" font-family="Outfit">S</text>
+					<text x="5" y="52" text-anchor="middle" font-size="6" fill="var(--color-primary-light)" opacity="0.5" font-family="Outfit">B</text>
+					<text x="95" y="52" text-anchor="middle" font-size="6" fill="var(--color-primary-light)" opacity="0.5" font-family="Outfit">T</text>
+				</svg>
+			</div>
+		</section>
+
+		<!-- Stats Grid -->
+		<section class="stats-grid">
+			<div class="stat-card glass-card">
+				<div class="stat-icon xp-color">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+					</svg>
+				</div>
+				<div class="stat-info">
+					<span class="stat-label">Total Pengalaman</span>
+					<h2 id="stats-xp-val" class="stat-value">0 XP</h2>
+					<p class="stat-sub">Jawab soal dengan benar untuk XP</p>
+				</div>
+			</div>
+
+			<div class="stat-card glass-card">
+				<div class="stat-icon level-color">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+					</svg>
+				</div>
+				<div class="stat-info">
+					<span class="stat-label">Peringkat Pandu</span>
+					<h2 id="stats-level-val" class="stat-value">Level 1</h2>
+					<p id="stats-rank-title" class="stat-sub">Pandu Mula</p>
+				</div>
+			</div>
+
+			<div class="stat-card glass-card">
+				<div class="stat-icon badges-color">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+						<path d="M12 15L15.5 18L14.5 13.5L18 10.5L13.5 10L12 5.5L10.5 10L6 10.5L9.5 13.5L8.5 18L12 15Z"/>
+					</svg>
+				</div>
+				<div class="stat-info">
+					<span class="stat-label">Lencana Diperoleh</span>
+					<h2 id="stats-badges-val" class="stat-value">0 / 34</h2>
+					<p class="stat-sub">Buka kunci lencana pencapaian</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Quiz Categories -->
+		<section id="kategori-kuis" class="categories-section">
+			<div class="section-header">
+				<h2>Pilih Modul Latihan</h2>
+				<p>15 modul latihan dalam 3 kelompok kompetensi kepramukaan.</p>
+			</div>
+
+			<!-- Kelompok 1: Komunikasi & Isyarat -->
+			<div class="cat-group-header">
+				<div class="cat-group-icon comm-group">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+				</div>
+				<div>
+					<h3>Komunikasi &amp; Isyarat</h3>
+					<span class="cat-group-count">3 modul</span>
+				</div>
+			</div>
+			<div class="categories-grid">
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon morse-bg">
+							<span>• — — •</span>
+						</div>
+						<span class="diff-tag easy">Mudah – Sedang</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Morse (Telegraf Hutan)</h3>
+						<p>Terjemahkan kode titik dan garis Morse menjadi huruf/kata. Dilengkapi simulasi suara ketukan dan kedipan cahaya senter.</p>
+						<ul class="feature-list">
+							<li>🔊 Mode Audio via Web Audio API</li>
+							<li>💡 Mode Flash Cahaya Visual</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/morse" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon semaphore-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="12" cy="6" r="3"/>
+								<line x1="12" y1="9" x2="12" y2="17"/>
+								<line x1="12" y1="11" x2="6" y2="8"/>
+								<line x1="12" y1="11" x2="18" y2="8"/>
+								<line x1="12" y1="17" x2="9" y2="22"/>
+								<line x1="12" y1="17" x2="15" y2="22"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Sedang</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Semaphore (Sinyal Bendera)</h3>
+						<p>Tebak huruf atau kata berdasarkan visualisasi posisi bendera Semaphore yang digambar dengan SVG akurat.</p>
+						<ul class="feature-list">
+							<li>🚩 Render Visual SVG Akurat</li>
+							<li>🧩 Kuis Tebak Kata & Huruf</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/semaphore" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon sandi-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+								<path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+							</svg>
+						</div>
+						<span class="diff-tag hard">Sulit</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Sandi (Pecah Sandi)</h3>
+						<p>Pecahkan sandi-sandi klasik Pramuka: Kotak I & II, AN/AZ, Koordinat Merah Putih, dan Sandi Rumput.</p>
+						<ul class="feature-list">
+							<li>📦 Sandi Kotak I & II (SVG)</li>
+							<li>🌾 Sandi Rumput & Koordinat</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/sandi" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+			</div>
+
+			<!-- Kelompok 2: Teknik Kepramukaan -->
+			<div class="cat-group-header">
+				<div class="cat-group-icon teknik-group">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+				</div>
+				<div>
+					<h3>Teknik Kepramukaan</h3>
+					<span class="cat-group-count">8 modul</span>
+				</div>
+			</div>
+			<div class="categories-grid">
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon simpul-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M5 12c0-2.5 2-4 4-4s4 1.5 4 4-2 4-4 4"/>
+								<path d="M13 12c0-2.5 2-4 4-4"/>
+								<path d="M3 12h2M19 12h2"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Tali Temali</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Simpul &amp; Ikatan</h3>
+						<p>Uji kemampuan tali temali: simpul mati, anyam, tiang, pangkal, delapan, serta ikatan segi empat, silang, dan kaki tiga.</p>
+						<ul class="feature-list">
+							<li>🪢 Gambar Simpul dari Wikimedia Commons</li>
+							<li>📖 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/simpul" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon pionir-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<line x1="4" y1="20" x2="20" y2="4"/>
+								<line x1="4" y1="4" x2="4" y2="20"/>
+								<line x1="20" y1="4" x2="20" y2="20"/>
+								<line x1="4" y1="12" x2="20" y2="12"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Teknik Pioniring</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Pioniring</h3>
+						<p>Pelajari konstruksi pioniring: ikatan segi empat, silang, kaki tiga, simpul pangkal &amp; tiang, serta membangun jembatan, menara, dan tandu dari tongkat.</p>
+						<ul class="feature-list">
+							<li>🪵 Ikatan Segi Empat, Silang &amp; Kaki Tiga</li>
+							<li>🏗️ 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/pioniring" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon p3k-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+							</svg>
+						</div>
+						<span class="diff-tag hard">Pertolongan Pertama</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis P3K</h3>
+						<p>Kuasai teknik pertolongan pertama: perdarahan, luka bakar, patah tulang, syok, RJP, tersedak, gigitan ular, dan hipotermia.</p>
+						<ul class="feature-list">
+							<li>🩺 Protokol DR-ABC &amp; RICE</li>
+							<li>❤️‍🩹 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/p3k" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon kompas-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="12" cy="12" r="10"/>
+								<polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Navigasi</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Kompas &amp; Navigasi</h3>
+						<p>Kuasai arah mata angin, cara membaca kompas, azimuth, back azimuth, peta topografi, garis kontur, skala peta, dan teknik resection.</p>
+						<ul class="feature-list">
+							<li>🧭 Tabel Referensi 8 Arah &amp; Derajat</li>
+							<li>🗺️ 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/kompas" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon kemah-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M3 17h18M5 17L12 5l7 12"/>
+								<path d="M10 17v-4"/>
+								<path d="M14 17v-4"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Teknik Berkemah</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Perkemahan</h3>
+						<p>Kuasai teknik mendirikan tenda, bivak alam, api unggun, sanitasi lapangan, survival, sinyal darurat, dan etika Leave No Trace.</p>
+						<ul class="feature-list">
+							<li>⛺ Prosedur STOP &amp; Sinyal SOS</li>
+							<li>🏕️ 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/perkemahan" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon pbb-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<line x1="8" y1="6" x2="21" y2="6"/>
+								<line x1="8" y1="12" x2="21" y2="12"/>
+								<line x1="8" y1="18" x2="21" y2="18"/>
+								<line x1="3" y1="6" x2="3.01" y2="6"/>
+								<line x1="3" y1="12" x2="3.01" y2="12"/>
+								<line x1="3" y1="18" x2="3.01" y2="18"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Baris-Berbaris</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Baris-Berbaris (PBB)</h3>
+						<p>Latih pengetahuan PBB: jenis aba-aba, formasi bershaf &amp; berbanjar, langkah baris, gerakan hadap, penghormatan, dan istilah PBB.</p>
+						<ul class="feature-list">
+							<li>🪖 Referensi Langkah &amp; Formasi Barisan</li>
+							<li>🎖️ 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/baris-berbaris" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon survival-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M3 17h18M5 17L12 3l7 14"/>
+								<path d="M12 3v6"/>
+								<circle cx="12" cy="11" r="1" fill="currentColor"/>
+							</svg>
+						</div>
+						<span class="diff-tag hard">Bertahan Hidup</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Survival &amp; Teknik Bertahan</h3>
+						<p>Kuasai teknik bertahan hidup: akronim STOP &amp; SURVIVAL, membuat bivak, mendapatkan air dan makanan dari alam, membuat api, serta mengatasi gangguan binatang.</p>
+						<ul class="feature-list">
+							<li>🏕️ Akronim STOP &amp; SURVIVAL</li>
+							<li>🌿 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/survival" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon siaga-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="12" cy="12" r="9"/>
+								<path d="M12 7v5l3 3"/>
+								<path d="M9 3.6A9 9 0 0 1 21 12"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Regulasi</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Pramuka Siaga</h3>
+						<p>Uji pemahaman tentang ketentuan Pramuka Siaga: Dwisatya, Dwidarma, SKU Mula–Bantu–Tata, satuan Barung &amp; Perindukan — berdasarkan UU, AD/ART, dan Jukran resmi.</p>
+						<ul class="feature-list">
+							<li>🟢 Dwisatya &amp; Dwidarma</li>
+							<li>⭐ 30 Soal Berbasis UU &amp; AD/ART</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/siaga" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+			</div>
+
+			<!-- Kelompok 3: Pengetahuan Pramuka -->
+			<div class="cat-group-header">
+				<div class="cat-group-icon penget-group">
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+				</div>
+				<div>
+					<h3>Pengetahuan Pramuka</h3>
+					<span class="cat-group-count">6 modul</span>
+				</div>
+			</div>
+			<div class="categories-grid">
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon sejarah-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<circle cx="12" cy="12" r="10"/>
+								<polyline points="12 6 12 12 16 14"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Sejarah</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Sejarah Kepramukaan</h3>
+						<p>Pelajari sejarah Baden Powell, perkemahan Brownsea Island, berdirinya Gerakan Pramuka Indonesia 1961, tokoh, dan kode kehormatan.</p>
+						<ul class="feature-list">
+							<li>🕰️ Linimasa Kepramukaan Dunia &amp; RI</li>
+							<li>🧭 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/sejarah" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon uu-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Hukum Pramuka</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis UU No. 12 Tahun 2010</h3>
+						<p>Uji pemahamanmu tentang Undang-Undang Gerakan Pramuka — asas, tujuan, keanggotaan, kwartir, dan pendidikan kepramukaan.</p>
+						<ul class="feature-list">
+							<li>📜 30 Soal Bank Acak per Sesi</li>
+							<li>⚖️ Penjelasan Pasal di Setiap Soal</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/uu-pramuka" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon sku-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+								<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+							</svg>
+						</div>
+						<span class="diff-tag mix">Siaga – Penegak</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis SKU &amp; Pengetahuan Umum</h3>
+						<p>Kuis trivia tentang Syarat Kecakapan Umum, tali-temali, P3K, kompas, dan sejarah Gerakan Pramuka.</p>
+						<ul class="feature-list">
+							<li>📖 Kartu Edukasi per Soal</li>
+							<li>🏕️ Tingkat Siaga, Penggalang, Penegak</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/sku" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon org-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<rect x="9" y="2" width="6" height="4" rx="1"/>
+								<rect x="2" y="18" width="6" height="4" rx="1"/>
+								<rect x="9" y="18" width="6" height="4" rx="1"/>
+								<rect x="16" y="18" width="6" height="4" rx="1"/>
+								<line x1="12" y1="6" x2="12" y2="11"/>
+								<line x1="5" y1="11" x2="19" y2="11"/>
+								<line x1="5" y1="11" x2="5" y2="18"/>
+								<line x1="12" y1="11" x2="12" y2="18"/>
+								<line x1="19" y1="11" x2="19" y2="18"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Keorganisasian</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Organisasi Pramuka</h3>
+						<p>Pahami hierarki kwartir (Kwarnas–Kwarda–Kwarcab–Kwaran–Gudep), musyawarah, Dewan Kerja, WOSM, kursus pembina, dan sejarah berdirinya Gerakan Pramuka.</p>
+						<ul class="feature-list">
+							<li>🏛️ Hierarki Kwartir &amp; Musyawarah</li>
+							<li>📋 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/organisasi" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon tanda-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Identitas Pramuka</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Tanda Pengenal Pramuka</h3>
+						<p>Kenali golongan &amp; usia, urutan TKU (Mula–Bantu–Tata, Ramu–Rakit–Terap, Bantara–Laksana), bentuk TKK, satuan, dan posisi tanda di seragam.</p>
+						<ul class="feature-list">
+							<li>🎗️ TKU, TKK &amp; Pramuka Garuda</li>
+							<li>🏵️ 30 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/tanda-pengenal" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon dasa-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/>
+							</svg>
+						</div>
+						<span class="diff-tag medium">Nilai Kepramukaan</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Dasa Darma</h3>
+						<p>Hafal dan pahami 10 Dasa Darma, Trisatya, Dwisatya, serta Dwidarma Pramuka. Pelajari makna dan penerapan nilai-nilai luhur Gerakan Pramuka.</p>
+						<ul class="feature-list">
+							<li>⚜️ Dasa Darma, Trisatya &amp; Dwidarma</li>
+							<li>🌟 33 Soal Bank Acak per Sesi</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/dasa-darma" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Achievements (Featured) -->
+		<section class="achievements-section glass-card">
+			<div class="achievements-header">
+				<div class="section-header" style="margin-bottom:0">
+					<h2>Lencana Kehormatan</h2>
+					<p>Buka kunci lencana dengan menyelesaikan kuis dan mencapai skor sempurna.</p>
+				</div>
+				<a href="/lencana" class="btn btn-secondary btn-lencana-all">
+					Lihat Semua <span id="badges-count-text">0 / 34</span>
+					<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;flex-shrink:0"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+				</a>
+			</div>
+			<div id="badges-grid" class="badges-grid">
+				<!-- diisi oleh JavaScript -->
+			</div>
+		</section>
+
+	</div>
+</Layout>
+
+<script>
+	const BADGE_LIST = [
+		{ id: 'morse_novice',       name: 'Kadet Morse',       desc: 'Selesaikan 1 kuis Morse',                icon: '⚡' },
+		{ id: 'morse_master',       name: 'Master Morse',       desc: 'Skor 100% pada kuis Morse',              icon: '🚀' },
+		{ id: 'semaphore_novice',   name: 'Isyarat Angin',     desc: 'Selesaikan 1 kuis Semaphore',            icon: '🚩' },
+		{ id: 'sandi_breaker',      name: 'Pecah Sandi',       desc: 'Selesaikan 1 kuis Sandi',                icon: '🔑' },
+		{ id: 'sku_siaga',          name: 'Pandu Mula',        desc: 'Selesaikan kuis SKU Siaga',              icon: '🟢' },
+		{ id: 'sku_penggalang',     name: 'Pandu Ramu',        desc: 'Selesaikan kuis SKU Penggalang',         icon: '🔴' },
+		{ id: 'sku_penegak',        name: 'Pandu Bantara',     desc: 'Selesaikan kuis SKU Penegak',            icon: '🟡' },
+		{ id: 'scout_master',       name: 'Pengembara Ulung',  desc: 'Capai total 500 XP',                     icon: '⚜️' },
+		{ id: 'uu_pramuka_novice',  name: 'Pandu Hukum',       desc: 'Selesaikan 1 kuis UU No. 12/2010',       icon: '⚖️' },
+		{ id: 'uu_pramuka_master',  name: 'Ahli Perundangan',  desc: 'Skor 100% pada kuis UU Pramuka',         icon: '📜' },
+		{ id: 'simpul_novice',      name: 'Pengikat Muda',     desc: 'Selesaikan 1 kuis Simpul & Ikatan',      icon: '🪢' },
+		{ id: 'simpul_master',      name: 'Ahli Tali Temali',  desc: 'Skor 100% pada kuis Simpul & Ikatan',    icon: '🏅' },
+		{ id: 'sejarah_novice',     name: 'Penjelajah Sejarah',desc: 'Selesaikan 1 kuis Sejarah Kepramukaan',  icon: '📜' },
+		{ id: 'sejarah_master',     name: 'Sejarawan Pramuka', desc: 'Skor 100% pada kuis Sejarah',            icon: '🏛️' },
+		{ id: 'p3k_novice',         name: 'Penolong Pertama',  desc: 'Selesaikan 1 kuis P3K',                  icon: '🩺' },
+		{ id: 'p3k_master',         name: 'Ahli P3K',          desc: 'Skor 100% pada kuis P3K',                icon: '❤️‍🩹' },
+		{ id: 'kompas_novice',      name: 'Penjelajah Muda',   desc: 'Selesaikan 1 kuis Kompas & Navigasi',    icon: '🧭' },
+		{ id: 'kompas_master',      name: 'Navigator Handal',  desc: 'Skor 100% pada kuis Kompas & Navigasi',  icon: '🗺️' },
+		{ id: 'pbb_novice',         name: 'Pandu Berbaris',    desc: 'Selesaikan 1 kuis Baris-Berbaris (PBB)', icon: '🪖' },
+		{ id: 'pbb_master',         name: 'Komandan Barisan',  desc: 'Skor 100% pada kuis Baris-Berbaris',     icon: '🎖️' },
+		{ id: 'kemah_novice',       name: 'Pendaki Muda',      desc: 'Selesaikan 1 kuis Perkemahan',           icon: '⛺' },
+		{ id: 'kemah_master',       name: 'Ahli Perkemahan',   desc: 'Skor 100% pada kuis Perkemahan',         icon: '🏕️' },
+		{ id: 'tanda_novice',       name: 'Pandu Berpengenal', desc: 'Selesaikan 1 kuis Tanda Pengenal',       icon: '🎗️' },
+		{ id: 'tanda_master',       name: 'Ahli Tanda Pengenal',desc:'Skor 100% pada kuis Tanda Pengenal',    icon: '🏵️' },
+		{ id: 'pionir_novice',      name: 'Pionir Muda',       desc: 'Selesaikan 1 kuis Pioniring',            icon: '🪵' },
+		{ id: 'pionir_master',      name: 'Ahli Pioniring',    desc: 'Skor 100% pada kuis Pioniring',          icon: '🏗️' },
+		{ id: 'org_novice',         name: 'Pandu Organisasi',  desc: 'Selesaikan 1 kuis Organisasi Pramuka',   icon: '🏛️' },
+		{ id: 'org_master',         name: 'Ahli Keorganisasian',desc:'Skor 100% pada kuis Organisasi Pramuka', icon: '📋' },
+		{ id: 'dasa_novice',        name: 'Pramuka Berakhlak',  desc: 'Selesaikan 1 kuis Dasa Darma',          icon: '🌟' },
+		{ id: 'dasa_master',        name: 'Teladan Dharma',     desc: 'Skor 100% pada kuis Dasa Darma',        icon: '🏅' },
+		{ id: 'survival_novice',    name: 'Survivor Muda',      desc: 'Selesaikan 1 kuis Survival',            icon: '🏕️' },
+		{ id: 'survival_master',    name: 'Ahli Survival',      desc: 'Skor 100% pada kuis Survival',          icon: '🌿' },
+		{ id: 'siaga_novice',       name: 'Pandu Siaga',        desc: 'Selesaikan 1 kuis Pramuka Siaga',       icon: '🟢' },
+		{ id: 'siaga_master',       name: 'Ahli Siaga',         desc: 'Skor 100% pada kuis Pramuka Siaga',     icon: '⭐' },
+	];
+
+	const RANK_NAMES: Record<number, string> = {
+		1: 'Pandu Mula',
+		2: 'Pandu Ramu',
+		3: 'Pandu Rakit',
+		4: 'Pandu Penegak',
+	};
+
+	function calcLevel(xp: number) {
+		if (xp >= 1000) {
+			const lvl = 5 + Math.floor((xp - 1000) / 500);
+			return { level: lvl, rankTitle: `Pandu Laksana (Lv. ${lvl})` };
+		}
+		if (xp >= 600) return { level: 4, rankTitle: RANK_NAMES[4] };
+		if (xp >= 300) return { level: 3, rankTitle: RANK_NAMES[3] };
+		if (xp >= 100) return { level: 2, rankTitle: RANK_NAMES[2] };
+		return { level: 1, rankTitle: RANK_NAMES[1] };
+	}
+
+	function updateHeroGreeting() {
+		const username = localStorage.getItem('scout_username');
+		const heading = document.getElementById('hero-heading');
+		if (heading && username) {
+			heading.textContent = `Selamat datang kembali, Kak ${username}! 👋`;
+		}
+	}
+
+	function renderDashboard() {
+		const xp = parseInt(localStorage.getItem('scout_xp') || '0');
+		const badges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+		const { level, rankTitle } = calcLevel(xp);
+
+		const xpEl = document.getElementById('stats-xp-val');
+		const lvlEl = document.getElementById('stats-level-val');
+		const rankEl = document.getElementById('stats-rank-title');
+		const badgesEl = document.getElementById('stats-badges-val');
+
+		if (xpEl) xpEl.textContent = `${xp} XP`;
+		if (lvlEl) lvlEl.textContent = `Level ${level}`;
+		if (rankEl) rankEl.textContent = rankTitle;
+		if (badgesEl) badgesEl.textContent = `${badges.length} / ${BADGE_LIST.length}`;
+
+		renderBadges(badges);
+		updateHeroGreeting();
+	}
+
+	const FEATURED_BADGE_IDS = ['scout_master','morse_novice','p3k_master','kompas_master','simpul_master','pionir_master'];
+
+	function renderBadges(unlocked: string[]) {
+		const grid = document.getElementById('badges-grid');
+		const countEl = document.getElementById('badges-count-text');
+		if (!grid) return;
+
+		if (countEl) countEl.textContent = `${unlocked.length} / ${BADGE_LIST.length}`;
+
+		const featured = BADGE_LIST.filter(b => FEATURED_BADGE_IDS.includes(b.id));
+		grid.innerHTML = featured.map(badge => {
+			const isUnlocked = unlocked.includes(badge.id);
+			return `
+				<div class="badge-item ${isUnlocked ? 'unlocked' : 'locked'}">
+					<div class="badge-icon-wrap">${badge.icon}</div>
+					<div class="badge-info">
+						<h4>${badge.name}</h4>
+						<p>${badge.desc}</p>
+					</div>
+					<span class="badge-status">${isUnlocked ? 'Terbuka' : 'Terkunci'}</span>
+				</div>
+			`;
+		}).join('');
+	}
+
+	// Reset button
+	document.getElementById('btn-reset-data')?.addEventListener('click', () => {
+		if (confirm('Hapus semua kemajuan kuis, XP, dan lencana? Tindakan ini tidak dapat dibatalkan.')) {
+			localStorage.setItem('scout_xp', '0');
+			localStorage.setItem('scout_badges', '[]');
+			window.dispatchEvent(new Event('statsUpdated'));
+			renderDashboard();
+		}
+	});
+
+	renderDashboard();
+	window.addEventListener('statsUpdated', renderDashboard);
+</script>
+
+<style>
+	.dashboard {
+		display: flex;
+		flex-direction: column;
+		gap: 2rem;
+	}
+
+	/* ─── Hero ────────────────────────────────────────────────────────────────── */
+
+	.hero {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2rem;
+		padding: 3rem;
+		background: linear-gradient(135deg, rgba(27, 77, 50, 0.07) 0%, rgba(255, 255, 255, 0.9) 60%, rgba(212, 163, 43, 0.05) 100%) !important;
+		border-color: rgba(27, 77, 50, 0.12) !important;
+	}
+
+	.hero-content {
+		max-width: 62%;
+	}
+
+	.hero-tag {
+		display: inline-block;
+		background: rgba(27, 77, 50, 0.08);
+		color: var(--color-primary-light);
+		border: 1px solid rgba(27, 77, 50, 0.18);
+		padding: 0.3rem 0.85rem;
+		font-size: 0.75rem;
+		font-weight: 700;
+		border-radius: var(--radius-full);
+		text-transform: uppercase;
+		letter-spacing: 1.5px;
+		margin-bottom: 1.1rem;
+	}
+
+	.hero-content h1 {
+		font-size: clamp(1.6rem, 3vw, 2.5rem);
+		font-weight: 800;
+		line-height: 1.2;
+		margin-bottom: 0.85rem;
+		color: var(--color-primary-dark);
+	}
+
+	.hero-content p {
+		font-size: 1rem;
+		line-height: 1.65;
+		color: var(--color-text-muted);
+		margin-bottom: 1.75rem;
+	}
+
+	.hero-actions {
+		display: flex;
+		gap: 0.85rem;
+		flex-wrap: wrap;
+	}
+
+	.hero-deco {
+		width: 170px;
+		height: 170px;
+		flex-shrink: 0;
+		opacity: 0.85;
+	}
+
+	.compass-svg {
+		width: 100%;
+		height: 100%;
+		animation: spin-slow 30s linear infinite;
+		filter: drop-shadow(0 0 10px rgba(212, 163, 43, 0.18));
+	}
+
+	@keyframes spin-slow {
+		from { transform: rotate(0deg); }
+		to   { transform: rotate(360deg); }
+	}
+
+	/* ─── Stats Grid ──────────────────────────────────────────────────────────── */
+
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.stat-card {
+		display: flex;
+		align-items: center;
+		gap: 1.25rem;
+		padding: 1.5rem;
+	}
+
+	.stat-icon {
+		width: 52px;
+		height: 52px;
+		border-radius: var(--radius-md);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.stat-icon svg {
+		width: 26px;
+		height: 26px;
+	}
+
+	.xp-color    { background: rgba(35, 108, 50, 0.1);  color: var(--color-success); border: 1px solid rgba(35, 108, 50, 0.2); }
+	.level-color { background: rgba(27, 77, 50, 0.12); color: var(--color-primary-light); border: 1px solid rgba(27, 77, 50, 0.22); }
+	.badges-color{ background: rgba(178, 131, 27, 0.1); color: var(--color-gold);    border: 1px solid rgba(178, 131, 27, 0.22); }
+
+	.stat-info { display: flex; flex-direction: column; gap: 0.2rem; }
+
+	.stat-label {
+		font-size: 0.75rem;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+		color: var(--color-text-faint);
+	}
+
+	.stat-value {
+		font-size: 1.6rem;
+		font-weight: 800;
+		color: var(--color-text);
+	}
+
+	.stat-sub {
+		font-size: 0.8rem;
+		color: var(--color-text-muted);
+	}
+
+	/* ─── Section Header ──────────────────────────────────────────────────────── */
+
+	.section-header {
+		margin-bottom: 1.25rem;
+	}
+
+	.section-header h2 {
+		font-size: 1.6rem;
+		font-weight: 800;
+		color: var(--color-text);
+		margin-bottom: 0.4rem;
+		position: relative;
+		display: inline-block;
+	}
+
+	.section-header h2::after {
+		content: '';
+		position: absolute;
+		bottom: -5px;
+		left: 0;
+		width: 36px;
+		height: 3px;
+		background: var(--color-gold);
+		border-radius: var(--radius-full);
+	}
+
+	.section-header p {
+		font-size: 0.9rem;
+		color: var(--color-text-muted);
+		margin-top: 0.65rem;
+	}
+
+	/* ─── Categories ──────────────────────────────────────────────────────────── */
+
+	.categories-section { display: flex; flex-direction: column; gap: 1.5rem; }
+
+	.cat-group-header {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		margin-top: 0.25rem;
+	}
+
+	.cat-group-icon {
+		width: 36px;
+		height: 36px;
+		border-radius: var(--radius-sm);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+	}
+
+	.cat-group-icon svg { width: 18px; height: 18px; }
+
+	.comm-group   { background: rgba(27, 77, 50, 0.1);   color: var(--color-primary-light); border: 1px solid rgba(27, 77, 50, 0.18); }
+	.teknik-group { background: rgba(176, 90, 26, 0.1);  color: #b05a1a;                    border: 1px solid rgba(176, 90, 26, 0.18); }
+	.penget-group { background: rgba(60, 80, 160, 0.1);  color: #5a6bc4;                    border: 1px solid rgba(60, 80, 160, 0.18); }
+
+	.cat-group-header h3 {
+		font-size: 1rem;
+		font-weight: 700;
+		color: var(--color-text);
+	}
+
+	.cat-group-count {
+		font-size: 0.75rem;
+		color: var(--color-text-faint);
+		font-weight: 500;
+	}
+
+	.achievements-header {
+		display: flex;
+		align-items: flex-end;
+		justify-content: space-between;
+		gap: 1rem;
+		flex-wrap: wrap;
+		margin-bottom: 1.25rem;
+	}
+
+	.btn-lencana-all {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		white-space: nowrap;
+		font-size: 0.84rem;
+		flex-shrink: 0;
+	}
+
+	.categories-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+		gap: 1.25rem;
+	}
+
+	.category-card {
+		display: flex;
+		flex-direction: column;
+		padding: 1.5rem;
+		transition: transform var(--transition-normal), box-shadow var(--transition-normal), border-color var(--transition-normal);
+	}
+
+	.category-card:hover {
+		transform: translateY(-3px);
+		border-color: rgba(212, 163, 43, 0.3);
+	}
+
+	.card-top {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1.1rem;
+	}
+
+	.cat-icon {
+		width: 44px;
+		height: 44px;
+		border-radius: var(--radius-sm);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-weight: 800;
+		font-size: 0.8rem;
+	}
+
+	.cat-icon svg { width: 22px; height: 22px; }
+
+	.morse-bg    { background: rgba(27, 77, 50, 0.1);  color: var(--color-primary-light); border: 1px solid rgba(27, 77, 50, 0.18);  letter-spacing: -1px; }
+	.semaphore-bg{ background: rgba(178, 131, 27, 0.1);color: var(--color-gold);          border: 1px solid rgba(178, 131, 27, 0.2); }
+	.sandi-bg    { background: rgba(185, 59, 34, 0.09);color: #c0513c;                    border: 1px solid rgba(185, 59, 34, 0.18);}
+	.sku-bg      { background: rgba(35, 108, 50, 0.1); color: var(--color-success);       border: 1px solid rgba(35, 108, 50, 0.2); }
+	.uu-bg       { background: rgba(60, 80, 160, 0.09);color: #5a6bc4;                    border: 1px solid rgba(60, 80, 160, 0.18);}
+	.simpul-bg   { background: rgba(120, 80, 20, 0.09); color: #8b5e1a;                   border: 1px solid rgba(120, 80, 20, 0.18); }
+	.sejarah-bg  { background: rgba(80, 50, 130, 0.09); color: #6a4aaa;                   border: 1px solid rgba(80, 50, 130, 0.18); }
+	.p3k-bg      { background: rgba(185, 59, 34, 0.09); color: #c0513c;                   border: 1px solid rgba(185, 59, 34, 0.18); }
+	.kompas-bg   { background: rgba(27, 107, 138, 0.09); color: #1b6b8a;                  border: 1px solid rgba(27, 107, 138, 0.18); }
+	.pbb-bg      { background: rgba(74, 85, 104, 0.09);  color: #4a5568;                  border: 1px solid rgba(74, 85, 104, 0.18); }
+	.kemah-bg    { background: rgba(139, 107, 42, 0.09); color: #7c5d1a;                  border: 1px solid rgba(139, 107, 42, 0.18); }
+	.tanda-bg    { background: rgba(107, 79, 170, 0.09); color: #6b4faa;                  border: 1px solid rgba(107, 79, 170, 0.18); }
+	.pionir-bg   { background: rgba(176, 90, 26, 0.09);  color: #b05a1a;                  border: 1px solid rgba(176, 90, 26, 0.18); }
+	.org-bg      { background: rgba(26, 74, 124, 0.09);  color: #1a4a7c;                  border: 1px solid rgba(26, 74, 124, 0.18); }
+	.dasa-bg     { background: rgba(178, 131, 27, 0.09); color: #a07010;                  border: 1px solid rgba(178, 131, 27, 0.18); }
+	.survival-bg { background: rgba(185, 59, 34, 0.09);  color: #c0513c;                  border: 1px solid rgba(185, 59, 34, 0.18); }
+	.siaga-bg    { background: rgba(35, 108, 50, 0.09);  color: #236c32;                  border: 1px solid rgba(35, 108, 50, 0.18); }
+
+	.diff-tag {
+		font-size: 0.7rem;
+		font-weight: 700;
+		padding: 0.22rem 0.55rem;
+		border-radius: 4px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.diff-tag.easy   { background: rgba(35, 108, 50, 0.1);  color: #2a8040; border: 1px solid rgba(35, 108, 50, 0.2);  }
+	.diff-tag.medium { background: rgba(178, 131, 27, 0.1); color: var(--color-gold); border: 1px solid rgba(178, 131, 27, 0.2); }
+	.diff-tag.hard   { background: rgba(185, 59, 34, 0.09); color: #c0513c; border: 1px solid rgba(185, 59, 34, 0.18);}
+	.diff-tag.mix    { background: rgba(27, 77, 50, 0.06);  color: var(--color-text-muted); border: 1px solid var(--color-border); }
+
+	.card-body {
+		flex: 1;
+		margin-bottom: 1.25rem;
+	}
+
+	.card-body h3 {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--color-text);
+		margin-bottom: 0.45rem;
+	}
+
+	.card-body p {
+		font-size: 0.85rem;
+		line-height: 1.55;
+		color: var(--color-text-muted);
+		margin-bottom: 0.85rem;
+	}
+
+	.feature-list {
+		list-style: none;
+		display: flex;
+		flex-direction: column;
+		gap: 0.3rem;
+	}
+
+	.feature-list li {
+		font-size: 0.78rem;
+		color: var(--color-text-muted);
+	}
+
+	.card-footer { margin-top: auto; }
+
+	.btn-full { width: 100%; }
+
+	/* ─── Achievements ────────────────────────────────────────────────────────── */
+
+	.achievements-section {
+		padding: 2rem;
+		background: linear-gradient(135deg, rgba(27, 77, 50, 0.04) 0%, rgba(255, 255, 255, 0.92) 50%, rgba(212, 163, 43, 0.03) 100%) !important;
+	}
+
+	.badges-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+		gap: 0.85rem;
+	}
+
+	.badge-item {
+		display: flex;
+		align-items: center;
+		gap: 0.85rem;
+		padding: 0.9rem 1rem;
+		border-radius: var(--radius-md);
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		position: relative;
+		transition: all var(--transition-normal);
+	}
+
+	.badge-item.unlocked {
+		background: rgba(212, 163, 43, 0.05);
+		border-color: rgba(212, 163, 43, 0.22);
+	}
+
+	.badge-item.unlocked:hover {
+		border-color: rgba(212, 163, 43, 0.38);
+		box-shadow: 0 2px 10px rgba(212, 163, 43, 0.1);
+	}
+
+	.badge-icon-wrap {
+		font-size: 1.75rem;
+		width: 44px;
+		height: 44px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 50%;
+		background: var(--color-surface-solid);
+		border: 1px solid var(--color-border);
+		flex-shrink: 0;
+	}
+
+	.badge-item.locked .badge-icon-wrap {
+		filter: grayscale(1) opacity(0.35);
+	}
+
+	.badge-item.unlocked .badge-icon-wrap {
+		background: rgba(212, 163, 43, 0.08);
+		border-color: rgba(212, 163, 43, 0.2);
+	}
+
+	.badge-info { flex: 1; }
+
+	.badge-info h4 {
+		font-size: 0.88rem;
+		font-weight: 700;
+		color: var(--color-text);
+		margin-bottom: 0.15rem;
+	}
+
+	.badge-item.locked .badge-info h4 {
+		color: var(--color-text-muted);
+	}
+
+	.badge-info p {
+		font-size: 0.72rem;
+		color: var(--color-text-faint);
+		line-height: 1.3;
+	}
+
+	.badge-status {
+		font-size: 0.62rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+		position: absolute;
+		top: 8px;
+		right: 10px;
+	}
+
+	.badge-item.unlocked .badge-status { color: var(--color-gold); }
+	.badge-item.locked .badge-status   { color: var(--color-text-faint); }
+
+	/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+	@media (max-width: 900px) {
+		.hero {
+			flex-direction: column;
+			padding: 2rem;
+			text-align: center;
+		}
+
+		.hero-content { max-width: 100%; }
+
+		.hero-actions { justify-content: center; }
+
+		.hero-deco { width: 130px; height: 130px; }
+
+		.section-header h2::after {
+			left: 50%;
+			transform: translateX(-50%);
+		}
+
+		.section-header { text-align: center; }
+	}
+
+	@media (max-width: 600px) {
+		.hero { padding: 1.5rem; }
+		.stats-grid { grid-template-columns: 1fr; }
+	}
+</style>

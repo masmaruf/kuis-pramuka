@@ -1,0 +1,1265 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis UU Pramuka No. 12 Tahun 2010" description="Latihan Undang-Undang Gerakan Pramuka No. 12 Tahun 2010: asas, tujuan, keanggotaan, kwartir, dan pendidikan kepramukaan. 30 soal acak.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis UU No. 12 Tahun 2010</h2>
+				<span class="quiz-difficulty medium">Hukum Kepramukaan</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<!-- Main Quiz Card -->
+			<div class="quiz-main-card glass-card">
+				<!-- Progress Tracker -->
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width: 10%"></div>
+					</div>
+				</div>
+
+				<!-- Category Badge -->
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">📜 UU No. 12 Tahun 2010</span>
+				</div>
+
+				<!-- Question -->
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+
+				<!-- Options -->
+				<div class="flex flex-col gap-2.5" id="options-container">
+					<!-- dibuat oleh JavaScript -->
+				</div>
+
+				<!-- Education Card -->
+				<div class="education-card" id="education-card" style="display: none;">
+					<div class="edu-header">
+						<span class="edu-icon">📖</span>
+						<span class="edu-label">Penjelasan Pasal</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+
+				<!-- Actions -->
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<!-- Reference Sidebar -->
+			<div class="quiz-help-card glass-card">
+				<h3>Struktur UU No. 12/2010</h3>
+				<p class="help-subtitle">Undang-Undang Republik Indonesia tentang Gerakan Pramuka</p>
+
+				<div class="law-structure">
+					<div class="law-chapter">
+						<div class="chapter-title">Bab I — Ketentuan Umum</div>
+						<div class="chapter-content">Pasal 1: Definisi Pramuka, Gerakan Pramuka, Pendidikan Kepramukaan</div>
+					</div>
+					<div class="law-chapter">
+						<div class="chapter-title">Bab II — Asas, Nilai & Tujuan</div>
+						<div class="chapter-content">Ps. 2: Asas Pancasila · Ps. 3: Nilai · Ps. 4: Fungsi · Ps. 5: Tujuan · Ps. 6: Sifat</div>
+					</div>
+					<div class="law-chapter">
+						<div class="chapter-title">Bab III — Penyelenggaraan</div>
+						<div class="chapter-content">Ps. 7-16: Organisasi, Kwartir (Ranting, Cabang, Daerah, Nasional), Gugus Depan, Saka</div>
+					</div>
+					<div class="law-chapter">
+						<div class="chapter-title">Bab IV — Keanggotaan</div>
+						<div class="chapter-content">Ps. 17-25: Siaga, Penggalang, Penegak, Pandega, Anggota Dewasa, Hak & Kewajiban</div>
+					</div>
+					<div class="law-chapter">
+						<div class="chapter-title">Bab V — Pendidikan</div>
+						<div class="chapter-content">Ps. 26-45: Kurikulum, Kode Kehormatan, Metode, SKU, SKK, SPG</div>
+					</div>
+					<div class="law-chapter">
+						<div class="chapter-title">Bab VI-IX — Lain-lain</div>
+						<div class="chapter-content">Pendanaan · Pengawasan · Sanksi Administratif · Ketentuan Peralihan</div>
+					</div>
+				</div>
+
+				<div class="law-fact-box">
+					<div class="fact-row">
+						<span class="fact-key">Disahkan</span>
+						<span class="fact-val">24 November 2010</span>
+					</div>
+					<div class="fact-row">
+						<span class="fact-key">Pasal</span>
+						<span class="fact-val">50 Pasal</span>
+					</div>
+					<div class="fact-row">
+						<span class="fact-key">Asas</span>
+						<span class="fact-val">Pancasila</span>
+					</div>
+					<div class="fact-row">
+						<span class="fact-key">Sifat</span>
+						<span class="fact-val">Mandiri · Sukarela · Nonpolitik</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Result Overlay -->
+		<div class="result-overlay" id="result-overlay" style="display: none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">🏆</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text">Anda menjawab soal dengan baik.</p>
+
+				<div class="result-stats-details">
+					<div class="detail-item">
+						<span class="label">XP Diperoleh</span>
+						<span class="value score-xp" id="result-xp">+100 XP</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Skor Akhir</span>
+						<span class="value" id="result-score">100/100</span>
+					</div>
+					<div class="detail-item">
+						<span class="label">Jawaban Benar</span>
+						<span class="value" id="result-correct">10/10</span>
+					</div>
+				</div>
+
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display: none;">
+					<h3>🎖️ Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	// ─── Bank Soal (30 soal, pilih 10 acak per sesi) ──────────────────────────
+
+	interface Question {
+		pasal: string;
+		q: string;
+		options: string[];
+		correct: string;
+		edu: string;
+	}
+
+	const QUESTIONS_POOL: Question[] = [
+		{
+			pasal: "Pasal 1 Ayat (1)",
+			q: "Menurut UU No. 12 Tahun 2010, 'Gerakan Pramuka' adalah...",
+			options: [
+				"Perkumpulan pemuda Indonesia yang bersifat militer",
+				"Organisasi yang dibentuk oleh pramuka untuk menyelenggarakan pendidikan kepramukaan",
+				"Lembaga pemerintah yang bertugas melatih pemuda",
+				"Yayasan pendidikan luar sekolah milik negara"
+			],
+			correct: "Organisasi yang dibentuk oleh pramuka untuk menyelenggarakan pendidikan kepramukaan",
+			edu: "Pasal 1 Ayat (1): Gerakan Pramuka adalah organisasi yang dibentuk oleh pramuka untuk menyelenggarakan pendidikan kepramukaan. Ini menegaskan bahwa Gerakan Pramuka bukan lembaga pemerintah, melainkan organisasi mandiri yang dibentuk oleh anggotanya sendiri."
+		},
+		{
+			pasal: "Pasal 1 Ayat (2)",
+			q: "Definisi 'Pramuka' menurut UU No. 12 Tahun 2010 adalah...",
+			options: [
+				"Siswa sekolah yang mengikuti kegiatan pramuka",
+				"Pegawai negeri yang bertugas melatih kepramukaan",
+				"Warga negara Indonesia yang aktif dalam pendidikan kepramukaan serta mengamalkan Satya Pramuka dan Darma Pramuka",
+				"Pemuda Indonesia berusia di bawah 25 tahun yang terdaftar di Kwartir Nasional"
+			],
+			correct: "Warga negara Indonesia yang aktif dalam pendidikan kepramukaan serta mengamalkan Satya Pramuka dan Darma Pramuka",
+			edu: "Pasal 1 Ayat (2): Pramuka adalah warga negara Indonesia yang aktif dalam pendidikan kepramukaan serta mengamalkan Satya Pramuka dan Darma Pramuka. Definisi ini mencakup semua golongan, tidak hanya siswa."
+		},
+		{
+			pasal: "Pasal 2",
+			q: "Gerakan Pramuka berasaskan...",
+			options: [
+				"Undang-Undang Dasar 1945",
+				"Bhinneka Tunggal Ika",
+				"Pancasila",
+				"Kode Kehormatan Pramuka"
+			],
+			correct: "Pancasila",
+			edu: "Pasal 2: Gerakan Pramuka berasaskan Pancasila. Pancasila sebagai asas berarti seluruh kegiatan dan nilai kepramukaan berlandaskan pada lima sila Pancasila."
+		},
+		{
+			pasal: "Pasal 6",
+			q: "Gerakan Pramuka bersifat...",
+			options: [
+				"Militer, sukarela, dan terbuka",
+				"Mandiri, sukarela, dan nonpolitik",
+				"Bebas, aktif, dan demokratis",
+				"Nasional, terbuka, dan profesional"
+			],
+			correct: "Mandiri, sukarela, dan nonpolitik",
+			edu: "Pasal 6: Gerakan Pramuka bersifat mandiri, sukarela, dan nonpolitik. Mandiri berarti tidak berada di bawah partai politik manapun. Sukarela berarti keanggotaan tidak dipaksakan. Nonpolitik berarti tidak terlibat dalam politik praktis."
+		},
+		{
+			pasal: "Pasal 5",
+			q: "Tujuan Gerakan Pramuka adalah membentuk setiap pramuka agar memiliki...",
+			options: [
+				"Kemampuan militer yang kuat dan jiwa patriotik",
+				"Kepribadian yang beriman, bertakwa, berakhlak mulia, berjiwa patriotik, dan memiliki kecakapan hidup",
+				"Keterampilan akademis yang tinggi dan prestasi internasional",
+				"Kemampuan olahraga dan seni yang unggul"
+			],
+			correct: "Kepribadian yang beriman, bertakwa, berakhlak mulia, berjiwa patriotik, dan memiliki kecakapan hidup",
+			edu: "Pasal 5: Gerakan Pramuka bertujuan membentuk pramuka agar beriman, bertakwa, berakhlak mulia, berjiwa patriotik, taat hukum, disiplin, menjunjung nilai luhur bangsa, dan memiliki kecakapan hidup sebagai kader bangsa dalam menjaga NKRI, mengamalkan Pancasila, serta melestarikan lingkungan hidup."
+		},
+		{
+			pasal: "Pasal 19 Ayat (1)",
+			q: "Golongan Pramuka Siaga mencakup anggota berusia...",
+			options: [
+				"5 – 9 tahun",
+				"6 – 10 tahun",
+				"7 – 10 tahun",
+				"8 – 12 tahun"
+			],
+			correct: "7 – 10 tahun",
+			edu: "Pasal 19 Ayat (1) huruf a: Anggota muda golongan Siaga berusia 7 (tujuh) sampai dengan 10 (sepuluh) tahun. Golongan Siaga merupakan golongan anggota muda yang paling rendah dalam Gerakan Pramuka."
+		},
+		{
+			pasal: "Pasal 19 Ayat (1)",
+			q: "Golongan Pramuka Penggalang mencakup anggota berusia...",
+			options: [
+				"10 – 14 tahun",
+				"11 – 15 tahun",
+				"12 – 16 tahun",
+				"13 – 17 tahun"
+			],
+			correct: "11 – 15 tahun",
+			edu: "Pasal 19 Ayat (1) huruf b: Anggota muda golongan Penggalang berusia 11 (sebelas) sampai dengan 15 (lima belas) tahun. Penggalang merupakan golongan lanjutan setelah Siaga."
+		},
+		{
+			pasal: "Pasal 19 Ayat (1)",
+			q: "Golongan Pramuka Penegak mencakup anggota berusia...",
+			options: [
+				"14 – 18 tahun",
+				"15 – 19 tahun",
+				"16 – 20 tahun",
+				"17 – 21 tahun"
+			],
+			correct: "16 – 20 tahun",
+			edu: "Pasal 19 Ayat (1) huruf c: Anggota muda golongan Penegak berusia 16 (enam belas) sampai dengan 20 (dua puluh) tahun. Penegak merupakan golongan anggota muda yang hampir memasuki usia dewasa."
+		},
+		{
+			pasal: "Pasal 19 Ayat (1)",
+			q: "Golongan Pramuka Pandega mencakup anggota berusia...",
+			options: [
+				"20 – 25 tahun",
+				"21 – 25 tahun",
+				"22 – 27 tahun",
+				"20 – 26 tahun"
+			],
+			correct: "21 – 25 tahun",
+			edu: "Pasal 19 Ayat (1) huruf d: Anggota muda golongan Pandega berusia 21 (dua puluh satu) sampai dengan 25 (dua puluh lima) tahun. Pandega adalah golongan anggota muda tertinggi sebelum memasuki golongan anggota dewasa."
+		},
+		{
+			pasal: "Pasal 9",
+			q: "Satuan organisasi Gerakan Pramuka terdiri atas...",
+			options: [
+				"Kwartir dan Regu",
+				"Gugus depan dan Regu",
+				"Gugus depan dan satuan karya pramuka",
+				"Kwartir dan Gugus depan"
+			],
+			correct: "Gugus depan dan satuan karya pramuka",
+			edu: "Pasal 9: Satuan organisasi Gerakan Pramuka terdiri atas: (a) gugus depan; dan (b) satuan karya pramuka. Gugus depan merupakan pangkalan keanggotaan, sedangkan satuan karya (Saka) dibentuk berdasarkan kesamaan minat dan profesi."
+		},
+		{
+			pasal: "Pasal 10",
+			q: "Gugus depan dalam Gerakan Pramuka berfungsi sebagai...",
+			options: [
+				"Pusat pelatihan kepemimpinan nasional",
+				"Pangkalan keanggotaan pramuka",
+				"Kantor administrasi Gerakan Pramuka",
+				"Markas besar satuan karya pramuka"
+			],
+			correct: "Pangkalan keanggotaan pramuka",
+			edu: "Pasal 10: Gugus depan sebagai pangkalan keanggotaan pramuka. Gugus depan merupakan satuan organisasi paling bawah yang langsung mengelola kegiatan pramuka dan tempat anggota muda bernaung."
+		},
+		{
+			pasal: "Pasal 11",
+			q: "Satuan Karya Pramuka (Saka) dibentuk berdasarkan...",
+			options: [
+				"Wilayah administrasi pemerintahan",
+				"Usia dan tingkat pendidikan anggota",
+				"Jumlah anggota minimal yang ditetapkan",
+				"Kesamaan minat, profesi, dan ikatan"
+			],
+			correct: "Kesamaan minat, profesi, dan ikatan",
+			edu: "Pasal 11: Satuan karya pramuka merupakan satuan organisasi Gerakan Pramuka yang dibentuk berdasarkan kesamaan minat, profesi, dan ikatan. Contoh Saka: Saka Bhayangkara (kepolisian), Saka Dirgantara (penerbangan), Saka Bahari (kelautan), Saka Wira Kartika (TNI AD)."
+		},
+		{
+			pasal: "Pasal 13",
+			q: "Berapa jenis kwartir dalam Gerakan Pramuka berdasarkan UU No. 12 Tahun 2010?",
+			options: [
+				"2 jenis",
+				"3 jenis",
+				"4 jenis",
+				"5 jenis"
+			],
+			correct: "4 jenis",
+			edu: "Pasal 13: Kwartir terdiri atas: (a) kwartir ranting — tingkat kecamatan; (b) kwartir cabang — tingkat kabupaten/kota; (c) kwartir daerah — tingkat provinsi; dan (d) kwartir nasional — tingkat nasional. Jadi terdapat 4 jenis kwartir."
+		},
+		{
+			pasal: "Pasal 13",
+			q: "Kwartir yang bertugas mengelola Gerakan Pramuka pada tingkat kecamatan disebut...",
+			options: [
+				"Kwartir Nasional",
+				"Kwartir Daerah",
+				"Kwartir Cabang",
+				"Kwartir Ranting"
+			],
+			correct: "Kwartir Ranting",
+			edu: "Pasal 13 huruf a: Kwartir Ranting adalah kwartir yang mengelola Gerakan Pramuka pada tingkat kecamatan. Kwartir Ranting membawahi gugus-gugus depan yang ada di wilayah kecamatannya."
+		},
+		{
+			pasal: "Pasal 13",
+			q: "Kwartir yang mengelola Gerakan Pramuka pada tingkat provinsi adalah...",
+			options: [
+				"Kwartir Ranting",
+				"Kwartir Cabang",
+				"Kwartir Daerah",
+				"Kwartir Nasional"
+			],
+			correct: "Kwartir Daerah",
+			edu: "Pasal 13 huruf c: Kwartir Daerah mengelola Gerakan Pramuka pada tingkat provinsi. Singkatannya adalah Kwarda. Kwartir Daerah membawahi Kwartir Cabang (tingkat kabupaten/kota) di seluruh wilayah provinsinya."
+		},
+		{
+			pasal: "Pasal 17",
+			q: "Anggota Gerakan Pramuka adalah...",
+			options: [
+				"Warga negara Indonesia dan warga negara asing yang berdomisili di Indonesia",
+				"Warga negara Indonesia",
+				"Seluruh penduduk Indonesia tanpa memandang kewarganegaraan",
+				"Warga negara yang berusia di bawah 25 tahun"
+			],
+			correct: "Warga negara Indonesia",
+			edu: "Pasal 17: Anggota Gerakan Pramuka adalah warga negara Indonesia. Hal ini menegaskan bahwa keanggotaan Gerakan Pramuka Indonesia hanya untuk WNI, berbeda dengan beberapa organisasi kepanduan internasional yang mengizinkan anggota asing."
+		},
+		{
+			pasal: "Pasal 18",
+			q: "Anggota Gerakan Pramuka terdiri atas dua jenis, yaitu...",
+			options: [
+				"Anggota aktif dan anggota pasif",
+				"Anggota biasa dan anggota kehormatan",
+				"Anggota muda dan anggota dewasa",
+				"Anggota tetap dan anggota luar biasa"
+			],
+			correct: "Anggota muda dan anggota dewasa",
+			edu: "Pasal 18: Anggota Gerakan Pramuka terdiri atas: (a) anggota muda, yaitu Siaga, Penggalang, Penegak, dan Pandega; serta (b) anggota dewasa, yang mencakup Pembina, Pelatih, Pamong Saka, dan lainnya."
+		},
+		{
+			pasal: "Pasal 22",
+			q: "Salah satu kewajiban anggota Gerakan Pramuka berdasarkan UU No. 12 Tahun 2010 adalah...",
+			options: [
+				"Mengikuti seluruh kegiatan militer negara",
+				"Melaksanakan pendidikan kepramukaan",
+				"Menjadi aparatur sipil negara",
+				"Membina hubungan diplomatik luar negeri"
+			],
+			correct: "Melaksanakan pendidikan kepramukaan",
+			edu: "Pasal 22: Setiap anggota berkewajiban: (a) melaksanakan pendidikan kepramukaan; (b) membayar iuran keanggotaan; dan (c) menjaga nama baik Gerakan Pramuka. Kewajiban ini berlaku bagi seluruh anggota, baik muda maupun dewasa."
+		},
+		{
+			pasal: "Pasal 21",
+			q: "Hak anggota Gerakan Pramuka yang tercantum dalam UU No. 12 Tahun 2010 meliputi...",
+			options: [
+				"Mendapat gaji bulanan dari Kwartir",
+				"Mendapatkan pendidikan dan pelatihan kepramukaan",
+				"Memimpin Kwartir Nasional secara langsung",
+				"Mendapat jabatan pemerintahan otomatis"
+			],
+			correct: "Mendapatkan pendidikan dan pelatihan kepramukaan",
+			edu: "Pasal 21: Setiap anggota berhak: (a) mendapatkan pendidikan dan pelatihan kepramukaan; (b) mengemukakan pendapat; (c) memilih dan dipilih dalam musyawarah; dan (d) mendapat perlindungan dalam mengikuti kegiatan kepramukaan."
+		},
+		{
+			pasal: "Pasal 34",
+			q: "Satya Pramuka dalam UU No. 12 Tahun 2010 didefinisikan sebagai...",
+			options: [
+				"Kumpulan peraturan tertulis tentang tata cara berkepramukaan",
+				"Janji dan komitmen diri untuk mengikat diri secara sukarela menerapkan nilai-nilai kepramukaan",
+				"Daftar tugas dan tanggung jawab anggota pramuka",
+				"Sumpah yang diucapkan saat pelantikan anggota dewasa"
+			],
+			correct: "Janji dan komitmen diri untuk mengikat diri secara sukarela menerapkan nilai-nilai kepramukaan",
+			edu: "Pasal 34: Satya pramuka merupakan janji dan komitmen diri untuk mengikat diri secara sukarela menerapkan dan mengamalkan nilai-nilai kepramukaan dalam kehidupan sehari-hari. Satya pramuka berbeda di setiap golongan: Dwisatya (Siaga), Trisatya (Penggalang, Penegak, Pandega)."
+		},
+		{
+			pasal: "Pasal 35",
+			q: "Darma Pramuka menurut UU No. 12 Tahun 2010 merupakan...",
+			options: [
+				"Peraturan disiplin yang mengikat seluruh anggota pramuka",
+				"Hukum adat yang wajib diikuti oleh anggota",
+				"Alat proses pendidikan diri yang progresif untuk mengembangkan budi pekerti luhur",
+				"Sistem penghargaan bagi anggota berprestasi"
+			],
+			correct: "Alat proses pendidikan diri yang progresif untuk mengembangkan budi pekerti luhur",
+			edu: "Pasal 35: Darma pramuka merupakan alat proses pendidikan diri yang progresif untuk mengembangkan budi pekerti luhur. Darma berbeda di setiap golongan: Dwidarma (Siaga), Dasadarma (Penggalang, Penegak, Pandega)."
+		},
+		{
+			pasal: "Pasal 38",
+			q: "Sumber pendanaan Gerakan Pramuka yang berasal dari APBN/APBD termasuk kategori...",
+			options: [
+				"Iuran anggota",
+				"Bantuan masyarakat",
+				"Bantuan Pemerintah dan pemerintah daerah",
+				"Sumber lain yang tidak mengikat"
+			],
+			correct: "Bantuan Pemerintah dan pemerintah daerah",
+			edu: "Pasal 38: Pendanaan Gerakan Pramuka bersumber dari: (a) iuran anggota; (b) bantuan masyarakat; (c) bantuan Pemerintah dan pemerintah daerah (APBN/APBD); dan (d) sumber lain yang tidak mengikat seperti hibah. Bantuan pemerintah merupakan salah satu sumber resmi yang dijamin UU."
+		},
+		{
+			pasal: "Pasal 43",
+			q: "Kurikulum pendidikan kepramukaan disusun oleh...",
+			options: [
+				"Kementerian Pendidikan dan Kebudayaan",
+				"Kwartir Ranting setempat",
+				"Kwartir Nasional Gerakan Pramuka",
+				"Gugus depan masing-masing sekolah"
+			],
+			correct: "Kwartir Nasional Gerakan Pramuka",
+			edu: "Pasal 43: Kurikulum pendidikan kepramukaan disusun oleh Kwartir Nasional. Hal ini memastikan standar pendidikan kepramukaan seragam di seluruh Indonesia, walaupun pelaksanaannya dapat disesuaikan dengan kondisi daerah masing-masing."
+		},
+		{
+			pasal: "Pasal 4",
+			q: "Gerakan Pramuka berfungsi sebagai wadah untuk mencapai tujuan pramuka, salah satunya melalui...",
+			options: [
+				"Kegiatan politik partai",
+				"Pengabdian masyarakat dan orang tua",
+				"Latihan militer bersenjata",
+				"Pengawasan kegiatan pemerintah daerah"
+			],
+			correct: "Pengabdian masyarakat dan orang tua",
+			edu: "Pasal 4: Gerakan Pramuka berfungsi sebagai wadah melalui: (a) pendidikan dan pelatihan pramuka; (b) pengembangan pramuka; (c) pengabdian masyarakat dan orang tua; dan (d) permainan yang berorientasi pada pendidikan."
+		},
+		{
+			pasal: "Pasal 3",
+			q: "Salah satu nilai kepramukaan yang tercantum dalam UU No. 12 Tahun 2010 adalah...",
+			options: [
+				"Kemewahan dan kebanggaan diri",
+				"Kebebasan berpendapat tanpa batas",
+				"Hemat, cermat, dan bersahaja",
+				"Kompetisi dan persaingan sehat"
+			],
+			correct: "Hemat, cermat, dan bersahaja",
+			edu: "Pasal 3: Nilai kepramukaan mencakup 10 nilai, di antaranya: keimanan dan ketakwaan; kecintaan pada alam; cinta tanah air; kedisiplinan dan keberanian; tolong-menolong; tanggung jawab; jernih berpikir; hemat, cermat, bersahaja; rajin, terampil, gembira; serta patuh dan suka bermusyawarah."
+		},
+		{
+			pasal: "Pasal 40",
+			q: "Berapa jenis pendidikan kepramukaan yang disebutkan dalam UU No. 12 Tahun 2010?",
+			options: [
+				"2 jenis",
+				"3 jenis",
+				"4 jenis",
+				"5 jenis"
+			],
+			correct: "4 jenis",
+			edu: "Pasal 40: Pendidikan kepramukaan terdiri atas: (a) pendidikan kepramukaan dasar; (b) pendidikan kepramukaan lanjutan; (c) pendidikan kepramukaan khusus; dan (d) pendidikan kepramukaan untuk anggota dewasa. Jadi terdapat 4 jenis pendidikan kepramukaan."
+		},
+		{
+			pasal: "Pasal 8",
+			q: "Penyelenggaraan pendidikan kepramukaan dilaksanakan oleh satuan berikut, KECUALI...",
+			options: [
+				"Kwartir Nasional Gerakan Pramuka",
+				"Gugus depan",
+				"Kwartir daerah",
+				"Kementerian Pendidikan"
+			],
+			correct: "Kementerian Pendidikan",
+			edu: "Pasal 8: Penyelenggaraan pendidikan kepramukaan dilaksanakan oleh: (a) Kwartir Nasional; (b) kwartir daerah; (c) kwartir cabang; (d) kwartir ranting; dan (e) gugus depan. Kementerian Pendidikan bukan penyelenggara langsung, meskipun dapat memberi dukungan."
+		},
+		{
+			pasal: "Pasal 1 Ayat (3)",
+			q: "'Kepramukaan' menurut UU No. 12 Tahun 2010 adalah...",
+			options: [
+				"Kegiatan fisik dan spiritual yang dilakukan oleh pramuka di alam terbuka",
+				"Segala aspek yang berkaitan dengan pramuka",
+				"Sistem pendidikan non-formal yang diselenggarakan pemerintah",
+				"Gerakan sosial yang bertujuan memperkuat pertahanan negara"
+			],
+			correct: "Segala aspek yang berkaitan dengan pramuka",
+			edu: "Pasal 1 Ayat (3): Kepramukaan adalah segala aspek yang berkaitan dengan pramuka. Definisi ini bersifat luas, mencakup semua hal yang terkait dengan kehidupan, kegiatan, dan nilai-nilai pramuka."
+		},
+		{
+			pasal: "Pasal 50",
+			q: "UU No. 12 Tahun 2010 tentang Gerakan Pramuka mulai berlaku pada tanggal...",
+			options: [
+				"1 Januari 2010",
+				"17 Agustus 2010",
+				"24 November 2010",
+				"31 Desember 2010"
+			],
+			correct: "24 November 2010",
+			edu: "Pasal 50: Undang-Undang ini mulai berlaku pada tanggal diundangkan, yaitu 24 November 2010. UU ini ditandatangani oleh Presiden Susilo Bambang Yudhoyono dan menggantikan Keputusan Presiden Nomor 238 Tahun 1961 sebagai dasar hukum Gerakan Pramuka."
+		},
+		{
+			pasal: "Pasal 20",
+			q: "Yang TIDAK termasuk anggota dewasa Gerakan Pramuka berdasarkan UU No. 12 Tahun 2010 adalah...",
+			options: [
+				"Pembina Pramuka",
+				"Pelatih Pembina Pramuka",
+				"Pimpinan Saka",
+				"Pramuka Pandega"
+			],
+			correct: "Pramuka Pandega",
+			edu: "Pasal 20: Anggota dewasa terdiri atas: Pembina Pramuka, Pelatih Pembina, Pembina Profesional, Pamong Saka dan Instruktur Saka, Pimpinan Saka, Andalan, serta Anggota Majelis Pembimbing. Pandega termasuk anggota MUDA (Pasal 19), bukan anggota dewasa."
+		},
+		{
+			pasal: "Pasal 1 Ayat (4)",
+			q: "'Pendidikan Kepramukaan' menurut UU No. 12 Tahun 2010 adalah...",
+			options: [
+				"Proses belajar mengajar di sekolah berbasis kurikulum pramuka",
+				"Proses pembentukan kepribadian, kecakapan hidup, dan akhlak mulia pramuka melalui penghayatan dan pengamalan nilai-nilai kepramukaan",
+				"Pelatihan fisik dan mental bagi anggota Gerakan Pramuka",
+				"Program wajib yang dilaksanakan oleh Kementerian Pendidikan"
+			],
+			correct: "Proses pembentukan kepribadian, kecakapan hidup, dan akhlak mulia pramuka melalui penghayatan dan pengamalan nilai-nilai kepramukaan",
+			edu: "Pasal 1 Ayat (4): Pendidikan kepramukaan adalah proses pembentukan kepribadian, kecakapan hidup, dan akhlak mulia pramuka melalui penghayatan dan pengamalan nilai-nilai kepramukaan. Definisi ini menekankan bahwa kepramukaan lebih dari sekadar kegiatan, melainkan proses pendidikan menyeluruh."
+		},
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id: 'uu_pramuka_novice', name: 'Pandu Hukum', icon: '⚖️' },
+		{ id: 'uu_pramuka_master', name: 'Ahli Perundangan', icon: '📜' },
+	];
+
+	// ─── State ────────────────────────────────────────────────────────────────
+
+	let questions: Question[] = [];
+	let currentIndex = 0;
+	let selectedAnswer = '';
+	let score = 0;
+	let totalXpEarned = 0;
+
+	// ─── Utilitas ─────────────────────────────────────────────────────────────
+
+	function shuffle<T>(arr: T[]): T[] {
+		return [...arr].sort(() => Math.random() - 0.5);
+	}
+
+	function getEl<T extends HTMLElement>(id: string) {
+		return document.getElementById(id) as T | null;
+	}
+
+	// ─── Init Kuis ────────────────────────────────────────────────────────────
+
+	function startQuiz() {
+		questions = shuffle(QUESTIONS_POOL).slice(0, QUESTIONS_PER_SESSION);
+		currentIndex = 0;
+		score = 0;
+		totalXpEarned = 0;
+		selectedAnswer = '';
+		renderQuestion();
+	}
+
+	// ─── Render Soal ─────────────────────────────────────────────────────────
+
+	function renderQuestion() {
+		const q = questions[currentIndex];
+		const num = currentIndex + 1;
+		const pct = (num / QUESTIONS_PER_SESSION) * 100;
+
+		getEl('question-number')!.textContent = `Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent = `${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width = `${pct}%`;
+
+		const catEl = getEl('question-category');
+		if (catEl) catEl.innerHTML = `<span class="cat-pill">📜 ${q.pasal}</span>`;
+
+		getEl('question-prompt')!.textContent = q.q;
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		if (eduCard) eduCard.style.display = 'none';
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.disabled = true;
+			submitBtn.textContent = 'Konfirmasi Jawaban';
+			submitBtn.onclick = submitAnswer;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) {
+			hint.textContent = 'Pilih salah satu jawaban di atas';
+			hint.className = 'answer-hint';
+		}
+
+		selectedAnswer = '';
+		renderOptions(q);
+	}
+
+	function renderOptions(q: Question) {
+		const container = getEl<HTMLDivElement>('options-container');
+		if (!container) return;
+
+		const shuffledOpts = shuffle(q.options);
+		container.innerHTML = shuffledOpts.map((opt, i) => {
+			const letter = String.fromCharCode(65 + i);
+			return `
+			<button class="opt-btn" data-answer="${opt.replace(/"/g, '&quot;')}" style="animation-delay:${i * 0.07}s">
+				<span class="opt-letter">${letter}</span>
+				<span class="opt-text">${opt}</span>
+				<span class="opt-indicator">
+					<span class="opt-radio"></span>
+					<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+					<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span>
+			</button>
+			`;
+		}).join('');
+
+		container.querySelectorAll('.opt-btn').forEach((btn, i) => {
+			btn.addEventListener('click', () => {
+				container.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');
+				selectedAnswer = (btn as HTMLElement).dataset.answer || '';
+
+				const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+				if (submitBtn) submitBtn.disabled = false;
+
+				const hint = getEl('answer-hint');
+				if (hint) {
+					hint.textContent = `Jawaban ${String.fromCharCode(65 + i)} dipilih — klik Konfirmasi untuk lanjut`;
+					hint.className = 'answer-hint chosen';
+				}
+			});
+		});
+	}
+
+	// ─── Submit Jawaban ───────────────────────────────────────────────────────
+
+	function submitAnswer() {
+		const q = questions[currentIndex];
+		const isCorrect = selectedAnswer === q.correct;
+		if (isCorrect) {
+			score++;
+			totalXpEarned += XP_PER_CORRECT;
+		}
+
+		const container = getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn => {
+			const el = btn as HTMLElement;
+			const ans = el.dataset.answer || '';
+			el.classList.add('is-answered');
+			el.classList.remove('is-selected');
+
+			if (ans === q.correct) {
+				el.classList.add('is-correct');
+			} else if (ans === selectedAnswer && !isCorrect) {
+				el.classList.add('is-incorrect');
+			} else {
+				el.classList.add('is-dimmed');
+			}
+		});
+
+		const eduCard = getEl<HTMLDivElement>('education-card');
+		const eduText = getEl('education-text');
+		if (eduCard && eduText) {
+			eduText.textContent = q.edu;
+			eduCard.style.display = 'flex';
+			eduCard.className = `education-card ${isCorrect ? 'correct' : 'incorrect'}`;
+		}
+
+		const hint = getEl('answer-hint');
+		if (hint) {
+			hint.textContent = isCorrect ? '✓ Jawaban benar!' : '✗ Jawaban salah — lihat penjelasan di bawah.';
+			hint.className = `answer-hint ${isCorrect ? 'correct-hint' : 'wrong-hint'}`;
+		}
+
+		const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+		if (submitBtn) {
+			submitBtn.textContent = currentIndex < QUESTIONS_PER_SESSION - 1 ? 'Soal Berikutnya →' : 'Lihat Hasil';
+			submitBtn.disabled = false;
+			submitBtn.onclick = nextQuestion;
+		}
+	}
+
+	function nextQuestion() {
+		currentIndex++;
+		if (currentIndex < QUESTIONS_PER_SESSION) {
+			renderQuestion();
+			const submitBtn = getEl<HTMLButtonElement>('btn-submit-answer');
+			if (submitBtn) submitBtn.onclick = submitAnswer;
+		} else {
+			showResult();
+		}
+	}
+
+	// ─── Hasil Akhir ──────────────────────────────────────────────────────────
+
+	function showResult() {
+		const pct = Math.round((score / QUESTIONS_PER_SESSION) * 100);
+
+		// Simpan XP
+		const currentXp = parseInt(localStorage.getItem('scout_xp') || '0');
+		localStorage.setItem('scout_xp', (currentXp + totalXpEarned).toString());
+
+		// Periksa dan buka lencana
+		const earnedBadges: string[] = JSON.parse(localStorage.getItem('scout_badges') || '[]');
+		const newlyUnlocked: typeof BADGES_FOR_THIS_QUIZ = [];
+
+		if (!earnedBadges.includes('uu_pramuka_novice')) {
+			earnedBadges.push('uu_pramuka_novice');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);
+		}
+		if (pct === 100 && !earnedBadges.includes('uu_pramuka_master')) {
+			earnedBadges.push('uu_pramuka_master');
+			newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);
+		}
+		// Badge XP umum
+		const totalXpNow = parseInt(localStorage.getItem('scout_xp') || '0');
+		if (totalXpNow >= 500 && !earnedBadges.includes('scout_master')) {
+			earnedBadges.push('scout_master');
+		}
+		localStorage.setItem('scout_badges', JSON.stringify(earnedBadges));
+
+		// Tampilan hasil
+		const emoji = pct === 100 ? '🏆' : pct >= 80 ? '⭐' : pct >= 60 ? '👍' : '📚';
+		getEl('result-emoji')!.textContent = emoji;
+
+		const titleEl = getEl('result-title');
+		if (titleEl) titleEl.textContent = pct === 100 ? 'Sempurna! Ahli Perundangan!' : pct >= 80 ? 'Bagus Sekali!' : pct >= 60 ? 'Cukup Baik!' : 'Terus Belajar!';
+
+		getEl('result-text')!.textContent = `Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct >= 80 ? 'Kamu memahami UU Gerakan Pramuka dengan baik!' : 'Baca kembali UU No. 12 Tahun 2010 untuk hasil lebih baik.'}`;
+
+		getEl('result-xp')!.textContent = `+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent = `${pct}/100`;
+		getEl('result-correct')!.textContent = `${score}/${QUESTIONS_PER_SESSION}`;
+
+		if (newlyUnlocked.length > 0) {
+			const badgesContainer = getEl<HTMLDivElement>('unlocked-badges');
+			const badgesList = getEl('badges-list-el');
+			if (badgesContainer && badgesList) {
+				badgesList.innerHTML = newlyUnlocked.map(b => `
+					<div class="new-badge-item">
+						<span class="new-badge-icon">${b.icon}</span>
+						<span class="new-badge-name">${b.name}</span>
+					</div>
+				`).join('');
+				badgesContainer.style.display = 'block';
+			}
+		}
+
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'flex';
+
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	// ─── Event Listeners ──────────────────────────────────────────────────────
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click', submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click', () => {
+		const overlay = getEl<HTMLDivElement>('result-overlay');
+		if (overlay) overlay.style.display = 'none';
+		startQuiz();
+	});
+
+	startQuiz();
+</script>
+
+<style>
+	/* ─── Layout ──────────────────────────────────────────────────────────────── */
+
+	.quiz-container {
+		display: flex;
+		flex-direction: column;
+		gap: 1.5rem;
+	}
+
+	.quiz-header {
+		display: flex;
+		align-items: center;
+		gap: 1.5rem;
+		padding: 1.25rem 1.75rem;
+		flex-wrap: wrap;
+	}
+
+	.btn-back {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+		color: var(--color-text-muted);
+		text-decoration: none;
+		font-size: 0.88rem;
+		font-weight: 500;
+		white-space: nowrap;
+		transition: color var(--transition-fast);
+	}
+
+	.btn-back:hover { color: var(--color-gold); }
+	.btn-back svg { width: 15px; height: 15px; }
+
+	.quiz-title-area {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 0.75rem;
+		flex: 1;
+	}
+
+	.quiz-title-area h2 {
+		font-size: 1.4rem;
+		font-weight: 800;
+		color: var(--color-text);
+	}
+
+	.quiz-difficulty {
+		font-size: 0.72rem;
+		font-weight: 700;
+		padding: 0.28rem 0.75rem;
+		border-radius: 4px;
+		text-transform: uppercase;
+		letter-spacing: 0.5px;
+	}
+
+	.quiz-difficulty.medium {
+		background: rgba(27, 77, 50, 0.1);
+		color: var(--color-primary-light);
+		border: 1px solid rgba(27, 77, 50, 0.2);
+	}
+
+	/* ─── Quiz Grid ───────────────────────────────────────────────────────────── */
+
+	.quiz-layout {
+		display: grid;
+		grid-template-columns: 1.9fr 1fr;
+		gap: 1.5rem;
+		align-items: start;
+	}
+
+	.quiz-main-card {
+		padding: 2rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.75rem;
+	}
+
+	/* ─── Progress ────────────────────────────────────────────────────────────── */
+
+	.progress-tracker { display: flex; flex-direction: column; gap: 0.5rem; }
+
+	.progress-label {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+
+	.progress-label span {
+		font-size: 0.82rem;
+		font-weight: 600;
+		color: var(--color-text-muted);
+	}
+
+	.pct-label {
+		color: var(--color-primary-light) !important;
+	}
+
+	.progress-bar-outer {
+		height: 6px;
+		background: rgba(27, 77, 50, 0.1);
+		border-radius: var(--radius-full);
+		overflow: hidden;
+	}
+
+	.progress-bar-inner {
+		height: 100%;
+		background: linear-gradient(90deg, var(--color-primary), var(--color-gold));
+		border-radius: var(--radius-full);
+		transition: width var(--transition-normal);
+	}
+
+	/* ─── Category & Question ─────────────────────────────────────────────────── */
+
+	.question-category { }
+
+	.cat-pill {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.35rem;
+		background: rgba(27, 77, 50, 0.07);
+		color: var(--color-primary-light);
+		border: 1px solid rgba(27, 77, 50, 0.15);
+		padding: 0.28rem 0.75rem;
+		border-radius: var(--radius-full);
+		font-size: 0.75rem;
+		font-weight: 600;
+	}
+
+	.question-text-area h3 {
+		font-size: 1.1rem;
+		font-weight: 700;
+		color: var(--color-text);
+		line-height: 1.55;
+	}
+
+	/* ─── Education Card ──────────────────────────────────────────────────────── */
+
+	.education-card {
+		border-radius: var(--radius-md);
+		padding: 1rem 1.1rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+		animation: slide-in 0.2s ease;
+	}
+
+	.education-card.correct {
+		background: rgba(35, 108, 50, 0.07);
+		border: 1px solid rgba(35, 108, 50, 0.2);
+	}
+
+	.education-card.incorrect {
+		background: rgba(165, 48, 26, 0.06);
+		border: 1px solid rgba(165, 48, 26, 0.18);
+	}
+
+	@keyframes slide-in {
+		from { opacity: 0; transform: translateY(-6px); }
+		to   { opacity: 1; transform: translateY(0); }
+	}
+
+	.edu-header {
+		display: flex;
+		align-items: center;
+		gap: 0.45rem;
+	}
+
+	.edu-icon { font-size: 1rem; }
+
+	.edu-label {
+		font-size: 0.72rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.8px;
+		color: var(--color-primary-light);
+	}
+
+	.education-card.incorrect .edu-label { color: var(--color-danger); }
+
+	#education-text {
+		font-size: 0.85rem;
+		color: var(--color-text);
+		line-height: 1.55;
+	}
+
+	/* ─── Action Footer ───────────────────────────────────────────────────────── */
+
+	.action-footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1rem;
+		padding-top: 0.5rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.answer-hint {
+		font-size: 0.8rem;
+		color: var(--color-text-faint);
+		font-style: italic;
+	}
+
+	.answer-hint.chosen {
+		color: var(--color-primary-light);
+		font-style: normal;
+		font-weight: 600;
+	}
+
+	.answer-hint.correct-hint {
+		color: var(--color-success);
+		font-style: normal;
+		font-weight: 600;
+	}
+
+	.answer-hint.wrong-hint {
+		color: var(--color-danger, #c0392b);
+		font-style: normal;
+		font-weight: 600;
+	}
+
+	#btn-submit-answer {
+		padding: 0.8rem 2rem;
+		border-radius: var(--radius-sm);
+		font-size: 0.95rem;
+		transition: all var(--transition-fast);
+	}
+
+	#btn-submit-answer:not(:disabled) {
+		box-shadow: 0 4px 14px rgba(178, 131, 27, 0.3);
+	}
+
+	#btn-submit-answer:not(:disabled):hover {
+		transform: translateY(-2px);
+		box-shadow: 0 6px 18px rgba(178, 131, 27, 0.4);
+	}
+
+	/* ─── Sidebar ─────────────────────────────────────────────────────────────── */
+
+	.quiz-help-card {
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+		gap: 1.1rem;
+	}
+
+	.quiz-help-card h3 {
+		font-size: 1.05rem;
+		font-weight: 700;
+		color: var(--color-text);
+	}
+
+	.help-subtitle {
+		font-size: 0.78rem;
+		color: var(--color-text-muted);
+		line-height: 1.4;
+		margin-top: -0.5rem;
+	}
+
+	.law-structure {
+		display: flex;
+		flex-direction: column;
+		gap: 0.5rem;
+	}
+
+	.law-chapter {
+		padding: 0.65rem 0.85rem;
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		border-left: 3px solid var(--color-primary-light);
+	}
+
+	.chapter-title {
+		font-size: 0.78rem;
+		font-weight: 700;
+		color: var(--color-primary-light);
+		margin-bottom: 0.25rem;
+	}
+
+	.chapter-content {
+		font-size: 0.72rem;
+		color: var(--color-text-muted);
+		line-height: 1.4;
+	}
+
+	.law-fact-box {
+		background: rgba(27, 77, 50, 0.05);
+		border: 1px solid var(--color-border);
+		border-radius: var(--radius-sm);
+		padding: 0.85rem;
+		display: flex;
+		flex-direction: column;
+		gap: 0.45rem;
+	}
+
+	.fact-row {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		gap: 0.5rem;
+		font-size: 0.78rem;
+	}
+
+	.fact-key {
+		color: var(--color-text-muted);
+		font-weight: 500;
+		flex-shrink: 0;
+	}
+
+	.fact-val {
+		color: var(--color-text);
+		font-weight: 700;
+		text-align: right;
+	}
+
+	/* ─── Result Overlay ──────────────────────────────────────────────────────── */
+
+	.result-overlay {
+		position: fixed;
+		inset: 0;
+		background: rgba(10, 25, 16, 0.88);
+		backdrop-filter: blur(18px);
+		-webkit-backdrop-filter: blur(18px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		z-index: 1000;
+		padding: 1.5rem;
+	}
+
+	.result-card {
+		width: 100%;
+		max-width: 520px;
+		padding: 2.5rem;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1.25rem;
+		animation: pop-in 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	@keyframes pop-in {
+		from { transform: scale(0.88); opacity: 0; }
+		to   { transform: scale(1);    opacity: 1; }
+	}
+
+	.result-emoji { font-size: 3.5rem; line-height: 1; }
+
+	.result-card h2 {
+		font-size: 1.75rem;
+		font-weight: 800;
+		color: #f0f5f2;
+	}
+
+	.result-summary {
+		font-size: 0.95rem;
+		color: rgba(255,255,255,0.65);
+		line-height: 1.55;
+	}
+
+	.result-stats-details {
+		display: flex;
+		width: 100%;
+		gap: 0.85rem;
+	}
+
+	.detail-item {
+		flex: 1;
+		background: rgba(255, 255, 255, 0.05);
+		border: 1px solid rgba(255, 255, 255, 0.1);
+		padding: 1rem;
+		border-radius: var(--radius-md);
+		display: flex;
+		flex-direction: column;
+		gap: 0.25rem;
+	}
+
+	.detail-item .label {
+		font-size: 0.72rem;
+		color: rgba(255,255,255,0.5);
+		text-transform: uppercase;
+		font-weight: 600;
+		letter-spacing: 0.5px;
+	}
+
+	.detail-item .value {
+		font-size: 1.4rem;
+		font-weight: 800;
+		color: #f0f5f2;
+	}
+
+	.detail-item .value.score-xp { color: var(--color-gold-light); }
+
+	.unlocked-badges-container {
+		width: 100%;
+		background: rgba(212, 163, 43, 0.06);
+		border: 1px solid rgba(212, 163, 43, 0.25);
+		border-radius: var(--radius-md);
+		padding: 1rem;
+		text-align: left;
+	}
+
+	.unlocked-badges-container h3 {
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: var(--color-gold-light);
+		margin-bottom: 0.65rem;
+	}
+
+	.unlocked-badges-list {
+		display: flex;
+		gap: 0.75rem;
+		flex-wrap: wrap;
+	}
+
+	.new-badge-item {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		background: rgba(212, 163, 43, 0.1);
+		border: 1px solid rgba(212, 163, 43, 0.25);
+		border-radius: var(--radius-sm);
+		padding: 0.4rem 0.75rem;
+	}
+
+	.new-badge-icon { font-size: 1.1rem; }
+
+	.new-badge-name {
+		font-size: 0.82rem;
+		font-weight: 700;
+		color: var(--color-gold-light);
+	}
+
+	.result-actions {
+		display: flex;
+		gap: 0.85rem;
+		flex-wrap: wrap;
+		justify-content: center;
+		width: 100%;
+	}
+
+	.result-actions .btn {
+		flex: 1;
+		min-width: 140px;
+	}
+
+	/* ─── Responsive ──────────────────────────────────────────────────────────── */
+
+	@media (max-width: 900px) {
+		.quiz-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.quiz-help-card {
+			order: -1;
+		}
+
+		.law-structure {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+		}
+	}
+
+	@media (max-width: 600px) {
+		.quiz-main-card { padding: 1.25rem; }
+		.quiz-header { padding: 1rem; }
+
+		.law-structure {
+			grid-template-columns: 1fr;
+		}
+
+		.result-stats-details {
+			flex-wrap: wrap;
+		}
+
+		.detail-item {
+			flex-basis: calc(50% - 0.4rem);
+		}
+	}
+</style>
