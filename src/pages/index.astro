@@ -80,7 +80,7 @@ import Layout from '../layouts/Layout.astro';
 		<section id="kategori-kuis" class="categories-section">
 			<div class="section-header">
 				<h2>Pilih Modul Latihan</h2>
-				<p>15 modul latihan dalam 3 kelompok kompetensi kepramukaan.</p>
+				<p>16 modul latihan dalam 3 kelompok kompetensi kepramukaan.</p>
 			</div>
 
 			<!-- Kelompok 1: Komunikasi & Isyarat -->
@@ -173,7 +173,7 @@ import Layout from '../layouts/Layout.astro';
 				</div>
 				<div>
 					<h3>Teknik Kepramukaan</h3>
-					<span class="cat-group-count">8 modul</span>
+					<span class="cat-group-count">9 modul</span>
 				</div>
 			</div>
 			<div class="categories-grid">
@@ -343,6 +343,30 @@ import Layout from '../layouts/Layout.astro';
 					</div>
 					<div class="card-footer">
 						<a href="/survival" class="btn btn-primary btn-full">Mulai Latihan</a>
+					</div>
+				</div>
+
+				<div class="category-card glass-card">
+					<div class="card-top">
+						<div class="cat-icon flora-bg">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+								<path d="M12 22V8"/>
+								<path d="M5 12H2a10 10 0 0 0 10-10v0a10 10 0 0 0 10 10h-3"/>
+								<path d="M8 17a5 5 0 0 1 4-5 5 5 0 0 1 4 5"/>
+							</svg>
+						</div>
+						<span class="diff-tag easy">Mudah – Sulit</span>
+					</div>
+					<div class="card-body">
+						<h3>Kuis Flora &amp; Fauna</h3>
+						<p>Kenali tanaman obat, tanaman beracun, flora hutan, jejak hewan, dan hewan berbahaya di alam Indonesia. Dilengkapi gambar dari Wikipedia.</p>
+						<ul class="feature-list">
+							<li>🌿 Tanaman Obat &amp; Beracun + Gambar</li>
+							<li>🦎 Jejak Hewan &amp; Hewan Berbahaya</li>
+						</ul>
+					</div>
+					<div class="card-footer">
+						<a href="/flora-fauna" class="btn btn-primary btn-full">Mulai Latihan</a>
 					</div>
 				</div>
 
@@ -943,6 +967,7 @@ import Layout from '../layouts/Layout.astro';
 	.org-bg      { background: rgba(26, 74, 124, 0.09);  color: #1a4a7c;                  border: 1px solid rgba(26, 74, 124, 0.18); }
 	.dasa-bg     { background: rgba(178, 131, 27, 0.09); color: #a07010;                  border: 1px solid rgba(178, 131, 27, 0.18); }
 	.survival-bg { background: rgba(185, 59, 34, 0.09);  color: #c0513c;                  border: 1px solid rgba(185, 59, 34, 0.18); }
+	.flora-bg    { background: rgba(34, 139, 34, 0.09);  color: #228b22;                  border: 1px solid rgba(34, 139, 34, 0.18); }
 	.siaga-bg    { background: rgba(35, 108, 50, 0.09);  color: #236c32;                  border: 1px solid rgba(35, 108, 50, 0.18); }
 
 	.diff-tag {

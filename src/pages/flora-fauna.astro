@@ -1,0 +1,366 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Kuis Flora & Fauna Pramuka" description="Latihan pengenalan flora & fauna untuk pramuka: tanaman obat, tanaman beracun, flora hutan, jejak hewan, dan hewan berbahaya di alam Indonesia.">
+	<div class="quiz-container">
+		<header class="quiz-header glass-card">
+			<a href="/" class="btn-back">
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<line x1="19" y1="12" x2="5" y2="12"/>
+					<polyline points="12 19 5 12 12 5"/>
+				</svg>
+				Kembali ke Dasbor
+			</a>
+			<div class="quiz-title-area">
+				<h2>Kuis Flora & Fauna</h2>
+				<span class="quiz-difficulty medium">Pengenalan Alam</span>
+			</div>
+		</header>
+
+		<div class="quiz-layout">
+			<div class="quiz-main-card glass-card">
+				<div class="progress-tracker">
+					<div class="progress-label">
+						<span id="question-number">Soal 1 dari 10</span>
+						<span id="progress-pct" class="pct-label">10%</span>
+					</div>
+					<div class="progress-bar-outer">
+						<div id="quiz-progress-bar" class="progress-bar-inner" style="width:10%"></div>
+					</div>
+				</div>
+				<div class="question-category" id="question-category">
+					<span class="cat-pill">🌿 Flora & Fauna</span>
+				</div>
+				<div class="question-image-area" id="question-image-area" style="display:none;">
+					<img id="question-image" src="" alt="Flora/Fauna" loading="lazy" />
+				</div>
+				<div class="question-text-area">
+					<h3 id="question-prompt">Soal akan dimuat...</h3>
+				</div>
+				<div class="flex flex-col gap-2.5" id="options-container"></div>
+				<div class="education-card" id="education-card" style="display:none;">
+					<div class="edu-header">
+						<span class="edu-icon">🌿</span>
+						<span class="edu-label">Penjelasan Flora & Fauna</span>
+					</div>
+					<p id="education-text"></p>
+				</div>
+				<div class="action-footer">
+					<span id="answer-hint" class="answer-hint">Pilih salah satu jawaban di atas</span>
+					<button id="btn-submit-answer" class="btn btn-gold" disabled>Konfirmasi Jawaban</button>
+				</div>
+			</div>
+
+			<div class="quiz-help-card glass-card">
+				<h3>Referensi Cepat Flora & Fauna</h3>
+				<p class="help-subtitle">Tanaman obat, tanaman beracun, dan hewan berbahaya di alam Indonesia</p>
+
+				<div class="difficulty-filter">
+					<div class="filter-title">Level Kesulitan</div>
+					<button class="filter-btn active" data-diff="all">Semua</button>
+					<button class="filter-btn" data-diff="easy">&#127793; Mudah</button>
+					<button class="filter-btn" data-diff="medium">&#127807; Sedang</button>
+					<button class="filter-btn" data-diff="hard">&#128293; Sulit</button>
+				</div>
+
+				<div class="flora-section">
+					<div class="flora-title">Tanaman Obat Umum</div>
+					<div class="flora-item"><span class="flora-key">Jahe</span><span class="flora-val">menghangatkan badan, anti mual</span></div>
+					<div class="flora-item"><span class="flora-key">Kunyit</span><span class="flora-val">antiradang, obat maag</span></div>
+					<div class="flora-item"><span class="flora-key">Temulawak</span><span class="flora-val">menjaga fungsi hati, nafsu makan</span></div>
+					<div class="flora-item"><span class="flora-key">Lidah buaya</span><span class="flora-val">luka bakar, perawatan kulit</span></div>
+					<div class="flora-item"><span class="flora-key">Kumis kucing</span><span class="flora-val">peluruh batu ginjal</span></div>
+					<div class="flora-item"><span class="flora-key">Sirih</span><span class="flora-val">antiseptik alami, obat batuk</span></div>
+				</div>
+
+				<div class="flora-section">
+					<div class="flora-title">Tanda Tanaman Beracun</div>
+					<div class="flora-item"><span class="flora-key">Getah putih</span><span class="flora-val">sering menandakan racun</span></div>
+					<div class="flora-item"><span class="flora-key">Bau menyengat</span><span class="flora-val">hindari jika tidak dikenal</span></div>
+					<div class="flora-item"><span class="flora-key">Buah mencolok</span><span class="flora-val">warna cerah = waspadai</span></div>
+					<div class="flora-item"><span class="flora-key">Kecubung</span><span class="flora-val">halusinogen, sangat beracun</span></div>
+				</div>
+
+				<div class="flora-section">
+					<div class="flora-title">Ular Berbisa vs Tidak</div>
+					<div class="flora-item"><span class="flora-key">Kepala</span><span class="flora-val">segitiga = cenderung berbisa</span></div>
+					<div class="flora-item"><span class="flora-key">Pupil mata</span><span class="flora-val">vertikal = berbisa (umumnya)</span></div>
+					<div class="flora-item"><span class="flora-key">Taring</span><span class="flora-val">berbisa punya taring berongga</span></div>
+					<div class="flora-item"><span class="flora-key">Ekor</span><span class="flora-val">pipih = ular laut berbisa</span></div>
+				</div>
+			</div>
+		</div>
+
+		<div class="result-overlay" id="result-overlay" style="display:none;">
+			<div class="result-card glass-card">
+				<div class="result-emoji" id="result-emoji">&#127942;</div>
+				<h2 id="result-title">Kuis Selesai!</h2>
+				<p class="result-summary" id="result-text"></p>
+				<div class="result-stats-details">
+					<div class="detail-item"><span class="label">XP Diperoleh</span><span class="value score-xp" id="result-xp">+100 XP</span></div>
+					<div class="detail-item"><span class="label">Skor Akhir</span><span class="value" id="result-score">100/100</span></div>
+					<div class="detail-item"><span class="label">Jawaban Benar</span><span class="value" id="result-correct">10/10</span></div>
+				</div>
+				<div class="unlocked-badges-container" id="unlocked-badges" style="display:none;">
+					<h3>&#127894; Lencana Baru Terbuka!</h3>
+					<div class="unlocked-badges-list" id="badges-list-el"></div>
+				</div>
+				<div class="result-actions">
+					<button id="btn-restart" class="btn btn-primary">Ulangi Kuis</button>
+					<a href="/" class="btn btn-gold">Kembali ke Dasbor</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>
+
+<script>
+	interface Question { kategori:string; q:string; options:string[]; correct:string; edu:string; img?:string; difficulty:'easy'|'medium'|'hard'; }
+
+	const QUESTIONS_POOL: Question[] = [
+		// ── Tanaman Obat (easy) ─────────────────────────────────────────────────
+		{ kategori:"Tanaman Obat", q:"Tanaman rimpang berikut yang dikenal sebagai penghangat badan dan pereda mual adalah...", options:["Jahe","Lengkuas","Kencur","Serai"], correct:"Jahe", edu:"Jahe (Zingiber officinale) mengandung gingerol dan shogaol yang bersifat anti-emetik (anti mual) serta menghangatkan tubuh. Dalam pramuka, jahe sering digunakan untuk membuat wedang jahe saat kemah di daerah dingin. Jahe juga memiliki sifat antiradang dan membantu melancarkan pencernaan.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/Koeh-104.jpg/250px-Koeh-104.jpg", difficulty:"easy" },
+		{ kategori:"Tanaman Obat", q:"Kunyit dikenal memiliki khasiat utama sebagai...", options:["Antiradang dan obat maag","Penurun tekanan darah tinggi","Obat sakit gigi","Penambah tinggi badan"], correct:"Antiradang dan obat maag", edu:"Kunyit (Curcuma longa) mengandung kurkumin yang merupakan senyawa antiradang dan antioksidan kuat. Kunyit digunakan secara tradisional untuk mengobati maag, luka lambung, dan peradangan. Di Indonesia, jamu kunyit asam adalah minuman tradisional untuk menjaga kesehatan pencernaan.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/5b/Curcuma_longa_roots.jpg/250px-Curcuma_longa_roots.jpg", difficulty:"easy" },
+		{ kategori:"Tanaman Obat", q:"Temulawak sering dimanfaatkan untuk...", options:["Menjaga fungsi hati dan meningkatkan nafsu makan","Mengobati patah tulang","Menghilangkan bekas luka","Menyembuhkan rabun jauh"], correct:"Menjaga fungsi hati dan meningkatkan nafsu makan", edu:"Temulawak (Curcuma xanthorrhiza) adalah tanaman asli Indonesia yang mengandung kurkuminoid dan minyak atsiri. Rimpangnya telah digunakan selama berabad-abad sebagai hepatoprotektor (pelindung hati) dan perangsang nafsu makan. Temulawak juga membantu melancarkan empedu dan mengurangi kadar kolesterol.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/Curcuma_xanthorrhiza_01.jpg/250px-Curcuma_xanthorrhiza_01.jpg", difficulty:"easy" },
+		{ kategori:"Tanaman Obat", q:"Gel dari daun lidah buaya (Aloe vera) paling sering digunakan untuk mengobati...", options:["Luka bakar ringan dan iritasi kulit","Sakit kepala","Demam tinggi","Keracunan makanan"], correct:"Luka bakar ringan dan iritasi kulit", edu:"Lidah buaya (Aloe vera) mengandung gel bening kaya polisakarida (acemannan) yang bersifat menyejukkan, melembapkan, dan mempercepat regenerasi sel kulit. Gel ini efektif untuk pertolongan pertama luka bakar ringan, sengatan matahari, dan iritasi kulit. Dalam kegiatan pramuka di alam, lidah buaya bisa dimanfaatkan langsung dari tanaman liar.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Aloe_vera_flower_inridge.jpg/250px-Aloe_vera_flower_inridge.jpg", difficulty:"easy" },
+		{ kategori:"Tanaman Obat", q:"Tanaman kumis kucing (Orthosiphon aristatus) berkhasiat untuk...", options:["Melancarkan buang air kecil dan membantu meluruhkan batu ginjal","Menghentikan pendarahan luar","Menyembuhkan cacingan","Mengobati rabun senja"], correct:"Melancarkan buang air kecil dan membantu meluruhkan batu ginjal", edu:"Kumis kucing mengandung sinensetin dan rosmarinic acid yang bersifat diuretik (peluruh air seni). Tanaman ini telah lama digunakan dalam pengobatan tradisional Asia Tenggara untuk membantu meluruhkan batu ginjal berukuran kecil dan mengatasi infeksi saluran kemih. Dinamai 'kumis kucing' karena benang sari bunganya yang panjang menyerupai kumis kucing.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Orthosiphon_aristatus1.jpg/250px-Orthosiphon_aristatus1.jpg", difficulty:"easy" },
+		{ kategori:"Tanaman Obat", q:"Daun sirih dikenal luas sebagai...", options:["Antiseptik alami yang dapat membunuh bakteri","Obat untuk menurunkan gula darah","Penambah stamina tubuh","Obat pegal linu"], correct:"Antiseptik alami yang dapat membunuh bakteri", edu:"Daun sirih (Piper betle) mengandung kavikol dan eugenol yang bersifat antiseptik dan antibakteri kuat. Secara tradisional, air rebusan daun sirih digunakan untuk obat kumur, membersihkan luka, mengobati mimisan, dan menghentikan gusi berdarah. Sifat antiseptiknya berguna dalam kondisi darurat di alam saat obat modern tidak tersedia.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Betel_plant.jpg/250px-Betel_plant.jpg", difficulty:"easy" },
+		{ kategori:"Tanaman Obat", q:"Sambiloto (Andrographis paniculata) dikenal dalam dunia herbal sebagai 'King of Bitters' karena...", options:["Rasanya yang sangat pahit dan berkhasiat menurunkan demam","Bentuknya yang menyerupai mahkota raja","Harganya yang sangat mahal","Hanya tumbuh di istana-istana kerajaan"], correct:"Rasanya yang sangat pahit dan berkhasiat menurunkan demam", edu:"Sambiloto mengandung andrographolide yang sangat pahit namun berkhasiat sebagai antipiretik (penurun demam), antiradang, dan meningkatkan daya tahan tubuh. Di Indonesia, sambiloto digunakan sebagai jamu penurun panas dan pereda gejala flu. Tanaman ini mudah ditemukan di pekarangan dan pinggir hutan tropis.", difficulty:"easy" },
+		{ kategori:"Tanaman Obat", q:"Lengkuas (Alpinia galanga) selain sebagai bumbu masak, juga bermanfaat untuk...", options:["Mengatasi panu dan jamur kulit","Menyembuhkan patah tulang","Mengobati rabun jauh","Menurunkan berat badan secara drastis"], correct:"Mengatasi panu dan jamur kulit", edu:"Lengkuas mengandung asetoksikavikol asetat dan minyak atsiri yang bersifat antijamur. Irisan lengkuas yang digosokkan ke kulit secara tradisional digunakan untuk mengobati panu (tinea versicolor) dan infeksi jamur kulit lainnya. Lengkuas juga memiliki sifat antibakteri dan banyak digunakan dalam masakan Asia Tenggara.", difficulty:"easy" },
+
+		// ── Tanaman Beracun (medium) ─────────────────────────────────────────────
+		{ kategori:"Tanaman Beracun", q:"Tanaman kecubung (Datura stramonium) sangat berbahaya karena mengandung...", options:["Skopolamin dan atropin yang menyebabkan halusinasi dan kematian","Sianida yang menyerang sistem pernapasan","Arsenik alami di dalam bijinya","Nikotin dalam konsentrasi sangat tinggi"], correct:"Skopolamin dan atropin yang menyebabkan halusinasi dan kematian", edu:"Kecubung mengandung alkaloid tropana yaitu skopolamin, atropin, dan hyoscyamine. Seluruh bagian tanaman beracun, terutama biji dan bunganya. Efek keracunan meliputi halusinasi berat, delirium, pupil melebar, mulut kering, takikardia, dan pada dosis tinggi bisa menyebabkan koma hingga kematian. Dalam kegiatan pramuka, anggota harus diajari mengenali tanaman ini agar tidak salah konsumsi.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/4/4e/Datura_stramonium_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-051.jpg/250px-Datura_stramonium_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-051.jpg", difficulty:"medium" },
+		{ kategori:"Tanaman Beracun", q:"Biji jarak (Ricinus communis) sangat beracun karena mengandung...", options:["Risin, salah satu racun alami paling mematikan di dunia","Strychnine yang menyerang saraf pusat","Morfin yang menyebabkan kelumpuhan","Oksalat yang merusak ginjal"], correct:"Risin, salah satu racun alami paling mematikan di dunia", edu:"Biji jarak mengandung risin, sebuah protein beracun yang termasuk racun alami paling mematikan. Hanya 1-2 biji jarak yang dikunyah bisa mematikan anak kecil. Risin bekerja dengan menghambat sintesis protein di sel tubuh. Namun, minyak jarak (castor oil) yang diolah dengan pemanasan aman digunakan karena risin sudah didenaturasi. Pramuka perlu mengenali tanaman jarak yang banyak tumbuh liar di Indonesia.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/cf/Ricinus_communis_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-120.jpg/250px-Ricinus_communis_-_K%C3%B6hler%E2%80%93s_Medizinal-Pflanzen-120.jpg", difficulty:"medium" },
+		{ kategori:"Tanaman Beracun", q:"Bintaro (Cerbera manghas) yang sering ditanam sebagai peneduh jalan berbahaya karena...", options:["Buahnya mengandung cerberin yang bisa menyebabkan gagal jantung","Daunnya mengeluarkan gas beracun di malam hari","Akarnya meracuni sumber air tanah","Seratnya menyebabkan iritasi kulit parah"], correct:"Buahnya mengandung cerberin yang bisa menyebabkan gagal jantung", edu:"Bintaro (Cerbera manghas) mengandung glikosida jantung yaitu cerberin di dalam buah dan bijinya. Cerberin mengganggu ion kalsium di otot jantung sehingga menyebabkan aritmia dan gagal jantung. Di India, tanaman ini dikenal sebagai 'suicide tree' karena sering digunakan sebagai racun. Getah putihnya juga bisa mengiritasi kulit dan mata.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Cerbera_manghas_%28flower%29.jpg/250px-Cerbera_manghas_%28flower%29.jpg", difficulty:"medium" },
+		{ kategori:"Tanaman Beracun", q:"Ciri umum yang bisa membantu mengidentifikasi tanaman beracun di hutan adalah...", options:["Bergetah putih seperti susu, bau menyengat, atau buah berwarna sangat mencolok","Memiliki daun berwarna hijau tua dan bunga berwarna putih","Tumbuh di dekat sumber air bersih","Batangnya memiliki duri yang sangat banyak"], correct:"Bergetah putih seperti susu, bau menyengat, atau buah berwarna sangat mencolok", edu:"Beberapa ciri umum tanaman beracun: (1) Getah berwarna putih seperti susu (banyak family Euphorbiaceae dan Apocynaceae). (2) Bau yang menyengat atau tidak sedap saat daun diremas. (3) Buah dengan warna sangat mencolok (merah terang, kuning, ungu) sebagai aposematisme. Namun, ini bukan aturan mutlak -- beberapa tanaman beracun tampak biasa saja. Prinsip pramuka: jangan pernah makan tanaman liar yang tidak dikenal pasti aman.", difficulty:"medium" },
+
+		// ── Flora Hutan (medium) ─────────────────────────────────────────────────
+		{ kategori:"Flora Hutan", q:"Pohon jati (Tectona grandis) sangat dihargai karena...", options:["Kayunya sangat kuat, tahan rayap, dan tahan cuaca sehingga ideal untuk bangunan","Daunnya bisa dimakan sebagai sayuran","Getahnya bisa digunakan sebagai obat luka","Bunganya menghasilkan madu berkualitas tinggi"], correct:"Kayunya sangat kuat, tahan rayap, dan tahan cuaca sehingga ideal untuk bangunan", edu:"Jati (Tectona grandis) menghasilkan kayu keras berkualitas tinggi yang mengandung minyak alami sehingga tahan terhadap rayap, jamur, dan cuaca. Kayu jati digunakan untuk pembuatan kapal, furniture mewah, dan konstruksi bangunan. Di Indonesia, hutan jati terutama tersebar di Jawa. Perhutani mengelola hutan jati secara lestari sejak zaman Belanda.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Tectona_grandis.jpg/250px-Tectona_grandis.jpg", difficulty:"medium" },
+		{ kategori:"Flora Hutan", q:"Pohon mahoni (Swietenia macrophylla) memiliki kegunaan medis tradisional yaitu...", options:["Biji mahoni digunakan untuk menurunkan kadar gula darah","Kulit kayunya digunakan sebagai obat sakit kepala","Daunnya direbus untuk obat batuk","Getahnya dioleskan untuk mengobati eksim"], correct:"Biji mahoni digunakan untuk menurunkan kadar gula darah", edu:"Biji mahoni mengandung flavonoid dan saponin yang secara tradisional dipercaya membantu menurunkan kadar gula darah dan kolesterol. Namun, penggunaannya harus hati-hati karena rasanya sangat pahit dan dosis berlebihan bisa berbahaya. Kayu mahoni sendiri termasuk kayu mewah yang banyak digunakan untuk furniture dan instrumen musik.", difficulty:"medium" },
+		{ kategori:"Flora Hutan", q:"Bambu memiliki peran penting dalam kegiatan pramuka karena...", options:["Bisa digunakan sebagai bahan bangunan bivak, alat masak, dan tali pengikat","Hanya bisa ditemukan di hutan belantara yang terpencil","Menghasilkan buah yang bisa dimakan langsung","Kayunya tahan api sehingga aman untuk api unggun"], correct:"Bisa digunakan sebagai bahan bangunan bivak, alat masak, dan tali pengikat", edu:"Bambu adalah tanaman serbaguna yang sangat penting dalam kepramukaan. Batangnya bisa digunakan untuk: tiang bivak dan tenda darurat, wadah masak (nasi bambu/lemang), penampung air, tongkat jalan, dan serat kulit bambu muda bisa dijadikan tali darurat. Bambu juga tumbuh sangat cepat (hingga 91 cm per hari) dan tersebar luas di seluruh Indonesia.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Bamboo_forest.jpg/250px-Bamboo_forest.jpg", difficulty:"medium" },
+		{ kategori:"Flora Hutan", q:"Rotan sering dimanfaatkan dalam kegiatan kepramukaan dan kehidupan sehari-hari terutama sebagai...", options:["Bahan anyaman, tali pengikat, dan kerangka bangunan ringan","Bahan bakar pengganti kayu","Obat tradisional untuk penyakit kulit","Bahan makanan utama saat survival"], correct:"Bahan anyaman, tali pengikat, dan kerangka bangunan ringan", edu:"Rotan (Calamus spp.) adalah tanaman merambat dari keluarga palem yang batangnya lentur, kuat, dan ringan. Rotan digunakan sebagai bahan anyaman (keranjang, kursi), tali pengikat alami yang kuat, dan kerangka bangunan ringan. Indonesia merupakan penghasil rotan terbesar di dunia, menyumbang sekitar 80% produksi rotan global.", difficulty:"medium" },
+		{ kategori:"Flora Hutan", q:"Tumbuhan paku (Pteridophyta) yang banyak ditemukan di lantai hutan tropis bisa menjadi indikator...", options:["Kelembapan tinggi dan kesuburan tanah di lingkungan tersebut","Adanya sumber air mineral di bawah tanah","Tanah mengandung emas atau logam mulia","Hutan tersebut tidak aman untuk berkemah"], correct:"Kelembapan tinggi dan kesuburan tanah di lingkungan tersebut", edu:"Tumbuhan paku (pakis) adalah bioindikator kelembapan dan kesuburan tanah. Keberadaan pakis yang lebat menunjukkan tanah subur dengan humus tebal dan kelembapan tinggi. Beberapa jenis pakis muda (seperti pucuk paku/fiddlehead) dapat dimakan setelah direbus sebagai sumber gizi darurat di hutan. Pramuka perlu mengenali pakis sebagai penunjuk lingkungan yang cocok untuk bivak.", difficulty:"medium" },
+
+		// ── Jejak & Ciri Hewan (medium-hard) ─────────────────────────────────────
+		{ kategori:"Jejak Hewan", q:"Jejak kaki rusa di tanah berlumpur memiliki ciri khas berupa...", options:["Dua buah cekungan lonjong berdampingan dari kuku belah (copet)","Empat lingkaran kecil sejajar dari bantalan kaki","Satu cekungan bulat besar dari telapak kaki","Tiga garis panjang dari cakar"], correct:"Dua buah cekungan lonjong berdampingan dari kuku belah (copet)", edu:"Rusa termasuk hewan berkuku belah (Artiodactyla) yang memiliki dua kuku utama (copet) di setiap kaki. Jejak kakinya membentuk dua cekungan lonjong yang berdampingan, mirip bentuk hati terbalik. Ukuran dan kedalaman jejak bisa membantu memperkirakan ukuran tubuh dan kecepatan rusa saat melewati area tersebut.", difficulty:"medium" },
+		{ kategori:"Jejak Hewan", q:"Jejak kaki harimau di tanah lunak bisa dibedakan dari jejak kucing besar lainnya karena...", options:["Berdiameter sekitar 10-12 cm dengan empat bantalan jari tanpa bekas cakar","Berbentuk persegi dengan bekas cakar yang jelas","Berdiameter hanya 3-4 cm seperti kucing rumahan","Memiliki lima bantalan jari dengan cakar yang terlihat"], correct:"Berdiameter sekitar 10-12 cm dengan empat bantalan jari tanpa bekas cakar", edu:"Harimau (Panthera tigris) memiliki jejak kaki berdiameter 10-12 cm dengan satu bantalan telapak besar dan empat bantalan jari. Seperti semua kucing besar, cakarnya bisa ditarik (retractile) sehingga biasanya tidak meninggalkan bekas cakar di jejak. Ini membedakan jejak kucing besar dari anjing atau serigala yang cakarnya selalu terlihat di jejak.", difficulty:"medium" },
+		{ kategori:"Jejak Hewan", q:"Saat menemukan sarang lebah hutan (Apis dorsata) di pohon, tindakan yang tepat bagi pramuka adalah...", options:["Menjauhi sarang minimal 10-15 meter dan tidak membuat suara keras atau gerakan cepat","Membakar kayu basah di bawah sarang agar lebah pergi","Melempar batu ke sarang untuk mengambil madunya","Mendekati sarang pelan-pelan untuk mengamati dari dekat"], correct:"Menjauhi sarang minimal 10-15 meter dan tidak membuat suara keras atau gerakan cepat", edu:"Apis dorsata (lebah hutan raksasa) adalah lebah paling agresif di Asia. Sarangnya berupa satu lempengan besar yang menggantung di dahan pohon tinggi. Jika terusik, ratusan lebah pekerja bisa menyerang serentak dengan sengatan yang sangat menyakitkan dan berpotensi fatal (anafilaksis). Jaga jarak minimal 10-15 meter, hindari gerakan cepat, suara keras, dan parfum menyengat.", difficulty:"hard" },
+		{ kategori:"Jejak Hewan", q:"Ciri yang membedakan ular berbisa dari ular tidak berbisa secara umum adalah...", options:["Ular berbisa umumnya memiliki kepala segitiga, pupil vertikal, dan lubang pit (sensor panas)","Ular berbisa selalu berwarna merah atau kuning terang","Ular tidak berbisa selalu berukuran lebih kecil","Ular berbisa tidak bisa berenang di air"], correct:"Ular berbisa umumnya memiliki kepala segitiga, pupil vertikal, dan lubang pit (sensor panas)", edu:"Ciri umum ular berbisa (terutama famili Viperidae): (1) Kepala berbentuk segitiga karena kelenjar bisa di rahang. (2) Pupil mata vertikal (mata kucing). (3) Lubang pit antara mata dan lubang hidung (sensor inframerah). Namun, ada pengecualian penting: elapid (kobra, welang) berkepala bulat tapi sangat berbisa. Prinsip aman: anggap semua ular berbahaya dan jaga jarak.", difficulty:"hard" },
+		{ kategori:"Jejak Hewan", q:"Jejak kaki gajah di tanah memiliki ciri yang mudah dikenali yaitu...", options:["Berbentuk lingkaran besar berdiameter 40-50 cm dengan permukaan rata","Berbentuk oval dengan tiga cakar besar di depan","Berbentuk persegi dengan garis-garis di dalamnya","Berbentuk segitiga dengan lekukan dalam"], correct:"Berbentuk lingkaran besar berdiameter 40-50 cm dengan permukaan rata", edu:"Jejak kaki gajah (Elephas maximus untuk gajah Asia) berbentuk lingkaran besar dengan diameter 40-50 cm untuk gajah dewasa. Telapak kaki gajah memiliki bantalan lemak yang menyerap tekanan, sehingga jejak tampak rata dan bulat. Dari jejak kaki gajah, kita bisa memperkirakan tinggi gajah (tinggi bahu = 2 x keliling jejak kaki depan) dan arah pergerakannya.", difficulty:"hard" },
+
+		// ── Hewan Berbahaya (hard) ───────────────────────────────────────────────
+		{ kategori:"Hewan Berbahaya", q:"Ular kobra Jawa (Naja sputatrix) terkenal karena kemampuannya...", options:["Menyemprotkan bisa ke arah mata mangsa dari jarak hingga 2 meter","Mengejar manusia dengan kecepatan 40 km/jam","Menyamar menyerupai ranting pohon","Mengubah warna kulitnya seperti bunglon"], correct:"Menyemprotkan bisa ke arah mata mangsa dari jarak hingga 2 meter", edu:"Naja sputatrix (kobra meludah Jawa) bisa menyemprotkan bisanya ke arah mata penyerang dari jarak 1,5-2 meter dengan akurasi tinggi. Bisa yang mengenai mata menyebabkan rasa sakit hebat dan bisa menyebabkan kebutaan permanen jika tidak segera dicuci dengan air bersih mengalir selama 15-20 menit. Kobra mengenali posisi mata melalui pantulan cahaya.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Indian_cobra.jpg/250px-Indian_cobra.jpg", difficulty:"hard" },
+		{ kategori:"Hewan Berbahaya", q:"King cobra (Ophiophagus hannah) adalah ular berbisa terpanjang di dunia. Makanan utamanya adalah...", options:["Ular lain, termasuk ular berbisa","Tikus dan kelinci hutan","Burung dan telur burung","Katak dan kodok"], correct:"Ular lain, termasuk ular berbisa", edu:"King cobra (Ophiophagus hannah) bisa mencapai panjang 5,5 meter dan merupakan ular berbisa terpanjang di dunia. Nama genusnya 'Ophiophagus' berarti 'pemakan ular' -- makanan utamanya memang ular lain termasuk ular berbisa. King cobra bisa menyuntikkan bisa neurotoksik dalam jumlah besar yang cukup untuk membunuh seekor gajah. Di Indonesia, ditemukan di hutan Sumatera, Kalimantan, dan Jawa.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Ophiophagus_hannah2.jpg/250px-Ophiophagus_hannah2.jpg", difficulty:"hard" },
+		{ kategori:"Hewan Berbahaya", q:"Ular welang (Bungarus candidus) sangat berbahaya karena...", options:["Bisanya bersifat neurotoksik kuat dan sering menggigit saat orang tidur di lantai","Ukurannya sangat besar dan agresif di siang hari","Bisa menyemprotkan racun seperti kobra","Sering ditemukan di dalam rumah dan menyerang tanpa provokasi"], correct:"Bisanya bersifat neurotoksik kuat dan sering menggigit saat orang tidur di lantai", edu:"Ular welang (Bungarus candidus) memiliki bisa neurotoksik yang 15 kali lebih kuat dari kobra. Ular ini bersifat nokturnal (aktif malam) dan sering memasuki pemukiman untuk mencari mangsa. Gigitannya relatif tidak sakit sehingga korban sering tidak sadar telah digigit saat tidur. Gejala keracunan muncul beberapa jam kemudian berupa kelumpuhan otot pernapasan. Pramuka harus selalu tidur di atas tenda/dipan saat berkemah.", difficulty:"hard" },
+		{ kategori:"Hewan Berbahaya", q:"Pertolongan pertama yang benar saat seseorang digigit ular berbisa adalah...", options:["Immobilisasi anggota tubuh yang digigit, balut tekan, dan segera bawa ke rumah sakit","Menghisap bisa dari luka gigitan dengan mulut","Memasang torniket ketat di atas gigitan agar bisa tidak menyebar","Memotong luka gigitan dan mengeluarkan darahnya"], correct:"Immobilisasi anggota tubuh yang digigit, balut tekan, dan segera bawa ke rumah sakit", edu:"Pertolongan pertama gigitan ular berbisa: (1) Tenangkan korban, jangan panik. (2) Immobilisasi (diamkan) anggota badan yang digigit, posisikan lebih rendah dari jantung. (3) Gunakan metode pressure immobilization (balut tekan elastis dari ujung jari ke arah tubuh). (4) JANGAN menghisap bisa, memotong luka, memasang torniket ketat, atau mengoleskan apapun. (5) Segera bawa ke RS untuk pemberian serum anti-bisa (SABU).", difficulty:"hard" },
+		{ kategori:"Hewan Berbahaya", q:"Kalajengking yang ditemukan di Indonesia umumnya...", options:["Memiliki sengatan yang menyakitkan tapi jarang fatal bagi manusia dewasa","Sangat mematikan dan harus segera dibawa ke ICU jika tersengat","Tidak memiliki racun sama sekali dan tidak berbahaya","Hanya ditemukan di gua-gua dalam"], correct:"Memiliki sengatan yang menyakitkan tapi jarang fatal bagi manusia dewasa", edu:"Kalajengking di Indonesia (umumnya genus Heterometrus atau Lychas) memiliki sengatan yang menyakitkan dan menyebabkan pembengkakan lokal, namun jarang fatal bagi orang dewasa sehat. Pertolongan pertama: kompres es untuk mengurangi nyeri, bersihkan luka, dan pantau reaksi alergi. Kalajengking bersifat nokturnal dan sering bersembunyi di bawah batu, kayu lapuk, atau di dalam sepatu -- selalu periksa sepatu sebelum dipakai saat berkemah.", difficulty:"hard" },
+		{ kategori:"Hewan Berbahaya", q:"Komodo (Varanus komodoensis) membunuh mangsanya dengan cara...", options:["Gigitan yang mengandung bisa antikoagulan sehingga mangsa mati kehabisan darah","Menyemprotkan racun dari ekornya","Mencekik mangsa seperti ular piton","Mengeluarkan listrik seperti belut listrik"], correct:"Gigitan yang mengandung bisa antikoagulan sehingga mangsa mati kehabisan darah", edu:"Penelitian tahun 2009 oleh Bryan Fry membuktikan bahwa komodo memiliki kelenjar bisa di rahang bawahnya yang menghasilkan protein antikoagulan (mencegah pembekuan darah), vasodilator (melebarkan pembuluh darah), dan penurun tekanan darah. Mangsa yang digigit akan mengalami pendarahan hebat, syok, dan melemah. Komodo adalah kadal terbesar di dunia (panjang hingga 3 meter) dan hanya ditemukan di Pulau Komodo, Rinca, Flores, dan Gili Motang.", img:"https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Komodo_dragon_%28Varanus_komodoensis%29.jpg/250px-Komodo_dragon_%28Varanus_komodoensis%29.jpg", difficulty:"hard" },
+		{ kategori:"Hewan Berbahaya", q:"Buaya muara (Crocodylus porosus) merupakan reptil terbesar di dunia. Saat berkemah di dekat perairan, tindakan aman yang harus dilakukan pramuka adalah...", options:["Mendirikan tenda minimal 50 meter dari tepi air dan tidak mencuci/memasak langsung di pinggir sungai","Meletakkan obor di pinggir sungai untuk mengusir buaya","Berenang hanya di siang hari karena buaya hanya aktif malam","Mengenakan pakaian berwarna cerah agar buaya takut"], correct:"Mendirikan tenda minimal 50 meter dari tepi air dan tidak mencuci/memasak langsung di pinggir sungai", edu:"Buaya muara bisa tumbuh hingga 7 meter dan merupakan predator puncak di perairan Asia Tenggara. Aturan keselamatan: (1) Tenda minimal 50 meter dari tepi air. (2) Jangan mencuci, memasak, atau membuang sisa makanan di pinggir sungai. (3) Buaya aktif siang DAN malam. (4) Jangan berenang di perairan yang tidak dikenal. (5) Buaya bisa berlari cepat (hingga 18 km/jam) dalam jarak pendek di darat. Habitat: sungai, muara, dan bahkan laut lepas.", difficulty:"hard" },
+		{ kategori:"Hewan Berbahaya", q:"Laba-laba yang perlu diwaspadai saat berkemah di Indonesia terutama adalah...", options:["Laba-laba janda (Latrodectus) dan laba-laba pertapa (Loxosceles), meski jarang ditemui","Semua laba-laba di Indonesia sangat mematikan","Tarantula karena bisanya selalu fatal","Laba-laba biasa di rumah karena mengandung racun kuat"], correct:"Laba-laba janda (Latrodectus) dan laba-laba pertapa (Loxosceles), meski jarang ditemui", edu:"Di Indonesia, sebagian besar laba-laba tidak berbahaya bagi manusia. Spesies yang perlu diwaspadai termasuk Latrodectus (laba-laba janda) dan Loxosceles (laba-laba pertapa) yang gigitannya bisa menyebabkan nekrosis jaringan. Pencegahan saat berkemah: kibaskan pakaian dan sepatu sebelum dipakai, periksa kantong tidur, dan gunakan kelambu. Pertolongan pertama gigitan laba-laba: bersihkan luka, kompres dingin, dan bawa ke fasilitas kesehatan.", difficulty:"hard" },
+	];
+
+	const XP_PER_CORRECT = 12;
+	const QUESTIONS_PER_SESSION = 10;
+	const BADGES_FOR_THIS_QUIZ = [
+		{ id:'flora_fauna_novice', name:'Penjelajah Alam', icon:'\u{1F33F}' },
+		{ id:'flora_fauna_master', name:'Ahli Flora Fauna', icon:'\u{1F98E}' },
+	];
+
+	let questions:Question[]=[], currentIndex=0, selectedAnswer='', score=0, totalXpEarned=0;
+	let activeDifficulty:'all'|'easy'|'medium'|'hard' = 'all';
+
+	function shuffle<T>(arr:T[]):T[]{return [...arr].sort(()=>Math.random()-.5);}
+	function getEl<T extends HTMLElement>(id:string){return document.getElementById(id) as T|null;}
+
+	function startQuiz(){
+		let pool = activeDifficulty==='all' ? QUESTIONS_POOL : QUESTIONS_POOL.filter(q=>q.difficulty===activeDifficulty);
+		if(pool.length<QUESTIONS_PER_SESSION) pool = QUESTIONS_POOL;
+		questions=shuffle(pool).slice(0,QUESTIONS_PER_SESSION);
+		currentIndex=0;score=0;totalXpEarned=0;selectedAnswer='';renderQuestion();
+	}
+
+	function renderQuestion(){
+		const q=questions[currentIndex],num=currentIndex+1,pct=(num/QUESTIONS_PER_SESSION)*100;
+		getEl('question-number')!.textContent=`Soal ${num} dari ${QUESTIONS_PER_SESSION}`;
+		(getEl('progress-pct') as HTMLElement).textContent=`${Math.round(pct)}%`;
+		getEl<HTMLDivElement>('quiz-progress-bar')!.style.width=`${pct}%`;
+		const catEl=getEl('question-category');if(catEl)catEl.innerHTML=`<span class="cat-pill">\u{1F33F} ${q.kategori}</span>`;
+		const imgArea=getEl<HTMLDivElement>('question-image-area');
+		const imgEl=getEl<HTMLImageElement>('question-image');
+		if(imgArea&&imgEl){
+			if(q.img){imgEl.src=q.img;imgEl.alt=q.kategori;imgArea.style.display='block';}
+			else{imgArea.style.display='none';imgEl.src='';}
+		}
+		getEl('question-prompt')!.textContent=q.q;
+		const eduCard=getEl<HTMLDivElement>('education-card');if(eduCard)eduCard.style.display='none';
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.disabled=true;submitBtn.textContent='Konfirmasi Jawaban';submitBtn.onclick=submitAnswer;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent='Pilih salah satu jawaban di atas';hint.className='answer-hint';}
+		selectedAnswer='';renderOptions(q);
+	}
+
+	function renderOptions(q:Question){
+		const container=getEl<HTMLDivElement>('options-container');if(!container)return;
+		container.innerHTML=shuffle(q.options).map((opt,i)=>{
+			const letter=String.fromCharCode(65+i);
+			return `<button class="opt-btn" data-answer="${opt.replace(/"/g,'&quot;')}" style="animation-delay:${i*.07}s">
+				<span class="opt-letter">${letter}</span><span class="opt-text">${opt}</span>
+				<span class="opt-indicator"><span class="opt-radio"></span>
+				<svg class="opt-icon icon-check" viewBox="0 0 24 24" fill="none" stroke="#236c32" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+				<svg class="opt-icon icon-cross" viewBox="0 0 24 24" fill="none" stroke="#a5301a" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+				</span></button>`;
+		}).join('');
+		container.querySelectorAll('.opt-btn').forEach((btn,i)=>{
+			btn.addEventListener('click',()=>{
+				container.querySelectorAll('.opt-btn').forEach(b=>b.classList.remove('is-selected'));
+				btn.classList.add('is-selected');selectedAnswer=(btn as HTMLElement).dataset.answer||'';
+				const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.disabled=false;
+				const h=getEl('answer-hint');if(h){h.textContent=`Jawaban ${String.fromCharCode(65+i)} dipilih — klik Konfirmasi untuk lanjut`;h.className='answer-hint chosen';}
+			});
+		});
+	}
+
+	function submitAnswer(){
+		const q=questions[currentIndex],isCorrect=selectedAnswer===q.correct;
+		if(isCorrect){score++;totalXpEarned+=XP_PER_CORRECT;}
+		const container=getEl<HTMLDivElement>('options-container');
+		container?.querySelectorAll('.opt-btn').forEach(btn=>{
+			const el=btn as HTMLElement,ans=el.dataset.answer||'';
+			el.classList.add('is-answered');el.classList.remove('is-selected');
+			if(ans===q.correct)el.classList.add('is-correct');
+			else if(ans===selectedAnswer&&!isCorrect)el.classList.add('is-incorrect');
+			else el.classList.add('is-dimmed');
+		});
+		const eduCard=getEl<HTMLDivElement>('education-card'),eduText=getEl('education-text');
+		if(eduCard&&eduText){eduText.textContent=q.edu;eduCard.style.display='flex';eduCard.className=`education-card ${isCorrect?'correct':'incorrect'}`;}
+		const hint=getEl('answer-hint');if(hint){hint.textContent=isCorrect?'✓ Jawaban benar!':'✗ Jawaban salah — lihat penjelasan di bawah.';hint.className=`answer-hint ${isCorrect?'correct-hint':'wrong-hint'}`;}
+		const submitBtn=getEl<HTMLButtonElement>('btn-submit-answer');
+		if(submitBtn){submitBtn.textContent=currentIndex<QUESTIONS_PER_SESSION-1?'Soal Berikutnya →':'Lihat Hasil';submitBtn.disabled=false;submitBtn.onclick=nextQuestion;}
+	}
+
+	function nextQuestion(){
+		currentIndex++;
+		if(currentIndex<QUESTIONS_PER_SESSION){renderQuestion();const s=getEl<HTMLButtonElement>('btn-submit-answer');if(s)s.onclick=submitAnswer;}
+		else showResult();
+	}
+
+	function showResult(){
+		const pct=Math.round((score/QUESTIONS_PER_SESSION)*100);
+		const currentXp=parseInt(localStorage.getItem('scout_xp')||'0');
+		localStorage.setItem('scout_xp',(currentXp+totalXpEarned).toString());
+		const earnedBadges:string[]=JSON.parse(localStorage.getItem('scout_badges')||'[]');
+		const newlyUnlocked:typeof BADGES_FOR_THIS_QUIZ=[];
+		if(!earnedBadges.includes('flora_fauna_novice')){earnedBadges.push('flora_fauna_novice');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[0]);}
+		if(pct===100&&!earnedBadges.includes('flora_fauna_master')){earnedBadges.push('flora_fauna_master');newlyUnlocked.push(BADGES_FOR_THIS_QUIZ[1]);}
+		if(parseInt(localStorage.getItem('scout_xp')||'0')>=500&&!earnedBadges.includes('scout_master'))earnedBadges.push('scout_master');
+		localStorage.setItem('scout_badges',JSON.stringify(earnedBadges));
+		getEl('result-emoji')!.textContent=pct===100?'\u{1F3C6}':pct>=80?'⭐':pct>=60?'\u{1F44D}':'\u{1F4DA}';
+		const t=getEl('result-title');if(t)t.textContent=pct===100?'Sempurna! Ahli Flora Fauna!':pct>=80?'Bagus Sekali!':pct>=60?'Cukup Baik!':'Terus Belajar!';
+		getEl('result-text')!.textContent=`Kamu menjawab ${score} dari ${QUESTIONS_PER_SESSION} soal dengan benar (${pct}%). ${pct>=80?'Pengetahuan alammu sangat baik untuk bertahan di alam liar!':'Pelajari kembali jenis-jenis flora dan fauna penting untuk kegiatan pramuka.'}`;
+		getEl('result-xp')!.textContent=`+${totalXpEarned} XP`;
+		getEl('result-score')!.textContent=`${pct}/100`;
+		getEl('result-correct')!.textContent=`${score}/${QUESTIONS_PER_SESSION}`;
+		if(newlyUnlocked.length>0){
+			const bc=getEl<HTMLDivElement>('unlocked-badges'),bl=getEl('badges-list-el');
+			if(bc&&bl){bl.innerHTML=newlyUnlocked.map(b=>`<div class="new-badge-item"><span class="new-badge-icon">${b.icon}</span><span class="new-badge-name">${b.name}</span></div>`).join('');bc.style.display='block';}
+		}
+		const overlay=getEl<HTMLDivElement>('result-overlay');if(overlay)overlay.style.display='flex';
+		window.dispatchEvent(new Event('statsUpdated'));
+	}
+
+	/* Difficulty filter logic */
+	document.querySelectorAll('.filter-btn').forEach(btn=>{
+		btn.addEventListener('click',()=>{
+			document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+			btn.classList.add('active');
+			activeDifficulty=((btn as HTMLElement).dataset.diff||'all') as typeof activeDifficulty;
+			const overlay=getEl<HTMLDivElement>('result-overlay');if(overlay)overlay.style.display='none';
+			startQuiz();
+		});
+	});
+
+	getEl<HTMLButtonElement>('btn-submit-answer')?.addEventListener('click',submitAnswer);
+	getEl<HTMLButtonElement>('btn-restart')?.addEventListener('click',()=>{const o=getEl<HTMLDivElement>('result-overlay');if(o)o.style.display='none';startQuiz();});
+	startQuiz();
+</script>
+
+<style>
+	.quiz-container{display:flex;flex-direction:column;gap:1.5rem}
+	.quiz-header{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 1.75rem;flex-wrap:wrap}
+	.btn-back{display:flex;align-items:center;gap:.45rem;color:var(--color-text-muted);text-decoration:none;font-size:.88rem;font-weight:500;white-space:nowrap;transition:color var(--transition-fast)}
+	.btn-back:hover{color:var(--color-gold)}.btn-back svg{width:15px;height:15px}
+	.quiz-title-area{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.75rem;flex:1}
+	.quiz-title-area h2{font-size:1.4rem;font-weight:800;color:var(--color-text)}
+	.quiz-difficulty{font-size:.72rem;font-weight:700;padding:.28rem .75rem;border-radius:4px;text-transform:uppercase;letter-spacing:.5px}
+	.quiz-difficulty.medium{background:rgba(27,77,50,.1);color:var(--color-primary-light);border:1px solid rgba(27,77,50,.2)}
+	.quiz-layout{display:grid;grid-template-columns:1.9fr 1fr;gap:1.5rem;align-items:start}
+	.quiz-main-card{padding:2rem;display:flex;flex-direction:column;gap:1.75rem}
+	.progress-tracker{display:flex;flex-direction:column;gap:.5rem}
+	.progress-label{display:flex;justify-content:space-between;align-items:center}
+	.progress-label span{font-size:.82rem;font-weight:600;color:var(--color-text-muted)}
+	.pct-label{color:var(--color-primary-light)!important}
+	.progress-bar-outer{height:6px;background:rgba(27,77,50,.1);border-radius:var(--radius-full);overflow:hidden}
+	.progress-bar-inner{height:100%;background:linear-gradient(90deg,#4a5568,#718096);border-radius:var(--radius-full);transition:width var(--transition-normal)}
+	.cat-pill{display:inline-flex;align-items:center;gap:.35rem;background:rgba(74,85,104,.07);color:#4a5568;border:1px solid rgba(74,85,104,.18);padding:.28rem .75rem;border-radius:var(--radius-full);font-size:.75rem;font-weight:600}
+	.question-text-area h3{font-size:1.1rem;font-weight:700;color:var(--color-text);line-height:1.55}
+	.education-card{border-radius:var(--radius-md);padding:1rem 1.1rem;display:flex;flex-direction:column;gap:.5rem;animation:slide-in .2s ease}
+	.education-card.correct{background:rgba(35,108,50,.07);border:1px solid rgba(35,108,50,.2)}
+	.education-card.incorrect{background:rgba(165,48,26,.06);border:1px solid rgba(165,48,26,.18)}
+	@keyframes slide-in{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+	.edu-header{display:flex;align-items:center;gap:.45rem}
+	.edu-icon{font-size:1rem}
+	.edu-label{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.8px;color:#4a5568}
+	.education-card.incorrect .edu-label{color:var(--color-danger)}
+	#education-text{font-size:.85rem;color:var(--color-text);line-height:1.55}
+	.action-footer{display:flex;align-items:center;justify-content:space-between;gap:1rem;padding-top:.5rem;border-top:1px solid var(--color-border)}
+	.answer-hint{font-size:.8rem;color:var(--color-text-faint);font-style:italic}
+	.answer-hint.chosen{color:var(--color-primary-light);font-style:normal;font-weight:600}
+	.answer-hint.correct-hint{color:var(--color-success);font-style:normal;font-weight:600}
+	.answer-hint.wrong-hint{color:var(--color-danger,#c0392b);font-style:normal;font-weight:600}
+	#btn-submit-answer{padding:.8rem 2rem;border-radius:var(--radius-sm);font-size:.95rem;transition:all var(--transition-fast)}
+	#btn-submit-answer:not(:disabled){box-shadow:0 4px 14px rgba(178,131,27,.3)}
+	#btn-submit-answer:not(:disabled):hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(178,131,27,.4)}
+
+	.quiz-help-card{padding:1.5rem;display:flex;flex-direction:column;gap:.85rem}
+	.quiz-help-card h3{font-size:1.05rem;font-weight:700;color:var(--color-text)}
+	.help-subtitle{font-size:.78rem;color:var(--color-text-muted);line-height:1.4;margin-top:-.5rem}
+
+	.flora-section{display:flex;flex-direction:column;gap:.25rem}
+	.flora-title{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#4a5568;padding:.2rem 0;border-bottom:1px solid var(--color-border);margin-bottom:.1rem}
+	.flora-item{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;padding:.2rem .5rem;border-radius:4px;background:var(--color-bg);border:1px solid var(--color-border)}
+	.flora-key{font-size:.72rem;font-weight:700;color:var(--color-text);flex-shrink:0}
+	.flora-val{font-size:.68rem;color:var(--color-text-muted);text-align:right}
+
+	.question-image-area{text-align:center;border-radius:var(--radius-md);overflow:hidden;background:rgba(27,77,50,.05);border:1px solid var(--color-border)}
+	.question-image-area img{max-width:100%;max-height:280px;object-fit:contain;border-radius:var(--radius-md)}
+
+	.difficulty-filter{display:flex;flex-wrap:wrap;gap:.4rem;align-items:center}
+	.filter-title{width:100%;font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:#4a5568;padding:.2rem 0;border-bottom:1px solid var(--color-border);margin-bottom:.1rem}
+	.filter-btn{font-size:.72rem;padding:.3rem .65rem;border-radius:var(--radius-full);background:var(--color-bg);border:1px solid var(--color-border);color:var(--color-text-muted);cursor:pointer;font-weight:600;transition:all var(--transition-fast)}
+	.filter-btn.active{background:rgba(27,77,50,.15);color:var(--color-primary-light);border-color:rgba(27,77,50,.3)}
+	.filter-btn:hover{border-color:var(--color-primary-light)}
+
+	.result-overlay{position:fixed;inset:0;background:rgba(10,25,16,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);display:flex;align-items:center;justify-content:center;z-index:1000;padding:1.5rem}
+	.result-card{width:100%;max-width:520px;padding:2.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1.25rem;animation:pop-in .3s cubic-bezier(.34,1.56,.64,1)}
+	@keyframes pop-in{from{transform:scale(.88);opacity:0}to{transform:scale(1);opacity:1}}
+	.result-emoji{font-size:3.5rem;line-height:1}
+	.result-card h2{font-size:1.75rem;font-weight:800;color:#f0f5f2}
+	.result-summary{font-size:.95rem;color:rgba(255,255,255,.65);line-height:1.55}
+	.result-stats-details{display:flex;width:100%;gap:.85rem}
+	.detail-item{flex:1;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);padding:1rem;border-radius:var(--radius-md);display:flex;flex-direction:column;gap:.25rem}
+	.detail-item .label{font-size:.72rem;color:rgba(255,255,255,.5);text-transform:uppercase;font-weight:600;letter-spacing:.5px}
+	.detail-item .value{font-size:1.4rem;font-weight:800;color:#f0f5f2}
+	.detail-item .value.score-xp{color:var(--color-gold-light)}
+	.unlocked-badges-container{width:100%;background:rgba(212,163,43,.06);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-md);padding:1rem;text-align:left}
+	.unlocked-badges-container h3{font-size:.9rem;font-weight:700;color:var(--color-gold-light);margin-bottom:.65rem}
+	.unlocked-badges-list{display:flex;gap:.75rem;flex-wrap:wrap}
+	.new-badge-item{display:flex;align-items:center;gap:.5rem;background:rgba(212,163,43,.1);border:1px solid rgba(212,163,43,.25);border-radius:var(--radius-sm);padding:.4rem .75rem}
+	.new-badge-icon{font-size:1.1rem}
+	.new-badge-name{font-size:.82rem;font-weight:700;color:var(--color-gold-light)}
+	.result-actions{display:flex;gap:.85rem;flex-wrap:wrap;justify-content:center;width:100%}
+	.result-actions .btn{flex:1;min-width:140px}
+
+	@media(max-width:900px){.quiz-layout{grid-template-columns:1fr}.quiz-help-card{order:-1}.flora-section{display:grid;grid-template-columns:repeat(2,1fr)}.flora-title{grid-column:1/-1}}
+	@media(max-width:600px){.quiz-main-card{padding:1.25rem}.quiz-header{padding:1rem}.flora-section{grid-template-columns:1fr}.result-stats-details{flex-wrap:wrap}.detail-item{flex-basis:calc(50% - .4rem)}}
+</style>
