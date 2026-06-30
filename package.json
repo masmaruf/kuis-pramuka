@@ -10,14 +10,14 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "deploy": "astro build && node -e \"process.env.NODE_TLS_REJECT_UNAUTHORIZED='0';require('child_process').execSync('npx wrangler pages deploy dist --project-name kuis-pramuka --commit-dirty=true',{stdio:'inherit'})\" ",
+    "deploy": "astro build && node -e \"process.env.NODE_TLS_REJECT_UNAUTHORIZED='0';require('child_process').execSync('npx wrangler pages deploy dist/client --project-name kuis-pramuka --commit-dirty=true',{stdio:'inherit'})\" ",
     "type-check": "tsc --noEmit",
     "type-check:watch": "tsc --noEmit --watch"
   },
   "dependencies": {
-    "@astrojs/cloudflare": "^13.7.0",
+    "@astrojs/cloudflare": "^14.0.1",
     "@tailwindcss/vite": "^4.3.1",
-    "astro": "^6.4.6",
+    "astro": "^7.0.3",
     "tailwindcss": "^4.3.1"
   },
   "devDependencies": {

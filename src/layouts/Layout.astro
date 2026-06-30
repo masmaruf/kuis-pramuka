@@ -150,6 +150,7 @@ const jsonLd = {
 								<a href="/kompas" class="dropdown-item" data-nav="kompas">🧭 Kompas &amp; Navigasi</a>
 								<a href="/perkemahan" class="dropdown-item" data-nav="perkemahan">⛺ Perkemahan</a>
 								<a href="/p3k" class="dropdown-item" data-nav="p3k">🩺 P3K</a>
+								<a href="/ppgd-ringan" class="dropdown-item" data-nav="ppgd-ringan">🩹 PPGD Ringan</a>
 								<a href="/baris-berbaris" class="dropdown-item" data-nav="baris-berbaris">🪖 Baris-Berbaris</a>
 							</div>
 							<div class="dropdown-col">
@@ -379,7 +380,7 @@ const jsonLd = {
 				const profilEl = document.getElementById('nav-profil');
 				if (profilEl) profilEl.classList.toggle('active', path.includes('profil'));
 
-				const quizRoutes = ['morse','semaphore','sandi','simpul','pioniring','kompas','perkemahan','p3k','baris-berbaris','sejarah','uu-pramuka','sku','organisasi','tanda-pengenal','dasa-darma'];
+				const quizRoutes = ['morse','semaphore','sandi','simpul','pioniring','kompas','perkemahan','p3k','ppgd-ringan','baris-berbaris','sejarah','uu-pramuka','sku','organisasi','tanda-pengenal','dasa-darma'];
 				const onQuiz = quizRoutes.some(r => path.includes(r));
 				const modulBtn = document.getElementById('nav-modul');
 				if (modulBtn) modulBtn.classList.toggle('active', onQuiz);
@@ -2542,3 +2543,5 @@ const jsonLd = {
 	.opt-btn.is-dimmed { opacity: 0.35; }
 	.opt-btn.is-answered { cursor: default; pointer-events: none; }
 </style>
+
+

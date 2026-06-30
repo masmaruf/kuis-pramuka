@@ -1,0 +1,439 @@
+{
+  "id": "ppgd-ringan",
+  "title": "Kuis PPGD Ringan",
+  "description": "Latihan pertolongan pertama dasar untuk Penggalang: luka kecil, mimisan, terkilir, dan gigitan atau sengatan serangga. Fokus pada tindakan pertama yang aman dan benar.",
+  "category": "Keterampilan",
+  "group": "Kesehatan & Keselamatan",
+  "difficulty": "medium",
+  "xpPerQuestion": 12,
+  "totalQuestions": 30,
+  "color": "red",
+  "icon": "🩹",
+  "hasLevels": false,
+  "helpContent": {
+    "title": "Panduan Cepat PPGD Ringan",
+    "content": "Utamakan keselamatan penolong dan korban. Materi ini hanya untuk pertolongan pertama dasar pada kondisi ringan. Jika perdarahan tidak berhenti, nyeri berat, sesak napas, pingsan, atau bengkak cepat meluas, segera lapor pembina, orang dewasa, atau tenaga kesehatan."
+  },
+  "questions": [
+    {
+      "id": "ppgd_ringan_001",
+      "question": "Saat teman terjatuh dan lututnya lecet ringan, tindakan pertama yang paling tepat adalah...",
+      "options": [
+        "Membersihkan luka dengan air bersih mengalir",
+        "Menaburkan kopi ke luka agar cepat kering",
+        "Menutup luka dengan plester tanpa dibersihkan",
+        "Menggosok luka dengan kain kasar"
+      ],
+      "correctAnswer": "Membersihkan luka dengan air bersih mengalir",
+      "explanation": "Luka lecet ringan perlu dibersihkan lebih dulu agar kotoran dan pasir keluar dari permukaan luka. Air bersih mengalir membantu mengurangi risiko infeksi sebelum luka ditutup dengan kasa atau plester bersih.",
+      "tags": ["luka-kecil", "lecet"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_002",
+      "question": "Sebelum menolong teman yang mengalami luka kecil, hal yang sebaiknya dilakukan penolong adalah...",
+      "options": [
+        "Membersihkan tangan terlebih dahulu",
+        "Memegang luka agar cepat berhenti berdarah",
+        "Meniup luka supaya terasa adem",
+        "Mencari obat merah lalu langsung menuangkannya"
+      ],
+      "correctAnswer": "Membersihkan tangan terlebih dahulu",
+      "explanation": "Tangan penolong bisa membawa kuman ke luka. Membersihkan tangan atau memakai pelindung bila ada adalah langkah dasar untuk menjaga luka tetap bersih dan menurunkan risiko infeksi.",
+      "tags": ["luka-kecil", "kebersihan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_003",
+      "question": "Jika luka kecil masih mengeluarkan darah sedikit, tindakan awal yang benar adalah...",
+      "options": [
+        "Menekan luka perlahan dengan kasa atau kain bersih",
+        "Membiarkan darah keluar sampai berhenti sendiri",
+        "Membasuh luka dengan air panas",
+        "Mengoleskan tanah agar darah membeku"
+      ],
+      "correctAnswer": "Menekan luka perlahan dengan kasa atau kain bersih",
+      "explanation": "Tekanan lembut dengan bahan bersih membantu menghentikan perdarahan ringan. Setelah darah berhenti, luka bisa dibersihkan dan ditutup. Bahan kotor justru menambah risiko infeksi.",
+      "tags": ["luka-kecil", "perdarahan-ringan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_004",
+      "question": "Setelah luka lecet dibersihkan dan perdarahannya berhenti, langkah berikutnya adalah...",
+      "options": [
+        "Menutup luka dengan plester atau kasa bersih",
+        "Membiarkan luka terbuka sambil dipegang-pegang",
+        "Menggosok luka dengan alkohol pekat",
+        "Menaburkan bedak pada luka"
+      ],
+      "correctAnswer": "Menutup luka dengan plester atau kasa bersih",
+      "explanation": "Penutup luka yang bersih membantu melindungi luka dari debu, gesekan, dan kotoran. Ini penting terutama jika anak akan tetap bergerak atau beraktivitas setelah kejadian.",
+      "tags": ["luka-kecil", "pembalutan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_005",
+      "question": "Yang tidak boleh dilakukan pada luka lecet ringan adalah...",
+      "options": [
+        "Menaburkan bubuk atau bahan dapur ke luka",
+        "Mencuci luka dengan air bersih",
+        "Menutup luka dengan penutup bersih",
+        "Menekan perlahan bila masih berdarah sedikit"
+      ],
+      "correctAnswer": "Menaburkan bubuk atau bahan dapur ke luka",
+      "explanation": "Bubuk, kopi, odol, atau bahan dapur lain tidak steril dan dapat mengotori luka. Pertolongan pertama yang aman adalah membersihkan luka, menghentikan perdarahan ringan, lalu menutupnya dengan bahan bersih.",
+      "tags": ["luka-kecil", "larangan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_006",
+      "question": "Saat mimisan, posisi tubuh yang paling benar adalah...",
+      "options": [
+        "Duduk tegak dan sedikit condong ke depan",
+        "Tidur telentang dengan kepala mendongak",
+        "Menelungkupkan wajah ke bawah lantai",
+        "Duduk sambil menengadah ke atas"
+      ],
+      "correctAnswer": "Duduk tegak dan sedikit condong ke depan",
+      "explanation": "Posisi duduk tegak dan sedikit ke depan membantu darah keluar melalui hidung, bukan tertelan ke tenggorokan. Menengadah justru membuat darah mengalir ke belakang dan bisa memicu batuk atau mual.",
+      "tags": ["mimisan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_007",
+      "question": "Bagian hidung yang ditekan saat mimisan adalah...",
+      "options": [
+        "Cuping hidung bagian lunak",
+        "Tulang keras di pangkal hidung",
+        "Ujung hidung paling depan saja",
+        "Seluruh wajah di sekitar hidung"
+      ],
+      "correctAnswer": "Cuping hidung bagian lunak",
+      "explanation": "Sebagian besar mimisan ringan berasal dari pembuluh darah di bagian depan hidung. Menekan cuping hidung yang lunak membantu menghentikan aliran darah dari area tersebut.",
+      "tags": ["mimisan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_008",
+      "question": "Saat mimisan, tindakan yang sebaiknya dihindari adalah...",
+      "options": [
+        "Mendongakkan kepala ke belakang",
+        "Menekan cuping hidung beberapa menit",
+        "Bernapas lewat mulut sementara",
+        "Duduk tenang"
+      ],
+      "correctAnswer": "Mendongakkan kepala ke belakang",
+      "explanation": "Mendongakkan kepala tidak menghentikan mimisan. Darah justru bisa mengalir ke tenggorokan dan tertelan. Tindakan yang benar adalah duduk sedikit ke depan dan menekan cuping hidung.",
+      "tags": ["mimisan", "larangan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_009",
+      "question": "Temanmu mimisan saat berlari. Setelah duduk dan menekan hidung, ia sebaiknya...",
+      "options": [
+        "Tetap tenang dan tidak sering melepas tekanan untuk mengecek",
+        "Sering membuka tekanan setiap beberapa detik",
+        "Langsung kembali berlari agar darah cepat berhenti",
+        "Meniup hidung sekuat-kuatnya"
+      ],
+      "correctAnswer": "Tetap tenang dan tidak sering melepas tekanan untuk mengecek",
+      "explanation": "Tekanan pada hidung perlu dipertahankan beberapa menit agar pembuluh darah sempat menutup. Jika tekanan sering dilepas, bekuan darah bisa terganggu dan mimisan berulang.",
+      "tags": ["mimisan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_010",
+      "question": "Jika mimisan tidak berhenti, darah sangat banyak, atau korban tampak lemas, tindakan berikutnya adalah...",
+      "options": [
+        "Segera lapor pembina atau bawa ke tenaga kesehatan",
+        "Terus mendongakkan kepala sampai tidur",
+        "Menyuruh korban diam sendirian",
+        "Memberi minuman panas agar darah cepat berhenti"
+      ],
+      "correctAnswer": "Segera lapor pembina atau bawa ke tenaga kesehatan",
+      "explanation": "Mimisan yang lama tidak berhenti atau disertai lemas perlu dinilai lebih lanjut. Pada kondisi seperti ini, pertolongan pertama dasar saja tidak cukup dan korban perlu bantuan orang dewasa atau tenaga kesehatan.",
+      "tags": ["mimisan", "rujukan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_011",
+      "question": "Pergelangan kaki temanmu terkilir saat lari dan mulai bengkak. Tindakan awal paling tepat adalah...",
+      "options": [
+        "Mengistirahatkan kaki dan memberi kompres dingin",
+        "Memijat kuat agar bengkak cepat hilang",
+        "Memaksa korban tetap berjalan supaya tidak kaku",
+        "Mengompres panas secepatnya"
+      ],
+      "correctAnswer": "Mengistirahatkan kaki dan memberi kompres dingin",
+      "explanation": "Pada terkilir ringan, bagian yang cedera perlu diistirahatkan agar tidak makin rusak. Kompres dingin membantu mengurangi nyeri dan bengkak pada fase awal.",
+      "tags": ["terkilir", "rice"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_012",
+      "question": "Huruf R pada prinsip RICE untuk cedera terkilir berarti...",
+      "options": [
+        "Rest atau istirahat",
+        "Run atau berlari",
+        "Rub atau menggosok",
+        "Rotate atau memutar sendi"
+      ],
+      "correctAnswer": "Rest atau istirahat",
+      "explanation": "RICE adalah singkatan dari Rest, Ice, Compression, dan Elevation. Langkah pertama pada cedera terkilir ringan adalah menghentikan aktivitas dan mengistirahatkan bagian yang sakit.",
+      "tags": ["terkilir", "rice"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_013",
+      "question": "Saat memberi kompres dingin pada kaki terkilir, es sebaiknya...",
+      "options": [
+        "Dibungkus kain terlebih dahulu sebelum ditempelkan",
+        "Ditempelkan langsung selama mungkin",
+        "Digosokkan keras ke kulit",
+        "Dicampur air panas agar lebih nyaman"
+      ],
+      "correctAnswer": "Dibungkus kain terlebih dahulu sebelum ditempelkan",
+      "explanation": "Es yang ditempel langsung ke kulit bisa membuat kulit terlalu dingin dan iritasi. Karena itu kompres dingin sebaiknya dibungkus kain atau handuk tipis sebelum ditempelkan.",
+      "tags": ["terkilir", "kompres-dingin"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_014",
+      "question": "Huruf E pada prinsip RICE berarti...",
+      "options": [
+        "Elevation atau meninggikan bagian yang cedera",
+        "Exercise atau melatih sendi yang sakit",
+        "Emergency atau memanggil ambulans selalu",
+        "Energy atau memberi minuman manis"
+      ],
+      "correctAnswer": "Elevation atau meninggikan bagian yang cedera",
+      "explanation": "Meninggikan bagian yang cedera membantu mengurangi bengkak karena aliran cairan ke area tersebut bisa berkurang. Pada kaki terkilir, tungkai bisa ditopang bantal saat beristirahat.",
+      "tags": ["terkilir", "rice"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_015",
+      "question": "Tindakan yang sebaiknya tidak dilakukan pada terkilir ringan di awal kejadian adalah...",
+      "options": [
+        "Memijat bagian yang bengkak",
+        "Mengistirahatkan bagian cedera",
+        "Kompres dingin dengan kain pembungkus",
+        "Meninggikan kaki saat duduk atau berbaring"
+      ],
+      "correctAnswer": "Memijat bagian yang bengkak",
+      "explanation": "Memijat sendi yang baru terkilir bisa memperparah cedera jaringan dan menambah bengkak. Pada fase awal, pendekatan yang lebih aman adalah istirahat, kompres dingin, balut tekan ringan bila perlu, dan tinggikan bagian cedera.",
+      "tags": ["terkilir", "larangan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_016",
+      "question": "Jika kaki yang terkilir terasa sangat nyeri, bengkaknya cepat membesar, atau korban tidak mampu menapak sama sekali, maka sebaiknya...",
+      "options": [
+        "Segera minta bantuan orang dewasa atau tenaga kesehatan",
+        "Tetap dipaksa berjalan pelan-pelan",
+        "Dipijat lebih kuat agar cepat sembuh",
+        "Ditunggu sampai besok tanpa diberi tahu siapa pun"
+      ],
+      "correctAnswer": "Segera minta bantuan orang dewasa atau tenaga kesehatan",
+      "explanation": "Nyeri berat, bengkak cepat membesar, atau tidak bisa menapak bisa menandakan cedera yang lebih serius daripada terkilir ringan. Kondisi seperti ini perlu dinilai oleh orang dewasa atau tenaga kesehatan.",
+      "tags": ["terkilir", "rujukan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_017",
+      "question": "Setelah digigit nyamuk atau serangga kecil, tindakan sederhana yang aman adalah...",
+      "options": [
+        "Membersihkan area gigitan dan mengompres dingin bila bengkak ringan",
+        "Menggaruk sampai bekasnya terbuka",
+        "Mengoles tanah pada area gigitan",
+        "Memencet kulit sekuat mungkin"
+      ],
+      "correctAnswer": "Membersihkan area gigitan dan mengompres dingin bila bengkak ringan",
+      "explanation": "Membersihkan area gigitan membantu menjaga kebersihan kulit. Jika ada bengkak atau gatal ringan, kompres dingin dapat membantu meredakan keluhan tanpa melukai kulit.",
+      "tags": ["gigitan-serangga"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_018",
+      "question": "Hal yang paling perlu dihindari setelah gigitan serangga terasa gatal adalah...",
+      "options": [
+        "Menggaruk terus-menerus",
+        "Membersihkan area gigitan",
+        "Beristirahat sejenak",
+        "Memberi kompres dingin singkat"
+      ],
+      "correctAnswer": "Menggaruk terus-menerus",
+      "explanation": "Menggaruk bisa merusak kulit dan membuat area gigitan lebih mudah terinfeksi. Selain itu, menggaruk sering membuat bengkak dan rasa gatal justru bertambah parah.",
+      "tags": ["gigitan-serangga", "larangan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_019",
+      "question": "Jika terlihat sengat lebah masih tertinggal di kulit, tindakan yang tepat adalah...",
+      "options": [
+        "Berusaha melepaskannya dengan hati-hati lalu membersihkan area",
+        "Memencet keras dengan jari agar cepat keluar",
+        "Membiarkannya terus menancap sampai besok",
+        "Menggaruk area sengatan sekuat mungkin"
+      ],
+      "correctAnswer": "Berusaha melepaskannya dengan hati-hati lalu membersihkan area",
+      "explanation": "Sengat yang masih tertinggal bisa terus mengiritasi kulit. Mengeluarkannya dengan hati-hati dan membersihkan area adalah langkah yang lebih aman daripada memencet atau menggaruk yang bisa menambah iritasi.",
+      "tags": ["sengatan-serangga"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_020",
+      "question": "Temanmu disengat serangga lalu muncul bengkak ringan di tangan. Tindakan awal yang tepat adalah...",
+      "options": [
+        "Kompres dingin pada area sengatan",
+        "Digosok dengan cabai agar rasa sakit hilang",
+        "Diberi air panas terus-menerus",
+        "Dipukul-pukul agar bengkak turun"
+      ],
+      "correctAnswer": "Kompres dingin pada area sengatan",
+      "explanation": "Kompres dingin membantu mengurangi bengkak dan rasa tidak nyaman pada sengatan ringan. Menggosok, memukul, atau memberi bahan yang mengiritasi kulit bukan pertolongan yang aman.",
+      "tags": ["sengatan-serangga"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_021",
+      "question": "Setelah gigitan atau sengatan serangga, tanda bahaya yang harus segera dilaporkan adalah...",
+      "options": [
+        "Sesak napas atau bengkak cepat meluas",
+        "Gatal ringan di kulit",
+        "Bekas merah kecil yang tidak bertambah",
+        "Rasa perih singkat yang membaik"
+      ],
+      "correctAnswer": "Sesak napas atau bengkak cepat meluas",
+      "explanation": "Sesak napas, bengkak yang cepat meluas, atau keluhan berat lain bisa menunjukkan reaksi alergi serius. Kondisi ini tidak boleh ditangani sendiri oleh anak dan harus segera dilaporkan kepada orang dewasa atau tenaga kesehatan.",
+      "tags": ["sengatan-serangga", "tanda-bahaya"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_022",
+      "question": "Saat menolong teman yang mengalami luka kecil di lapangan, alat sederhana yang paling berguna untuk penutup luka adalah...",
+      "options": [
+        "Kasa atau plester bersih",
+        "Daun yang baru dipetik",
+        "Kertas bekas yang ditemukan di tanah",
+        "Serbuk minuman"
+      ],
+      "correctAnswer": "Kasa atau plester bersih",
+      "explanation": "Penutup luka harus bersih agar tidak menambah kotoran ke area luka. Kasa atau plester bersih jauh lebih aman daripada bahan alami atau benda kotor di sekitar lokasi.",
+      "tags": ["luka-kecil", "alat"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_023",
+      "question": "Jika korban mimisan mulai tenang dan darah sudah berhenti, ia sebaiknya...",
+      "options": [
+        "Tidak langsung mengorek atau meniup hidung keras-keras",
+        "Segera meniup hidung sekuat mungkin",
+        "Langsung berlari kembali",
+        "Menengadahkan kepala selama 10 menit"
+      ],
+      "correctAnswer": "Tidak langsung mengorek atau meniup hidung keras-keras",
+      "explanation": "Setelah mimisan berhenti, pembuluh darah di dalam hidung masih sensitif. Meniup hidung keras atau mengorek hidung bisa membuat perdarahan muncul lagi.",
+      "tags": ["mimisan", "setelah-berhenti"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_024",
+      "question": "Pada cedera terkilir ringan, tujuan kompres dingin adalah...",
+      "options": [
+        "Membantu mengurangi nyeri dan bengkak",
+        "Membuat korban cepat berlari lagi",
+        "Menghangatkan sendi yang cedera",
+        "Mengganti fungsi perban"
+      ],
+      "correctAnswer": "Membantu mengurangi nyeri dan bengkak",
+      "explanation": "Dingin membantu memperlambat pembengkakan awal dan mengurangi rasa nyeri. Ini sebabnya kompres dingin sering dipakai sebagai langkah awal pada terkilir ringan.",
+      "tags": ["terkilir", "kompres-dingin"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_025",
+      "question": "Jika ada kotoran kecil menempel pada luka lecet, tindakan yang paling aman adalah...",
+      "options": [
+        "Membilasnya perlahan dengan air bersih mengalir",
+        "Mengorek dengan kuku tangan",
+        "Menggosok dengan pasir agar terangkat",
+        "Menutup luka tanpa membersihkannya"
+      ],
+      "correctAnswer": "Membilasnya perlahan dengan air bersih mengalir",
+      "explanation": "Air bersih mengalir dapat membantu melepaskan kotoran ringan dari permukaan luka. Mengorek dengan kuku atau menggosok dengan benda kasar bisa memperbesar luka dan menambah risiko infeksi.",
+      "tags": ["luka-kecil", "pembersihan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_026",
+      "question": "Urutan yang paling masuk akal untuk menangani luka lecet ringan adalah...",
+      "options": [
+        "Bersihkan tangan, bilas luka, hentikan perdarahan ringan, lalu tutup dengan bahan bersih",
+        "Tutup luka dulu, lalu cuci bila sempat",
+        "Taburi obat apa saja, lalu gosok luka",
+        "Biarkan terbuka dulu sampai kotorannya kering sendiri"
+      ],
+      "correctAnswer": "Bersihkan tangan, bilas luka, hentikan perdarahan ringan, lalu tutup dengan bahan bersih",
+      "explanation": "Urutan ini menjaga kebersihan, mengatasi perdarahan ringan, dan melindungi luka setelah dibersihkan. Menutup luka sebelum dibersihkan bisa membuat kotoran tetap tertahan di dalam.",
+      "tags": ["luka-kecil", "urutan"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_027",
+      "question": "Mana contoh pertolongan pertama yang benar pada mimisan?",
+      "options": [
+        "Duduk, condong ke depan, dan tekan cuping hidung",
+        "Tidur telentang dan biarkan darah tertelan",
+        "Lari kecil agar aliran darah normal lagi",
+        "Masukkan benda keras ke dalam hidung"
+      ],
+      "correctAnswer": "Duduk, condong ke depan, dan tekan cuping hidung",
+      "explanation": "Tiga langkah ini adalah inti pertolongan pertama mimisan ringan. Korban dibuat tenang, posisi benar, lalu bagian hidung yang lunak ditekan untuk membantu menghentikan perdarahan.",
+      "tags": ["mimisan", "urutan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_028",
+      "question": "Pada sengatan atau gigitan serangga ringan, tujuan membersihkan area kulit adalah...",
+      "options": [
+        "Menjaga area tetap bersih dan mengurangi risiko iritasi atau infeksi",
+        "Membuat sengat masuk lebih dalam",
+        "Menghilangkan semua rasa gatal seketika",
+        "Menggantikan kebutuhan observasi"
+      ],
+      "correctAnswer": "Menjaga area tetap bersih dan mengurangi risiko iritasi atau infeksi",
+      "explanation": "Membersihkan kulit adalah tindakan sederhana tetapi penting. Kulit yang bersih lebih terlindungi dari kotoran dan kebiasaan menggaruk yang bisa membuat luka kecil pada permukaan kulit.",
+      "tags": ["gigitan-serangga", "kebersihan"],
+      "difficulty": "easy"
+    },
+    {
+      "id": "ppgd_ringan_029",
+      "question": "Tanda bahwa cedera kaki kemungkinan bukan sekadar terkilir ringan adalah...",
+      "options": [
+        "Korban sama sekali tidak mampu menapak disertai nyeri berat",
+        "Ada rasa pegal ringan yang membaik saat istirahat",
+        "Bengkak kecil yang berkurang setelah kompres dingin",
+        "Korban masih bisa berjalan pelan dengan lebih nyaman"
+      ],
+      "correctAnswer": "Korban sama sekali tidak mampu menapak disertai nyeri berat",
+      "explanation": "Tidak mampu menapak sama sekali dan nyeri berat dapat menandakan cedera yang lebih serius. Pada kondisi seperti ini, korban tidak boleh dipaksa berjalan dan perlu evaluasi lebih lanjut.",
+      "tags": ["terkilir", "tanda-bahaya"],
+      "difficulty": "medium"
+    },
+    {
+      "id": "ppgd_ringan_030",
+      "question": "Prinsip umum terbaik dalam PPGD ringan untuk Penggalang adalah...",
+      "options": [
+        "Lakukan tindakan sederhana yang aman, lalu minta bantuan bila gejala berat",
+        "Coba semua cara tradisional yang pernah didengar",
+        "Sembunyikan kejadian agar tidak mengganggu kegiatan",
+        "Menangani semua cedera sendiri tanpa memberi tahu pembina"
+      ],
+      "correctAnswer": "Lakukan tindakan sederhana yang aman, lalu minta bantuan bila gejala berat",
+      "explanation": "PPGD ringan menekankan tindakan pertama yang aman, sederhana, dan sesuai kemampuan anak. Jika muncul tanda bahaya seperti perdarahan banyak, sesak napas, nyeri berat, pingsan, atau bengkak cepat meluas, bantuan orang dewasa wajib dicari.",
+      "tags": ["prinsip-dasar", "ppgd-ringan"],
+      "difficulty": "easy"
+    }
+  ]
+}
